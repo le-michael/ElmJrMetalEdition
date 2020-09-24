@@ -7,19 +7,30 @@
 //
 
 import UIKit
+import MetalKit
 
 class EditorViewController : UIViewController {
+    let mtkView = MTKView()
     
-    let stageView = StageView()
+    var device: MTLDevice!
+    var renderer: MTKViewDelegate!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .red
-        view.addSubview(stageView)
-        stageView.translatesAutoresizingMaskIntoConstraints = false
-        stageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        stageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        stageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        stageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
+        view.addSubview(mtkView)
+        mtkView.translatesAutoresizingMaskIntoConstraints = false
+        mtkView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        mtkView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        mtkView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        mtkView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
+        
+        mtkView.device = MTLCreateSystemDefaultDevice()
+        device = mtkView.device
+        
+        mtkView.clearColor = MTLClearColorMake(0.1, 0.8, 0.2, 1.0)
+        
+        renderer = Renderer(device: device)
+        mtkView.delegate = renderer
     }
-    
 }
