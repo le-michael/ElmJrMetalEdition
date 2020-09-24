@@ -23,7 +23,6 @@ class StageView : UIView {
     }
     
     func setupViews() {
-        backgroundColor = .blue
         addSubview(mtkView)
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
