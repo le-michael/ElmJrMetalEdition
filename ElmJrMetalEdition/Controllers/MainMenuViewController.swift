@@ -18,7 +18,7 @@ class MainMenuViewController: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .orange
         setupNextButton()
     }
     
