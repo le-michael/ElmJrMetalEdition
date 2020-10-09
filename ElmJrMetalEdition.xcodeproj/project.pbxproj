@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		107596F9251C461600BBE3B6 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* Renderer.swift */; };
+		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
+		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1EF251BDD1900F9457F /* AppDelegate.swift */; };
 		D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */; };
 		D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F3251BDD1900F9457F /* MainMenuViewController.swift */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		107596F8251C461600BBE3B6 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
+		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElmJrMetalEdition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95DF1EF251BDD1900F9457F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 			children = (
 				D95DF1F3251BDD1900F9457F /* MainMenuViewController.swift */,
 				D95DF206251C06CA00F9457F /* EditorViewController.swift */,
+				D90C14F32531064700375F0A /* MetalWorkspaceController.swift */,
+				D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -172,11 +178,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				107596F9251C461600BBE3B6 /* Renderer.swift in Sources */,
 				D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */,
+				D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
