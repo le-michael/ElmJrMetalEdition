@@ -1,5 +1,5 @@
 //
-//  Primative.metal
+//  Primitive.metal
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.

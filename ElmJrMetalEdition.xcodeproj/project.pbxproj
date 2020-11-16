@@ -11,7 +11,7 @@
 		1028E01825632AA000C4DBFA /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* Node.swift */; };
 		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
 		107596F9251C461600BBE3B6 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* Renderer.swift */; };
-		10ACC0B32562F4A400ABEAD4 /* Primative.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primative.metal */; };
+		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* Vertex.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
@@ -28,7 +28,7 @@
 		1028E01725632AA000C4DBFA /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		107596F8251C461600BBE3B6 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
-		10ACC0B22562F4A400ABEAD4 /* Primative.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primative.metal; sourceTree = "<group>"; };
+		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 		10ACC0B12562F47700ABEAD4 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				10ACC0B22562F4A400ABEAD4 /* Primative.metal */,
+				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -210,7 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
-				10ACC0B32562F4A400ABEAD4 /* Primative.metal in Sources */,
+				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				10ACC0B6256300D200ABEAD4 /* Vertex.swift in Sources */,
 				1028E01825632AA000C4DBFA /* Node.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
