@@ -28,9 +28,13 @@ class MetalWorkspaceController : UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
         
-        mtkView.clearColor = MTLClearColorMake(0.1, 0.2, 0.8, 1.0)
+        let scene = Scene(device: device)
+        let triangle = Triangle(color: simd_float4(0.0, 0.0, 1.0, 1.0), device: device)
         
-        renderer = Renderer(device: device)
+        scene.addChild(node: triangle)
+        mtkView.clearColor = MTLClearColorMake(0.0, 1.0, 0.0, 1.0)
+        
+        renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
     }
 }
