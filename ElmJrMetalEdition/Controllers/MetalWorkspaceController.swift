@@ -29,22 +29,9 @@ class MetalWorkspaceController : UIViewController {
         device = mtkView.device
         
         let scene = Scene(device: device)
-        let triangle1 = Triangle(
-            xPos: 0.5,
-            yPos: 0.5,
-            size: 0.5,
-            color: simd_float4(0.0, 0.0, 1.0, 1.0),
-            device: device
-        )
-        scene.addChild(node: triangle1)
-        let triangle2 = Triangle(
-            xPos: -0.4,
-            yPos: -0.4,
-            size: 0.25,
-            color: simd_float4(0.0, 1.0, 0.0, 1.0),
-            device: device
-        )
-        scene.addChild(node: triangle2)
+        for triangle in mockData {
+            print(triangle.xPos, triangle.yPos, triangle.size);
+        }
         
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
