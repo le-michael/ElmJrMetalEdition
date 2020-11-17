@@ -29,8 +29,11 @@ class MetalWorkspaceController : UIViewController {
         device = mtkView.device
         
         let scene = Scene(device: device)
-        for triangle in mockData {
-            print(triangle.xPos, triangle.yPos, triangle.size);
+        
+        let triangles = parse(data: mockData, device: device)
+        
+        for triangle in triangles {
+            scene.addChild(node: triangle)
         }
         
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
