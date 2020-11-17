@@ -8,6 +8,7 @@
 
 import UIKit
 import MetalKit
+import GLKit
 
 class MetalWorkspaceController : UIViewController {
     let mtkView = MTKView()
@@ -29,11 +30,12 @@ class MetalWorkspaceController : UIViewController {
         device = mtkView.device
         
         let scene = Scene(device: device)
-        let triangle = Triangle(color: simd_float4(0.0, 0.0, 1.0, 1.0), device: device)
+        let triangle1 = Triangle(xPos: 0.5, yPos: 0.5, size: 0.5, color: simd_float4(0.0, 0.0, 1.0, 1.0), device: device)
+        scene.addChild(node: triangle1)
+        let triangle2 = Triangle(xPos: -0.4, yPos: -0.4, size: 0.25, color: simd_float4(0.0, 1.0, 0.0, 1.0), device: device)
+        scene.addChild(node: triangle2)
         
-        scene.addChild(node: triangle)
-        mtkView.clearColor = MTLClearColorMake(0.0, 1.0, 0.0, 1.0)
-        
+        mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
     }
