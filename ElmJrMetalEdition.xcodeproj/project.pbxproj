@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1028E0152563164800C4DBFA /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E0142563164800C4DBFA /* Triangle.swift */; };
+		1028E01825632AA000C4DBFA /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* Node.swift */; };
+		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
 		107596F9251C461600BBE3B6 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* Renderer.swift */; };
+		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
+		10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* Types.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1EF251BDD1900F9457F /* AppDelegate.swift */; };
@@ -19,7 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1028E0142563164800C4DBFA /* Triangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
+		1028E01725632AA000C4DBFA /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		107596F8251C461600BBE3B6 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
+		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
+		10ACC0B5256300D200ABEAD4 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElmJrMetalEdition.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,12 +53,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1028E0132563163700C4DBFA /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				1028E0142563164800C4DBFA /* Triangle.swift */,
+				1028E01725632AA000C4DBFA /* Node.swift */,
+				1028E01A25632BAE00C4DBFA /* Scene.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				1028E0132563163700C4DBFA /* Nodes */,
+				10ACC0B12562F47700ABEAD4 /* Shaders */,
 				107596F8251C461600BBE3B6 /* Renderer.swift */,
+				10ACC0B5256300D200ABEAD4 /* Types.swift */,
 			);
 			path = Renderer;
+			sourceTree = "<group>";
+		};
+		10ACC0B12562F47700ABEAD4 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -179,10 +210,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
+				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
+				10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */,
+				1028E01825632AA000C4DBFA /* Node.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				107596F9251C461600BBE3B6 /* Renderer.swift in Sources */,
+				1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */,
+				1028E0152563164800C4DBFA /* Triangle.swift in Sources */,
 				D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */,
 				D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */,
 			);

@@ -30,7 +30,6 @@ class EditorViewController : UIViewController {
         
         mtkView.clearColor = MTLClearColorMake(0.1, 0.2, 0.8, 1.0)
         
-        renderer = Renderer(device: device)
         mtkView.delegate = renderer
     }
 }
