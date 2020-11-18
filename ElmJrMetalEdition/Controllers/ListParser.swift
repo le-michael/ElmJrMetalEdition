@@ -14,12 +14,7 @@ func parse(data: [TriangleEditNode], device: MTLDevice ) -> [Triangle] {
     var triangleNodes = [Triangle]()
 
     for triangle in data {
-        triangleNodes.append(Triangle(
-                            xPos: triangle.xPos,
-                            yPos: triangle.yPos,
-                            size: triangle.size,
-                            color: getColor(color: triangle.color),
-                            device: device))
+        triangleNodes.append(Triangle(color: getColor(color: triangle.color)))
     }
     
     return triangleNodes
