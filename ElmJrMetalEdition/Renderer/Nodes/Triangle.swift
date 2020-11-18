@@ -16,6 +16,7 @@ class Triangle: Node {
     var verticies: [Vertex]
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
+
     var modelConstants = ModelConstants()
     
     var translationMatrix = matrix_identity_float4x4
@@ -32,6 +33,7 @@ class Triangle: Node {
     }
     
     override func createBuffers(device: MTLDevice) {
+
         vertexBuffer = device.makeBuffer(
             bytes: verticies, length: verticies.count * MemoryLayout<Vertex>.stride,
             options: []
@@ -54,7 +56,7 @@ class Triangle: Node {
         
         let modelViewMatrix = sceneProps.viewMatrix * transformationMatrix()
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix * modelViewMatrix
-        
+      
         commandEncoder.setRenderPipelineState(pipelineState)
         commandEncoder.setVertexBuffer(
             vertexBuffer,
