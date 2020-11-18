@@ -1,61 +1,55 @@
 //
-//  Triangle.swift
+//  Renderable.swift
 //  ElmJrMetalEdition
 //
-//  Created by Michael Le on 2020-11-16.
+//  Created by Michael Le on 2020-11-18.
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
 import MetalKit
 
-// MARK: Triangle Class
-
-class Triangle: Node {
-    let indicies: [UInt16] = [0, 1, 2]
-    
-    var verticies: [Vertex]
+class Renderable: Node {
+    var mesh: Mesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
-
-    var modelConstants = ModelConstants()
+    var primativeRenderType: MTLPrimitiveType
     
     var translationMatrix = matrix_identity_float4x4
     var rotationMatrix = matrix_identity_float4x4
     var scaleMatrix = matrix_identity_float4x4
+    var modelConstants = ModelConstants()
     
-    init(color: simd_float4) {
-        verticies = [
-            Vertex(Position: simd_float3(1/2, 1 * (sqrt(3)/2), 0), Color: color),
-            Vertex(Position: simd_float3(1, 0, 0), Color: color),
-            Vertex(Position: simd_float3(0, 0, 0), Color: color),
-        ]
+    init(mesh: Mesh) {
+        self.mesh = mesh
+        self.primativeRenderType = mesh.showWireFrame ? .lineStrip : .triangle
         super.init()
     }
     
     override func createBuffers(device: MTLDevice) {
-
         vertexBuffer = device.makeBuffer(
-            bytes: verticies, length: verticies.count * MemoryLayout<Vertex>.stride,
+            bytes: mesh.vertices,
+            length: mesh.vertices.count * MemoryLayout<Vertex>.stride,
             options: []
         )
         
         indexBuffer = device.makeBuffer(
-            bytes: indicies,
-            length: indicies.count * MemoryLayout<UInt16>.size,
+            bytes: mesh.indices,
+            length: mesh.indices.count * MemoryLayout<UInt16>.size,
             options: []
         )
     }
-    
-    private func transformationMatrix() -> matrix_float4x4 {
-        return translationMatrix * rotationMatrix * scaleMatrix
+
+    private func updateModelViewMatrix(sceneProps: SceneProps) {
+        let transformationMatrix = translationMatrix * rotationMatrix * scaleMatrix
+        modelConstants.modelViewMatrix = sceneProps.projectionMatrix * sceneProps.viewMatrix * transformationMatrix
     }
     
-    override func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState, sceneProps: SceneProps) {
+    override func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState, sceneProps: SceneProps)
+    {
         guard let indexBuffer = indexBuffer,
               let vertexBuffer = vertexBuffer else { return }
         
-        let modelViewMatrix = sceneProps.viewMatrix * transformationMatrix()
-        modelConstants.modelViewMatrix = sceneProps.projectionMatrix * modelViewMatrix
+        updateModelViewMatrix(sceneProps: sceneProps)
       
         commandEncoder.setRenderPipelineState(pipelineState)
         commandEncoder.setVertexBuffer(
@@ -69,8 +63,8 @@ class Triangle: Node {
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: indicies.count,
+            type: primativeRenderType,
+            indexCount: mesh.indices.count,
             indexType: .uint16,
             indexBuffer: indexBuffer,
             indexBufferOffset: 0

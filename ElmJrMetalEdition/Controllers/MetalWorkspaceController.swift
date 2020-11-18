@@ -30,29 +30,43 @@ class MetalWorkspaceController: UIViewController {
 
         let scene = Scene(device: device)
         scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -4)
-
-        let triangle1 = Triangle(color: simd_float4(0.0, 0.0, 1.0, 1.0))
-        scene.addChild(node: triangle1)
         
-        let triangle2 = Triangle(color: simd_float4(1.0, 0.0, 1.0, 1.0))
-        triangle2.rotationMatrix = createZRotationMatrix(degrees: 180)
-        scene.addChild(node: triangle2)
+        // Triangle
         
-        let triangle3 = Triangle(color: simd_float4(0.0, 1.0, 1.0, 1.0))
-        triangle3.translationMatrix = createTranslationMatrix(x: -0.5, y: Float(sqrt(3)/2), z: 0)
-        scene.addChild(node: triangle3)
+        let triangleNormal = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0))
+        triangleNormal.translationMatrix = createTranslationMatrix(x: -0.75, y: 1.5, z: 0)
+        triangleNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: triangleNormal)
         
-        let triangle4 = Triangle(color: simd_float4(0.0, 1.0, 0.0, 1.0))
-        triangle4.translationMatrix = createTranslationMatrix(x: 0.5, y: -Float(sqrt(3)/2), z: 0)
-        triangle4.rotationMatrix = createZRotationMatrix(degrees: 180)
-        scene.addChild(node: triangle4)
+        let  triangleWire = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0), showWireFrame: true)
+        triangleWire.translationMatrix = createTranslationMatrix(x: 0.75, y: 1.5, z: 0)
+        triangleWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: triangleWire)
         
-        let triangle5 = Triangle(color: simd_float4(1.0, 0.0, 0.0, 1.0))
-        triangle5.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
-        triangle5.rotationMatrix = createZRotationMatrix(degrees: 45)
-        triangle5.translationMatrix = createTranslationMatrix(x: 0.25, y: -0.5, z: 0)
-        scene.addChild(node: triangle5)
-
+        // Hexagon
+        
+        let hexagonNormal = NRegularPolygon(numOfSides: 6, color: simd_float4(1.0, 0.0, 1.0, 1.0))
+        hexagonNormal.translationMatrix = createTranslationMatrix(x: -0.75, y: 0.5, z: 0)
+        hexagonNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: hexagonNormal)
+        
+        let hexagonWire = NRegularPolygon(numOfSides: 6, color: simd_float4(1.0, 0.0, 1.0, 1.0), showWireFrame: true)
+        hexagonWire.translationMatrix = createTranslationMatrix(x: 0.75, y: 0.5, z: 0)
+        hexagonWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: hexagonWire)
+        
+        // Circle
+        
+        let circleNormal = NRegularPolygon(numOfSides: 30, color: simd_float4(0.0, 1.0, 0.0, 1.0))
+        circleNormal.translationMatrix = createTranslationMatrix(x: -0.75, y: -0.75, z: 0)
+        circleNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: circleNormal)
+        
+        let circleWire = NRegularPolygon(numOfSides: 30, color: simd_float4(0.0, 1.0, 0.0, 1.0), showWireFrame: true)
+        circleWire.translationMatrix = createTranslationMatrix(x: 0.75, y: -0.75, z: 0)
+        circleWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
+        scene.addChild(node: circleWire)
+        
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer

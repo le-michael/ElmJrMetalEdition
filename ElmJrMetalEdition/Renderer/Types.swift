@@ -22,3 +22,9 @@ struct SceneProps {
     var projectionMatrix: matrix_float4x4
     var viewMatrix: matrix_float4x4
 }
+
+struct Mesh {
+    var vertices: [Vertex]
+    var indices: [UInt16]
+    var showWireFrame: Bool
+}
