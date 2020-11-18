@@ -7,24 +7,43 @@
 //
 
 import Foundation
+import MetalKit
 
 var mockData : [TriangleEditNode] = [
-    TriangleEditNode(xPos: 0, yPos: 0, size: 0.2, color: ColorEditNode(r: 1.0, g: 0.0, b: 0.0, a: 1.0)),
-    TriangleEditNode(xPos: 0.4, yPos: 0.2, size: 0.2, color: ColorEditNode(r: 0.0, g: 1.0, b: 0.0, a: 1.0)),
-    TriangleEditNode(xPos: -0.3, yPos: -0.4, size: 0.4, color: ColorEditNode(r: 0.0, g: 0.0, b: 1.0, a: 1.0)),
+    TriangleEditNode(color: ColorEditNode(r: 0.0, g: 0.0, b: 1.0, a: 1.0),
+                     rotationMatrix: createZRotaionMatrix(degrees: 180)),
+    
+    TriangleEditNode(color: ColorEditNode(r: 1.0, g: 0.0, b: 1.0, a: 1.0),
+                     translationMatrix: createTranslationMatrix(x: -0.5, y: Float(sqrt(3)/2), z: 0)),
+    
+    TriangleEditNode(color: ColorEditNode(r: 0.0, g: 1.0, b: 1.0, a: 1.0),
+                     translationMatrix: createTranslationMatrix(x: 0.5, y: -Float(sqrt(3)/2), z: 0)),
+    
+    TriangleEditNode(color: ColorEditNode(r: 0.0, g: 1.0, b: 0.0, a: 1.0),
+                     translationMatrix: createTranslationMatrix(x: 0.5, y: -Float(sqrt(3)/2), z: 0),
+                     rotationMatrix: createZRotaionMatrix(degrees: 180)),
+    
+    TriangleEditNode(color: ColorEditNode(r: 1.0, g: 0.0, b: 0.0, a: 1.0),
+                     translationMatrix: createTranslationMatrix(x: 0.25, y: -0.5, z: 0),
+                     rotationMatrix: createZRotaionMatrix(degrees: 45),
+                     scaleMatrix: createScaleMatrix(x: 0.5, y: 0.5, z: 0)),
 ]
 
 class TriangleEditNode {
-    var xPos: Float;
-    var yPos: Float;
-    var size: Float;
     var color: ColorEditNode;
+    var translationMatrix: simd_float4x4;
+    var rotationMatrix: simd_float4x4;
+    var scaleMatrix: simd_float4x4;
     
-    init(xPos: Float, yPos: Float, size: Float, color: ColorEditNode) {
-        self.xPos = xPos;
-        self.yPos = yPos;
-        self.size = size;
+    init(color: ColorEditNode,
+         translationMatrix: simd_float4x4 = matrix_identity_float4x4,
+         rotationMatrix: simd_float4x4 = matrix_identity_float4x4,
+         scaleMatrix: simd_float4x4 = matrix_identity_float4x4
+        ) {
         self.color = color;
+        self.translationMatrix = translationMatrix;
+        self.rotationMatrix = rotationMatrix;
+        self.scaleMatrix = scaleMatrix;
     }
 }
 
