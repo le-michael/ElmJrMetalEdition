@@ -10,4 +10,4 @@ import Foundation
 
 //print(tokenize(text: source()))
 //print(parse(tokenize(text: source())))
-parser_test()
+//parser_test()
