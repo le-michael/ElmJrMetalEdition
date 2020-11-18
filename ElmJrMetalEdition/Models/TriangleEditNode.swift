@@ -11,7 +11,7 @@ import MetalKit
 
 var mockData : [TriangleEditNode] = [
     TriangleEditNode(color: ColorEditNode(r: 0.0, g: 0.0, b: 1.0, a: 1.0),
-                     rotationMatrix: createZRotaionMatrix(degrees: 180)),
+                     rotationMatrix: createZRotationMatrix(degrees: 180)),
     
     TriangleEditNode(color: ColorEditNode(r: 1.0, g: 0.0, b: 1.0, a: 1.0),
                      translationMatrix: createTranslationMatrix(x: -0.5, y: Float(sqrt(3)/2), z: 0)),
@@ -21,11 +21,11 @@ var mockData : [TriangleEditNode] = [
     
     TriangleEditNode(color: ColorEditNode(r: 0.0, g: 1.0, b: 0.0, a: 1.0),
                      translationMatrix: createTranslationMatrix(x: 0.5, y: -Float(sqrt(3)/2), z: 0),
-                     rotationMatrix: createZRotaionMatrix(degrees: 180)),
+                     rotationMatrix: createZRotationMatrix(degrees: 180)),
     
     TriangleEditNode(color: ColorEditNode(r: 1.0, g: 0.0, b: 0.0, a: 1.0),
                      translationMatrix: createTranslationMatrix(x: 0.25, y: -0.5, z: 0),
-                     rotationMatrix: createZRotaionMatrix(degrees: 45),
+                     rotationMatrix: createZRotationMatrix(degrees: 45),
                      scaleMatrix: createScaleMatrix(x: 0.5, y: 0.5, z: 0)),
 ]
 
