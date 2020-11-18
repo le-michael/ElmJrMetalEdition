@@ -9,12 +9,17 @@
 import MetalKit
 
 class Node {
-    var children : [Node] = []
+    var children: [Node] = []
+
+    init() {}
+
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {}
+
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState, sceneProps: SceneProps) {}
     
-    init() { }
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) { }
-    
-    func addChild(node : Node) {
+    func createBuffers(device: MTLDevice) {}
+
+    func addChild(node: Node) {
         children.append(node)
     }
 }

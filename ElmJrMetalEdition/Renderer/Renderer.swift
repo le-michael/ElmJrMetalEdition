@@ -9,7 +9,6 @@
 import MetalKit
 
 class Renderer: NSObject {
-    
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let view: MTKView
@@ -25,7 +24,6 @@ class Renderer: NSObject {
         super.init()
         buildPipelineState()
     }
-    
     
     private func buildPipelineState() {
         let library = device.makeDefaultLibrary()
@@ -59,9 +57,11 @@ class Renderer: NSObject {
 }
 
 extension Renderer: MTKViewDelegate {
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) { }
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        scene.setDrawableSize(size: size)
+    }
     
-    func draw (in view: MTKView) {
+    func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let pipelineState = pipelineState,
               let descriptor = view.currentRenderPassDescriptor else { return }
