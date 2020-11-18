@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import Foundation
+
 import Foundation
 
 enum LexerError : Error {
@@ -14,14 +14,13 @@ enum LexerError : Error {
 }
 
 enum Token {
- case LEFT_PARAN, RIGHT_PARAN, PLUS, MINUS, ASTERISK, CARET, FORWARD_SLASH, END_OF_FILE
+ case leftParan, rightParan, plus, minus, asterisk, caret, forwardSlash, endOfFile
  case Identifier(String)
  case Number(String)
 }
 
 
 func source() -> String {
-  // read all lines of STDIN into a string
   var text =  "";
   while let line = readLine() {
     text += line
@@ -30,73 +29,69 @@ func source() -> String {
 }
 
 func tokenize(text: String) -> [Token] {
-  //print("my text: \(text)")
   assert(text.count > 0)
-  //let chars = [UInt8](text.utf8)
   let chars = Array(text)
-  //print(chars)
-  var next_char_index = 0
-  var c = chars[next_char_index]
+  var nextCharIndex = 0
+  var c = chars[nextCharIndex]
 
   var tokens = [Token]() 
   func eat() {
-    // "eats" a character
-    next_char_index += 1
-    if next_char_index < chars.count {
-      c = chars[next_char_index]
+    nextCharIndex += 1
+    if nextCharIndex < chars.count {
+      c = chars[nextCharIndex]
     }
   }
 
-  func is_done() -> Bool {
-    return next_char_index >= chars.count
+  func isDone() -> Bool {
+    return nextCharIndex >= chars.count
   }
 
-  func eat_whitespace() {
-    while c.isWhitespace && !is_done() {
+  func eatWhitespace() {
+    while c.isWhitespace && !isDone() {
       eat()
     }
   }
 
-  func is_alphabet(_ c : Character) -> Bool {
+  func isAlphabet(_ c : Character) -> Bool {
     return (c >= "A" && c <= "Z") || (c >= "a" && c <= "z")
   }
 
-  func is_digit(_ c : Character) -> Bool {
+  func isDigit(_ c : Character) -> Bool {
     return (c >= "0" && c <= "9")
   }
 
-  func get_token() throws -> Token {
+  func getToken() throws -> Token {
     var result : Token?
     switch c {
       case "(":
-        result = Token.LEFT_PARAN
+        result = Token.leftParan
       case ")":
-        result = Token.RIGHT_PARAN
+        result = Token.rightParan
       case "+":
-        result = Token.PLUS
+        result = Token.plus
       case "-":
-        result = Token.MINUS
+        result = Token.minus
       case "*":
-        result = Token.ASTERISK
+        result = Token.asterisk
       case "^":
-        result = Token.CARET
+        result = Token.caret
       case "/":
-        result = Token.FORWARD_SLASH
+        result = Token.forwardSlash
       default:
         result = nil
     }
     if result == nil {
       // token is multiple characters
-      if is_alphabet(c) {
+      if isAlphabet(c) {
         var x : String = "" 
-        while is_alphabet(c) && !is_done() {
+        while isAlphabet(c) && !isDone() {
           x += String(c)
           eat()
         }
         result = Token.Identifier(x)
-      } else if is_digit(c) {
+      } else if isDigit(c) {
         var x : Int = 0
-        while is_digit(c) && !is_done() {
+        while isDigit(c) && !isDone() {
           x *= 10
           x += c.wholeNumberValue! - 0
           eat()
@@ -109,17 +104,17 @@ func tokenize(text: String) -> [Token] {
       // token was a single character
       eat()
     }
-    eat_whitespace()
+    eatWhitespace()
     return result!
   }
   
   // eat whitespace at start of file
-  eat_whitespace()
+  eatWhitespace()
 
-  while !is_done() {
-    try! tokens.append(get_token())
+  while !isDone() {
+    try! tokens.append(getToken())
   }
-  tokens.append(Token.END_OF_FILE);
+  tokens.append(Token.endOfFile);
 
   return tokens
 }

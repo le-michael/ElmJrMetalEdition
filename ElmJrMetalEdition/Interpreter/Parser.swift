@@ -62,60 +62,59 @@ class Variable : ASTNode {
 
 
 func parse(_ tokens:[Token]) throws -> ASTNode {
-  //print(tokens)
-  var next_token_index = 0
-  var c = tokens[next_token_index]
+  var nextTokenIndex = 0
+  var c = tokens[nextTokenIndex]
 
   func eat() {
-    if next_token_index < tokens.count {
-      next_token_index += 1
-      c = tokens[next_token_index]
+    if nextTokenIndex < tokens.count {
+      nextTokenIndex += 1
+      c = tokens[nextTokenIndex]
     }
   }
 
-  func is_done() -> Bool {
-    return next_token_index >= tokens.count
+  func isDone() -> Bool {
+    return nextTokenIndex >= tokens.count
   }
 
-  func additive_expression() throws -> ASTNode {
-    var result = try multiplicative_expression()
+  func additiveExpression() throws -> ASTNode {
+    var result = try multiplicativeExpression()
     while true {
       switch c {
-        case .PLUS:
+        case .plus:
           eat()  
-          result = BinaryOpAdd(result, try multiplicative_expression())
-        case .MINUS: 
+          result = BinaryOpAdd(result, try multiplicativeExpression())
+        case .minus: 
           eat()  
-          result = BinaryOpSubtract(result, try multiplicative_expression())
+          result = BinaryOpSubtract(result, try multiplicativeExpression())
         default:
           return result
       }
     }
   }
 
-  func multiplicative_expression() throws -> ASTNode {
-    var result = try unary_expression()
+  func multiplicativeExpression() throws -> ASTNode {
+    var result = try unaryExpression()
     while true {
       switch c {
-        case .ASTERISK:
+        case .asterisk:
           eat()  
-          result = BinaryOpMultiply(result, try unary_expression())
-        case .FORWARD_SLASH: 
+          result = BinaryOpMultiply(result, try unaryExpression())
+        case .forwardSlash: 
           eat()  
-          result = BinaryOpDivide(result, try unary_expression())
+          result = BinaryOpDivide(result, try unaryExpression())
         default:
           return result
       }
     }
   }
 
-  func unary_expression() throws -> ASTNode {
+  func unaryExpression() throws -> ASTNode {
     let result : ASTNode
     switch c {
-      case .LEFT_PARAN:
+      case .leftParan:
         eat()
-        result = try additive_expression()
-        guard case .RIGHT_PARAN = c else {
+        result = try additiveExpression()
+        guard case .rightParan = c else {
             throw ParserError.MissingRightParantheses
         }
         eat()
@@ -132,7 +131,7 @@ func parse(_ tokens:[Token]) throws -> ASTNode {
     return result
   }
 
-  return try additive_expression()
+  return try additiveExpression()
 }
 
 func parser_test() {
