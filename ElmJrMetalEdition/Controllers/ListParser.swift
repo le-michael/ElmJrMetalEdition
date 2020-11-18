@@ -29,4 +29,3 @@ private func getColor(color: ColorEditNode) ->simd_float4 {
     return simd_float4(color.r, color.b, color.g, color.a)
 }
 
-
