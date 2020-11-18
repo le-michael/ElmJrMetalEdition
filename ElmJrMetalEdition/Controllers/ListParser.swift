@@ -15,10 +15,10 @@ func transpile(data: [TriangleEditNode]) -> [Triangle] {
     var triangleNodes = [Triangle]()
 
     for triangle in data {
-        let tempTriangle = Triangle(color: getColor(color: triangle.color))
-        tempTriangle.rotationMatrix = triangle.rotationMatrix
-        tempTriangle.translationMatrix = triangle.translationMatrix
-        tempTriangle.scaleMatrix = triangle.scaleMatrix
+        let tempTriangle = Triangle(color: simd_float4(triangle.color.r, triangle.color.g, triangle.color.b, triangle.color.a))
+        tempTriangle.rotationMatrix = createZRotationMatrix(degrees: triangle.rotation);
+        tempTriangle.translationMatrix = createTranslationMatrix(x: triangle.xPos, y: triangle.yPos, z: 0)
+        tempTriangle.scaleMatrix = createScaleMatrix(x: triangle.size, y: triangle.size, z: 0)
         triangleNodes.append(tempTriangle)
     }
     

@@ -35,7 +35,7 @@ class MetalWorkspaceController: UIViewController {
         scene.addChild(node: triangle1)
         
         let triangle2 = Triangle(color: simd_float4(1.0, 0.0, 1.0, 1.0))
-        triangle2.rotationMatrix = createZRotaionMatrix(degrees: 180)
+        triangle2.rotationMatrix = createZRotationMatrix(degrees: 180)
         scene.addChild(node: triangle2)
         
         let triangle3 = Triangle(color: simd_float4(0.0, 1.0, 1.0, 1.0))
@@ -44,12 +44,12 @@ class MetalWorkspaceController: UIViewController {
         
         let triangle4 = Triangle(color: simd_float4(0.0, 1.0, 0.0, 1.0))
         triangle4.translationMatrix = createTranslationMatrix(x: 0.5, y: -Float(sqrt(3)/2), z: 0)
-        triangle4.rotationMatrix = createZRotaionMatrix(degrees: 180)
+        triangle4.rotationMatrix = createZRotationMatrix(degrees: 180)
         scene.addChild(node: triangle4)
         
         let triangle5 = Triangle(color: simd_float4(1.0, 0.0, 0.0, 1.0))
         triangle5.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
-        triangle5.rotationMatrix = createZRotaionMatrix(degrees: 45)
+        triangle5.rotationMatrix = createZRotationMatrix(degrees: 45)
         triangle5.translationMatrix = createTranslationMatrix(x: 0.25, y: -0.5, z: 0)
         scene.addChild(node: triangle5)
 

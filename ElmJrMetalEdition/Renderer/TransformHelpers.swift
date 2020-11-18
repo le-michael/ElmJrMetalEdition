@@ -27,7 +27,7 @@ func createZRotationMatrix(radians angle: Float) -> matrix_float4x4 {
     ])
 }
 
-func createZRotaionMatrix(degrees deg: Float) -> matrix_float4x4 {
+func createZRotationMatrix(degrees deg: Float) -> matrix_float4x4 {
     let angle = GLKMathDegreesToRadians(deg)
     return createZRotationMatrix(radians: angle)
 }
