@@ -33,6 +33,44 @@ class EditorViewController : UIViewController {
         
     }
     
+    func setupOutputView(){
+        view.addSubview(outputView);
+        outputView.backgroundColor = .white;
+        outputView.translatesAutoresizingMaskIntoConstraints = false
+        outputView.topAnchor.constraint(equalTo: editorView.topAnchor, constant: 0).isActive = true
+        outputView.bottomAnchor.constraint(equalTo: editorView.bottomAnchor, constant: 0).isActive = true
+        outputView.leadingAnchor.constraint(equalTo: editorView.trailingAnchor, constant: 0).isActive = true
+        outputView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        setupMetal()
+    }
+    
+    func setupMetal(){
+        outputView.addSubview(mtkView)
+        mtkView.translatesAutoresizingMaskIntoConstraints = false
+        mtkView.topAnchor.constraint(equalTo: outputView.topAnchor, constant: 0).isActive = true
+        mtkView.bottomAnchor.constraint(equalTo: outputView.bottomAnchor, constant: 0).isActive = true
+        mtkView.leadingAnchor.constraint(equalTo: outputView.leadingAnchor, constant: 0).isActive = true
+        mtkView.widthAnchor.constraint(equalTo: outputView.widthAnchor, multiplier: 1).isActive = true
+        
+        mtkView.device = MTLCreateSystemDefaultDevice()
+        device = mtkView.device
+        
+        let scene = Scene(device: device)
+        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -3)
+        
+        let triangles = transpile(data: mockData)
+        
+        for triangle in triangles {
+            print(triangle)
+            scene.addChild(node: triangle)
+        }
+        
+        
+        mtkView.clearColor = MTLClearColorMake(1.0, 1.0, 1.0, 1.0)
+        renderer = Renderer(device: device, view: mtkView, scene: scene)
+        mtkView.delegate = renderer
+    }
+    
     func setupEditorView() {
         
         view.addSubview(editorView)
@@ -67,14 +105,6 @@ class EditorViewController : UIViewController {
         
         editorView.addArrangedSubview(triangleEditNode);
         editNodes.append(triangleEditNode)
-    }
-    
-    func setupAddButton(){
-        editorView.addArrangedSubview(addButton);
-        addButton.translatesAutoresizingMaskIntoConstraints = false;
-        addButton.backgroundColor = .blue
-        addButton.setTitle("Test", for: .normal)
-        addButton.addTarget(self, action: #selector(self.showMenu), for: .touchUpInside)
     }
     
     @objc func showMenu(sender: TriangleNodeGestureRecognizer){
@@ -183,43 +213,7 @@ class EditorViewController : UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func setupOutputView(){
-        view.addSubview(outputView);
-        outputView.backgroundColor = .white;
-        outputView.translatesAutoresizingMaskIntoConstraints = false
-        outputView.topAnchor.constraint(equalTo: editorView.topAnchor, constant: 0).isActive = true
-        outputView.bottomAnchor.constraint(equalTo: editorView.bottomAnchor, constant: 0).isActive = true
-        outputView.leadingAnchor.constraint(equalTo: editorView.trailingAnchor, constant: 0).isActive = true
-        outputView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-        setupMetal()
-    }
-    
-    func setupMetal(){
-        outputView.addSubview(mtkView)
-        mtkView.translatesAutoresizingMaskIntoConstraints = false
-        mtkView.topAnchor.constraint(equalTo: outputView.topAnchor, constant: 0).isActive = true
-        mtkView.bottomAnchor.constraint(equalTo: outputView.bottomAnchor, constant: 0).isActive = true
-        mtkView.leadingAnchor.constraint(equalTo: outputView.leadingAnchor, constant: 0).isActive = true
-        mtkView.widthAnchor.constraint(equalTo: outputView.widthAnchor, multiplier: 1).isActive = true
-        
-        mtkView.device = MTLCreateSystemDefaultDevice()
-        device = mtkView.device
-        
-        let scene = Scene(device: device)
-        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -3)
-        
-        let triangles = transpile(data: mockData)
-        
-        for triangle in triangles {
-            print(triangle)
-            scene.addChild(node: triangle)
-        }
-        
-        
-        mtkView.clearColor = MTLClearColorMake(1.0, 1.0, 1.0, 1.0)
-        renderer = Renderer(device: device, view: mtkView, scene: scene)
-        mtkView.delegate = renderer
-    }
+
     
     func update(){
         for view in editNodes {
