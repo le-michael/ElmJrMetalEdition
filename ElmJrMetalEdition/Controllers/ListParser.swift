@@ -10,11 +10,16 @@ import Foundation
 import UIKit
 import MetalKit
 
-func parse(data: [TriangleEditNode], device: MTLDevice ) -> [Triangle] {
+func transpile(data: [TriangleEditNode]) -> [Triangle] {
+    
     var triangleNodes = [Triangle]()
 
     for triangle in data {
-        triangleNodes.append(Triangle(color: getColor(color: triangle.color)))
+        let tempTriangle = Triangle(color: getColor(color: triangle.color))
+        tempTriangle.rotationMatrix = triangle.rotationMatrix
+        tempTriangle.translationMatrix = triangle.translationMatrix
+        tempTriangle.scaleMatrix = triangle.scaleMatrix
+        triangleNodes.append(tempTriangle)
     }
     
     return triangleNodes
@@ -23,3 +28,5 @@ func parse(data: [TriangleEditNode], device: MTLDevice ) -> [Triangle] {
 private func getColor(color: ColorEditNode) ->simd_float4 {
     return simd_float4(color.r, color.b, color.g, color.a)
 }
+
+
