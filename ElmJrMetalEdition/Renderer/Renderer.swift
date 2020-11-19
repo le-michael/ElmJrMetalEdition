@@ -21,6 +21,7 @@ class Renderer: NSObject {
         self.commandQueue = device.makeCommandQueue()!
         self.view = view
         self.scene = scene
+        scene.fps = Float(view.preferredFramesPerSecond)
         super.init()
         buildPipelineState()
     }
@@ -69,7 +70,7 @@ extension Renderer: MTKViewDelegate {
         let commandBuffer = commandQueue.makeCommandBuffer()
         
         let commandEnconder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
-        
+    
         scene.draw(commandEncoder: commandEnconder!, pipelineState: pipelineState)
         
         commandEnconder?.endEncoding()

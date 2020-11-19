@@ -12,6 +12,7 @@ class Scene: Node {
     let device: MTLDevice
     var drawableSize: CGSize?
     var sceneProps: SceneProps!
+    var fps: Float = 60
 
     init(device: MTLDevice) {
         self.device = device
@@ -32,7 +33,8 @@ class Scene: Node {
     private func initSceneProps() {
         sceneProps = SceneProps(
             projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4
+            viewMatrix: matrix_identity_float4x4,
+            time: 0
         )
     }
 
@@ -42,6 +44,7 @@ class Scene: Node {
     }
 
     override func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {
+        sceneProps.time += 1.0/fps
         for child in children {
             child.draw(commandEncoder: commandEncoder, pipelineState: pipelineState, sceneProps: sceneProps)
         }
