@@ -1,5 +1,5 @@
 //
-//  MeshHelpers.swift
+//  GraphicsHelpers.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-18.
@@ -8,7 +8,7 @@
 
 import simd
 
-func nRegularPolygonBufferData(numOfSides n: Int) -> (vertexPositions: [simd_float3], indices: [UInt16]) {
+func regularPolygonBufferData(numOfSides n: Int) -> (vertexPositions: [simd_float3], indices: [UInt16]) {
     let thetaS: Float = 2 * Float.pi / Float(n)
     var vertexPositions: [simd_float3] = []
     var indices: [UInt16] = []

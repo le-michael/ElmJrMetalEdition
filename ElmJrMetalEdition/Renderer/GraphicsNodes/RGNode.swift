@@ -1,5 +1,5 @@
 //
-//  Node.swift
+//  RGNode.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.
@@ -8,8 +8,8 @@
 
 import MetalKit
 
-class Node {
-    var children: [Node] = []
+class RGNode {
+    var children: [RGNode] = []
 
     init() {}
 
@@ -19,7 +19,7 @@ class Node {
     
     func createBuffers(device: MTLDevice) {}
 
-    func addChild(node: Node) {
+    func addChild(node: RGNode) {
         children.append(node)
     }
 }

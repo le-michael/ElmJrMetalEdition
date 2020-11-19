@@ -33,7 +33,7 @@ class MetalWorkspaceController: UIViewController {
         
         // Triangle
         
-        let triangleNormal = NRegularPolygon(numOfSides: 8, color: simd_float4(1.0, 0.0, 1.0, 1.0))
+        let triangleNormal = RegularPolygon(numOfSides: 8, color: simd_float4(1.0, 0.0, 1.0, 1.0))
         triangleNormal.triangleFillMode = .lines
         triangleNormal.scaleMatrix.xEquation = RMTrig(type: .sin, child: RMTime())
         triangleNormal.scaleMatrix.yEquation = RMTrig(type: .sin, child: RMTime())
