@@ -38,7 +38,7 @@ class MetalWorkspaceController: UIViewController {
         triangleNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: triangleNormal)
         
-        let  triangleWire = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0), showWireFrame: true)
+        let triangleWire = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0), showWireFrame: true)
         triangleWire.translationMatrix = createTranslationMatrix(x: 0.75, y: 1.5, z: 0)
         triangleWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: triangleWire)
