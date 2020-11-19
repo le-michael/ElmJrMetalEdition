@@ -14,9 +14,9 @@ class Renderable: Node {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var translationMatrix = matrix_identity_float4x4
-    var rotationMatrix = matrix_identity_float4x4
-    var scaleMatrix = matrix_identity_float4x4
+    var translationMatrix =  TranslationMatrix()
+    var rotationMatrix = ZRotationMatrix()
+    var scaleMatrix = ScaleMatrix()
     var modelConstants = ModelConstants()
     
     init(mesh: Mesh) {
@@ -39,7 +39,7 @@ class Renderable: Node {
     }
 
     private func updateModelViewMatrix(sceneProps: SceneProps) {
-        let transformationMatrix = translationMatrix * rotationMatrix * scaleMatrix
+        let transformationMatrix = translationMatrix.evaluate(sceneProps) * rotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix * sceneProps.viewMatrix * transformationMatrix
     }
     
