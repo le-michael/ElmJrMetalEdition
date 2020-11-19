@@ -12,7 +12,7 @@ class Renderable: Node {
     var mesh: Mesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
-    var primativeRenderType: MTLPrimitiveType
+    var triangleFillMode: MTLTriangleFillMode = .fill
     
     var translationMatrix = matrix_identity_float4x4
     var rotationMatrix = matrix_identity_float4x4
@@ -21,7 +21,6 @@ class Renderable: Node {
     
     init(mesh: Mesh) {
         self.mesh = mesh
-        self.primativeRenderType = mesh.showWireFrame ? .lineStrip : .triangle
         super.init()
     }
     
@@ -57,13 +56,14 @@ class Renderable: Node {
             offset: 0,
             index: 0
         )
+        commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &modelConstants,
             length: MemoryLayout<ModelConstants>.stride,
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(
-            type: primativeRenderType,
+            type: .triangle,
             indexCount: mesh.indices.count,
             indexType: .uint16,
             indexBuffer: indexBuffer,

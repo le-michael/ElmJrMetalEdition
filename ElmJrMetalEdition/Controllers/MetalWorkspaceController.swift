@@ -38,7 +38,8 @@ class MetalWorkspaceController: UIViewController {
         triangleNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: triangleNormal)
         
-        let triangleWire = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0), showWireFrame: true)
+        let triangleWire = NRegularPolygon(numOfSides: 3, color: simd_float4(1.0, 0.0, 0.0, 1.0))
+        triangleWire.triangleFillMode = .lines
         triangleWire.translationMatrix = createTranslationMatrix(x: 0.75, y: 1.5, z: 0)
         triangleWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: triangleWire)
@@ -50,7 +51,8 @@ class MetalWorkspaceController: UIViewController {
         hexagonNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: hexagonNormal)
         
-        let hexagonWire = NRegularPolygon(numOfSides: 6, color: simd_float4(1.0, 0.0, 1.0, 1.0), showWireFrame: true)
+        let hexagonWire = NRegularPolygon(numOfSides: 6, color: simd_float4(1.0, 0.0, 1.0, 1.0))
+        hexagonWire.triangleFillMode = .lines
         hexagonWire.translationMatrix = createTranslationMatrix(x: 0.75, y: 0.5, z: 0)
         hexagonWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: hexagonWire)
@@ -62,7 +64,8 @@ class MetalWorkspaceController: UIViewController {
         circleNormal.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: circleNormal)
         
-        let circleWire = NRegularPolygon(numOfSides: 30, color: simd_float4(0.0, 1.0, 0.0, 1.0), showWireFrame: true)
+        let circleWire = NRegularPolygon(numOfSides: 30, color: simd_float4(0.0, 1.0, 0.0, 1.0))
+        circleWire.triangleFillMode = .lines
         circleWire.translationMatrix = createTranslationMatrix(x: 0.75, y: -0.75, z: 0)
         circleWire.scaleMatrix = createScaleMatrix(x: 0.5, y: 0.5, z: 0)
         scene.addChild(node: circleWire)

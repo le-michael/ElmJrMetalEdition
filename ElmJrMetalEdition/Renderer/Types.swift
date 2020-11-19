@@ -26,5 +26,4 @@ struct SceneProps {
 struct Mesh {
     var vertices: [Vertex]
     var indices: [UInt16]
-    var showWireFrame: Bool
 }
