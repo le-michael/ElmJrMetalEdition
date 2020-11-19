@@ -8,7 +8,7 @@
 
 import simd
 
-func nRegularPolygonBufferData(numOfSides n: Int, wired: Bool = false) -> (vertexPositions: [simd_float3], indices: [UInt16]) {
+func nRegularPolygonBufferData(numOfSides n: Int) -> (vertexPositions: [simd_float3], indices: [UInt16]) {
     let thetaS: Float = 2 * Float.pi / Float(n)
     var vertexPositions: [simd_float3] = []
     var indices: [UInt16] = []
@@ -27,9 +27,6 @@ func nRegularPolygonBufferData(numOfSides n: Int, wired: Bool = false) -> (verte
         indices.append(0)
         indices.append(UInt16(k))
         indices.append(UInt16(k + 1))
-        if wired {
-            indices.append(UInt16(0))
-        }
     }
     
     return (vertexPositions, indices)
