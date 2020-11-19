@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1028E0152563164800C4DBFA /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E0142563164800C4DBFA /* Triangle.swift */; };
 		1028E01825632AA000C4DBFA /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* Node.swift */; };
 		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
 		1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* TransformHelpers.swift */; };
 		1072E3E42564C41000D390FE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* Lexer.swift */; };
 		1072E3E72564C42100D390FE /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* Interpreter.swift */; };
 		1072E3EA2564C43B00D390FE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* Parser.swift */; };
+		1072E3EF2565942100D390FE /* Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3EE2565942100D390FE /* Renderable.swift */; };
+		1072E3F22565979D00D390FE /* MeshHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F12565979D00D390FE /* MeshHelpers.swift */; };
+		1072E3F52565983A00D390FE /* NRegularPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F42565983A00D390FE /* NRegularPolygon.swift */; };
 		107596F9251C461600BBE3B6 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* Renderer.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* Types.swift */; };
@@ -31,13 +33,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1028E0142563164800C4DBFA /* Triangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		1028E01725632AA000C4DBFA /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		1072E3D62564669D00D390FE /* TransformHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformHelpers.swift; sourceTree = "<group>"; };
 		1072E3E32564C41000D390FE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		1072E3E62564C42100D390FE /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		1072E3E92564C43B00D390FE /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		1072E3EE2565942100D390FE /* Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderable.swift; sourceTree = "<group>"; };
+		1072E3F12565979D00D390FE /* MeshHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshHelpers.swift; sourceTree = "<group>"; };
+		1072E3F42565983A00D390FE /* NRegularPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRegularPolygon.swift; sourceTree = "<group>"; };
 		107596F8251C461600BBE3B6 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
@@ -70,9 +74,10 @@
 		1028E0132563163700C4DBFA /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
-				1028E0142563164800C4DBFA /* Triangle.swift */,
 				1028E01725632AA000C4DBFA /* Node.swift */,
 				1028E01A25632BAE00C4DBFA /* Scene.swift */,
+				1072E3EE2565942100D390FE /* Renderable.swift */,
+				1072E3F42565983A00D390FE /* NRegularPolygon.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -95,6 +100,7 @@
 				107596F8251C461600BBE3B6 /* Renderer.swift */,
 				10ACC0B5256300D200ABEAD4 /* Types.swift */,
 				1072E3D62564669D00D390FE /* TransformHelpers.swift */,
+				1072E3F12565979D00D390FE /* MeshHelpers.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -241,11 +247,13 @@
 				1072E3E72564C42100D390FE /* Interpreter.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */,
+				1072E3EF2565942100D390FE /* Renderable.swift in Sources */,
 				554723032564778900E2E934 /* ListParser.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */,
 				1028E01825632AA000C4DBFA /* Node.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
+				1072E3F22565979D00D390FE /* MeshHelpers.swift in Sources */,
 				1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
@@ -254,7 +262,7 @@
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* Parser.swift in Sources */,
-				1028E0152563164800C4DBFA /* Triangle.swift in Sources */,
+				1072E3F52565983A00D390FE /* NRegularPolygon.swift in Sources */,
 				D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */,
 				D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */,
 			);
