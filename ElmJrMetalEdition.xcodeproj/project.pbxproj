@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		101AE71D256784200083704C /* RendererMathNodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101AE71C256784200083704C /* RendererMathNodesTests.swift */; };
 		1020B441256719FB00651AA4 /* RMUnaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B440256719FB00651AA4 /* RMUnaryOp.swift */; };
 		1020B44425671B6600651AA4 /* RMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B44325671B6600651AA4 /* RMTime.swift */; };
 		1028E01825632AA000C4DBFA /* RGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* RGNode.swift */; };
@@ -39,7 +40,20 @@
 		D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF206251C06CA00F9457F /* EditorViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		101AE714256783D70083704C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95DF1E4251BDD1900F9457F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D95DF1EB251BDD1900F9457F;
+			remoteInfo = ElmJrMetalEdition;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		101AE70F256783D70083704C /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		101AE713256783D70083704C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		101AE71C256784200083704C /* RendererMathNodesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererMathNodesTests.swift; sourceTree = "<group>"; };
 		1020B440256719FB00651AA4 /* RMUnaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMUnaryOp.swift; sourceTree = "<group>"; };
 		1020B44325671B6600651AA4 /* RMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTime.swift; sourceTree = "<group>"; };
 		1028E01725632AA000C4DBFA /* RGNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGNode.swift; sourceTree = "<group>"; };
@@ -75,6 +89,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		101AE70C256783D70083704C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D95DF1E9251BDD1900F9457F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,6 +106,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		101AE710256783D70083704C /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				101AE71B256783EC0083704C /* Renderer */,
+				101AE713256783D70083704C /* Info.plist */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		101AE71B256783EC0083704C /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				101AE71C256784200083704C /* RendererMathNodesTests.swift */,
+			);
+			path = Renderer;
+			sourceTree = "<group>";
+		};
 		1028E0132563163700C4DBFA /* GraphicsNodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				D95DF1EE251BDD1900F9457F /* ElmJrMetalEdition */,
+				101AE710256783D70083704C /* UnitTests */,
 				D95DF1ED251BDD1900F9457F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -162,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */,
+				101AE70F256783D70083704C /* UnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,6 +254,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		101AE70E256783D70083704C /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 101AE716256783D70083704C /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				101AE70B256783D70083704C /* Sources */,
+				101AE70C256783D70083704C /* Frameworks */,
+				101AE70D256783D70083704C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				101AE715256783D70083704C /* PBXTargetDependency */,
+			);
+			name = UnitTests;
+			productName = UnitTestTargets;
+			productReference = 101AE70F256783D70083704C /* UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D95DF1EB251BDD1900F9457F /* ElmJrMetalEdition */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D95DF200251BDD1F00F9457F /* Build configuration list for PBXNativeTarget "ElmJrMetalEdition" */;
@@ -237,10 +295,14 @@
 		D95DF1E4251BDD1900F9457F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Thomas Armena";
 				TargetAttributes = {
+					101AE70E256783D70083704C = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = D95DF1EB251BDD1900F9457F;
+					};
 					D95DF1EB251BDD1900F9457F = {
 						CreatedOnToolsVersion = 11.6;
 					};
@@ -260,11 +322,19 @@
 			projectRoot = "";
 			targets = (
 				D95DF1EB251BDD1900F9457F /* ElmJrMetalEdition */,
+				101AE70E256783D70083704C /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		101AE70D256783D70083704C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D95DF1EA251BDD1900F9457F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,6 +347,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		101AE70B256783D70083704C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				101AE71D256784200083704C /* RendererMathNodesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D95DF1E8251BDD1900F9457F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +392,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		101AE715256783D70083704C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D95DF1EB251BDD1900F9457F /* ElmJrMetalEdition */;
+			targetProxy = 101AE714256783D70083704C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D95DF1FA251BDD1F00F9457F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -326,6 +412,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		101AE717256783D70083704C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				INFOPLIST_FILE = UnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ElmJr.UnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ElmJrMetalEdition.app/ElmJrMetalEdition";
+			};
+			name = Debug;
+		};
+		101AE718256783D70083704C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				INFOPLIST_FILE = UnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ElmJr.UnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ElmJrMetalEdition.app/ElmJrMetalEdition";
+			};
+			name = Release;
+		};
 		D95DF1FE251BDD1F00F9457F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -479,6 +609,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		101AE716256783D70083704C /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				101AE717256783D70083704C /* Debug */,
+				101AE718256783D70083704C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D95DF1E7251BDD1900F9457F /* Build configuration list for PBXProject "ElmJrMetalEdition" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

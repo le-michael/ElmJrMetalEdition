@@ -9,7 +9,7 @@
 import Foundation
 
 class RMConstant: RMNode {
-    let value: Float
+    var value: Float
 
     init(_ value: Float) {
         self.value = value
