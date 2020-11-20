@@ -1,5 +1,5 @@
 //
-//  Types.swift
+//  RendererTypes.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.

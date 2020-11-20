@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class Renderable: Node {
+class Renderable: RGNode {
     var mesh: Mesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?

@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class Scene: Node {
+class Scene: RGNode {
     let device: MTLDevice
     var drawableSize: CGSize?
     var sceneProps: SceneProps!
@@ -38,7 +38,7 @@ class Scene: Node {
         )
     }
 
-    override func addChild(node: Node) {
+    override func addChild(node: RGNode) {
         super.addChild(node: node)
         node.createBuffers(device: device)
     }

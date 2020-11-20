@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1020B441256719FB00651AA4 /* RMTrig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B440256719FB00651AA4 /* RMTrig.swift */; };
 		1020B44425671B6600651AA4 /* RMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B44325671B6600651AA4 /* RMTime.swift */; };
-		1028E01825632AA000C4DBFA /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* Node.swift */; };
+		1028E01825632AA000C4DBFA /* RGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* RGNode.swift */; };
 		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
 		1049A25025671E20007E85BE /* ZRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049A24F25671E20007E85BE /* ZRotationMatrix.swift */; };
 		1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* TransformHelpers.swift */; };
@@ -17,14 +17,14 @@
 		1072E3E72564C42100D390FE /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* Interpreter.swift */; };
 		1072E3EA2564C43B00D390FE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* Parser.swift */; };
 		1072E3EF2565942100D390FE /* Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3EE2565942100D390FE /* Renderable.swift */; };
-		1072E3F22565979D00D390FE /* MeshHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F12565979D00D390FE /* MeshHelpers.swift */; };
-		1072E3F52565983A00D390FE /* NRegularPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F42565983A00D390FE /* NRegularPolygon.swift */; };
+		1072E3F22565979D00D390FE /* GraphicsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F12565979D00D390FE /* GraphicsHelpers.swift */; };
+		1072E3F52565983A00D390FE /* RegularPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F42565983A00D390FE /* RegularPolygon.swift */; };
 		107596F9251C461600BBE3B6 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* Renderer.swift */; };
 		107FDB5D2567182800D1B54C /* RMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5C2567182800D1B54C /* RMNode.swift */; };
 		107FDB602567189D00D1B54C /* RMConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* RMConstant.swift */; };
 		108815252567253900E0850D /* TranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* TranslationMatrix.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
-		10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* Types.swift */; };
+		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
 		10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* ScaleMatrix.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
@@ -42,7 +42,7 @@
 /* Begin PBXFileReference section */
 		1020B440256719FB00651AA4 /* RMTrig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTrig.swift; sourceTree = "<group>"; };
 		1020B44325671B6600651AA4 /* RMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTime.swift; sourceTree = "<group>"; };
-		1028E01725632AA000C4DBFA /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		1028E01725632AA000C4DBFA /* RGNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGNode.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		1049A24F25671E20007E85BE /* ZRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZRotationMatrix.swift; sourceTree = "<group>"; };
 		1072E3D62564669D00D390FE /* TransformHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformHelpers.swift; sourceTree = "<group>"; };
@@ -50,14 +50,14 @@
 		1072E3E62564C42100D390FE /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		1072E3E92564C43B00D390FE /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		1072E3EE2565942100D390FE /* Renderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderable.swift; sourceTree = "<group>"; };
-		1072E3F12565979D00D390FE /* MeshHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeshHelpers.swift; sourceTree = "<group>"; };
-		1072E3F42565983A00D390FE /* NRegularPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRegularPolygon.swift; sourceTree = "<group>"; };
+		1072E3F12565979D00D390FE /* GraphicsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsHelpers.swift; sourceTree = "<group>"; };
+		1072E3F42565983A00D390FE /* RegularPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularPolygon.swift; sourceTree = "<group>"; };
 		107596F8251C461600BBE3B6 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		107FDB5C2567182800D1B54C /* RMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMNode.swift; sourceTree = "<group>"; };
 		107FDB5F2567189D00D1B54C /* RMConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMConstant.swift; sourceTree = "<group>"; };
 		108815242567253900E0850D /* TranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationMatrix.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
-		10ACC0B5256300D200ABEAD4 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* ScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatrix.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
@@ -85,15 +85,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1028E0132563163700C4DBFA /* RenderNodes */ = {
+		1028E0132563163700C4DBFA /* GraphicsNodes */ = {
 			isa = PBXGroup;
 			children = (
-				1028E01725632AA000C4DBFA /* Node.swift */,
+				1028E01725632AA000C4DBFA /* RGNode.swift */,
 				1028E01A25632BAE00C4DBFA /* Scene.swift */,
 				1072E3EE2565942100D390FE /* Renderable.swift */,
-				1072E3F42565983A00D390FE /* NRegularPolygon.swift */,
+				1072E3F42565983A00D390FE /* RegularPolygon.swift */,
+				1072E3F12565979D00D390FE /* GraphicsHelpers.swift */,
 			);
-			path = RenderNodes;
+			path = GraphicsNodes;
 			sourceTree = "<group>";
 		};
 		1049A24E25671E11007E85BE /* Transforms */ = {
@@ -102,6 +103,7 @@
 				1049A24F25671E20007E85BE /* ZRotationMatrix.swift */,
 				10CB97E5256721F30096BA10 /* ScaleMatrix.swift */,
 				108815242567253900E0850D /* TranslationMatrix.swift */,
+				1072E3D62564669D00D390FE /* TransformHelpers.swift */,
 			);
 			path = Transforms;
 			sourceTree = "<group>";
@@ -121,11 +123,10 @@
 			children = (
 				1049A24E25671E11007E85BE /* Transforms */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
-				1028E0132563163700C4DBFA /* RenderNodes */,
+				1028E0132563163700C4DBFA /* GraphicsNodes */,
 				10ACC0B12562F47700ABEAD4 /* Shaders */,
 				107596F8251C461600BBE3B6 /* Renderer.swift */,
-				10ACC0B5256300D200ABEAD4 /* Types.swift */,
-				1072E3F12565979D00D390FE /* MeshHelpers.swift */,
+				10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -137,7 +138,6 @@
 				107FDB5F2567189D00D1B54C /* RMConstant.swift */,
 				1020B440256719FB00651AA4 /* RMTrig.swift */,
 				1020B44325671B6600651AA4 /* RMTime.swift */,
-				1072E3D62564669D00D390FE /* TransformHelpers.swift */,
 			);
 			path = MathNodes;
 			sourceTree = "<group>";
@@ -287,10 +287,10 @@
 				1072E3EF2565942100D390FE /* Renderable.swift in Sources */,
 				554723032564778900E2E934 /* ListParser.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
-				10ACC0B6256300D200ABEAD4 /* Types.swift in Sources */,
-				1028E01825632AA000C4DBFA /* Node.swift in Sources */,
+				10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */,
+				1028E01825632AA000C4DBFA /* RGNode.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
-				1072E3F22565979D00D390FE /* MeshHelpers.swift in Sources */,
+				1072E3F22565979D00D390FE /* GraphicsHelpers.swift in Sources */,
 				108815252567253900E0850D /* TranslationMatrix.swift in Sources */,
 				107FDB602567189D00D1B54C /* RMConstant.swift in Sources */,
 				1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */,
@@ -304,7 +304,7 @@
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* Parser.swift in Sources */,
-				1072E3F52565983A00D390FE /* NRegularPolygon.swift in Sources */,
+				1072E3F52565983A00D390FE /* RegularPolygon.swift in Sources */,
 				1049A25025671E20007E85BE /* ZRotationMatrix.swift in Sources */,
 				107FDB5D2567182800D1B54C /* RMNode.swift in Sources */,
 				D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */,
