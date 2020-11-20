@@ -16,7 +16,7 @@ enum UnaryOp {
 
 class RMUnaryOp: RMNode {
     let type: UnaryOp
-    let child: RMNode
+    var child: RMNode
 
     init(type: UnaryOp, child: RMNode) {
         self.type = type
