@@ -9,6 +9,11 @@
 import MetalKit
 import simd
 
+struct BufferData {
+    var vertexPositions: [simd_float3]
+    var indices: [UInt16]
+}
+
 struct Vertex {
     let Position: simd_float3
     var Color: simd_float4

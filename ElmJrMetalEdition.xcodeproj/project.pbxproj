@@ -27,6 +27,7 @@
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
 		10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* ScaleMatrix.swift */; };
+		10D89628256840480053D762 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* Plane.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
@@ -73,6 +74,7 @@
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* ScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatrix.swift; sourceTree = "<group>"; };
+		10D89627256840480053D762 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
@@ -126,10 +128,9 @@
 		1028E0132563163700C4DBFA /* GraphicsNodes */ = {
 			isa = PBXGroup;
 			children = (
+				10D8962B256845830053D762 /* Renderable */,
 				1028E01725632AA000C4DBFA /* RGNode.swift */,
 				1028E01A25632BAE00C4DBFA /* Scene.swift */,
-				1072E3EE2565942100D390FE /* Renderable.swift */,
-				1072E3F42565983A00D390FE /* RegularPolygon.swift */,
 				1072E3F12565979D00D390FE /* GraphicsHelpers.swift */,
 			);
 			path = GraphicsNodes;
@@ -186,6 +187,16 @@
 				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		10D8962B256845830053D762 /* Renderable */ = {
+			isa = PBXGroup;
+			children = (
+				1072E3EE2565942100D390FE /* Renderable.swift */,
+				1072E3F42565983A00D390FE /* RegularPolygon.swift */,
+				10D89627256840480053D762 /* Plane.swift */,
+			);
+			path = Renderable;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -372,6 +383,7 @@
 				108815252567253900E0850D /* TranslationMatrix.swift in Sources */,
 				107FDB602567189D00D1B54C /* RMConstant.swift in Sources */,
 				1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */,
+				10D89628256840480053D762 /* Plane.swift in Sources */,
 				1020B441256719FB00651AA4 /* RMUnaryOp.swift in Sources */,
 				10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */,
 				1020B44425671B6600651AA4 /* RMTime.swift in Sources */,
