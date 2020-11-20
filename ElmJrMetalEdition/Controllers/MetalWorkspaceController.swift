@@ -33,15 +33,21 @@ class MetalWorkspaceController: UIViewController {
 
         // Triangle
 
-        let poly1 = RegularPolygon(4, color: simd_float4(1.0, 0.0, 1.0, 1.0))
+        let poly1 = RegularPolygon(35, color: simd_float4(1.0, 0.0, 0.0, 1.0))
         poly1.triangleFillMode = .lines
+        poly1.rotationMatrix.angleEquation = RMUnaryOp(type: .cos, child: RMTime())
         scene.add(poly1)
 
         let poly2 = RegularPolygon(50, color: simd_float4(1.0, 0.0, 0.0, 1.0))
         poly2.triangleFillMode = .lines
-        poly2.rotationMatrix.angleEquation = RMTime()
+        poly2.rotationMatrix.angleEquation = RMUnaryOp(type: .sin, child: RMTime())
         scene.add(poly2)
 
+        let plane1 = Plane(color: simd_float4(1.0, 1.0, 1.0, 1.0))
+        plane1.triangleFillMode = .lines
+        plane1.rotationMatrix.angleEquation = RMTime()
+        scene.add(plane1)
+        
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
