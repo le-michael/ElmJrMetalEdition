@@ -6,23 +6,22 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import UIKit
 import MetalKit
+import UIKit
 
-class EditorViewController : UIViewController {
-
-    var addButton = UIButton();
+class EditorViewController: UIViewController {
+    var addButton = UIButton()
     
-    var editorView = UIStackView();
+    var editorView = UIStackView()
     
-    var outputView = UIView();
+    var outputView = UIView()
     
     var mtkView = MTKView()
     
     var device: MTLDevice!
     var renderer: MTKViewDelegate!
     
-    var editNodes : [UILabel] = []
+    var editNodes: [UILabel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +29,11 @@ class EditorViewController : UIViewController {
         
         setupEditorView()
         setupOutputView()
-        
     }
     
-    func setupOutputView(){
-        view.addSubview(outputView);
-        outputView.backgroundColor = .white;
+    func setupOutputView() {
+        view.addSubview(outputView)
+        outputView.backgroundColor = .white
         outputView.translatesAutoresizingMaskIntoConstraints = false
         outputView.topAnchor.constraint(equalTo: editorView.topAnchor, constant: 0).isActive = true
         outputView.bottomAnchor.constraint(equalTo: editorView.bottomAnchor, constant: 0).isActive = true
@@ -44,7 +42,7 @@ class EditorViewController : UIViewController {
         setupMetal()
     }
     
-    func setupMetal(){
+    func setupMetal() {
         outputView.addSubview(mtkView)
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: outputView.topAnchor, constant: 0).isActive = true
@@ -62,9 +60,8 @@ class EditorViewController : UIViewController {
         
         for triangle in triangles {
             print(triangle)
-            scene.addChild(node: triangle)
+            scene.add(triangle)
         }
-        
         
         mtkView.clearColor = MTLClearColorMake(1.0, 1.0, 1.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
@@ -72,43 +69,40 @@ class EditorViewController : UIViewController {
     }
     
     func setupEditorView() {
-        
         view.addSubview(editorView)
         editorView.translatesAutoresizingMaskIntoConstraints = false
-        editorView.axis = .vertical;
-        editorView.spacing = 16;
-        editorView.distribution = .fillEqually;
+        editorView.axis = .vertical
+        editorView.spacing = 16
+        editorView.distribution = .fillEqually
         editorView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         editorView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
         editorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         editorView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.5).isActive = true
 
         for (index, triangle) in mockData.enumerated() {
-            setupTriangleEditNode(triangle: triangle, index:index);
+            setupTriangleEditNode(triangle: triangle, index: index)
         }
-                
     }
     
-    func setupTriangleEditNode(triangle: TriangleEditNode, index: Int){
+    func setupTriangleEditNode(triangle: TriangleEditNode, index: Int) {
         let triangleEditNode = UILabel()
         triangleEditNode.isUserInteractionEnabled = true
         triangleEditNode.numberOfLines = 5
-        triangleEditNode.text = "triangle \(index.description) \n x: \(triangle.xPos.description) \n y: \(triangle.yPos.description) \n size: \(triangle.size.description) \n rotation: \(triangle.rotation)";
+        triangleEditNode.text = "triangle \(index.description) \n x: \(triangle.xPos.description) \n y: \(triangle.yPos.description) \n size: \(triangle.size.description) \n rotation: \(triangle.rotation)"
 
-        triangleEditNode.translatesAutoresizingMaskIntoConstraints = false;
-        triangleEditNode.textColor = .white;
+        triangleEditNode.translatesAutoresizingMaskIntoConstraints = false
+        triangleEditNode.textColor = .white
         
-        let gesture = TriangleNodeGestureRecognizer(target: self, action: #selector(self.showMenu))
-        gesture.triangle = triangle;
-        gesture.index = index;
-        triangleEditNode.addGestureRecognizer(gesture);
+        let gesture = TriangleNodeGestureRecognizer(target: self, action: #selector(showMenu))
+        gesture.triangle = triangle
+        gesture.index = index
+        triangleEditNode.addGestureRecognizer(gesture)
         
-        editorView.addArrangedSubview(triangleEditNode);
+        editorView.addArrangedSubview(triangleEditNode)
         editNodes.append(triangleEditNode)
     }
     
-    @objc func showMenu(sender: TriangleNodeGestureRecognizer){
-
+    @objc func showMenu(sender: TriangleNodeGestureRecognizer) {
         let alert = UIAlertController(title: "Triangle", message: "Edit Triangle", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Edit X Position", style: .default) { _ in
             self.editXPosition(triangle: sender.triangle!, index: sender.index)
@@ -128,24 +122,23 @@ class EditorViewController : UIViewController {
         })
         
         if let popoverController = alert.popoverPresentationController {
-          popoverController.sourceView = self.view
-          popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-          popoverController.permittedArrowDirections = []
+            popoverController.sourceView = view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
         }
 
-        self.present(alert, animated: true, completion: nil)
- 
+        present(alert, animated: true, completion: nil)
     }
     
-    func editXPosition(triangle: TriangleEditNode, index: Int ) {
+    func editXPosition(triangle: TriangleEditNode, index: Int) {
         let alert = UIAlertController(title: "Edit X Position", message: "", preferredStyle: .alert)
 
-        alert.addTextField { (textField) in
+        alert.addTextField { textField in
             textField.text = String(triangle.xPos)
             textField.keyboardType = .decimalPad
         }
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             guard let str = textField?.text else { return }
             guard let num = Float(str) else { return }
@@ -153,18 +146,18 @@ class EditorViewController : UIViewController {
             self.update()
         }))
 
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    func editYPosition(triangle: TriangleEditNode, index: Int ) {
+    func editYPosition(triangle: TriangleEditNode, index: Int) {
         let alert = UIAlertController(title: "Edit Y Position", message: "", preferredStyle: .alert)
 
-        alert.addTextField { (textField) in
+        alert.addTextField { textField in
             textField.text = String(triangle.yPos)
             textField.keyboardType = .decimalPad
         }
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             guard let str = textField?.text else { return }
             guard let num = Float(str) else { return }
@@ -172,18 +165,18 @@ class EditorViewController : UIViewController {
             self.update()
         }))
 
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    func editSize(triangle: TriangleEditNode, index: Int ) {
+    func editSize(triangle: TriangleEditNode, index: Int) {
         let alert = UIAlertController(title: "Edit Size", message: "", preferredStyle: .alert)
 
-        alert.addTextField { (textField) in
+        alert.addTextField { textField in
             textField.text = String(triangle.size)
             textField.keyboardType = .decimalPad
         }
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             guard let str = textField?.text else { return }
             guard let num = Float(str) else { return }
@@ -191,18 +184,18 @@ class EditorViewController : UIViewController {
             self.update()
         }))
 
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    func editRotation(triangle: TriangleEditNode, index: Int ) {
+    func editRotation(triangle: TriangleEditNode, index: Int) {
         let alert = UIAlertController(title: "Edit Rotation", message: "", preferredStyle: .alert)
 
-        alert.addTextField { (textField) in
+        alert.addTextField { textField in
             textField.text = String(triangle.rotation)
             textField.keyboardType = .decimalPad
         }
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             guard let str = textField?.text else { return }
             guard let num = Float(str) else { return }
@@ -210,18 +203,16 @@ class EditorViewController : UIViewController {
             self.update()
         }))
 
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-
-    
-    func update(){
+    func update() {
         for view in editNodes {
             view.removeFromSuperview()
             editorView.removeArrangedSubview(view)
         }
         for (index, triangle) in mockData.enumerated() {
-            setupTriangleEditNode(triangle: triangle, index:index);
+            setupTriangleEditNode(triangle: triangle, index: index)
         }
         mtkView.removeFromSuperview()
         mtkView = MTKView()

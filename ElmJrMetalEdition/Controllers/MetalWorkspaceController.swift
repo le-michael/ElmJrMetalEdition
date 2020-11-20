@@ -30,18 +30,18 @@ class MetalWorkspaceController: UIViewController {
 
         let scene = Scene(device: device)
         scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -4)
-        
+
         // Triangle
-        
-        let triangleNormal = RegularPolygon(numOfSides: 8, color: simd_float4(1.0, 0.0, 1.0, 1.0))
-        triangleNormal.triangleFillMode = .lines
-        triangleNormal.scaleMatrix.xEquation = RMTrig(type: .sin, child: RMTime())
-        triangleNormal.scaleMatrix.yEquation = RMTrig(type: .sin, child: RMTime())
-        triangleNormal.rotationMatrix.angleEquation = RMTime()
-        triangleNormal.translationMatrix.xEquation = RMTrig(type: .sin, child: RMTime())
-        triangleNormal.translationMatrix.yEquation = RMTrig(type: .cos, child: RMTime())
-        scene.addChild(node: triangleNormal)
-        
+
+        let poly1 = RegularPolygon(4, color: simd_float4(1.0, 0.0, 1.0, 1.0))
+        poly1.triangleFillMode = .lines
+        scene.add(poly1)
+
+        let poly2 = RegularPolygon(50, color: simd_float4(1.0, 0.0, 0.0, 1.0))
+        poly2.triangleFillMode = .lines
+        poly2.rotationMatrix.angleEquation = RMTime()
+        scene.add(poly2)
+
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer

@@ -13,13 +13,14 @@ class RGNode {
 
     init() {}
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {}
+    func draw(
+        commandEncoder: MTLRenderCommandEncoder,
+        pipelineState: MTLRenderPipelineState, sceneProps: SceneProps
+    ) {}
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState, sceneProps: SceneProps) {}
-    
     func createBuffers(device: MTLDevice) {}
 
-    func addChild(node: RGNode) {
+    func add(_ node: RGNode) {
         children.append(node)
     }
 }
