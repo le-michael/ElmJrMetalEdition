@@ -14,7 +14,7 @@ class Renderable: RGNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var translationMatrix =  TranslationMatrix()
+    var translationMatrix = TranslationMatrix()
     var rotationMatrix = ZRotationMatrix()
     var scaleMatrix = ScaleMatrix()
     var modelConstants = ModelConstants()
@@ -39,11 +39,15 @@ class Renderable: RGNode {
     }
 
     private func updateModelViewMatrix(sceneProps: SceneProps) {
-        let transformationMatrix = translationMatrix.evaluate(sceneProps) * rotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
-        modelConstants.modelViewMatrix = sceneProps.projectionMatrix * sceneProps.viewMatrix * transformationMatrix
+        let transformationMatrix = translationMatrix.evaluate(sceneProps) *
+            rotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
+        
+        modelConstants.modelViewMatrix = sceneProps.projectionMatrix *
+            sceneProps.viewMatrix * transformationMatrix
     }
     
-    override func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState, sceneProps: SceneProps)
+    override func draw(commandEncoder: MTLRenderCommandEncoder,
+                       pipelineState: MTLRenderPipelineState, sceneProps: SceneProps)
     {
         guard let indexBuffer = indexBuffer,
               let vertexBuffer = vertexBuffer else { return }
@@ -51,11 +55,7 @@ class Renderable: RGNode {
         updateModelViewMatrix(sceneProps: sceneProps)
       
         commandEncoder.setRenderPipelineState(pipelineState)
-        commandEncoder.setVertexBuffer(
-            vertexBuffer,
-            offset: 0,
-            index: 0
-        )
+        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &modelConstants,

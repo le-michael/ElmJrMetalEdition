@@ -38,15 +38,19 @@ class Scene: RGNode {
         )
     }
 
-    override func addChild(node: RGNode) {
-        super.addChild(node: node)
+    override func add(_ node: RGNode) {
+        super.add(node)
         node.createBuffers(device: device)
     }
 
-    override func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {
-        sceneProps.time += 1.0/fps
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {
+        sceneProps.time += 1.0 / fps
         for child in children {
-            child.draw(commandEncoder: commandEncoder, pipelineState: pipelineState, sceneProps: sceneProps)
+            child.draw(
+                commandEncoder: commandEncoder,
+                pipelineState: pipelineState,
+                sceneProps: sceneProps
+            )
         }
     }
 }

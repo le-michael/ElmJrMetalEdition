@@ -8,17 +8,17 @@
 
 import Foundation
 
-enum TrigOp {
+enum UnaryOp {
     case sin
     case cos
     case tan
 }
 
-class RMTrig: RMNode {
-    let type: TrigOp
+class RMUnaryOp: RMNode {
+    let type: UnaryOp
     let child: RMNode
 
-    init(type: TrigOp, child: RMNode) {
+    init(type: UnaryOp, child: RMNode) {
         self.type = type
         self.child = child
     }

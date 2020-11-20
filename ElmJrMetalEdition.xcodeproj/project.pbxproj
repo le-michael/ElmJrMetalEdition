@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1020B441256719FB00651AA4 /* RMTrig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B440256719FB00651AA4 /* RMTrig.swift */; };
+		1020B441256719FB00651AA4 /* RMUnaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B440256719FB00651AA4 /* RMUnaryOp.swift */; };
 		1020B44425671B6600651AA4 /* RMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B44325671B6600651AA4 /* RMTime.swift */; };
 		1028E01825632AA000C4DBFA /* RGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* RGNode.swift */; };
 		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
@@ -40,7 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1020B440256719FB00651AA4 /* RMTrig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTrig.swift; sourceTree = "<group>"; };
+		1020B440256719FB00651AA4 /* RMUnaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMUnaryOp.swift; sourceTree = "<group>"; };
 		1020B44325671B6600651AA4 /* RMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTime.swift; sourceTree = "<group>"; };
 		1028E01725632AA000C4DBFA /* RGNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGNode.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 			children = (
 				107FDB5C2567182800D1B54C /* RMNode.swift */,
 				107FDB5F2567189D00D1B54C /* RMConstant.swift */,
-				1020B440256719FB00651AA4 /* RMTrig.swift */,
+				1020B440256719FB00651AA4 /* RMUnaryOp.swift */,
 				1020B44325671B6600651AA4 /* RMTime.swift */,
 			);
 			path = MathNodes;
@@ -294,7 +294,7 @@
 				108815252567253900E0850D /* TranslationMatrix.swift in Sources */,
 				107FDB602567189D00D1B54C /* RMConstant.swift in Sources */,
 				1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */,
-				1020B441256719FB00651AA4 /* RMTrig.swift in Sources */,
+				1020B441256719FB00651AA4 /* RMUnaryOp.swift in Sources */,
 				10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */,
 				1020B44425671B6600651AA4 /* RMTime.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
