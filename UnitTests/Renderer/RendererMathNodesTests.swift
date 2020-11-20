@@ -22,10 +22,6 @@ class RendererMathNodesTests: XCTestCase {
         )
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testRMConstant() throws {
         var constant = RMConstant(2)
         XCTAssert(constant.evaluate(sceneProps) == 2)
