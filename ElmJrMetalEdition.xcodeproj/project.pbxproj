@@ -28,6 +28,7 @@
 		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
 		10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* ScaleMatrix.swift */; };
 		10D89628256840480053D762 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* Plane.swift */; };
+		10D89633256865E60053D762 /* Line2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* Line2D.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
@@ -75,6 +76,7 @@
 		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* ScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatrix.swift; sourceTree = "<group>"; };
 		10D89627256840480053D762 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		10D89632256865E60053D762 /* Line2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line2D.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				1072E3EE2565942100D390FE /* Renderable.swift */,
 				1072E3F42565983A00D390FE /* RegularPolygon.swift */,
 				10D89627256840480053D762 /* Plane.swift */,
+				10D89632256865E60053D762 /* Line2D.swift */,
 			);
 			path = Renderable;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */,
 				1028E01825632AA000C4DBFA /* RGNode.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
+				10D89633256865E60053D762 /* Line2D.swift in Sources */,
 				1072E3F22565979D00D390FE /* GraphicsHelpers.swift in Sources */,
 				108815252567253900E0850D /* TranslationMatrix.swift in Sources */,
 				107FDB602567189D00D1B54C /* RMConstant.swift in Sources */,

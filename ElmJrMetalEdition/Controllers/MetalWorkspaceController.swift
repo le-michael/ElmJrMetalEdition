@@ -45,8 +45,28 @@ class MetalWorkspaceController: UIViewController {
 
         let plane1 = Plane(color: simd_float4(1.0, 1.0, 1.0, 1.0))
         plane1.triangleFillMode = .lines
-        plane1.rotationMatrix.angleEquation = RMTime()
         scene.add(plane1)
+
+        let line1 = Line2D(p0: simd_float3(-0.5, 0.5, 0), p1: simd_float3(0.5, -0.5, 0), color: simd_float4(1.0, 1.0, 0.0, 1.0))
+        scene.add(line1)
+
+        let point1 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
+
+        point1.translationMatrix.xEquation = RMConstant(2)
+        point1.translationMatrix.yEquation = RMConstant(2)
+        point1.scaleMatrix.xEquation = RMConstant(0.03)
+        point1.scaleMatrix.yEquation = RMConstant(0.03)
+        scene.add(point1)
+
+        let point2 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
+        point2.translationMatrix.xEquation = RMConstant(1.5)
+        point2.translationMatrix.yEquation = RMConstant(1.5)
+        point2.scaleMatrix.xEquation = RMConstant(0.03)
+        point2.scaleMatrix.yEquation = RMConstant(0.03)
+        scene.add(point2)
+
+        let line2 = Line2D(p0: simd_float3(2, 2, 0), p1: simd_float3(1.5, 1.5, 0), color: simd_float4(0.0, 0.0, 1.0, 1.0))
+        scene.add(line2)
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
