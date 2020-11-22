@@ -17,10 +17,10 @@ class Line2D: Renderable {
         bufferData.applyTransform(transformMatrix: createScaleMatrix(x: size, y: magnitude, z: 1))
         
         let v = p1 - p0
-        let angle = -atan(v.x/v.y) //atan2(simd_cross(p0, p1).z, simd_dot(p0, p1))//acos(dotProduct / (simd_length(p0) * simd_length(p1)))
+        let angle = -atan(v.x/v.y) // atan2(simd_cross(p0, p1).z, simd_dot(p0, p1))//acos(dotProduct / (simd_length(p0) * simd_length(p1)))
         bufferData.applyTransform(transformMatrix: createZRotationMatrix(radians: angle))
         
-        let midPoint = p0+v/2
+        let midPoint = p0 + v/2
         bufferData.applyTransform(transformMatrix: createTranslationMatrix(x: midPoint.x, y: midPoint.y, z: midPoint.z))
         
         let vertices = bufferData.vertexPositions.map {
