@@ -10,11 +10,11 @@ import GLKit
 import simd
 
 class Line2D: Renderable {
-    init(p0: simd_float3, p1: simd_float3, color: simd_float4) {
+    init(p0: simd_float3, p1: simd_float3, size: Float, color: simd_float4) {
         let bufferData = planeBufferData()
         
         let magnitude = simd_distance(p0, p1)
-        bufferData.applyTransform(transformMatrix: createScaleMatrix(x: 0.01, y: magnitude, z: 1))
+        bufferData.applyTransform(transformMatrix: createScaleMatrix(x: size, y: magnitude, z: 1))
         
         let v = p1 - p0
         let angle = -atan(v.x/v.y) //atan2(simd_cross(p0, p1).z, simd_dot(p0, p1))//acos(dotProduct / (simd_length(p0) * simd_length(p1)))

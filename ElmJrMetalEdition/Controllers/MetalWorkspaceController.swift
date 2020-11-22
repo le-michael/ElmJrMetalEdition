@@ -47,7 +47,7 @@ class MetalWorkspaceController: UIViewController {
         plane1.triangleFillMode = .lines
         scene.add(plane1)
 
-        let line1 = Line2D(p0: simd_float3(-0.5, 0.5, 0), p1: simd_float3(0.5, -0.5, 0), color: simd_float4(1.0, 1.0, 0.0, 1.0))
+        let line1 = Line2D(p0: simd_float3(-0.5, 0.5, 0), p1: simd_float3(0.5, -0.5, 0), size: 0.01, color: simd_float4(1.0, 1.0, 0.0, 1.0))
         scene.add(line1)
 
         let point1 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
@@ -65,7 +65,7 @@ class MetalWorkspaceController: UIViewController {
         point2.scaleMatrix.yEquation = RMConstant(0.03)
         scene.add(point2)
 
-        let line2 = Line2D(p0: simd_float3(2, 2, 0), p1: simd_float3(1.5, 1.5, 0), color: simd_float4(0.0, 0.0, 1.0, 1.0))
+        let line2 = Line2D(p0: simd_float3(2, 2, 0), p1: simd_float3(1.5, 1.5, 0), size: 0.03, color: simd_float4(0.0, 0.0, 1.0, 1.0))
         scene.add(line2)
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
