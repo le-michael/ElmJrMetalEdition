@@ -35,12 +35,12 @@ class MetalWorkspaceController: UIViewController {
 
         let poly1 = RegularPolygon(35, color: simd_float4(1.0, 0.0, 0.0, 1.0))
         poly1.triangleFillMode = .lines
-        poly1.rotationMatrix.angleEquation = RMUnaryOp(type: .cos, child: RMTime())
+        poly1.transforms.zRotationMatrix.angleEquation = RMUnaryOp(type: .cos, child: RMTime())
         scene.add(poly1)
 
         let poly2 = RegularPolygon(50, color: simd_float4(1.0, 0.0, 0.0, 1.0))
         poly2.triangleFillMode = .lines
-        poly2.rotationMatrix.angleEquation = RMUnaryOp(type: .sin, child: RMTime())
+        poly2.transforms.zRotationMatrix.angleEquation = RMUnaryOp(type: .sin, child: RMTime())
         scene.add(poly2)
 
         let plane1 = Plane(color: simd_float4(1.0, 1.0, 1.0, 1.0))
@@ -52,17 +52,17 @@ class MetalWorkspaceController: UIViewController {
 
         let point1 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
 
-        point1.translationMatrix.xEquation = RMConstant(2)
-        point1.translationMatrix.yEquation = RMConstant(2)
-        point1.scaleMatrix.xEquation = RMConstant(0.03)
-        point1.scaleMatrix.yEquation = RMConstant(0.03)
+        point1.transforms.translationMatrix.xEquation = RMConstant(2)
+        point1.transforms.translationMatrix.yEquation = RMConstant(2)
+        point1.transforms.scaleMatrix.xEquation = RMConstant(0.03)
+        point1.transforms.scaleMatrix.yEquation = RMConstant(0.03)
         scene.add(point1)
 
         let point2 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
-        point2.translationMatrix.xEquation = RMConstant(1.5)
-        point2.translationMatrix.yEquation = RMConstant(1.5)
-        point2.scaleMatrix.xEquation = RMConstant(0.03)
-        point2.scaleMatrix.yEquation = RMConstant(0.03)
+        point2.transforms.translationMatrix.xEquation = RMConstant(1.5)
+        point2.transforms.translationMatrix.yEquation = RMConstant(1.5)
+        point2.transforms.scaleMatrix.xEquation = RMConstant(0.03)
+        point2.transforms.scaleMatrix.yEquation = RMConstant(0.03)
         scene.add(point2)
 
         let line2 = Line2D(p0: simd_float3(2, 2, 0), p1: simd_float3(1.5, 1.5, 0), size: 0.03, color: simd_float4(0.0, 0.0, 1.0, 1.0))

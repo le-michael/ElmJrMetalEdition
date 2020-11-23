@@ -13,8 +13,6 @@ class ScaleMatrix {
     var yEquation: RMNode = RMConstant(1)
     var zEquation: RMNode = RMConstant(1)
 
-    init() {}
-
     func evaluate(_ sceneProps: SceneProps) -> matrix_float4x4 {
         let x = xEquation.evaluate(sceneProps)
         let y = yEquation.evaluate(sceneProps)

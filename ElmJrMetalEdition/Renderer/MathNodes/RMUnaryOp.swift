@@ -23,7 +23,7 @@ class RMUnaryOp: RMNode {
         self.child = child
     }
 
-    override func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: SceneProps) -> Float {
         switch type {
         case .sin:
             return sin(child.evaluate(sceneProps))

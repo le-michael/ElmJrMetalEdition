@@ -8,8 +8,6 @@
 
 import Foundation
 
-class RMNode {
-    init() {}
-
-    func evaluate(_ sceneProps: SceneProps) -> Float { return 0 }
+protocol RMNode {
+    func evaluate(_ sceneProps: SceneProps) -> Float
 }
