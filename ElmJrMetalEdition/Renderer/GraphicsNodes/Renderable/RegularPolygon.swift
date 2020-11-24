@@ -14,7 +14,7 @@ class RegularPolygon: Renderable {
         let vertices = bufferData.vertexPositions.map {
             Vertex(position: $0)
         }
-        
+
         super.init(mesh: Mesh(vertices: vertices, indices: bufferData.indices))
     }
 }

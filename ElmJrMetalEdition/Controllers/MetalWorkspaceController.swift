@@ -81,7 +81,7 @@ class MetalWorkspaceController: UIViewController {
         poly3.transform.translationMatrix.setTranslation(x: -1.5, y: -1, z: 0)
         poly3.transform.scaleMatrix.setScale(x: 0.75, y: 0.75, z: 1)
         scene.add(poly3)
-        
+
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
