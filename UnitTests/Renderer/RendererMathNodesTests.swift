@@ -60,5 +60,33 @@ class RendererMathNodesTests: XCTestCase {
         
         let nesetedTimeEq = RMUnaryOp(type: .tan, child: tanEq)
         XCTAssert(nesetedTimeEq.evaluate(sceneProps) == tan(tan(cos(sin(2.111)))))
+        
+        let negEq = RMUnaryOp(type: .neg, child: RMTime())
+        XCTAssert(negEq.evaluate(sceneProps) == -sceneProps.time)
+        
+        let absEq = RMUnaryOp(type: .abs, child: RMConstant(-12.3333))
+        XCTAssert(absEq.evaluate(sceneProps) == 12.3333)
+    }
+    
+    func testRMBinaryOp() throws {
+        sceneProps.time = 123.222
+        let addEq = RMBinaryOp(type: .add, leftChild: RMConstant(2.3), rightChild: RMTime())
+        var expectedValue = 2.3 + sceneProps.time
+        XCTAssert(addEq.evaluate(sceneProps) == expectedValue)
+        
+        sceneProps.time = 1111.1123
+        let subEq = RMBinaryOp(type: .sub, leftChild: RMConstant(1.2), rightChild: addEq)
+        expectedValue = 1.2 - (2.3 + sceneProps.time)
+        XCTAssert(subEq.evaluate(sceneProps) == expectedValue)
+        
+        sceneProps.time = 1.233
+        let mulEq = RMBinaryOp(type: .mul, leftChild: subEq, rightChild: addEq)
+        expectedValue = (1.2 - (2.3 + sceneProps.time)) * (2.3 + sceneProps.time)
+        XCTAssert(mulEq.evaluate(sceneProps) == expectedValue)
+        
+        sceneProps.time = 1.3244
+        let divEq = RMBinaryOp(type: .div, leftChild: RMConstant(14.22), rightChild: RMTime())
+        expectedValue = 14.22 / sceneProps.time
+        XCTAssert(divEq.evaluate(sceneProps) == expectedValue)
     }
 }
