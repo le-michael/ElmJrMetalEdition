@@ -1,5 +1,5 @@
 //
-//  Transform.swift
+//  RTransform.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-22.
@@ -8,7 +8,7 @@
 
 import simd
 
-class Transform {
+class RTransform {
     var scaleMatrix = ScaleMatrix()
     var translationMatrix = TranslationMatrix()
     var zRotationMatrix = ZRotationMatrix()

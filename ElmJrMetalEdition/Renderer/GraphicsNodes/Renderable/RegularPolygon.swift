@@ -9,12 +9,12 @@
 import MetalKit
 
 class RegularPolygon: Renderable {
-    init(_ numOfSides: Int, color: simd_float4) {
+    init(_ numOfSides: Int) {
         let bufferData = regularPolygonBufferData(numOfSides)
         let vertices = bufferData.vertexPositions.map {
-            Vertex(Position: $0, Color: color)
+            Vertex(position: $0)
         }
-        
+
         super.init(mesh: Mesh(vertices: vertices, indices: bufferData.indices))
     }
 }

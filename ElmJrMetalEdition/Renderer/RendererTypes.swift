@@ -29,12 +29,12 @@ class BufferData {
 }
 
 struct Vertex {
-    let Position: simd_float3
-    var Color: simd_float4
+    let position: simd_float3
 }
 
 struct ModelConstants {
     var modelViewMatrix = matrix_identity_float4x4
+    var color: simd_float4
 }
 
 struct SceneProps {

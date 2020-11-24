@@ -11,11 +11,12 @@ using namespace metal;
 
 struct ModelConstants {
     float4x4 modelViewMatrix;
+    float4 color;
 };
 
 struct VertexIn {
     float4 position [[ attribute(0) ]];
-    float4 color [[ attribute(1) ]];
+    //float4 color [[ attribute(1) ]];
 };
 
 struct VertexOut {
@@ -28,7 +29,7 @@ vertex VertexOut vertex_shader(const VertexIn vertexIn [[ stage_in ]],
                                constant ModelConstants &modelConstants [[ buffer(1) ]]) {
     VertexOut vertexOut;
     vertexOut.position = modelConstants.modelViewMatrix * vertexIn.position;
-    vertexOut.color = vertexIn.color;
+    vertexOut.color = modelConstants.color;
     
     return vertexOut;
 }

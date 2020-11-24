@@ -9,10 +9,10 @@
 import simd
 
 class Plane: Renderable {
-    init(color: simd_float4) {
+    init() {
         let bufferData = planeBufferData()
         let vertices = bufferData.vertexPositions.map {
-            Vertex(Position: $0, Color: color)
+            Vertex(position: $0)
         }
         super.init(mesh: Mesh(vertices: vertices, indices: bufferData.indices))
     }
