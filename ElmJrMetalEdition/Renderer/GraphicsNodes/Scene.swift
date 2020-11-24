@@ -26,7 +26,7 @@ class Scene: RGNode {
             fovDegrees: 65,
             aspect: Float(size.width / size.height),
             nearZ: 0.1,
-            farZ: 100
+            farZ: 200
         )
     }
 
