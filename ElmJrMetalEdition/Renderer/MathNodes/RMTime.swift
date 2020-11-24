@@ -9,7 +9,7 @@
 import Foundation
 
 class RMTime: RMNode {
-    override func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: SceneProps) -> Float {
         return sceneProps.time
     }
 }

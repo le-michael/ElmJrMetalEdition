@@ -14,10 +14,8 @@ class Renderable: RGNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var translationMatrix = TranslationMatrix()
-    var rotationMatrix = ZRotationMatrix()
-    var scaleMatrix = ScaleMatrix()
     var modelConstants = ModelConstants()
+    var transform = Transform()
     
     init(mesh: Mesh) {
         self.mesh = mesh
@@ -39,8 +37,7 @@ class Renderable: RGNode {
     }
 
     private func updateModelViewMatrix(sceneProps: SceneProps) {
-        let transformationMatrix = translationMatrix.evaluate(sceneProps) *
-            rotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
+        let transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
         
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix *
             sceneProps.viewMatrix * transformationMatrix
