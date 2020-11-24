@@ -26,6 +26,7 @@
 		107FDB602567189D00D1B54C /* RMConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* RMConstant.swift */; };
 		108815252567253900E0850D /* TranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* TranslationMatrix.swift */; };
 		109DD9CE256B27C700FB700F /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* Transform.swift */; };
+		10A9D032256CA5E20046ACFF /* RMBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
 		10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* ScaleMatrix.swift */; };
@@ -76,6 +77,7 @@
 		107FDB5F2567189D00D1B54C /* RMConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMConstant.swift; sourceTree = "<group>"; };
 		108815242567253900E0850D /* TranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationMatrix.swift; sourceTree = "<group>"; };
 		109DD9CD256B27C700FB700F /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
+		10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* ScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatrix.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				107FDB5F2567189D00D1B54C /* RMConstant.swift */,
 				1020B440256719FB00651AA4 /* RMUnaryOp.swift */,
 				1020B44325671B6600651AA4 /* RMTime.swift */,
+				10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */,
 			);
 			path = MathNodes;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				108815252567253900E0850D /* TranslationMatrix.swift in Sources */,
 				107FDB602567189D00D1B54C /* RMConstant.swift in Sources */,
 				1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */,
+				10A9D032256CA5E20046ACFF /* RMBinaryOp.swift in Sources */,
 				10D89628256840480053D762 /* Plane.swift in Sources */,
 				1020B441256719FB00651AA4 /* RMUnaryOp.swift in Sources */,
 				10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */,
