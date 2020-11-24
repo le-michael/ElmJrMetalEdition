@@ -9,112 +9,111 @@
 
 import Foundation
 
-enum LexerError : Error {
-  case UnexpectedCharacter(_ c : Character)
-}
-
-enum Token {
- case leftParan, rightParan, plus, minus, asterisk, caret, forwardSlash, endOfFile
- case Identifier(String)
- case Number(String)
-}
-
-
-func source() -> String {
-  var text =  "";
-  while let line = readLine() {
-    text += line
-  }
-  return text
-}
-
-func tokenize(text: String) -> [Token] {
-  assert(text.count > 0)
-  let chars = Array(text)
-  var nextCharIndex = 0
-  var c = chars[nextCharIndex]
-
-  var tokens = [Token]() 
-  func eat() {
-    nextCharIndex += 1
-    if nextCharIndex < chars.count {
-      c = chars[nextCharIndex]
+class Lexer {
+    var characters : [Character];
+    var characterIndex : Int;
+    init(text: String) {
+        self.characters = Array(text);
+        self.characterIndex = 0;
     }
-  }
-
-  func isDone() -> Bool {
-    return nextCharIndex >= chars.count
-  }
-
-  func eatWhitespace() {
-    while c.isWhitespace && !isDone() {
-      eat()
+    
+    enum LexerError : Error {
+        case UnexpectedCharacter(_ c : Character)
+        case InvalidNumber()
     }
-  }
-
-  func isAlphabet(_ c : Character) -> Bool {
-    return (c >= "A" && c <= "Z") || (c >= "a" && c <= "z")
-  }
-
-  func isDigit(_ c : Character) -> Bool {
-    return (c >= "0" && c <= "9")
-  }
-
-  func getToken() throws -> Token {
-    var result : Token?
-    switch c {
-      case "(":
-        result = Token.leftParan
-      case ")":
-        result = Token.rightParan
-      case "+":
-        result = Token.plus
-      case "-":
-        result = Token.minus
-      case "*":
-        result = Token.asterisk
-      case "^":
-        result = Token.caret
-      case "/":
-        result = Token.forwardSlash
-      default:
-        result = nil
+    
+    func advance(_ x : Int) {
+      characterIndex += x
     }
-    if result == nil {
-      // token is multiple characters
-      if isAlphabet(c) {
-        var x : String = "" 
-        while isAlphabet(c) && !isDone() {
-          x += String(c)
-          eat()
+    
+    func ignoreWhitespace() {
+        while true {
+            if self.characterIndex == self.characters.count { return }
+            if !self.characters[self.characterIndex].isWhitespace { return }
+            advance(1);
         }
-        result = Token.Identifier(x)
-      } else if isDigit(c) {
-        var x : Int = 0
-        while isDigit(c) && !isDone() {
-          x *= 10
-          x += c.wholeNumberValue! - 0
-          eat()
+    }
+    
+    func prefixMatches(_ s: String) -> Bool {
+        let schars = Array(s)
+        if s.count > characters.count - characterIndex {
+            return false
         }
-        result = Token.Number(String(x))
-      } else {
+        for i in 0..<s.count {
+            if schars[i] != characters[characterIndex + i] {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func matchSymbol() -> Token? {
+        var result: Token? = nil
+        for (raw, type) in Token.mapping {
+            if prefixMatches(raw) && (result == nil || result!.raw.count < raw.count) {
+                result = Token(type:type, raw:raw)
+            }
+        }
+        if result != nil { advance(result!.raw.count) }
+        return result
+    }
+    
+    func isAlphabet(_ c : Character) -> Bool {
+        return (c >= "a" && c <= "z") || (c >= "A" && c <= "Z")
+    }
+    
+    func isDigit(_ c : Character) -> Bool {
+        return (c >= "0" && c <= "9")
+    }
+    
+    func matchIdentifier() -> Token? {
+        var c = characters[characterIndex]
+        if !isAlphabet(c) { return nil }
+        var string = ""
+        while isAlphabet(c) || isDigit(c) || c == "_" {
+            string += c
+            advance(1)
+            if characterIndex == characters.count { break }
+            c = characters[characterIndex]
+        }
+        return Token(type:.identifier, raw:string)
+    }
+    
+    func matchNumber() -> Token? {
+        var c = characters[characterIndex]
+        if !isDigit(c) { return nil }
+        var string = ""
+        var seenDecimal = false
+        while isDigit(c) || c == "." {
+            if c == "." {
+                if seenDecimal {
+                    throw LexerError.InvalidNumber()
+                }
+                seenDecimal = true
+            }
+            string += c
+            advance(1)
+            if characterIndex == characters.count { break }
+            c = characters[characterIndex]
+        }
+        return Token(type:.number, raw:string)
+    }
+    
+    func nextToken() throws -> Token {
+        ignoreWhitespace()
+        if characterIndex == characters.count { return Token(type:.endOfFile, raw:"") }
+        var result: Token? = nil
+        // symbol + - True ++
+        result = matchSymbol()
+        if result != nil { return result! }
+        // identifier
+        result = matchIdentifier()
+        if result != nil { return result! }
+        // number
+        result = matchNumber()
+        if result != nil { return result! }
+        // couldn't match with anything
         throw LexerError.UnexpectedCharacter(c)
-      }
-    } else {
-      // token was a single character
-      eat()
+        
     }
-    eatWhitespace()
-    return result!
-  }
-  
-  // eat whitespace at start of file
-  eatWhitespace()
-
-  while !isDone() {
-    try! tokens.append(getToken())
-  }
-  tokens.append(Token.endOfFile);
-
-  return tokens
 }

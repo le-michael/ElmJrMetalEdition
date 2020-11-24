@@ -7,3 +7,29 @@
 //
 
 import Foundation
+
+struct Token {
+    var type: TokenType;
+    var raw: String;
+    
+    enum TokenType {
+        case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, forwardSlash, singlequote, doublequote, endOfFile, True, False
+        case identifier
+        case number
+    }
+    
+    static let mapping : [String: TokenType] = [
+        "(":.leftParan,
+        ")":.rightParan,
+        "+":.plus,
+        "++":.plusplus,
+        "-":.minus,
+        "*":.asterisk,
+        "^":.caret,
+        "/":.forwardSlash,
+        "'":.singlequote,
+        "\"":.doublequote,
+        "True":.True,
+        "False":.False,
+    ]
+}

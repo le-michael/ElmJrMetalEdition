@@ -5,7 +5,7 @@
 //  Created by Michael Le on 2020-11-17.
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
-
+/*
 import Foundation
 
 enum ParserError : Error {
@@ -149,7 +149,7 @@ func parser_test() {
   for test in tests {
     print(try! parse(tokenize(text: test)))
   }
-}
+}*/
 
 
 

@@ -5,7 +5,7 @@
 //  Created by user186747 on 11/23/20.
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
-
+@testable import ElmJrMetalEdition
 import XCTest
 
 class InterpreterTests: XCTestCase {
@@ -18,16 +18,21 @@ class InterpreterTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testParseVariable() throws {
+        let tests = [
+          "foo",
+          "(bar)",
+          "(((moo)))",
+          "x*y",
+          "x*(y*z)",
+          "a + b*c + d*(e + f + g)",
+          "a + 1",
+          "(2 + y * 5 + 123) * (4/fooBar - 2)",
+        ]
+        /*
+        for test in tests {
+          print(try! parse(tokenize(text: test)))
         }
+ */
     }
-
 }
