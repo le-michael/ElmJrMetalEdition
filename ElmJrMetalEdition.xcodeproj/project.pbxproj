@@ -25,7 +25,7 @@
 		107FDB5D2567182800D1B54C /* RMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5C2567182800D1B54C /* RMNode.swift */; };
 		107FDB602567189D00D1B54C /* RMConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* RMConstant.swift */; };
 		108815252567253900E0850D /* TranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* TranslationMatrix.swift */; };
-		109DD9CE256B27C700FB700F /* Transforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* Transforms.swift */; };
+		109DD9CE256B27C700FB700F /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* Transform.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
 		10CB97E6256721F30096BA10 /* ScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* ScaleMatrix.swift */; };
@@ -75,7 +75,7 @@
 		107FDB5C2567182800D1B54C /* RMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMNode.swift; sourceTree = "<group>"; };
 		107FDB5F2567189D00D1B54C /* RMConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMConstant.swift; sourceTree = "<group>"; };
 		108815242567253900E0850D /* TranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationMatrix.swift; sourceTree = "<group>"; };
-		109DD9CD256B27C700FB700F /* Transforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transforms.swift; sourceTree = "<group>"; };
+		109DD9CD256B27C700FB700F /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* ScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatrix.swift; sourceTree = "<group>"; };
@@ -143,16 +143,16 @@
 			path = GraphicsNodes;
 			sourceTree = "<group>";
 		};
-		1049A24E25671E11007E85BE /* Transforms */ = {
+		1049A24E25671E11007E85BE /* Transform */ = {
 			isa = PBXGroup;
 			children = (
-				109DD9CD256B27C700FB700F /* Transforms.swift */,
+				109DD9CD256B27C700FB700F /* Transform.swift */,
 				1049A24F25671E20007E85BE /* ZRotationMatrix.swift */,
 				10CB97E5256721F30096BA10 /* ScaleMatrix.swift */,
 				108815242567253900E0850D /* TranslationMatrix.swift */,
 				1072E3D62564669D00D390FE /* TransformHelpers.swift */,
 			);
-			path = Transforms;
+			path = Transform;
 			sourceTree = "<group>";
 		};
 		1072E3E22564C3BF00D390FE /* Interpreter */ = {
@@ -168,7 +168,7 @@
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
-				1049A24E25671E11007E85BE /* Transforms */,
+				1049A24E25671E11007E85BE /* Transform */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
 				10ACC0B12562F47700ABEAD4 /* Shaders */,
@@ -402,7 +402,7 @@
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				1072E3E42564C41000D390FE /* Lexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* Renderer.swift in Sources */,
-				109DD9CE256B27C700FB700F /* Transforms.swift in Sources */,
+				109DD9CE256B27C700FB700F /* Transform.swift in Sources */,
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* Parser.swift in Sources */,

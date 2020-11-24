@@ -11,6 +11,13 @@ import simd
 class ZRotationMatrix {
     var angleEquation: RMNode = RMConstant(0)
 
+    func setZRotation(angle: Float) {
+        angleEquation = RMConstant(angle)
+    }
+    
+    func setZRotation(angle: RMNode) {
+        angleEquation = angle
+    }
     func evaluate(_ sceneProps: SceneProps) -> matrix_float4x4 {
         let angle = angleEquation.evaluate(sceneProps)
         return createZRotationMatrix(radians: angle)
