@@ -27,7 +27,7 @@ class RMBinaryOp: RMNode {
     }
 
     func evaluate(_ sceneProps: SceneProps) -> Float {
-        switch self.type {
+        switch type {
         case .add:
             return leftChild.evaluate(sceneProps) + rightChild.evaluate(sceneProps)
         case .sub:
