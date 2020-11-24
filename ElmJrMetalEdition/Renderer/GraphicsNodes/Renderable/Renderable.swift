@@ -14,8 +14,9 @@ class Renderable: RGNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var modelConstants = ModelConstants()
-    var transform = Transform()
+    var modelConstants = ModelConstants(color: simd_float4(1, 1, 1, 1))
+    var transform = RTransform()
+    var color = RColor()
     
     init(mesh: Mesh) {
         self.mesh = mesh
@@ -36,11 +37,14 @@ class Renderable: RGNode {
         )
     }
 
-    private func updateModelViewMatrix(sceneProps: SceneProps) {
+    private func updateModelConstants(sceneProps: SceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
         
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix *
             sceneProps.viewMatrix * transformationMatrix
+        
+        let rgba = color.evaluate(sceneProps)
+        modelConstants.color = rgba
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
@@ -49,7 +53,7 @@ class Renderable: RGNode {
         guard let indexBuffer = indexBuffer,
               let vertexBuffer = vertexBuffer else { return }
         
-        updateModelViewMatrix(sceneProps: sceneProps)
+        updateModelConstants(sceneProps: sceneProps)
       
         commandEncoder.setRenderPipelineState(pipelineState)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)

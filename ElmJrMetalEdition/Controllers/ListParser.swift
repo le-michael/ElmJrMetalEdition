@@ -13,8 +13,8 @@ import UIKit
 func transpile(data: [TriangleEditNode]) -> [RegularPolygon] {
     var triangleNodes = [RegularPolygon]()
 
-    for triangle in data {
-        let tempTriangle = RegularPolygon(3, color: simd_float4(triangle.color.r, triangle.color.g, triangle.color.b, triangle.color.a))
+    for _ in data {
+        let tempTriangle = RegularPolygon(3)
         // tempTriangle.rotationMatrix = createZRotationMatrix(degrees: triangle.rotation)
         //tempTriangle.translationMatrix = createTranslationMatrix(x: triangle.xPos, y: triangle.yPos, z: 0)
         //tempTriangle.scaleMatrix = createScaleMatrix(x: triangle.size, y: triangle.size, z: 0)

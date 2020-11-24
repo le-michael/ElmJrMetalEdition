@@ -14,6 +14,7 @@
 		1028E01825632AA000C4DBFA /* RGNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* RGNode.swift */; };
 		1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* Scene.swift */; };
 		1049A25025671E20007E85BE /* ZRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049A24F25671E20007E85BE /* ZRotationMatrix.swift */; };
+		1066EB9F256D9D3C00667E1E /* RendererColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066EB9E256D9D3C00667E1E /* RendererColorTests.swift */; };
 		1072E3D72564669D00D390FE /* TransformHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* TransformHelpers.swift */; };
 		1072E3E42564C41000D390FE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* Lexer.swift */; };
 		1072E3E72564C42100D390FE /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* Interpreter.swift */; };
@@ -25,7 +26,8 @@
 		107FDB5D2567182800D1B54C /* RMNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5C2567182800D1B54C /* RMNode.swift */; };
 		107FDB602567189D00D1B54C /* RMConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* RMConstant.swift */; };
 		108815252567253900E0850D /* TranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* TranslationMatrix.swift */; };
-		109DD9CE256B27C700FB700F /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* Transform.swift */; };
+		109357AE256D8C0200CC2F3D /* RColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109357AD256D8C0200CC2F3D /* RColor.swift */; };
+		109DD9CE256B27C700FB700F /* RTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* RTransform.swift */; };
 		10A9D032256CA5E20046ACFF /* RMBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* RendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */; };
@@ -65,6 +67,7 @@
 		1028E01725632AA000C4DBFA /* RGNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGNode.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		1049A24F25671E20007E85BE /* ZRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZRotationMatrix.swift; sourceTree = "<group>"; };
+		1066EB9E256D9D3C00667E1E /* RendererColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererColorTests.swift; sourceTree = "<group>"; };
 		1072E3D62564669D00D390FE /* TransformHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformHelpers.swift; sourceTree = "<group>"; };
 		1072E3E32564C41000D390FE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		1072E3E62564C42100D390FE /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
@@ -76,7 +79,8 @@
 		107FDB5C2567182800D1B54C /* RMNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMNode.swift; sourceTree = "<group>"; };
 		107FDB5F2567189D00D1B54C /* RMConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMConstant.swift; sourceTree = "<group>"; };
 		108815242567253900E0850D /* TranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationMatrix.swift; sourceTree = "<group>"; };
-		109DD9CD256B27C700FB700F /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
+		109357AD256D8C0200CC2F3D /* RColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RColor.swift; sourceTree = "<group>"; };
+		109DD9CD256B27C700FB700F /* RTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTransform.swift; sourceTree = "<group>"; };
 		10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* RendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTypes.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 			children = (
 				101AE71C256784200083704C /* RendererMathNodesTests.swift */,
 				101D0825256C6BD6008F5A0D /* RendererTransformTests.swift */,
+				1066EB9E256D9D3C00667E1E /* RendererColorTests.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -148,7 +153,7 @@
 		1049A24E25671E11007E85BE /* Transform */ = {
 			isa = PBXGroup;
 			children = (
-				109DD9CD256B27C700FB700F /* Transform.swift */,
+				109DD9CD256B27C700FB700F /* RTransform.swift */,
 				1049A24F25671E20007E85BE /* ZRotationMatrix.swift */,
 				10CB97E5256721F30096BA10 /* ScaleMatrix.swift */,
 				108815242567253900E0850D /* TranslationMatrix.swift */,
@@ -170,6 +175,7 @@
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				109357AC256D8BD900CC2F3D /* Color */,
 				1049A24E25671E11007E85BE /* Transform */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
@@ -190,6 +196,14 @@
 				10A9D031256CA5E20046ACFF /* RMBinaryOp.swift */,
 			);
 			path = MathNodes;
+			sourceTree = "<group>";
+		};
+		109357AC256D8BD900CC2F3D /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				109357AD256D8C0200CC2F3D /* RColor.swift */,
+			);
+			path = Color;
 			sourceTree = "<group>";
 		};
 		10ACC0B12562F47700ABEAD4 /* Shaders */ = {
@@ -374,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1066EB9F256D9D3C00667E1E /* RendererColorTests.swift in Sources */,
 				101AE71D256784200083704C /* RendererMathNodesTests.swift in Sources */,
 				101D0826256C6BD6008F5A0D /* RendererTransformTests.swift in Sources */,
 			);
@@ -406,7 +421,8 @@
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				1072E3E42564C41000D390FE /* Lexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* Renderer.swift in Sources */,
-				109DD9CE256B27C700FB700F /* Transform.swift in Sources */,
+				109357AE256D8C0200CC2F3D /* RColor.swift in Sources */,
+				109DD9CE256B27C700FB700F /* RTransform.swift in Sources */,
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* Scene.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* Parser.swift in Sources */,

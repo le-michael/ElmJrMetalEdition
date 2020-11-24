@@ -10,7 +10,7 @@ import GLKit
 import simd
 
 class Line2D: Renderable {
-    init(p0: simd_float3, p1: simd_float3, size: Float, color: simd_float4) {
+    init(p0: simd_float3, p1: simd_float3, size: Float) {
         let bufferData = planeBufferData()
         
         let magnitude = simd_distance(p0, p1)
@@ -24,7 +24,7 @@ class Line2D: Renderable {
         bufferData.applyTransform(transformMatrix: createTranslationMatrix(x: midPoint.x, y: midPoint.y, z: midPoint.z))
         
         let vertices = bufferData.vertexPositions.map {
-            Vertex(Position: $0, Color: color)
+            Vertex(position: $0)
         }
         super.init(mesh: Mesh(vertices: vertices, indices: bufferData.indices))
     }
