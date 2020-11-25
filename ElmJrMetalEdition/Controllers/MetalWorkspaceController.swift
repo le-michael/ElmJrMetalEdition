@@ -31,103 +31,162 @@ class MetalWorkspaceController: UIViewController {
         let scene = Scene(device: device)
         scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -100)
 
-        let line1 = Line2D(p0: simd_float3(-200, 0 , 0), p1: simd_float3(200, 0, 0), size: 0.5)
-        line1.transform.zRotationMatrix.setZRotation(angle: RMTime())
-        scene.add(line1)
-        
-        let line2 = Line2D(p0: simd_float3(0, -200 , 0), p1: simd_float3(0, 200, 0), size: 0.5)
-        line2.transform.zRotationMatrix.setZRotation(angle: RMTime())
-        scene.add(line2)
-        
-        let planet1 = RegularPolygon(5)
-        planet1.transform.scaleMatrix.setScale(x: 3, y: 3, z: 1)
-        planet1.transform.translationMatrix.setTranslation(
-            x: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(30),
-                rightChild: RMUnaryOp(type: .sin, child: RMTime())
-            ),
-            y: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(30),
-                rightChild: RMUnaryOp(type: .cos, child: RMTime())
-            ),
-            z: RMConstant(0)
-        )
-        planet1.transform.zRotationMatrix.setZRotation(angle: RMTime())
-        planet1.color.setColor(
-            r: RMConstant(1),
-            g: RMUnaryOp(type: .sin, child: RMTime()),
-            b: RMUnaryOp(type: .cos, child: RMTime()),
-            a: RMConstant(1)
-        )
-        scene.add(planet1)
+        for i in 0 ... 3 {
+            let numPlanets = (i * 15) + 10
+            for j in 0 ... numPlanets {
+                let planet = RegularPolygon(3 + i)
+                planet.transform.translationMatrix.setTranslation(
+                    x: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 1.0)
+                            )
+                        )
+                    ),
+                    y: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .cos,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 2.0)
+                            )
+                        )
+                    ),
+                    z: RMConstant(0)
+                )
+                planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
+                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.color.setColor(
+                    r: RMUnaryOp(
+                        type: .cos,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + 0.5)
+                        )
+                    ),
+                    g: RMUnaryOp(
+                        type: .sin,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                        )
+                    ),
+                    b: RMUnaryOp(
+                        type: .sin,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(1.5)
+                        )
+                    ),
+                    a: RMConstant(1)
+                )
+                scene.add(planet)
+            }
+        }
 
-        let planet2 = RegularPolygon(4)
-        planet2.transform.scaleMatrix.setScale(x: 3, y: 3, z: 1)
-        planet2.transform.translationMatrix.setTranslation(
-            x: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(20),
-                rightChild: RMUnaryOp(
-                    type: .sin,
-                    child: RMBinaryOp(
-                        type: .div,
-                        leftChild: RMTime(),
-                        rightChild: RMConstant(2)
-                    )
+        for i in 0 ... 3 {
+            let numPlanets = (i * 15) + 10
+            for j in 0 ... numPlanets {
+                let planet = RegularPolygon(3 + i)
+                planet.transform.translationMatrix.setTranslation(
+                    x: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 1.0)
+                            )
+                        )
+                    ),
+                    y: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 2.0)
+                            )
+                        )
+                    ),
+                    z: RMConstant(0)
                 )
-            ),
-            y: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(20),
-                rightChild: RMUnaryOp(
-                    type: .cos,
-                    child: RMBinaryOp(
-                        type: .div,
-                        leftChild: RMTime(),
-                        rightChild: RMConstant(2)
-                    )
+                planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
+                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.color.setColor(
+                    r: RMUnaryOp(
+                        type: .cos,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + 0.5)
+                        )
+                    ),
+                    g: RMUnaryOp(
+                        type: .sin,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                        )
+                    ),
+                    b: RMUnaryOp(
+                        type: .cos,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(2.6)
+                        )
+                    ),
+                    a: RMConstant(1)
                 )
-            ),
-            z: RMConstant(0)
-        )
-        planet2.color.setColor(
+                scene.add(planet)
+            }
+        }
+
+        let sun = RegularPolygon(30)
+        sun.transform.scaleMatrix.setScale(x: 2.5, y: 2.5, z: 1)
+        sun.color.setColor(
             r: RMUnaryOp(type: .cos, child: RMTime()),
             g: RMUnaryOp(type: .sin, child: RMTime()),
             b: RMConstant(1),
             a: RMConstant(1)
         )
-        planet2.transform.zRotationMatrix.setZRotation(angle: RMTime())
-        scene.add(planet2)
-
-        let planet3 = RegularPolygon(3)
-        planet3.transform.scaleMatrix.setScale(x: 3, y: 3, z: 1)
-        planet3.transform.translationMatrix.setTranslation(
-            x: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(10),
-                rightChild: RMUnaryOp(type: .sin, child: RMTime())
-            ),
-            y: RMBinaryOp(
-                type: .mul,
-                leftChild: RMConstant(10),
-                rightChild: RMUnaryOp(type: .cos, child: RMTime())
-            ),
-            z: RMConstant(0)
-        )
-        planet3.color.setColor(
-            r: RMUnaryOp(type: .sin, child: RMTime()),
-            g: RMConstant(1),
-            b: RMUnaryOp(type: .cos, child: RMTime()),
-            a: RMConstant(1)
-        )
-        planet3.transform.zRotationMatrix.setZRotation(angle: RMTime())
-        scene.add(planet3)
-
-        let sun = RegularPolygon(30)
-        sun.transform.scaleMatrix.setScale(x: 5, y: 5, z: 1)
-        sun.color.setColor(r: 1, g: 1, b: 0, a: 0)
         scene.add(sun)
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
