@@ -137,4 +137,43 @@ class TestLexer: XCTestCase {
         }
     }
     
+    func testSyntaxExample1() throws {
+        let s = "{--} \n add x y = x + y \n --} \n";
+        let t:[Token.TokenType] = [
+            .identifier, .identifier, .identifier, .equal, .identifier, .plus, .identifier, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testSyntaxExample2() throws {
+        let s = "\"abc\" ++ \"def\"";
+        let t:[Token.TokenType] = [
+            .doublequote, .identifier, .doublequote, .plusplus, .doublequote, .identifier, .doublequote, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testSyntaxExample3() throws {
+        let s = "if powerLevel > 9000 then [] else 1 :: [2,3]";
+        let t:[Token.TokenType] = [
+            .IF, .identifier, .greaterthan, .number, .THEN, .leftSquare, .rightSquare, .ELSE, .number, .coloncolon, .leftSquare, .number, .comma, .number, .rightSquare, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }

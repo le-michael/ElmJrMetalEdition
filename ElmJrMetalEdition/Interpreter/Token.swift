@@ -13,7 +13,7 @@ struct Token {
     var raw: String;
     
     enum TokenType {
-        case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, forwardSlash, singlequote, doublequote, endOfFile, equal, equalequal, colon, coloncolon, arrow, leftCurly, rightCurly, leftFuncApp, rightFuncApp, dot, bar
+        case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, forwardSlash, singlequote, doublequote, endOfFile, equal, equalequal, greaterthan, lessthan, greaterequal, lessequal, colon, coloncolon, arrow, leftCurly, rightCurly, leftSquare, rightSquare, leftFuncApp, rightFuncApp, dot, comma, bar
         case IF, THEN, ELSE, CASE, OF, LET, IN, TYPE, ALIAS
         case identifier
         case number
@@ -32,14 +32,21 @@ struct Token {
         "\"":.doublequote,
         "=":.equal,
         "==":.equalequal,
+        ">":.greaterthan,
+        "<":.lessthan,
+        ">=":.greaterequal,
+        "<=":.lessequal,
         ":":.colon,
         "::":.coloncolon,
         "->":.arrow,
         "{":.leftCurly,
         "}":.rightCurly,
+        "[":.leftSquare,
+        "]":.rightSquare,
         "<|":.leftFuncApp,
         "|>":.rightFuncApp,
         ".":.dot,
+        ",":.comma,
         "|":.bar,
     ]
     
