@@ -17,7 +17,7 @@ class Lexer {
         self.characterIndex = 0;
     }
     
-    enum LexerError : Error {
+    enum LexerError : Error, Equatable {
         case UnexpectedCharacter(_ c : Character)
         case InvalidNumber
     }
@@ -49,7 +49,7 @@ class Lexer {
     
     func matchSymbol() -> Token? {
         var result: Token? = nil
-        for (raw, type) in Token.mapping {
+        for (raw, type) in Token.symbols {
             if prefixMatches(raw) && (result == nil || result!.raw.count < raw.count) {
                 result = Token(type:type, raw:raw)
             }
@@ -76,6 +76,9 @@ class Lexer {
             if characterIndex == characters.count { break }
             c = characters[characterIndex]
         }
+        if let token = Token.reserved[string] {
+            return Token(type: token, raw:string)
+        }
         return Token(type:.identifier, raw:string)
     }
     
@@ -96,6 +99,9 @@ class Lexer {
             if characterIndex == characters.count { break }
             c = characters[characterIndex]
         }
+        if characterIndex != characters.count && (isAlphabet(c) || c == "_") {
+            throw LexerError.UnexpectedCharacter(c)
+        }
         return Token(type:.number, raw:string)
     }
     
@@ -103,10 +109,10 @@ class Lexer {
         ignoreWhitespace()
         if characterIndex == characters.count { return Token(type:.endOfFile, raw:"") }
         var result: Token? = nil
-        // symbol + - True ++
+        // symbol + - ++
         result = matchSymbol()
         if result != nil { return result! }
-        // identifier
+        // identifier (includes reserved words)
         result = matchIdentifier()
         if result != nil { return result! }
         // number

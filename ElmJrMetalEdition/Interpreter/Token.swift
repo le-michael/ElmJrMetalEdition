@@ -18,7 +18,7 @@ struct Token {
         case number
     }
     
-    static let mapping : [String: TokenType] = [
+    static let symbols : [String: TokenType] = [
         "(":.leftParan,
         ")":.rightParan,
         "+":.plus,
@@ -29,6 +29,9 @@ struct Token {
         "/":.forwardSlash,
         "'":.singlequote,
         "\"":.doublequote,
+    ]
+    
+    static let reserved : [String: TokenType] = [
         "True":.True,
         "False":.False,
     ]

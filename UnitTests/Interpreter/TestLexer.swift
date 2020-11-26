@@ -65,4 +65,31 @@ class TestLexer: XCTestCase {
         }
     }
     
+    func testReservedWords() throws {
+        let s = "True False Truent False5";
+        let t:[Token.TokenType] = [
+            .True, .False, .identifier, .identifier, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testLetterAfterDigit() throws {
+        let s = "1234A"
+        let l = Lexer(text: s)
+        XCTAssertThrowsError(try l.nextToken()) { (error) in
+            XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.UnexpectedCharacter("A"))
+        }
+    }
+    
+    func testNumberTwoDecimal() throws {
+        let s = "1234.456.789"
+        let l = Lexer(text: s)
+        XCTAssertThrowsError(try l.nextToken()) { (error) in
+            XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.InvalidNumber)
+        }
+    }
+    
 }
