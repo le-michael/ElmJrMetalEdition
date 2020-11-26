@@ -31,9 +31,8 @@ class MetalWorkspaceController: UIViewController {
         let scene = Scene(device: device)
         scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -100)
 
-        for i in 0 ... 3 {
-            let numPlanets = (i * 15) + 10
-            for j in 0 ... numPlanets {
+        for i in 0 ... 4 {
+            for j in 0 ... 100 {
                 let planet = RegularPolygon(3 + i)
                 planet.transform.translationMatrix.setTranslation(
                     x: RMBinaryOp(
@@ -91,23 +90,15 @@ class MetalWorkspaceController: UIViewController {
                             rightChild: RMConstant(Float(j) + Float(i) * 1.5)
                         )
                     ),
-                    b: RMUnaryOp(
-                        type: .sin,
-                        child: RMBinaryOp(
-                            type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(1.5)
-                        )
-                    ),
+                    b: RMConstant(1),
                     a: RMConstant(1)
                 )
                 scene.add(planet)
             }
         }
 
-        for i in 0 ... 3 {
-            let numPlanets = (i * 15) + 10
-            for j in 0 ... numPlanets {
+        for i in 0 ... 4 {
+            for j in 0 ... 100 {
                 let planet = RegularPolygon(3 + i)
                 planet.transform.translationMatrix.setTranslation(
                     x: RMBinaryOp(
@@ -165,14 +156,7 @@ class MetalWorkspaceController: UIViewController {
                             rightChild: RMConstant(Float(j) + Float(i) * 1.5)
                         )
                     ),
-                    b: RMUnaryOp(
-                        type: .cos,
-                        child: RMBinaryOp(
-                            type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(2.6)
-                        )
-                    ),
+                    b: RMConstant(1),
                     a: RMConstant(1)
                 )
                 scene.add(planet)
