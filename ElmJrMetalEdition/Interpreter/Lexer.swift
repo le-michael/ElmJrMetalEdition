@@ -28,9 +28,55 @@ class Lexer {
     
     func ignoreWhitespace() {
         while true {
-            if self.characterIndex == self.characters.count { return }
-            if !self.characters[self.characterIndex].isWhitespace { return }
+            if characterIndex == characters.count { return }
+            if !characters[characterIndex].isWhitespace { return }
             advance(1);
+        }
+    }
+    
+    func handleBlockComment() {
+        assert(prefixMatches("{-"))
+        var stk = 1
+        advance(2)
+        while true {
+            while characterIndex + 1 < characters.count &&
+                    !prefixMatches("{-") && !prefixMatches("-}") {
+                advance(1)
+            }
+            if characterIndex + 1 >= characters.count {
+                characterIndex = characters.count
+                return
+            }
+            if prefixMatches("{-") {
+                stk += 1
+                advance(2)
+            }
+            else if prefixMatches("-}") {
+                stk -= 1
+                advance(2)
+                if stk == 0 {
+                    return
+                }
+            }
+        }
+    }
+    
+    func ignoreCommentsAndWhitespace() {
+        ignoreWhitespace()
+        while characterIndex + 1 < characters.count {
+            if prefixMatches("--") {
+                while characterIndex < characters.count && characters[characterIndex] != "\n" {
+                    advance(1)
+                }
+                ignoreWhitespace()
+            } else if prefixMatches("{-") {
+                handleBlockComment()
+                ignoreWhitespace()
+                break;
+            } else {
+                // no comments!
+                break;
+            }
         }
     }
     
@@ -106,7 +152,7 @@ class Lexer {
     }
     
     func nextToken() throws -> Token {
-        ignoreWhitespace()
+        ignoreCommentsAndWhitespace()
         if characterIndex == characters.count { return Token(type:.endOfFile, raw:"") }
         var result: Token? = nil
         // symbol + - ++

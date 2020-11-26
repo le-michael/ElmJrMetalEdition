@@ -92,4 +92,48 @@ class TestLexer: XCTestCase {
         }
     }
     
+    func testNewlines() throws {
+        let s = "1 \n a \n + \n \n";
+        let t:[Token.TokenType] = [
+            .number, .identifier, .plus, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testSingleLineComments() throws {
+        let s = "( \n -- a \n = -- + \n";
+        let t:[Token.TokenType] = [
+            .leftParan, .equal, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testBlockComments() throws {
+        let s = "( \n {- a -} \n = {- + -} \n";
+        let t:[Token.TokenType] = [
+            .leftParan, .equal, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
+    func testBlockCommentsNested() throws {
+        let s = "( \n {- {- a -} b -} \n = {- {--} {--} + -} \n";
+        let t:[Token.TokenType] = [
+            .leftParan, .equal, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
 }
