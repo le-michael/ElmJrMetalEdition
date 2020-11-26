@@ -1,5 +1,5 @@
 //
-//  RColor.swift
+//  RGColorProperty.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-24.
@@ -8,7 +8,7 @@
 
 import simd
 
-class RColor {
+class RGColorProperty {
     var rEquation: RMNode
     var gEquation: RMNode
     var bEquation: RMNode

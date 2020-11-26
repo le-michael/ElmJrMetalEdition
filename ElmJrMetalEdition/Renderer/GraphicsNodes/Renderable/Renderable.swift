@@ -15,8 +15,8 @@ class Renderable: RGNode {
     var triangleFillMode: MTLTriangleFillMode = .fill
     
     var modelConstants = ModelConstants(color: simd_float4(1, 1, 1, 1))
-    var transform = RTransform()
-    var color = RColor()
+    var transform = RGTransformProperty()
+    var color = RGColorProperty()
     
     init(mesh: Mesh) {
         self.mesh = mesh

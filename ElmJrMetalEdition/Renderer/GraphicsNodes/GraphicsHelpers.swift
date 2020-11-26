@@ -44,3 +44,19 @@ func planeBufferData() -> BufferData {
         indices: [0, 1, 2, 0, 2, 3]
     )
 }
+
+func lineBufferData(p0: simd_float3, p1: simd_float3, size: Float) -> BufferData {
+    let bufferData = planeBufferData()
+
+    let magnitude = simd_distance(p0, p1)
+    bufferData.applyTransform(transformMatrix: createScaleMatrix(x: size, y: magnitude, z: 1))
+
+    let v = p1 - p0
+    let angle = -atan(v.x / v.y)
+    bufferData.applyTransform(transformMatrix: createZRotationMatrix(radians: angle))
+
+    let midPoint = p0 + v / 2
+    bufferData.applyTransform(transformMatrix: createTranslationMatrix(x: midPoint.x, y: midPoint.y, z: midPoint.z))
+
+    return bufferData
+}

@@ -13,10 +13,8 @@ class RGNode {
 
     init() {}
 
-    func draw(
-        commandEncoder: MTLRenderCommandEncoder,
-        pipelineState: MTLRenderPipelineState, sceneProps: SceneProps
-    ) {}
+    func draw(commandEncoder: MTLRenderCommandEncoder,
+              pipelineState: MTLRenderPipelineState, sceneProps: SceneProps) {}
 
     func createBuffers(device: MTLDevice) {}
 

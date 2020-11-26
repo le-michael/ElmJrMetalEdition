@@ -1,5 +1,5 @@
 //
-//  RTransform.swift
+//  RGTransformProperty.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-22.
@@ -8,7 +8,7 @@
 
 import simd
 
-class RTransform {
+class RGTransformProperty {
     var scaleMatrix = ScaleMatrix()
     var translationMatrix = TranslationMatrix()
     var zRotationMatrix = ZRotationMatrix()
