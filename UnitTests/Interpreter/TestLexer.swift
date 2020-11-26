@@ -11,9 +11,9 @@ import XCTest
 
 class TestLexer: XCTestCase {
     func testSymbols() throws {
-        let s = "()+-++*^/'\"";
+        let s = "()+-++*^/'\": ::->{}<||>.|";
         let t:[Token.TokenType] = [
-            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .singlequote, .doublequote, .endOfFile]
+            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .singlequote, .doublequote, .colon, .coloncolon, .arrow, .leftCurly, .rightCurly, .leftFuncApp, .rightFuncApp, .dot, .bar, .endOfFile]
         let l = Lexer(text: s)
         for type in t {
             let v = try l.nextToken()
@@ -66,9 +66,10 @@ class TestLexer: XCTestCase {
     }
     
     func testReservedWords() throws {
-        let s = "True False Truent False5";
+        let s = "if then else case of let in type alias ifcat";
+        
         let t:[Token.TokenType] = [
-            .True, .False, .identifier, .identifier, .endOfFile]
+            .IF, .THEN, .ELSE, .CASE, .OF, .LET, .IN, .TYPE, .ALIAS, .identifier, .endOfFile]
         let l = Lexer(text: s)
         for type in t {
             let v = try l.nextToken()

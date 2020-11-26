@@ -13,7 +13,8 @@ struct Token {
     var raw: String;
     
     enum TokenType {
-        case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, forwardSlash, singlequote, doublequote, endOfFile, equal, equalequal, True, False
+        case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, forwardSlash, singlequote, doublequote, endOfFile, equal, equalequal, colon, coloncolon, arrow, leftCurly, rightCurly, leftFuncApp, rightFuncApp, dot, bar
+        case IF, THEN, ELSE, CASE, OF, LET, IN, TYPE, ALIAS
         case identifier
         case number
     }
@@ -31,10 +32,26 @@ struct Token {
         "\"":.doublequote,
         "=":.equal,
         "==":.equalequal,
+        ":":.colon,
+        "::":.coloncolon,
+        "->":.arrow,
+        "{":.leftCurly,
+        "}":.rightCurly,
+        "<|":.leftFuncApp,
+        "|>":.rightFuncApp,
+        ".":.dot,
+        "|":.bar,
     ]
     
     static let reserved : [String: TokenType] = [
-        "True":.True,
-        "False":.False,
+        "if":.IF,
+        "then":.THEN,
+        "else":.ELSE,
+        "case":.CASE,
+        "of":.OF,
+        "let":.LET,
+        "in":.IN,
+        "type":.TYPE,
+        "alias":.ALIAS,
     ]
 }
