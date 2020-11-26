@@ -5,7 +5,7 @@
 //  Created by Michael Le on 2020-11-17.
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
-/*
+
 import Foundation
 
 enum ParserError : Error {
@@ -59,32 +59,26 @@ class Variable : ASTNode {
   }
 }
 
-
-
-func parse(_ tokens:[Token]) throws -> ASTNode {
-  var nextTokenIndex = 0
-  var c = tokens[nextTokenIndex]
-
-  func eat() {
-    if nextTokenIndex < tokens.count {
-      nextTokenIndex += 1
-      c = tokens[nextTokenIndex]
+func parse(text: String) throws -> ASTNode {
+    let lexer = Lexer(text: text)
+    var token = try! lexer.nextToken()
+    func advance() {
+        token = try! lexer.nextToken()
     }
-  }
 
-  func isDone() -> Bool {
-    return nextTokenIndex >= tokens.count
-  }
+    func isDone() -> Bool {
+        return token.type != .endOfFile
+    }
 
   func additiveExpression() throws -> ASTNode {
     var result = try multiplicativeExpression()
     while true {
-      switch c {
+        switch token.type {
         case .plus:
-          eat()  
+          advance()
           result = BinaryOpAdd(result, try multiplicativeExpression())
         case .minus: 
-          eat()  
+          advance()
           result = BinaryOpSubtract(result, try multiplicativeExpression())
         default:
           return result
@@ -95,12 +89,12 @@ func parse(_ tokens:[Token]) throws -> ASTNode {
   func multiplicativeExpression() throws -> ASTNode {
     var result = try unaryExpression()
     while true {
-      switch c {
+        switch token.type {
         case .asterisk:
-          eat()  
+          advance()
           result = BinaryOpMultiply(result, try unaryExpression())
         case .forwardSlash: 
-          eat()  
+          advance()
           result = BinaryOpDivide(result, try unaryExpression())
         default:
           return result
@@ -110,21 +104,21 @@ func parse(_ tokens:[Token]) throws -> ASTNode {
 
   func unaryExpression() throws -> ASTNode {
     let result : ASTNode
-    switch c {
+    switch token.type {
       case .leftParan:
-        eat()
+        advance()
         result = try additiveExpression()
-        guard case .rightParan = c else {
+        guard case .rightParan = token.type else {
             throw ParserError.MissingRightParantheses
         }
-        eat()
-      case .Identifier(let name):
-        result = Variable(name)
-        eat()
-      case .Number(let number):
+        advance()
+      case .identifier:
+        result = Variable(token.raw)
+        advance()
+    case .number:
         // for now we assume is an int
-        eat()
-        result = IntegerConstant(Int(number)!)
+        advance()
+        result = IntegerConstant(Int(token.raw)!)
       default:
         throw ParserError.UnexpectedToken
     }
@@ -146,10 +140,7 @@ func parser_test() {
     "(2 + y * 5 + 123) * (4/fooBar - 2)",
   ]
 
-  for test in tests {
-    print(try! parse(tokenize(text: test)))
-  }
-}*/
+}
 
 
 

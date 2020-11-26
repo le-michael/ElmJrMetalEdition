@@ -9,7 +9,7 @@
 import XCTest
 @testable import ElmJrMetalEdition
 
-class testToken: XCTestCase {
+class TokenTests: XCTestCase {
     func testIdentifier() throws {
         let x = Token(type:.identifier, raw:"foobar")
         XCTAssert(x.type == .identifier);

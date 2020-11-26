@@ -9,7 +9,7 @@
 import XCTest
 @testable import ElmJrMetalEdition
 
-class TestLexer: XCTestCase {
+class LexerTests: XCTestCase {
     func testSymbols() throws {
         let s = "()+-++*^/'\": ::->{}<||>.|";
         let t:[Token.TokenType] = [
