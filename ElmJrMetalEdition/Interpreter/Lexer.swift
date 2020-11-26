@@ -19,7 +19,7 @@ class Lexer {
     
     enum LexerError : Error {
         case UnexpectedCharacter(_ c : Character)
-        case InvalidNumber()
+        case InvalidNumber
     }
     
     func advance(_ x : Int) {
@@ -35,10 +35,10 @@ class Lexer {
     }
     
     func prefixMatches(_ s: String) -> Bool {
-        let schars = Array(s)
         if s.count > characters.count - characterIndex {
             return false
         }
+        let schars = Array(s)
         for i in 0..<s.count {
             if schars[i] != characters[characterIndex + i] {
                 return false
@@ -67,11 +67,11 @@ class Lexer {
     }
     
     func matchIdentifier() -> Token? {
-        var c = characters[characterIndex]
+        var c : Character = characters[characterIndex]
         if !isAlphabet(c) { return nil }
-        var string = ""
+        var string : String = ""
         while isAlphabet(c) || isDigit(c) || c == "_" {
-            string += c
+            string += String(c)
             advance(1)
             if characterIndex == characters.count { break }
             c = characters[characterIndex]
@@ -79,19 +79,19 @@ class Lexer {
         return Token(type:.identifier, raw:string)
     }
     
-    func matchNumber() -> Token? {
-        var c = characters[characterIndex]
+    func matchNumber() throws -> Token? {
+        var c : Character = characters[characterIndex]
         if !isDigit(c) { return nil }
         var string = ""
         var seenDecimal = false
         while isDigit(c) || c == "." {
             if c == "." {
                 if seenDecimal {
-                    throw LexerError.InvalidNumber()
+                    throw LexerError.InvalidNumber
                 }
                 seenDecimal = true
             }
-            string += c
+            string += String(c)
             advance(1)
             if characterIndex == characters.count { break }
             c = characters[characterIndex]
@@ -110,10 +110,9 @@ class Lexer {
         result = matchIdentifier()
         if result != nil { return result! }
         // number
-        result = matchNumber()
+        result = try matchNumber()
         if result != nil { return result! }
         // couldn't match with anything
-        throw LexerError.UnexpectedCharacter(c)
-        
+        throw LexerError.UnexpectedCharacter(characters[characterIndex])
     }
 }
