@@ -23,7 +23,7 @@ class RendererColorTests: XCTestCase {
     }
 
     func testRColor() throws {
-        let color = RColor()
+        let color = RGColorProperty()
         color.setColor(r: 1.0, g: 0.334, b: 0.232, a: 1.0)
         XCTAssert(color.evaluate(sceneProps) == simd_float4(1.0, 0.334, 0.232, 1.0))
 
