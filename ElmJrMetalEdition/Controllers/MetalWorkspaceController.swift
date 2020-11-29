@@ -28,70 +28,70 @@ class MetalWorkspaceController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
 
-        let scene = Scene(device: device)
-        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -100)
+        let scene = EGScene(device: device)
+        scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -100)
 
         for i in 0 ... 4 {
             for j in 0 ... 100 {
-                let planet = RegularPolygon(3 + i)
+                let planet = EGRegularPolygon(3 + i)
                 planet.transform.translationMatrix.setTranslation(
-                    x: RMBinaryOp(
+                    x: EGBinaryOp(
                         type: .mul,
-                        leftChild: RMConstant(Float(10 + (i * 10))),
-                        rightChild: RMUnaryOp(
+                        leftChild: EGFloatConstant(Float(10 + (i * 10))),
+                        rightChild: EGUnaryOp(
                             type: .sin,
-                            child: RMBinaryOp(
+                            child: EGBinaryOp(
                                 type: .add,
-                                leftChild: RMBinaryOp(
+                                leftChild: EGBinaryOp(
                                     type: .div,
-                                    leftChild: RMTime(),
-                                    rightChild: RMConstant(Float(i + 1)
+                                    leftChild: EGTime(),
+                                    rightChild: EGFloatConstant(Float(i + 1)
                                     )
                                 ),
-                                rightChild: RMConstant(Float(j) + 1.0)
+                                rightChild: EGFloatConstant(Float(j) + 1.0)
                             )
                         )
                     ),
-                    y: RMBinaryOp(
+                    y: EGBinaryOp(
                         type: .mul,
-                        leftChild: RMConstant(Float(10 + (i * 10))),
-                        rightChild: RMUnaryOp(
+                        leftChild: EGFloatConstant(Float(10 + (i * 10))),
+                        rightChild: EGUnaryOp(
                             type: .cos,
-                            child: RMBinaryOp(
+                            child: EGBinaryOp(
                                 type: .add,
-                                leftChild: RMBinaryOp(
+                                leftChild: EGBinaryOp(
                                     type: .div,
-                                    leftChild: RMTime(),
-                                    rightChild: RMConstant(Float(i + 1)
+                                    leftChild: EGTime(),
+                                    rightChild: EGFloatConstant(Float(i + 1)
                                     )
                                 ),
-                                rightChild: RMConstant(Float(j) + 2.0)
+                                rightChild: EGFloatConstant(Float(j) + 2.0)
                             )
                         )
                     ),
-                    z: RMConstant(0)
+                    z: EGFloatConstant(0)
                 )
                 planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
-                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.transform.zRotationMatrix.setZRotation(angle: EGTime())
                 planet.color.setColor(
-                    r: RMUnaryOp(
+                    r: EGUnaryOp(
                         type: .cos,
-                        child: RMBinaryOp(
+                        child: EGBinaryOp(
                             type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(Float(j) + 0.5)
+                            leftChild: EGTime(),
+                            rightChild: EGFloatConstant(Float(j) + 0.5)
                         )
                     ),
-                    g: RMUnaryOp(
+                    g: EGUnaryOp(
                         type: .sin,
-                        child: RMBinaryOp(
+                        child: EGBinaryOp(
                             type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                            leftChild: EGTime(),
+                            rightChild: EGFloatConstant(Float(j) + Float(i) * 1.5)
                         )
                     ),
-                    b: RMConstant(1),
-                    a: RMConstant(1)
+                    b: EGFloatConstant(1),
+                    a: EGFloatConstant(1)
                 )
                 scene.add(planet)
             }
@@ -99,82 +99,82 @@ class MetalWorkspaceController: UIViewController {
 
         for i in 0 ... 4 {
             for j in 0 ... 100 {
-                let planet = RegularPolygon(3 + i)
+                let planet = EGRegularPolygon(3 + i)
                 planet.transform.translationMatrix.setTranslation(
-                    x: RMBinaryOp(
+                    x: EGBinaryOp(
                         type: .mul,
-                        leftChild: RMConstant(Float(10 + (i * 10))),
-                        rightChild: RMUnaryOp(
+                        leftChild: EGFloatConstant(Float(10 + (i * 10))),
+                        rightChild: EGUnaryOp(
                             type: .sin,
-                            child: RMBinaryOp(
+                            child: EGBinaryOp(
                                 type: .add,
-                                leftChild: RMBinaryOp(
+                                leftChild: EGBinaryOp(
                                     type: .div,
-                                    leftChild: RMTime(),
-                                    rightChild: RMConstant(Float(i + 1)
+                                    leftChild: EGTime(),
+                                    rightChild: EGFloatConstant(Float(i + 1)
                                     )
                                 ),
-                                rightChild: RMConstant(Float(j) + 1.0)
+                                rightChild: EGFloatConstant(Float(j) + 1.0)
                             )
                         )
                     ),
-                    y: RMBinaryOp(
+                    y: EGBinaryOp(
                         type: .mul,
-                        leftChild: RMConstant(Float(10 + (i * 10))),
-                        rightChild: RMUnaryOp(
+                        leftChild: EGFloatConstant(Float(10 + (i * 10))),
+                        rightChild: EGUnaryOp(
                             type: .sin,
-                            child: RMBinaryOp(
+                            child: EGBinaryOp(
                                 type: .add,
-                                leftChild: RMBinaryOp(
+                                leftChild: EGBinaryOp(
                                     type: .div,
-                                    leftChild: RMTime(),
-                                    rightChild: RMConstant(Float(i + 1)
+                                    leftChild: EGTime(),
+                                    rightChild: EGFloatConstant(Float(i + 1)
                                     )
                                 ),
-                                rightChild: RMConstant(Float(j) + 2.0)
+                                rightChild: EGFloatConstant(Float(j) + 2.0)
                             )
                         )
                     ),
-                    z: RMConstant(0)
+                    z: EGFloatConstant(0)
                 )
                 planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
-                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.transform.zRotationMatrix.setZRotation(angle: EGTime())
                 planet.color.setColor(
-                    r: RMUnaryOp(
+                    r: EGUnaryOp(
                         type: .cos,
-                        child: RMBinaryOp(
+                        child: EGBinaryOp(
                             type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(Float(j) + 0.5)
+                            leftChild: EGTime(),
+                            rightChild: EGFloatConstant(Float(j) + 0.5)
                         )
                     ),
-                    g: RMUnaryOp(
+                    g: EGUnaryOp(
                         type: .sin,
-                        child: RMBinaryOp(
+                        child: EGBinaryOp(
                             type: .add,
-                            leftChild: RMTime(),
-                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                            leftChild: EGTime(),
+                            rightChild: EGFloatConstant(Float(j) + Float(i) * 1.5)
                         )
                     ),
-                    b: RMConstant(1),
-                    a: RMConstant(1)
+                    b: EGFloatConstant(1),
+                    a: EGFloatConstant(1)
                 )
                 scene.add(planet)
             }
         }
 
-        let sun = RegularPolygon(30)
+        let sun = EGRegularPolygon(30)
         sun.transform.scaleMatrix.setScale(x: 2.5, y: 2.5, z: 1)
         sun.color.setColor(
-            r: RMUnaryOp(type: .cos, child: RMTime()),
-            g: RMUnaryOp(type: .sin, child: RMTime()),
-            b: RMConstant(1),
-            a: RMConstant(1)
+            r: EGUnaryOp(type: .cos, child: EGTime()),
+            g: EGUnaryOp(type: .sin, child: EGTime()),
+            b: EGFloatConstant(1),
+            a: EGFloatConstant(1)
         )
         scene.add(sun)
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
-        renderer = Renderer(device: device, view: mtkView, scene: scene)
+        renderer = EGRenderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
     }
 }

@@ -1,5 +1,5 @@
 //
-//  RMConstant.swift
+//  EGFloatConstant.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-19.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-class RMConstant: RMNode {
+class EGFloatConstant: EGMathNode {
     var value: Float
 
     init(_ value: Float) {
         self.value = value
     }
 
-    func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: EGSceneProps) -> Float {
         return value
     }
 }

@@ -10,11 +10,11 @@ import Foundation
 import MetalKit
 import UIKit
 
-func transpile(data: [TriangleEditNode]) -> [RegularPolygon] {
-    var triangleNodes = [RegularPolygon]()
+func transpile(data: [TriangleEditNode]) -> [EGRegularPolygon] {
+    var triangleNodes = [EGRegularPolygon]()
 
     for _ in data {
-        let tempTriangle = RegularPolygon(3)
+        let tempTriangle = EGRegularPolygon(3)
         // tempTriangle.rotationMatrix = createZRotationMatrix(degrees: triangle.rotation)
         //tempTriangle.translationMatrix = createTranslationMatrix(x: triangle.xPos, y: triangle.yPos, z: 0)
         //tempTriangle.scaleMatrix = createScaleMatrix(x: triangle.size, y: triangle.size, z: 0)

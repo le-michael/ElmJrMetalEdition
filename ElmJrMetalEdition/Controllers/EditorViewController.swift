@@ -53,8 +53,8 @@ class EditorViewController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
         
-        let scene = Scene(device: device)
-        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -3)
+        let scene = EGScene(device: device)
+        scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -3)
         
         let triangles = transpile(data: mockData)
         
@@ -64,7 +64,7 @@ class EditorViewController: UIViewController {
         }
         
         mtkView.clearColor = MTLClearColorMake(1.0, 1.0, 1.0, 1.0)
-        renderer = Renderer(device: device, view: mtkView, scene: scene)
+        renderer = EGRenderer(device: device, view: mtkView, scene: scene)
         mtkView.delegate = renderer
     }
     

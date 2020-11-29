@@ -1,5 +1,5 @@
 //
-//  RMTrig.swift
+//  EGUnaryOp.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RMUnaryOpType {
+enum EGUnaryOpType {
     case abs
     case neg
     case sin
@@ -16,16 +16,16 @@ enum RMUnaryOpType {
     case tan
 }
 
-class RMUnaryOp: RMNode {
-    let type: RMUnaryOpType
-    var child: RMNode
+class EGUnaryOp: EGMathNode {
+    let type: EGUnaryOpType
+    var child: EGMathNode
 
-    init(type: RMUnaryOpType, child: RMNode) {
+    init(type: EGUnaryOpType, child: EGMathNode) {
         self.type = type
         self.child = child
     }
 
-    func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: EGSceneProps) -> Float {
         switch type {
         case .sin:
             return sin(child.evaluate(sceneProps))

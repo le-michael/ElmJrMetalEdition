@@ -1,5 +1,5 @@
 //
-//  RMTime.swift
+//  EGMathNode.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-19.
@@ -8,8 +8,6 @@
 
 import Foundation
 
-class RMTime: RMNode {
-    func evaluate(_ sceneProps: SceneProps) -> Float {
-        return sceneProps.time
-    }
+protocol EGMathNode {
+    func evaluate(_ sceneProps: EGSceneProps) -> Float
 }

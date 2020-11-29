@@ -1,5 +1,5 @@
 //
-//  Renderable.swift
+//  EGRenderable.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-18.
@@ -8,17 +8,17 @@
 
 import MetalKit
 
-class Renderable: RGNode {
-    var mesh: Mesh
+class EGRenderable: EGGraphicsNode {
+    var mesh: EGMesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var modelConstants = ModelConstants(color: simd_float4(1, 1, 1, 1))
-    var transform = RGTransformProperty()
-    var color = RGColorProperty()
+    var modelConstants = EGModelConstants()
+    var transform = EGTransformProperty()
+    var color = EGColorProperty()
     
-    init(mesh: Mesh) {
+    init(mesh: EGMesh) {
         self.mesh = mesh
         super.init()
     }
@@ -26,7 +26,7 @@ class Renderable: RGNode {
     override func createBuffers(device: MTLDevice) {
         vertexBuffer = device.makeBuffer(
             bytes: mesh.vertices,
-            length: mesh.vertices.count * MemoryLayout<Vertex>.stride,
+            length: mesh.vertices.count * MemoryLayout<EGVertex>.stride,
             options: []
         )
         
@@ -37,7 +37,7 @@ class Renderable: RGNode {
         )
     }
 
-    private func updateModelConstants(sceneProps: SceneProps) {
+    private func updateModelConstants(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
         
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix *
@@ -48,19 +48,19 @@ class Renderable: RGNode {
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineState: MTLRenderPipelineState, sceneProps: SceneProps)
+                       pipelineState: MTLRenderPipelineState, sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
               let vertexBuffer = vertexBuffer else { return }
         
-        updateModelConstants(sceneProps: sceneProps)
+        updateModelConstants(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipelineState)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &modelConstants,
-            length: MemoryLayout<ModelConstants>.stride,
+            length: MemoryLayout<EGModelConstants>.stride,
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(

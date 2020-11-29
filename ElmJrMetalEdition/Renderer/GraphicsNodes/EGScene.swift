@@ -1,5 +1,5 @@
 //
-//  Scene.swift
+//  EGScene.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.
@@ -8,10 +8,10 @@
 
 import MetalKit
 
-class Scene: RGNode {
+class EGScene: EGGraphicsNode {
     let device: MTLDevice
     var drawableSize: CGSize?
-    var sceneProps: SceneProps!
+    var sceneProps: EGSceneProps!
     var fps: Float = 60
 
     init(device: MTLDevice) {
@@ -22,7 +22,7 @@ class Scene: RGNode {
 
     func setDrawableSize(size: CGSize) {
         drawableSize = size
-        sceneProps?.projectionMatrix = createProjectionMatrix(
+        sceneProps?.projectionMatrix = EGMatrixBuilder.createProjectionMatrix(
             fovDegrees: 65,
             aspect: Float(size.width / size.height),
             nearZ: 0.1,
@@ -31,14 +31,14 @@ class Scene: RGNode {
     }
 
     private func initSceneProps() {
-        sceneProps = SceneProps(
+        sceneProps = EGSceneProps(
             projectionMatrix: matrix_identity_float4x4,
             viewMatrix: matrix_identity_float4x4,
             time: 0
         )
     }
 
-    override func add(_ node: RGNode) {
+    override func add(_ node: EGGraphicsNode) {
         super.add(node)
         node.createBuffers(device: device)
     }
