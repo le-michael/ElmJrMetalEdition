@@ -20,6 +20,9 @@ class Lexer {
     enum LexerError : Error, Equatable {
         case UnexpectedCharacter(_ c : Character)
         case InvalidNumber
+        case StringMissingEndQuote
+        case CharMissingEndQuote
+        case CharMustHaveLengthOne
     }
     
     func advance(_ x : Int) {
@@ -151,10 +154,47 @@ class Lexer {
         return Token(type:.number, raw:string)
     }
     
+    func matchStringOrChar() throws -> Token? {
+        var c : Character = characters[characterIndex]
+        let singleQuote: Character = "'";
+        let doubleQuote: Character = "\"";
+        var raw = "";
+        for quote in [singleQuote, doubleQuote] {
+            if c == quote {
+                advance(1);
+                if characterIndex == characters.count {
+                    throw LexerError.StringMissingEndQuote
+                }
+                c = characters[characterIndex]
+                while c != quote {
+                    raw += String(c);
+                    advance(1);
+                    if characterIndex == characters.count {
+                        throw LexerError.StringMissingEndQuote
+                    }
+                    c = characters[characterIndex]
+                }
+                advance(1)
+                if quote == singleQuote {
+                    if raw.count > 1 {
+                        throw LexerError.CharMustHaveLengthOne
+                    }
+                    return Token(type:.char, raw:raw)
+                } else {
+                    return Token(type:.string, raw:raw)
+                }
+            }
+        }
+        return nil
+    }
+    
     func nextToken() throws -> Token {
         ignoreCommentsAndWhitespace()
         if characterIndex == characters.count { return Token(type:.endOfFile, raw:"") }
         var result: Token? = nil
+        // "string" or character 'c'
+        result = try matchStringOrChar()
+        if result != nil { return result! }
         // symbol + - ++
         result = matchSymbol()
         if result != nil { return result! }

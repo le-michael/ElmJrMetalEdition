@@ -35,16 +35,16 @@ class BinaryOpMultiply : BinaryOp {}
 class BinaryOpSubtract : BinaryOp {}
 class BinaryOpDivide : BinaryOp {}
 
-class IntegerConstant : ASTNode {
+class IntegerConstant : ASTNode		 {
   let value : Int
 
   init(_ value : Int) {
     self.value = value
   }
 
-  var description : String {
-    return "IntegerConstant(\(value))"
-  }
+    var description : String {
+      return "IntegerConstant(\(value))"
+    }
 }
 
 class Variable : ASTNode {
@@ -128,19 +128,6 @@ func parse(text: String) throws -> ASTNode {
   return try additiveExpression()
 }
 
-func parser_test() {
-  let tests = [
-    "foo",
-    "(bar)",
-    "(((moo)))",
-    "x*y",
-    "x*(y*z)",
-    "a + b*c + d*(e + f + g)",
-    "a + 1",
-    "(2 + y * 5 + 123) * (4/fooBar - 2)",
-  ]
-
-}
 
 
 

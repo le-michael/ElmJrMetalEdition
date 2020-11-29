@@ -44,6 +44,7 @@
 		FE42166C256C8C41008622FB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* Token.swift */; };
 		FE59C9DE256CADC00098042C /* testToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* testToken.swift */; };
 		FEFA37E9256F41D600797CD2 /* TestLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* TestLexer.swift */; };
+		FEFA37ED256F656900797CD2 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* ParserTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		FE42166B256C8C41008622FB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		FE59C9DD256CADC00098042C /* testToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testToken.swift; sourceTree = "<group>"; };
 		FEFA37E8256F41D600797CD2 /* TestLexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLexer.swift; sourceTree = "<group>"; };
+		FEFA37EC256F656900797CD2 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +280,7 @@
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
+				FEFA37EC256F656900797CD2 /* ParserTests.swift */,
 				FEFA37E8256F41D600797CD2 /* TestLexer.swift */,
 				FE59C9DD256CADC00098042C /* testToken.swift */,
 				FE11C776256C5AE300A9D6BA /* InterpreterTests.swift */,
@@ -387,6 +390,7 @@
 			files = (
 				FE59C9DE256CADC00098042C /* testToken.swift in Sources */,
 				FE11C777256C5AE300A9D6BA /* InterpreterTests.swift in Sources */,
+				FEFA37ED256F656900797CD2 /* ParserTests.swift in Sources */,
 				FEFA37E9256F41D600797CD2 /* TestLexer.swift in Sources */,
 				101AE71D256784200083704C /* RendererMathNodesTests.swift in Sources */,
 			);

@@ -11,9 +11,9 @@ import XCTest
 
 class LexerTests: XCTestCase {
     func testSymbols() throws {
-        let s = "()+-++*^/'\": ::->{}<||>.|";
+        let s = "()+-++*^/: ::->{}<||>.|";
         let t:[Token.TokenType] = [
-            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .singlequote, .doublequote, .colon, .coloncolon, .arrow, .leftCurly, .rightCurly, .leftFuncApp, .rightFuncApp, .dot, .bar, .endOfFile]
+            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .colon, .coloncolon, .arrow, .leftCurly, .rightCurly, .leftFuncApp, .rightFuncApp, .dot, .bar, .endOfFile]
         let l = Lexer(text: s)
         for type in t {
             let v = try l.nextToken()
@@ -137,6 +137,17 @@ class LexerTests: XCTestCase {
         }
     }
     
+    func testStringChar() throws {
+        let s = "\"cat\" ++ 's'";
+        let t:[Token.TokenType] = [
+            .string, .plusplus, .char, .endOfFile]
+        let l = Lexer(text: s)
+        for type in t {
+            let v = try l.nextToken()
+            XCTAssert(v.type == type)
+        }
+    }
+    
     func testSyntaxExample1() throws {
         let s = "{--} \n add x y = x + y \n --} \n";
         let t:[Token.TokenType] = [
@@ -151,7 +162,7 @@ class LexerTests: XCTestCase {
     func testSyntaxExample2() throws {
         let s = "\"abc\" ++ \"def\"";
         let t:[Token.TokenType] = [
-            .doublequote, .identifier, .doublequote, .plusplus, .doublequote, .identifier, .doublequote, .endOfFile]
+            .string, .plusplus, .string, .endOfFile]
         let l = Lexer(text: s)
         for type in t {
             let v = try l.nextToken()
