@@ -36,6 +36,7 @@
 		10D89633256865E60053D762 /* Line2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* Line2D.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */; };
+		7C1A44B32573637400C3017B /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44B22573637400C3017B /* Fix.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923593025646F6900C0D98F /* TriangleEditNode.swift */; };
@@ -90,6 +91,7 @@
 		10D89632256865E60053D762 /* Line2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line2D.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = GraphicSVG.elm; sourceTree = "<group>"; };
+		7C1A44B22573637400C3017B /* Fix.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D923593025646F6900C0D98F /* TriangleEditNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleEditNode.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		1072E3E22564C3BF00D390FE /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
+				7C1A44B12573635C00C3017B /* ElmCodeExamples */,
 				7C1A44A825721C8200C3017B /* ElmLibrary */,
 				1072E3E32564C41000D390FE /* Lexer.swift */,
 				1072E3E62564C42100D390FE /* Interpreter.swift */,
@@ -258,6 +261,14 @@
 				7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */,
 			);
 			path = GraphicSVG;
+			sourceTree = "<group>";
+		};
+		7C1A44B12573635C00C3017B /* ElmCodeExamples */ = {
+			isa = PBXGroup;
+			children = (
+				7C1A44B22573637400C3017B /* Fix.elm */,
+			);
+			path = ElmCodeExamples;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -413,6 +424,7 @@
 			files = (
 				D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */,
 				D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */,
+				7C1A44B32573637400C3017B /* Fix.elm in Resources */,
 				7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
