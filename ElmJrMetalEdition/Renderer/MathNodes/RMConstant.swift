@@ -15,7 +15,7 @@ class RMConstant: RMNode {
         self.value = value
     }
 
-    override func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: SceneProps) -> Float {
         return value
     }
 }

@@ -8,22 +8,24 @@
 
 import Foundation
 
-enum UnaryOp {
+enum RMUnaryOpType {
+    case abs
+    case neg
     case sin
     case cos
     case tan
 }
 
 class RMUnaryOp: RMNode {
-    let type: UnaryOp
+    let type: RMUnaryOpType
     var child: RMNode
 
-    init(type: UnaryOp, child: RMNode) {
+    init(type: RMUnaryOpType, child: RMNode) {
         self.type = type
         self.child = child
     }
 
-    override func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: SceneProps) -> Float {
         switch type {
         case .sin:
             return sin(child.evaluate(sceneProps))
@@ -31,6 +33,10 @@ class RMUnaryOp: RMNode {
             return cos(child.evaluate(sceneProps))
         case .tan:
             return tan(child.evaluate(sceneProps))
+        case .neg:
+            return -child.evaluate(sceneProps)
+        case .abs:
+            return abs(child.evaluate(sceneProps))
         }
     }
 }

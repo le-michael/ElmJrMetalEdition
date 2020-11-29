@@ -28,13 +28,25 @@ class BufferData {
     }
 }
 
+class Mesh {
+    var vertices: [Vertex]
+    var indices: [UInt16]
+    
+    init(_ bufferData: BufferData) {
+        indices = bufferData.indices
+        vertices = bufferData.vertexPositions.map {
+            Vertex(position: $0)
+        }
+    }
+}
+
 struct Vertex {
-    let Position: simd_float3
-    var Color: simd_float4
+    let position: simd_float3
 }
 
 struct ModelConstants {
     var modelViewMatrix = matrix_identity_float4x4
+    var color: simd_float4
 }
 
 struct SceneProps {
@@ -43,7 +55,4 @@ struct SceneProps {
     var time: Float
 }
 
-struct Mesh {
-    var vertices: [Vertex]
-    var indices: [UInt16]
-}
+

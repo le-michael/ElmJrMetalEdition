@@ -29,44 +29,149 @@ class MetalWorkspaceController: UIViewController {
         device = mtkView.device
 
         let scene = Scene(device: device)
-        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -4)
+        scene.sceneProps?.viewMatrix = createTranslationMatrix(x: 0, y: 0, z: -100)
 
-        // Triangle
+        for i in 0 ... 4 {
+            for j in 0 ... 100 {
+                let planet = RegularPolygon(3 + i)
+                planet.transform.translationMatrix.setTranslation(
+                    x: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 1.0)
+                            )
+                        )
+                    ),
+                    y: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .cos,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 2.0)
+                            )
+                        )
+                    ),
+                    z: RMConstant(0)
+                )
+                planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
+                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.color.setColor(
+                    r: RMUnaryOp(
+                        type: .cos,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + 0.5)
+                        )
+                    ),
+                    g: RMUnaryOp(
+                        type: .sin,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                        )
+                    ),
+                    b: RMConstant(1),
+                    a: RMConstant(1)
+                )
+                scene.add(planet)
+            }
+        }
 
-        let poly1 = RegularPolygon(35, color: simd_float4(1.0, 0.0, 0.0, 1.0))
-        poly1.triangleFillMode = .lines
-        poly1.rotationMatrix.angleEquation = RMUnaryOp(type: .cos, child: RMTime())
-        scene.add(poly1)
+        for i in 0 ... 4 {
+            for j in 0 ... 100 {
+                let planet = RegularPolygon(3 + i)
+                planet.transform.translationMatrix.setTranslation(
+                    x: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 1.0)
+                            )
+                        )
+                    ),
+                    y: RMBinaryOp(
+                        type: .mul,
+                        leftChild: RMConstant(Float(10 + (i * 10))),
+                        rightChild: RMUnaryOp(
+                            type: .sin,
+                            child: RMBinaryOp(
+                                type: .add,
+                                leftChild: RMBinaryOp(
+                                    type: .div,
+                                    leftChild: RMTime(),
+                                    rightChild: RMConstant(Float(i + 1)
+                                    )
+                                ),
+                                rightChild: RMConstant(Float(j) + 2.0)
+                            )
+                        )
+                    ),
+                    z: RMConstant(0)
+                )
+                planet.transform.scaleMatrix.setScale(x: 1 + Float(i) * 0.25, y: 1 + Float(i) * 0.25, z: 1)
+                planet.transform.zRotationMatrix.setZRotation(angle: RMTime())
+                planet.color.setColor(
+                    r: RMUnaryOp(
+                        type: .cos,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + 0.5)
+                        )
+                    ),
+                    g: RMUnaryOp(
+                        type: .sin,
+                        child: RMBinaryOp(
+                            type: .add,
+                            leftChild: RMTime(),
+                            rightChild: RMConstant(Float(j) + Float(i) * 1.5)
+                        )
+                    ),
+                    b: RMConstant(1),
+                    a: RMConstant(1)
+                )
+                scene.add(planet)
+            }
+        }
 
-        let poly2 = RegularPolygon(50, color: simd_float4(1.0, 0.0, 0.0, 1.0))
-        poly2.triangleFillMode = .lines
-        poly2.rotationMatrix.angleEquation = RMUnaryOp(type: .sin, child: RMTime())
-        scene.add(poly2)
-
-        let plane1 = Plane(color: simd_float4(1.0, 1.0, 1.0, 1.0))
-        plane1.triangleFillMode = .lines
-        scene.add(plane1)
-
-        let line1 = Line2D(p0: simd_float3(-0.5, 0.5, 0), p1: simd_float3(0.5, -0.5, 0), size: 0.01, color: simd_float4(1.0, 1.0, 0.0, 1.0))
-        scene.add(line1)
-
-        let point1 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
-
-        point1.translationMatrix.xEquation = RMConstant(2)
-        point1.translationMatrix.yEquation = RMConstant(2)
-        point1.scaleMatrix.xEquation = RMConstant(0.03)
-        point1.scaleMatrix.yEquation = RMConstant(0.03)
-        scene.add(point1)
-
-        let point2 = RegularPolygon(4, color: simd_float4(1.0, 1.0, 1.0, 1.0))
-        point2.translationMatrix.xEquation = RMConstant(1.5)
-        point2.translationMatrix.yEquation = RMConstant(1.5)
-        point2.scaleMatrix.xEquation = RMConstant(0.03)
-        point2.scaleMatrix.yEquation = RMConstant(0.03)
-        scene.add(point2)
-
-        let line2 = Line2D(p0: simd_float3(2, 2, 0), p1: simd_float3(1.5, 1.5, 0), size: 0.03, color: simd_float4(0.0, 0.0, 1.0, 1.0))
-        scene.add(line2)
+        let sun = RegularPolygon(30)
+        sun.transform.scaleMatrix.setScale(x: 2.5, y: 2.5, z: 1)
+        sun.color.setColor(
+            r: RMUnaryOp(type: .cos, child: RMTime()),
+            g: RMUnaryOp(type: .sin, child: RMTime()),
+            b: RMConstant(1),
+            a: RMConstant(1)
+        )
+        scene.add(sun)
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = Renderer(device: device, view: mtkView, scene: scene)
