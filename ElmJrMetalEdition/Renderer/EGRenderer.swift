@@ -1,5 +1,5 @@
 //
-//  Renderer.swift
+//  EGRenderer.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-09-23.
@@ -8,15 +8,15 @@
 
 import MetalKit
 
-class Renderer: NSObject {
+class EGRenderer: NSObject {
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let view: MTKView
-    let scene: Scene
+    let scene: EGScene
     
     var pipelineState: MTLRenderPipelineState?
     
-    init(device: MTLDevice, view: MTKView, scene: Scene) {
+    init(device: MTLDevice, view: MTKView, scene: EGScene) {
         self.device = device
         self.commandQueue = device.makeCommandQueue()!
         self.view = view
@@ -41,7 +41,7 @@ class Renderer: NSObject {
         vertexDescriptor.attributes[0].offset = 0
         vertexDescriptor.attributes[0].bufferIndex = 0
         
-        vertexDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride
+        vertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex>.stride
         
         pipeLineDescriptor.vertexDescriptor = vertexDescriptor
         
@@ -53,7 +53,7 @@ class Renderer: NSObject {
     }
 }
 
-extension Renderer: MTKViewDelegate {
+extension EGRenderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         scene.setDrawableSize(size: size)
     }

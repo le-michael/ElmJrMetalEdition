@@ -1,5 +1,5 @@
 //
-//  RendererTypes.swift
+//  EGRendererTypes.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.
@@ -9,7 +9,7 @@
 import MetalKit
 import simd
 
-class BufferData {
+class EGBufferData {
     var vertexPositions: [simd_float3]
     var indices: [UInt16]
 
@@ -28,28 +28,28 @@ class BufferData {
     }
 }
 
-class Mesh {
-    var vertices: [Vertex]
+class EGMesh {
+    var vertices: [EGVertex]
     var indices: [UInt16]
     
-    init(_ bufferData: BufferData) {
+    init(_ bufferData: EGBufferData) {
         indices = bufferData.indices
         vertices = bufferData.vertexPositions.map {
-            Vertex(position: $0)
+            EGVertex(position: $0)
         }
     }
 }
 
-struct Vertex {
+struct EGVertex {
     let position: simd_float3
 }
 
-struct ModelConstants {
+struct EGModelConstants {
     var modelViewMatrix = matrix_identity_float4x4
-    var color: simd_float4
+    var color: simd_float4 = simd_float4(1, 1, 1, 1)
 }
 
-struct SceneProps {
+struct EGSceneProps {
     var projectionMatrix: matrix_float4x4
     var viewMatrix: matrix_float4x4
     var time: Float

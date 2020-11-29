@@ -8,25 +8,25 @@
 
 import Foundation
 
-enum RMBinaryOpType {
+enum EGBinaryOpType {
     case add
     case sub
     case mul
     case div
 }
 
-class RMBinaryOp: RMNode {
-    var type: RMBinaryOpType
-    var leftChild: RMNode
-    var rightChild: RMNode
+class EGBinaryOp: EGMathNode {
+    var type: EGBinaryOpType
+    var leftChild: EGMathNode
+    var rightChild: EGMathNode
 
-    init(type: RMBinaryOpType, leftChild: RMNode, rightChild: RMNode) {
+    init(type: EGBinaryOpType, leftChild: EGMathNode, rightChild: EGMathNode) {
         self.type = type
         self.leftChild = leftChild
         self.rightChild = rightChild
     }
 
-    func evaluate(_ sceneProps: SceneProps) -> Float {
+    func evaluate(_ sceneProps: EGSceneProps) -> Float {
         switch type {
         case .add:
             return leftChild.evaluate(sceneProps) + rightChild.evaluate(sceneProps)

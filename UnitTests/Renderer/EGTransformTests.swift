@@ -1,5 +1,5 @@
 //
-//  RendererTransformTests.swift
+//  EGTransformTests.swift
 //  UnitTests
 //
 //  Created by Michael Le on 2020-11-23.
@@ -10,31 +10,31 @@
 import simd
 import XCTest
 
-class RendererTransformTests: XCTestCase {
-    var sceneProps: SceneProps!
+class EGTransformTests: XCTestCase {
+    var sceneProps: EGSceneProps!
     
     override func setUpWithError() throws {
         super.setUp()
-        sceneProps = SceneProps(
+        sceneProps = EGSceneProps(
             projectionMatrix: matrix_identity_float4x4,
             viewMatrix: matrix_identity_float4x4,
             time: 0
         )
     }
     
-    func testScaleMatrix() throws {
-        let scaleMatrix = ScaleMatrix()
+    func testEGScaleMatrix() throws {
+        let scaleMatrix = EGScaleMatrix()
         scaleMatrix.setScale(x: 1, y: 2, z: 3)
-        var expectedMatrix = createScaleMatrix(x: 1, y: 2, z: 3)
+        var expectedMatrix = EGMatrixBuilder.createScaleMatrix(x: 1, y: 2, z: 3)
         XCTAssert(scaleMatrix.evaluate(sceneProps) == expectedMatrix)
         
         sceneProps.time = 123.2222
         scaleMatrix.setScale(
-            x: RMConstant(10.22),
-            y: RMUnaryOp(type: .cos, child: RMTime()),
-            z: RMUnaryOp(type: .sin, child: RMTime())
+            x: EGFloatConstant(10.22),
+            y: EGUnaryOp(type: .cos, child: EGTime()),
+            z: EGUnaryOp(type: .sin, child: EGTime())
         )
-        expectedMatrix = createScaleMatrix(
+        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
             x: 10.22,
             y: cos(sceneProps.time),
             z: sin(sceneProps.time)
@@ -43,11 +43,11 @@ class RendererTransformTests: XCTestCase {
     
         sceneProps.time = 111.2222
         scaleMatrix.setScale(
-            x: RMUnaryOp(type: .cos, child: RMUnaryOp(type: .sin, child: RMTime())),
-            y: RMUnaryOp(type: .tan, child: RMTime()),
-            z: RMUnaryOp(type: .sin, child: RMUnaryOp(type: .tan, child: RMConstant(2.33)))
+            x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime())),
+            y: EGUnaryOp(type: .tan, child: EGTime()),
+            z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .tan, child: EGFloatConstant(2.33)))
         )
-        expectedMatrix = createScaleMatrix(
+        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
             x: cos(sin(sceneProps.time)),
             y: tan(sceneProps.time),
             z: sin(tan(2.33))
@@ -55,19 +55,19 @@ class RendererTransformTests: XCTestCase {
         XCTAssert(scaleMatrix.evaluate(sceneProps) == expectedMatrix)
     }
     
-    func testTranslationMatrix() throws {
-        let translationMatrix = TranslationMatrix()
+    func testEGTranslationMatrix() throws {
+        let translationMatrix = EGTranslationMatrix()
         translationMatrix.setTranslation(x: 1, y: 10.2, z: 32.1)
-        var expectedMatrix = createTranslationMatrix(x: 1, y: 10.2, z: 32.1)
+        var expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: 1, y: 10.2, z: 32.1)
         XCTAssert(translationMatrix.evaluate(sceneProps) == expectedMatrix)
         
         sceneProps.time = 1.22223
         translationMatrix.setTranslation(
-            x: RMConstant(1.22),
-            y: RMTime(),
-            z: RMUnaryOp(type: .cos, child: RMTime())
+            x: EGFloatConstant(1.22),
+            y: EGTime(),
+            z: EGUnaryOp(type: .cos, child: EGTime())
         )
-        expectedMatrix = createTranslationMatrix(
+        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
             x: 1.22,
             y: sceneProps.time,
             z: cos(sceneProps.time)
@@ -76,11 +76,11 @@ class RendererTransformTests: XCTestCase {
         
         sceneProps.time = 2123.222
         translationMatrix.setTranslation(
-            x: RMUnaryOp(type: .cos, child: RMUnaryOp(type: .tan, child: RMTime())),
-            y: RMUnaryOp(type: .sin, child: RMUnaryOp(type: .sin, child: RMConstant(1.22))),
-            z: RMUnaryOp(type: .cos, child: RMUnaryOp(type: .cos, child: RMTime()))
+            x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .tan, child: EGTime())),
+            y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .sin, child: EGFloatConstant(1.22))),
+            z: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGTime()))
         )
-        expectedMatrix = createTranslationMatrix(
+        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
             x: cos(tan(sceneProps.time)),
             y: sin(sin(1.22)),
             z: cos(cos(sceneProps.time))
@@ -88,21 +88,21 @@ class RendererTransformTests: XCTestCase {
         XCTAssert(translationMatrix.evaluate(sceneProps) == expectedMatrix)
     }
     
-    func testZRotationMatrix() throws {
-        let zRotationMatrix = ZRotationMatrix()
+    func testEGZRotationMatrix() throws {
+        let zRotationMatrix = EGZRotationMatrix()
         zRotationMatrix.setZRotation(angle: 1.222)
-        var expectedMatrix = createZRotationMatrix(radians: 1.222)
+        var expectedMatrix = EGMatrixBuilder.createZRotationMatrix(radians: 1.222)
         XCTAssert(zRotationMatrix.evaluate(sceneProps) == expectedMatrix)
 
         sceneProps.time = 1.4231
-        zRotationMatrix.setZRotation(angle: RMTime())
-        expectedMatrix = createZRotationMatrix(radians: sceneProps.time)
+        zRotationMatrix.setZRotation(angle: EGTime())
+        expectedMatrix = EGMatrixBuilder.createZRotationMatrix(radians: sceneProps.time)
         XCTAssert(zRotationMatrix.evaluate(sceneProps) == expectedMatrix)
 
         zRotationMatrix.setZRotation(
-            angle: RMUnaryOp(type: .cos, child: RMUnaryOp(type: .sin, child: RMTime()))
+            angle: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime()))
         )
-        expectedMatrix = createZRotationMatrix(radians: cos(sin(sceneProps.time)))
+        expectedMatrix = EGMatrixBuilder.createZRotationMatrix(radians: cos(sin(sceneProps.time)))
         XCTAssert(zRotationMatrix.evaluate(sceneProps) == expectedMatrix)
     }
 }

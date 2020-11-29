@@ -1,5 +1,5 @@
 //
-//  RGNode.swift
+//  EGGraphicsNode.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-16.
@@ -8,17 +8,17 @@
 
 import MetalKit
 
-class RGNode {
-    var children: [RGNode] = []
+class EGGraphicsNode {
+    var children: [EGGraphicsNode] = []
 
     init() {}
 
     func draw(commandEncoder: MTLRenderCommandEncoder,
-              pipelineState: MTLRenderPipelineState, sceneProps: SceneProps) {}
+              pipelineState: MTLRenderPipelineState, sceneProps: EGSceneProps) {}
 
     func createBuffers(device: MTLDevice) {}
 
-    func add(_ node: RGNode) {
+    func add(_ node: EGGraphicsNode) {
         children.append(node)
     }
 }
