@@ -15,17 +15,17 @@ class EGColorProperty {
     var aEquation: EGMathNode
 
     init() {
-        rEquation = EGFloatConstant(1)
-        gEquation = EGFloatConstant(1)
-        bEquation = EGFloatConstant(1)
-        aEquation = EGFloatConstant(1)
+        rEquation = EGConstant(1)
+        gEquation = EGConstant(1)
+        bEquation = EGConstant(1)
+        aEquation = EGConstant(1)
     }
 
     func setColor(r: Float, g: Float, b: Float, a: Float) {
-        rEquation = EGFloatConstant(r)
-        gEquation = EGFloatConstant(g)
-        bEquation = EGFloatConstant(b)
-        aEquation = EGFloatConstant(a)
+        rEquation = EGConstant(r)
+        gEquation = EGConstant(g)
+        bEquation = EGConstant(b)
+        aEquation = EGConstant(a)
     }
 
     func setColor(r: EGMathNode, g: EGMathNode, b: EGMathNode, a: EGMathNode) {

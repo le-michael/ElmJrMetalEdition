@@ -1,5 +1,5 @@
 //
-//  EGFloatConstant.swift
+//  EGConstant.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EGFloatConstant: EGMathNode {
+class EGConstant: EGMathNode {
     var value: Float
 
     init(_ value: Float) {

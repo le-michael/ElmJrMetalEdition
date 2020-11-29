@@ -9,10 +9,10 @@
 import simd
 
 class EGZRotationMatrix {
-    var angleEquation: EGMathNode = EGFloatConstant(0)
+    var angleEquation: EGMathNode = EGConstant(0)
 
     func setZRotation(angle: Float) {
-        angleEquation = EGFloatConstant(angle)
+        angleEquation = EGConstant(angle)
     }
     
     func setZRotation(angle: EGMathNode) {

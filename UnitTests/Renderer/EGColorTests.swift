@@ -32,15 +32,15 @@ class EGColorTests: XCTestCase {
             r: EGBinaryOp(
                 type: .sub,
                 leftChild: EGBinaryOp(type: .add, leftChild: EGTime(), rightChild: EGTime()),
-                rightChild: EGUnaryOp(type: .cos, child: EGFloatConstant(1.22))
+                rightChild: EGUnaryOp(type: .cos, child: EGConstant(1.22))
             ),
             g: EGBinaryOp(
                 type: .add,
                 leftChild: EGUnaryOp(type: .cos, child: EGTime()),
-                rightChild: EGUnaryOp(type: .sin, child: EGFloatConstant(1.2))
+                rightChild: EGUnaryOp(type: .sin, child: EGConstant(1.2))
             ),
-            b: EGFloatConstant(0.4),
-            a: EGFloatConstant(0.1)
+            b: EGConstant(0.4),
+            a: EGConstant(0.1)
         )
         let r: Float = (sceneProps.time + sceneProps.time) - cos(1.22)
         let g: Float = cos(sceneProps.time) + sin(1.2)

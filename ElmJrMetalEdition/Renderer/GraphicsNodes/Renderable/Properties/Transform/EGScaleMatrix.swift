@@ -9,14 +9,14 @@
 import simd
 
 class EGScaleMatrix {
-    var xEquation: EGMathNode = EGFloatConstant(1)
-    var yEquation: EGMathNode = EGFloatConstant(1)
-    var zEquation: EGMathNode = EGFloatConstant(1)
+    var xEquation: EGMathNode = EGConstant(1)
+    var yEquation: EGMathNode = EGConstant(1)
+    var zEquation: EGMathNode = EGConstant(1)
     
     func setScale(x: Float, y: Float, z: Float) {
-        xEquation = EGFloatConstant(x)
-        yEquation = EGFloatConstant(y)
-        zEquation = EGFloatConstant(z)
+        xEquation = EGConstant(x)
+        yEquation = EGConstant(y)
+        zEquation = EGConstant(z)
     }
 
     func setScale(x: EGMathNode, y: EGMathNode, z: EGMathNode) {

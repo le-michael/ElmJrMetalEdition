@@ -30,7 +30,7 @@ class EGTransformTests: XCTestCase {
         
         sceneProps.time = 123.2222
         scaleMatrix.setScale(
-            x: EGFloatConstant(10.22),
+            x: EGConstant(10.22),
             y: EGUnaryOp(type: .cos, child: EGTime()),
             z: EGUnaryOp(type: .sin, child: EGTime())
         )
@@ -45,7 +45,7 @@ class EGTransformTests: XCTestCase {
         scaleMatrix.setScale(
             x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime())),
             y: EGUnaryOp(type: .tan, child: EGTime()),
-            z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .tan, child: EGFloatConstant(2.33)))
+            z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .tan, child: EGConstant(2.33)))
         )
         expectedMatrix = EGMatrixBuilder.createScaleMatrix(
             x: cos(sin(sceneProps.time)),
@@ -63,7 +63,7 @@ class EGTransformTests: XCTestCase {
         
         sceneProps.time = 1.22223
         translationMatrix.setTranslation(
-            x: EGFloatConstant(1.22),
+            x: EGConstant(1.22),
             y: EGTime(),
             z: EGUnaryOp(type: .cos, child: EGTime())
         )
@@ -77,7 +77,7 @@ class EGTransformTests: XCTestCase {
         sceneProps.time = 2123.222
         translationMatrix.setTranslation(
             x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .tan, child: EGTime())),
-            y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .sin, child: EGFloatConstant(1.22))),
+            y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .sin, child: EGConstant(1.22))),
             z: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGTime()))
         )
         expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
