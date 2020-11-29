@@ -23,13 +23,13 @@ class EGMathNodesTests: XCTestCase {
     }
 
     func testEGFloatConstant() throws {
-        var constant = EGFloatConstant(2)
+        var constant = EGConstant(2)
         XCTAssert(constant.evaluate(sceneProps) == 2)
         
-        constant = EGFloatConstant(2.4213)
+        constant = EGConstant(2.4213)
         XCTAssert(constant.evaluate(sceneProps) == 2.4213)
         
-        constant = EGFloatConstant(-100.313)
+        constant = EGConstant(-100.313)
         XCTAssert(constant.evaluate(sceneProps) == -100.313)
     }
 
@@ -45,13 +45,13 @@ class EGMathNodesTests: XCTestCase {
         let sinEq = EGUnaryOp(type: .sin, child: EGTime())
         XCTAssert(sinEq.evaluate(sceneProps) == sin(1.563))
         
-        let cosEq = EGUnaryOp(type: .cos, child: EGFloatConstant(1.2))
+        let cosEq = EGUnaryOp(type: .cos, child: EGConstant(1.2))
         XCTAssert(cosEq.evaluate(sceneProps) == cos(1.2))
         
-        let tanEq = EGUnaryOp(type: .tan, child: EGFloatConstant(1.23))
+        let tanEq = EGUnaryOp(type: .tan, child: EGConstant(1.23))
         XCTAssert(tanEq.evaluate(sceneProps) == tan(1.23))
         
-        let nestedEq = EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGFloatConstant(1.222)))
+        let nestedEq = EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGConstant(1.222)))
         XCTAssert(nestedEq.evaluate(sceneProps) == cos(cos(1.222)))
      
         cosEq.child = sinEq
@@ -64,18 +64,18 @@ class EGMathNodesTests: XCTestCase {
         let negEq = EGUnaryOp(type: .neg, child: EGTime())
         XCTAssert(negEq.evaluate(sceneProps) == -sceneProps.time)
         
-        let absEq = EGUnaryOp(type: .abs, child: EGFloatConstant(-12.3333))
+        let absEq = EGUnaryOp(type: .abs, child: EGConstant(-12.3333))
         XCTAssert(absEq.evaluate(sceneProps) == 12.3333)
     }
     
     func testEGBinaryOp() throws {
         sceneProps.time = 123.222
-        let addEq = EGBinaryOp(type: .add, leftChild: EGFloatConstant(2.3), rightChild: EGTime())
+        let addEq = EGBinaryOp(type: .add, leftChild: EGConstant(2.3), rightChild: EGTime())
         var expectedValue = 2.3 + sceneProps.time
         XCTAssert(addEq.evaluate(sceneProps) == expectedValue)
         
         sceneProps.time = 1111.1123
-        let subEq = EGBinaryOp(type: .sub, leftChild: EGFloatConstant(1.2), rightChild: addEq)
+        let subEq = EGBinaryOp(type: .sub, leftChild: EGConstant(1.2), rightChild: addEq)
         expectedValue = 1.2 - (2.3 + sceneProps.time)
         XCTAssert(subEq.evaluate(sceneProps) == expectedValue)
         
@@ -85,7 +85,7 @@ class EGMathNodesTests: XCTestCase {
         XCTAssert(mulEq.evaluate(sceneProps) == expectedValue)
         
         sceneProps.time = 1.3244
-        let divEq = EGBinaryOp(type: .div, leftChild: EGFloatConstant(14.22), rightChild: EGTime())
+        let divEq = EGBinaryOp(type: .div, leftChild: EGConstant(14.22), rightChild: EGTime())
         expectedValue = 14.22 / sceneProps.time
         XCTAssert(divEq.evaluate(sceneProps) == expectedValue)
     }

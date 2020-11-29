@@ -15,15 +15,18 @@ class EGRenderer: NSObject {
     let scene: EGScene
     
     var pipelineState: MTLRenderPipelineState?
+    var depthStencilState: MTLDepthStencilState?
     
     init(device: MTLDevice, view: MTKView, scene: EGScene) {
         self.device = device
         self.commandQueue = device.makeCommandQueue()!
         self.view = view
         self.scene = scene
+        view.depthStencilPixelFormat = .depth32Float
         scene.fps = Float(view.preferredFramesPerSecond)
         super.init()
         buildPipelineState()
+        buildDepthStencilState()
     }
     
     private func buildPipelineState() {
@@ -44,12 +47,20 @@ class EGRenderer: NSObject {
         vertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex>.stride
         
         pipeLineDescriptor.vertexDescriptor = vertexDescriptor
+        pipeLineDescriptor.depthAttachmentPixelFormat = .depth32Float
         
         do {
             pipelineState = try device.makeRenderPipelineState(descriptor: pipeLineDescriptor)
         } catch let error as NSError {
             print("makePipelineState error: \(error.localizedDescription)")
         }
+    }
+    
+    private func buildDepthStencilState() {
+        let depthStencilDescriptor = MTLDepthStencilDescriptor()
+        depthStencilDescriptor.depthCompareFunction = .less
+        depthStencilDescriptor.isDepthWriteEnabled = true
+        depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
 }
 
@@ -61,12 +72,14 @@ extension EGRenderer: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let pipelineState = pipelineState,
+              let depthStencilState = depthStencilState,
               let descriptor = view.currentRenderPassDescriptor else { return }
         
         let commandBuffer = commandQueue.makeCommandBuffer()
         
         let commandEnconder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
-    
+        commandEnconder?.setDepthStencilState(depthStencilState)
+        
         scene.draw(commandEncoder: commandEnconder!, pipelineState: pipelineState)
         
         commandEnconder?.endEncoding()
