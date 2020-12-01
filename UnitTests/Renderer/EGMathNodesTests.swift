@@ -22,7 +22,7 @@ class EGMathNodesTests: XCTestCase {
         )
     }
 
-    func testEGFloatConstant() throws {
+    func testEGConstant() throws {
         var constant = EGConstant(2)
         XCTAssert(constant.evaluate(sceneProps) == 2)
         
