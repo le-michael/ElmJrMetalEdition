@@ -48,7 +48,8 @@ class EGRenderable: EGGraphicsNode {
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineState: MTLRenderPipelineState, sceneProps: EGSceneProps)
+                       pipelineState: MTLRenderPipelineState,
+                       sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
               let vertexBuffer = vertexBuffer else { return }

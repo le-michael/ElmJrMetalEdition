@@ -12,10 +12,11 @@ class EGScene: EGGraphicsNode {
     let device: MTLDevice
     var drawableSize: CGSize?
     var sceneProps: EGSceneProps!
-    var fps: Float = 60
+    var fps: Float
 
     init(device: MTLDevice) {
         self.device = device
+        fps = 60
         super.init()
         initSceneProps()
     }

@@ -14,7 +14,8 @@ class EGGraphicsNode {
     init() {}
 
     func draw(commandEncoder: MTLRenderCommandEncoder,
-              pipelineState: MTLRenderPipelineState, sceneProps: EGSceneProps) {}
+              pipelineState: MTLRenderPipelineState,
+              sceneProps: EGSceneProps) {}
 
     func createBuffers(device: MTLDevice) {}
 
