@@ -73,27 +73,36 @@ class MetalWorkspaceController: UIViewController {
             )
             poly.color.setColor(
                 r: EGUnaryOp(
-                    type: .cos,
-                    child: EGBinaryOp(
-                        type: .add,
-                        leftChild: EGRandom(),
-                        rightChild: EGTime()
+                    type: .abs,
+                    child: EGUnaryOp(
+                        type: .sin,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
                     )
                 ),
                 g: EGUnaryOp(
-                    type: .sin,
-                    child: EGBinaryOp(
-                        type: .add,
-                        leftChild: EGRandom(),
-                        rightChild: EGTime()
+                    type: .abs,
+                    child: EGUnaryOp(
+                        type: .cos,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
                     )
                 ),
                 b: EGUnaryOp(
-                    type: .cos,
-                    child: EGBinaryOp(
-                        type: .add,
-                        leftChild: EGRandom(),
-                        rightChild: EGTime()
+                    type: .abs,
+                    child: EGUnaryOp(
+                        type: .cos,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
                     )
                 ),
                 a: EGConstant(1)

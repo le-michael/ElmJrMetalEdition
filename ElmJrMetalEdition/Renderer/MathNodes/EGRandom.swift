@@ -14,7 +14,7 @@ class EGRandom: EGMathNode {
     init() {
         value = Float.random(in: 0 ... 100)
     }
-    
+
     init(range: Range<Float>) {
         value = Float.random(in: range)
     }

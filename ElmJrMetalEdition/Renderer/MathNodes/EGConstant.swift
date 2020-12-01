@@ -10,7 +10,7 @@ import Foundation
 
 class EGConstant: EGMathNode {
     var value: Float
-    
+
     init(_ value: Float) {
         self.value = value
     }

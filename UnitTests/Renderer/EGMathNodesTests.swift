@@ -103,7 +103,7 @@ class EGMathNodesTests: XCTestCase {
         }
         
         for _ in 0...1000 {
-            let randEq = EGRandom(range: 3..<5)
+            let randEq = EGRandom(range: 3 ..< 5)
             XCTAssert(randEq.evaluate(sceneProps) < 5 && randEq.evaluate(sceneProps) >= 3)
         }
     }
