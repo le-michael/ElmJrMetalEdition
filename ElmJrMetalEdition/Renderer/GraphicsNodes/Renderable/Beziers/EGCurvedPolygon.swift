@@ -35,6 +35,8 @@ class EGCurvedPolygon: EGGraphicsNode {
     }
     
     override func createBuffers(device: MTLDevice) {
+        transform.checkIfStatic()
+        color.checkIfStatic()
         vertexBuffer = device.makeBuffer(
             bytes: mesh.vertices,
             length: mesh.vertices.count * MemoryLayout<EGBezierVertex>.stride,

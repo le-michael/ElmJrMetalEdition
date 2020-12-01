@@ -44,4 +44,8 @@ class EGBinaryOp: EGMathNode {
             return min(leftChild.evaluate(sceneProps), rightChild.evaluate(sceneProps))
         }
     }
+    
+    func usesTime() -> Bool {
+        return leftChild.usesTime() || rightChild.usesTime()
+    }
 }

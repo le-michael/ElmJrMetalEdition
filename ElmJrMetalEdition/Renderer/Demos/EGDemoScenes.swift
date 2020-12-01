@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import Foundation
+import simd
 
 class EGDemoScenes {
     static func spinningFan() -> EGScene {
@@ -83,6 +83,44 @@ class EGDemoScenes {
             a: EGConstant(1)
         )
         scene.add(circle)
+
+        return scene
+    }
+
+    static func fractalTree() -> EGScene {
+        let scene = EGScene()
+        scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -150)
+
+        func fratcalTreeHelper(currentDepth: Float, rotation: Float, currentPos: simd_float3, length: Float) {
+            if length < 1 { return }
+
+            let theta = 30 * Float.pi / 180
+            let nextPoint = simd_float3(currentPos.x + (length * cos(rotation)), currentPos.y + (length * sin(rotation)), 0)
+            let line = EGLine2D(
+                p0: currentPos,
+                p1: nextPoint,
+                size: max(0.2, 1 - (currentDepth * 0.45))
+            )
+            fratcalTreeHelper(
+                currentDepth: currentDepth + 1,
+                rotation: rotation + theta,
+                currentPos: nextPoint,
+                length: length - 1.5
+            )
+            fratcalTreeHelper(
+                currentDepth: currentDepth + 1,
+                rotation: rotation - theta,
+                currentPos: nextPoint,
+                length: length - 1.5
+            )
+            if currentDepth > 8 {
+                line.color.rEquation = EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime()))
+                line.color.gEquation = EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime()))
+            }
+            scene.add(line)
+        }
+
+        fratcalTreeHelper(currentDepth: 0, rotation: Float.pi / 2, currentPos: simd_float3(0, -60, 0), length: 20)
 
         return scene
     }
