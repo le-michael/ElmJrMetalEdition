@@ -12,4 +12,8 @@ class EGTime: EGMathNode {
     func evaluate(_ sceneProps: EGSceneProps) -> Float {
         return sceneProps.time
     }
+    
+    func usesTime() -> Bool {
+        return true
+    }
 }

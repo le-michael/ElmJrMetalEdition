@@ -13,6 +13,10 @@ class EGTranslationMatrix {
     var yEquation: EGMathNode = EGConstant(0)
     var zEquation: EGMathNode = EGConstant(0)
 
+    func usesTime() -> Bool {
+        return xEquation.usesTime() || yEquation.usesTime() || zEquation.usesTime()
+    }
+    
     func setTranslation(x: Float, y: Float, z: Float) {
         xEquation = EGConstant(x)
         yEquation = EGConstant(y)

@@ -13,6 +13,10 @@ class EGScaleMatrix {
     var yEquation: EGMathNode = EGConstant(1)
     var zEquation: EGMathNode = EGConstant(1)
     
+    func usesTime() -> Bool {
+        return xEquation.usesTime() || yEquation.usesTime() || zEquation.usesTime()
+    }
+    
     func setScale(x: Float, y: Float, z: Float) {
         xEquation = EGConstant(x)
         yEquation = EGConstant(y)

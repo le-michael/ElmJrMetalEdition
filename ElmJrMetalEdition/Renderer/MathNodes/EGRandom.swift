@@ -22,4 +22,8 @@ class EGRandom: EGMathNode {
     func evaluate(_ sceneProps: EGSceneProps) -> Float {
         return value
     }
+    
+    func usesTime() -> Bool {
+        return false
+    }
 }

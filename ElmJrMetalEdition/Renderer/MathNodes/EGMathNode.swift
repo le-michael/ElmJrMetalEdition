@@ -10,4 +10,6 @@ import Foundation
 
 protocol EGMathNode {
     func evaluate(_ sceneProps: EGSceneProps) -> Float
+    
+    func usesTime() -> Bool
 }

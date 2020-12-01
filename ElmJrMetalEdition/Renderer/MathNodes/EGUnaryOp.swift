@@ -39,4 +39,8 @@ class EGUnaryOp: EGMathNode {
             return abs(child.evaluate(sceneProps))
         }
     }
+    
+    func usesTime() -> Bool {
+        return child.usesTime()
+    }
 }
