@@ -1,18 +1,22 @@
 //
-//  EGConstant.swift
+//  EGRandom.swift
 //  ElmJrMetalEdition
 //
-//  Created by Michael Le on 2020-11-19.
+//  Created by Michael Le on 2020-11-30.
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
 import Foundation
 
-class EGConstant: EGMathNode {
+class EGRandom: EGMathNode {
     var value: Float
+
+    init() {
+        value = Float.random(in: 0 ... 100)
+    }
     
-    init(_ value: Float) {
-        self.value = value
+    init(range: Range<Float>) {
+        value = Float.random(in: range)
     }
 
     func evaluate(_ sceneProps: EGSceneProps) -> Float {

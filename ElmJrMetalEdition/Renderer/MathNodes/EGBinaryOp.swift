@@ -13,6 +13,8 @@ enum EGBinaryOpType {
     case sub
     case mul
     case div
+    case max
+    case min
 }
 
 class EGBinaryOp: EGMathNode {
@@ -36,6 +38,10 @@ class EGBinaryOp: EGMathNode {
             return leftChild.evaluate(sceneProps) * rightChild.evaluate(sceneProps)
         case .div:
             return leftChild.evaluate(sceneProps) / rightChild.evaluate(sceneProps)
+        case .max:
+            return max(leftChild.evaluate(sceneProps), rightChild.evaluate(sceneProps))
+        case .min:
+            return min(leftChild.evaluate(sceneProps), rightChild.evaluate(sceneProps))
         }
     }
 }

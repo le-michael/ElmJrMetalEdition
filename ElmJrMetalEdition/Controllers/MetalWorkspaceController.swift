@@ -31,31 +31,75 @@ class MetalWorkspaceController: UIViewController {
         let scene = EGScene(device: device)
         scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -100)
 
-        let sun = EGRegularPolygon(30)
-        sun.transform.scaleMatrix.setScale(x: 2.5, y: 2.5, z: 1)
-        sun.color.setColor(
-            r: EGUnaryOp(type: .cos, child: EGTime()),
-            g: EGUnaryOp(type: .sin, child: EGTime()),
-            b: EGConstant(1),
-            a: EGConstant(1)
-        )
-        scene.add(sun)
-        
-        let planet = EGRegularPolygon(30)
-        planet.transform.translationMatrix.setTranslation(
-            x: EGBinaryOp(
-                type: .mul,
-                leftChild: EGConstant(8),
-                rightChild: EGUnaryOp(type: .cos, child: EGTime())
-            ),
-            y: EGConstant(0),
-            z: EGBinaryOp(
-                type: .mul,
-                leftChild: EGConstant(8),
-                rightChild: EGUnaryOp(type: .sin, child: EGTime())
+        for _ in 0 ... 1000 {
+            let poly = EGRegularPolygon(10)
+            poly.transform.translationMatrix.setTranslation(
+                x: EGBinaryOp(
+                    type: .mul,
+                    leftChild: EGRandom(range: 1..<50),
+                    rightChild: EGUnaryOp(
+                        type: .sin,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
+                    )
+                ),
+                y: EGBinaryOp(
+                    type: .mul,
+                    leftChild: EGRandom(range: 1..<50),
+                    rightChild: EGUnaryOp(
+                        type: .cos,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
+                    )
+                ),
+                z: EGBinaryOp(
+                    type: .mul,
+                    leftChild: EGRandom(range: 0..<50),
+                    rightChild: EGUnaryOp(
+                        type: .cos,
+                        child: EGBinaryOp(
+                            type: .add,
+                            leftChild: EGRandom(),
+                            rightChild: EGTime()
+                        )
+                    )
+                )
             )
-        )
-        scene.add(planet)
+            poly.color.setColor(
+                r: EGUnaryOp(
+                    type: .cos,
+                    child: EGBinaryOp(
+                        type: .add,
+                        leftChild: EGRandom(),
+                        rightChild: EGTime()
+                    )
+                ),
+                g: EGUnaryOp(
+                    type: .sin,
+                    child: EGBinaryOp(
+                        type: .add,
+                        leftChild: EGRandom(),
+                        rightChild: EGTime()
+                    )
+                ),
+                b: EGUnaryOp(
+                    type: .cos,
+                    child: EGBinaryOp(
+                        type: .add,
+                        leftChild: EGRandom(),
+                        rightChild: EGTime()
+                    )
+                ),
+                a: EGConstant(1)
+            )
+            scene.add(poly)
+        }
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = EGRenderer(device: device, view: mtkView, scene: scene)

@@ -88,5 +88,23 @@ class EGMathNodesTests: XCTestCase {
         let divEq = EGBinaryOp(type: .div, leftChild: EGConstant(14.22), rightChild: EGTime())
         expectedValue = 14.22 / sceneProps.time
         XCTAssert(divEq.evaluate(sceneProps) == expectedValue)
+        
+        let maxEq = EGBinaryOp(type: .max, leftChild: EGConstant(14.22), rightChild: EGConstant(12.0))
+        XCTAssert(maxEq.evaluate(sceneProps) == 14.22)
+        
+        let minEq = EGBinaryOp(type: .min, leftChild: EGConstant(14.22), rightChild: EGConstant(12.0))
+        XCTAssert(minEq.evaluate(sceneProps) == 12.0)
+    }
+    
+    func testEGRandom() throws {
+        for _ in 0...1000 {
+            let randEq = EGRandom()
+            XCTAssert(randEq.evaluate(sceneProps) < 100 && randEq.evaluate(sceneProps) >= 0)
+        }
+        
+        for _ in 0...1000 {
+            let randEq = EGRandom(range: 3..<5)
+            XCTAssert(randEq.evaluate(sceneProps) < 5 && randEq.evaluate(sceneProps) >= 3)
+        }
     }
 }
