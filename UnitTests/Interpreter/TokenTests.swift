@@ -11,19 +11,19 @@ import XCTest
 
 class TokenTests: XCTestCase {
     func testIdentifier() throws {
-        let x = Token(type:.identifier, raw:"foobar")
+        let x = EIToken(type:.identifier, raw:"foobar")
         XCTAssert(x.type == .identifier);
         XCTAssert(x.raw == "foobar");
     }
     
     func testNumberInteger() throws {
-        let x = Token(type:.number, raw:"123456")
+        let x = EIToken(type:.number, raw:"123456")
         XCTAssert(x.type == .number);
         XCTAssert(x.raw == "123456");
     }
     
     func testNumberFloat() throws {
-        let x = Token(type:.number, raw:"123.456")
+        let x = EIToken(type:.number, raw:"123.456")
         XCTAssert(x.type == .number);
         XCTAssert(x.raw == "123.456");
     }

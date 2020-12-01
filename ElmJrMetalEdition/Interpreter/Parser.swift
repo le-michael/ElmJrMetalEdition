@@ -60,7 +60,7 @@ class Variable : ASTNode {
 }
 
 func parse(text: String) throws -> ASTNode {
-    let lexer = Lexer(text: text)
+    let lexer = EILexer(text: text)
     var token = try! lexer.nextToken()
     func advance() {
         token = try! lexer.nextToken()

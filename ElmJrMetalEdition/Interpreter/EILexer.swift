@@ -9,7 +9,7 @@
 
 import Foundation
 
-class Lexer {
+class EILexer {
     var characters : [Character];
     var characterIndex : Int;
     init(text: String) {
@@ -96,11 +96,11 @@ class Lexer {
         return true
     }
     
-    func matchSymbol() -> Token? {
-        var result: Token? = nil
-        for (raw, type) in Token.symbols {
+    func matchSymbol() -> EIToken? {
+        var result: EIToken? = nil
+        for (raw, type) in EIToken.symbols {
             if prefixMatches(raw) && (result == nil || result!.raw.count < raw.count) {
-                result = Token(type:type, raw:raw)
+                result = EIToken(type:type, raw:raw)
             }
         }
         if result != nil { advance(result!.raw.count) }
@@ -115,7 +115,7 @@ class Lexer {
         return (c >= "0" && c <= "9")
     }
     
-    func matchIdentifier() -> Token? {
+    func matchIdentifier() -> EIToken? {
         var c : Character = characters[characterIndex]
         if !isAlphabet(c) { return nil }
         var string : String = ""
@@ -125,13 +125,13 @@ class Lexer {
             if characterIndex == characters.count { break }
             c = characters[characterIndex]
         }
-        if let token = Token.reserved[string] {
-            return Token(type: token, raw:string)
+        if let token = EIToken.reserved[string] {
+            return EIToken(type: token, raw:string)
         }
-        return Token(type:.identifier, raw:string)
+        return EIToken(type:.identifier, raw:string)
     }
     
-    func matchNumber() throws -> Token? {
+    func matchNumber() throws -> EIToken? {
         var c : Character = characters[characterIndex]
         if !isDigit(c) { return nil }
         var string = ""
@@ -151,10 +151,10 @@ class Lexer {
         if characterIndex != characters.count && (isAlphabet(c) || c == "_") {
             throw LexerError.UnexpectedCharacter(c)
         }
-        return Token(type:.number, raw:string)
+        return EIToken(type:.number, raw:string)
     }
     
-    func matchStringOrChar() throws -> Token? {
+    func matchStringOrChar() throws -> EIToken? {
         var c : Character = characters[characterIndex]
         let singleQuote: Character = "'";
         let doubleQuote: Character = "\"";
@@ -179,19 +179,19 @@ class Lexer {
                     if raw.count > 1 {
                         throw LexerError.CharMustHaveLengthOne
                     }
-                    return Token(type:.char, raw:raw)
+                    return EIToken(type:.char, raw:raw)
                 } else {
-                    return Token(type:.string, raw:raw)
+                    return EIToken(type:.string, raw:raw)
                 }
             }
         }
         return nil
     }
     
-    func nextToken() throws -> Token {
+    func nextToken() throws -> EIToken {
         ignoreCommentsAndWhitespace()
-        if characterIndex == characters.count { return Token(type:.endOfFile, raw:"") }
-        var result: Token? = nil
+        if characterIndex == characters.count { return EIToken(type:.endOfFile, raw:"") }
+        var result: EIToken? = nil
         // "string" or character 'c'
         result = try matchStringOrChar()
         if result != nil { return result! }
