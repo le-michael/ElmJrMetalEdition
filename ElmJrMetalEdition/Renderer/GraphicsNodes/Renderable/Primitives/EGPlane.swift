@@ -8,7 +8,7 @@
 
 import simd
 
-class EGPlane: EGRenderable {
+class EGPlane: EGPrimitive {
     init() {
         let bufferData = EGBufferDataBuilder.createPlaneBufferData()
         super.init(mesh: EGMesh(bufferData))

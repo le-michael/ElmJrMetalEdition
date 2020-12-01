@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class EGRenderable: EGGraphicsNode {
+class EGPrimitive: EGGraphicsNode {
     var mesh: EGMesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?

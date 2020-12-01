@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class EGRegularPolygon: EGRenderable {
+class EGRegularPolygon: EGPrimitive {
     init(_ numOfSides: Int) {
         let bufferData = EGBufferDataBuilder.createRegularPolygonBufferData(numOfSides)
         super.init(mesh: EGMesh(bufferData))

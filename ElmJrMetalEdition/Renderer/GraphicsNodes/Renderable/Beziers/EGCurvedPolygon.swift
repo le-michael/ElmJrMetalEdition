@@ -29,7 +29,7 @@ class EGCurvedPolygon: EGGraphicsNode {
         self.p2 = p2
         self.p3 = p3
         
-        let bufferData = EGBufferDataBuilder.createRegularPolygonBufferData(30)
+        let bufferData = EGBufferDataBuilder.createRegularPolygonBufferData(35)
         self.mesh = EGBezierMesh(bufferData)
         super.init()
     }
@@ -62,7 +62,6 @@ class EGCurvedPolygon: EGGraphicsNode {
         modelConstants.p1 = p1.evaluate(sceneProps)
         modelConstants.p2 = p2.evaluate(sceneProps)
         modelConstants.p3 = p3.evaluate(sceneProps)
-        //print(modelConstants)
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,

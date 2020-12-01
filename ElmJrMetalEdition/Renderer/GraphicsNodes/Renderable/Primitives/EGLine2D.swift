@@ -9,7 +9,7 @@
 import GLKit
 import simd
 
-class EGLine2D: EGRenderable {
+class EGLine2D: EGPrimitive {
     init(p0: simd_float3, p1: simd_float3, size: Float) {
         let bufferData = EGBufferDataBuilder.createLine2DBufferData(p0: p0, p1: p1, size: size)
         super.init(mesh: EGMesh(bufferData))

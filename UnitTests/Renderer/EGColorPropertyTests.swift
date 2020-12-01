@@ -10,7 +10,7 @@
 import simd
 import XCTest
 
-class EGColorTests: XCTestCase {
+class EGColorPropertyTests: XCTestCase {
     var sceneProps: EGSceneProps!
 
     override func setUpWithError() throws {
