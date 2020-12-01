@@ -25,7 +25,7 @@ struct VertexOut {
 };
 
 
-vertex VertexOut vertex_shader(const VertexIn vertexIn [[ stage_in ]],
+vertex VertexOut primitive_vertex_shader(const VertexIn vertexIn [[ stage_in ]],
                                constant ModelConstants &modelConstants [[ buffer(1) ]]) {
     VertexOut vertexOut;
     vertexOut.position = modelConstants.modelViewMatrix * vertexIn.position;
@@ -34,6 +34,6 @@ vertex VertexOut vertex_shader(const VertexIn vertexIn [[ stage_in ]],
     return vertexOut;
 }
 
-fragment half4 fragment_shader(VertexOut vertexIn [[ stage_in ]]) {
+fragment half4 primitive_fragment_shader(VertexOut vertexIn [[ stage_in ]]) {
     return half4(vertexIn.color);
 }

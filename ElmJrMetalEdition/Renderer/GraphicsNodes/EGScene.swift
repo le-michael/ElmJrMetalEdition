@@ -44,12 +44,12 @@ class EGScene: EGGraphicsNode {
         node.createBuffers(device: device)
     }
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: [EGPipelineStates: MTLRenderPipelineState]) {
         sceneProps.time += 1.0 / fps
         for child in children {
             child.draw(
                 commandEncoder: commandEncoder,
-                pipelineState: pipelineState,
+                pipelineStates: pipelineStates,
                 sceneProps: sceneProps
             )
         }

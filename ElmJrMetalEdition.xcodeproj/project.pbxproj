@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10126A96257600B6001659B3 /* EGPipelineStateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10126A95257600B6001659B3 /* EGPipelineStateBuilder.swift */; };
 		101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101AE71C256784200083704C /* EGMathNodesTests.swift */; };
 		101D0826256C6BD6008F5A0D /* EGTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D0825256C6BD6008F5A0D /* EGTransformTests.swift */; };
 		1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B440256719FB00651AA4 /* EGUnaryOp.swift */; };
 		1020B44425671B6600651AA4 /* EGTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020B44325671B6600651AA4 /* EGTime.swift */; };
 		1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01725632AA000C4DBFA /* EGGraphicsNode.swift */; };
 		1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* EGScene.swift */; };
+		102D1A5B2575EF8D00A6CD27 /* Bezier.metal in Sources */ = {isa = PBXBuildFile; fileRef = 102D1A5A2575EF8D00A6CD27 /* Bezier.metal */; };
 		1049A25025671E20007E85BE /* EGZRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049A24F25671E20007E85BE /* EGZRotationMatrix.swift */; };
 		1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066EB9E256D9D3C00667E1E /* EGColorTests.swift */; };
+		106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */; };
 		1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */; };
 		1072E3E42564C41000D390FE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* Lexer.swift */; };
 		1072E3E72564C42100D390FE /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* Interpreter.swift */; };
@@ -28,6 +31,7 @@
 		108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* EGTranslationMatrix.swift */; };
 		109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109357AD256D8C0200CC2F3D /* EGColorProperty.swift */; };
 		109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* EGTransformProperty.swift */; };
+		10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */; };
 		10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10ACC0B6256300D200ABEAD4 /* EGRendererTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B5256300D200ABEAD4 /* EGRendererTypes.swift */; };
@@ -64,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10126A95257600B6001659B3 /* EGPipelineStateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPipelineStateBuilder.swift; sourceTree = "<group>"; };
 		101AE70F256783D70083704C /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		101AE713256783D70083704C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		101AE71C256784200083704C /* EGMathNodesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathNodesTests.swift; sourceTree = "<group>"; };
@@ -72,8 +77,10 @@
 		1020B44325671B6600651AA4 /* EGTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTime.swift; sourceTree = "<group>"; };
 		1028E01725632AA000C4DBFA /* EGGraphicsNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGGraphicsNode.swift; sourceTree = "<group>"; };
 		1028E01A25632BAE00C4DBFA /* EGScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScene.swift; sourceTree = "<group>"; };
+		102D1A5A2575EF8D00A6CD27 /* Bezier.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Bezier.metal; sourceTree = "<group>"; };
 		1049A24F25671E20007E85BE /* EGZRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGZRotationMatrix.swift; sourceTree = "<group>"; };
 		1066EB9E256D9D3C00667E1E /* EGColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorTests.swift; sourceTree = "<group>"; };
+		106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCurvedPolygon.swift; sourceTree = "<group>"; };
 		1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMatrixBuilder.swift; sourceTree = "<group>"; };
 		1072E3E32564C41000D390FE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		1072E3E62564C42100D390FE /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
@@ -87,6 +94,7 @@
 		108815242567253900E0850D /* EGTranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTranslationMatrix.swift; sourceTree = "<group>"; };
 		109357AD256D8C0200CC2F3D /* EGColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorProperty.swift; sourceTree = "<group>"; };
 		109DD9CD256B27C700FB700F /* EGTransformProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformProperty.swift; sourceTree = "<group>"; };
+		10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPoint2D.swift; sourceTree = "<group>"; };
 		10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10ACC0B5256300D200ABEAD4 /* EGRendererTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRendererTypes.swift; sourceTree = "<group>"; };
@@ -198,11 +206,13 @@
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				10A0BB9B2575F900001CD1F8 /* Types */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
 				10ACC0B12562F47700ABEAD4 /* Shaders */,
 				107596F8251C461600BBE3B6 /* EGRenderer.swift */,
 				10ACC0B5256300D200ABEAD4 /* EGRendererTypes.swift */,
+				10126A95257600B6001659B3 /* EGPipelineStateBuilder.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -220,6 +230,25 @@
 			path = MathNodes;
 			sourceTree = "<group>";
 		};
+		108D2AAD25760FCC0088702F /* Primitives */ = {
+			isa = PBXGroup;
+			children = (
+				1072E3EE2565942100D390FE /* EGRenderable.swift */,
+				1072E3F42565983A00D390FE /* EGRegularPolygon.swift */,
+				10D89627256840480053D762 /* EGPlane.swift */,
+				10D89632256865E60053D762 /* EGLine2D.swift */,
+			);
+			path = Primitives;
+			sourceTree = "<group>";
+		};
+		108D2AAE25760FE20088702F /* Beziers */ = {
+			isa = PBXGroup;
+			children = (
+				106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */,
+			);
+			path = Beziers;
+			sourceTree = "<group>";
+		};
 		109357AC256D8BD900CC2F3D /* Color */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,10 +257,19 @@
 			path = Color;
 			sourceTree = "<group>";
 		};
+		10A0BB9B2575F900001CD1F8 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
 		10ACC0B12562F47700ABEAD4 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
 				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
+				102D1A5A2575EF8D00A6CD27 /* Bezier.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -239,11 +277,9 @@
 		10D8962B256845830053D762 /* Renderable */ = {
 			isa = PBXGroup;
 			children = (
+				108D2AAE25760FE20088702F /* Beziers */,
+				108D2AAD25760FCC0088702F /* Primitives */,
 				1037F29C2570487A004C6108 /* Properties */,
-				1072E3EE2565942100D390FE /* EGRenderable.swift */,
-				1072E3F42565983A00D390FE /* EGRegularPolygon.swift */,
-				10D89627256840480053D762 /* EGPlane.swift */,
-				10D89632256865E60053D762 /* EGLine2D.swift */,
 			);
 			path = Renderable;
 			sourceTree = "<group>";
@@ -436,8 +472,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10126A96257600B6001659B3 /* EGPipelineStateBuilder.swift in Sources */,
 				1072E3E72564C42100D390FE /* Interpreter.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
+				10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */,
 				D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */,
 				1072E3EF2565942100D390FE /* EGRenderable.swift in Sources */,
 				554723032564778900E2E934 /* ListParser.swift in Sources */,
@@ -457,6 +495,7 @@
 				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
+				106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				1072E3E42564C41000D390FE /* Lexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */,
@@ -471,6 +510,7 @@
 				107FDB5D2567182800D1B54C /* EGMathNode.swift in Sources */,
 				D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */,
 				D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */,
+				102D1A5B2575EF8D00A6CD27 /* Bezier.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
