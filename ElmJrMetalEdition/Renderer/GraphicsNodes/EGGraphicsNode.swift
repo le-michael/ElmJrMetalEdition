@@ -11,10 +11,8 @@ import MetalKit
 class EGGraphicsNode {
     var children: [EGGraphicsNode] = []
 
-    init() {}
-
     func draw(commandEncoder: MTLRenderCommandEncoder,
-              pipelineState: MTLRenderPipelineState,
+              pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
               sceneProps: EGSceneProps) {}
 
     func createBuffers(device: MTLDevice) {}

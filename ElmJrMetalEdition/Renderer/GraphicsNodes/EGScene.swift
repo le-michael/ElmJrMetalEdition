@@ -9,14 +9,11 @@
 import MetalKit
 
 class EGScene: EGGraphicsNode {
-    let device: MTLDevice
     var drawableSize: CGSize?
     var sceneProps: EGSceneProps!
-    var fps: Float
+    var fps: Float = 60
 
-    init(device: MTLDevice) {
-        self.device = device
-        fps = 60
+    override init() {
         super.init()
         initSceneProps()
     }
@@ -41,15 +38,20 @@ class EGScene: EGGraphicsNode {
 
     override func add(_ node: EGGraphicsNode) {
         super.add(node)
-        node.createBuffers(device: device)
+    }
+    
+    override func createBuffers(device: MTLDevice) {
+        for child in children {
+            child.createBuffers(device: device)
+        }
     }
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineState: MTLRenderPipelineState) {
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: [EGPipelineStates: MTLRenderPipelineState]) {
         sceneProps.time += 1.0 / fps
         for child in children {
             child.draw(
                 commandEncoder: commandEncoder,
-                pipelineState: pipelineState,
+                pipelineStates: pipelineStates,
                 sceneProps: sceneProps
             )
         }

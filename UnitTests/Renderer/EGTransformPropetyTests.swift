@@ -10,7 +10,7 @@
 import simd
 import XCTest
 
-class EGTransformTests: XCTestCase {
+class EGTransformPropertyTests: XCTestCase {
     var sceneProps: EGSceneProps!
     
     override func setUpWithError() throws {

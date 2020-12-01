@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class EGRenderable: EGGraphicsNode {
+class EGPrimitive: EGGraphicsNode {
     var mesh: EGMesh
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
@@ -40,23 +40,25 @@ class EGRenderable: EGGraphicsNode {
     private func updateModelConstants(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
         
-        modelConstants.modelViewMatrix = sceneProps.projectionMatrix *
-            sceneProps.viewMatrix * transformationMatrix
+        modelConstants.modelViewMatrix = sceneProps.projectionMatrix
+            * sceneProps.viewMatrix
+            * transformationMatrix
         
-        let rgba = color.evaluate(sceneProps)
-        modelConstants.color = rgba
+        let colorValue = color.evaluate(sceneProps)
+        modelConstants.color = colorValue
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineState: MTLRenderPipelineState,
+                       pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
                        sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
+              let pipeline = pipelineStates[.PrimitivePipelineState],
               let vertexBuffer = vertexBuffer else { return }
         
         updateModelConstants(sceneProps)
       
-        commandEncoder.setRenderPipelineState(pipelineState)
+        commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(

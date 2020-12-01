@@ -53,7 +53,7 @@ class EditorViewController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
         
-        let scene = EGScene(device: device)
+        let scene = EGScene()
         scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -3)
         
         let triangles = transpile(data: mockData)
