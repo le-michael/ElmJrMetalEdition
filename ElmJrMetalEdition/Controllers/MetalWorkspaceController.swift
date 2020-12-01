@@ -28,8 +28,7 @@ class MetalWorkspaceController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
 
-        let scene = EGScene(device: device)
-        scene.sceneProps?.viewMatrix = EGMatrixBuilder.createTranslationMatrix(x: 0, y: 0, z: -100)
+        let scene = EGDemoScenes.spinningFan()
 
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         renderer = EGRenderer(device: device, view: mtkView, scene: scene)

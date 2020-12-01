@@ -11,8 +11,6 @@ import MetalKit
 class EGGraphicsNode {
     var children: [EGGraphicsNode] = []
 
-    init() {}
-
     func draw(commandEncoder: MTLRenderCommandEncoder,
               pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
               sceneProps: EGSceneProps) {}

@@ -16,6 +16,7 @@
 		1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* EGScene.swift */; };
 		102D1A5B2575EF8D00A6CD27 /* Bezier.metal in Sources */ = {isa = PBXBuildFile; fileRef = 102D1A5A2575EF8D00A6CD27 /* Bezier.metal */; };
 		10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10340BB0257697880006F922 /* EGPoint2DTests.swift */; };
+		103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103DF84325769FFA00C093D1 /* EGDemoScenes.swift */; };
 		1049A25025671E20007E85BE /* EGZRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1049A24F25671E20007E85BE /* EGZRotationMatrix.swift */; };
 		105CCEF625769166006A6634 /* EGMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF525769166006A6634 /* EGMesh.swift */; };
 		105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF9257691CE006A6634 /* EGBezierMesh.swift */; };
@@ -87,6 +88,7 @@
 		1028E01A25632BAE00C4DBFA /* EGScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScene.swift; sourceTree = "<group>"; };
 		102D1A5A2575EF8D00A6CD27 /* Bezier.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Bezier.metal; sourceTree = "<group>"; };
 		10340BB0257697880006F922 /* EGPoint2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPoint2DTests.swift; sourceTree = "<group>"; };
+		103DF84325769FFA00C093D1 /* EGDemoScenes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGDemoScenes.swift; sourceTree = "<group>"; };
 		1049A24F25671E20007E85BE /* EGZRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGZRotationMatrix.swift; sourceTree = "<group>"; };
 		105CCEF525769166006A6634 /* EGMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMesh.swift; sourceTree = "<group>"; };
 		105CCEF9257691CE006A6634 /* EGBezierMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBezierMesh.swift; sourceTree = "<group>"; };
@@ -197,6 +199,14 @@
 			path = Properties;
 			sourceTree = "<group>";
 		};
+		103DF84225769FE500C093D1 /* Demos */ = {
+			isa = PBXGroup;
+			children = (
+				103DF84325769FFA00C093D1 /* EGDemoScenes.swift */,
+			);
+			path = Demos;
+			sourceTree = "<group>";
+		};
 		1049A24E25671E11007E85BE /* Transform */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +260,7 @@
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				103DF84225769FE500C093D1 /* Demos */,
 				10A0BB9B2575F900001CD1F8 /* Types */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
@@ -524,6 +535,7 @@
 				10126A96257600B6001659B3 /* EGPipelineStateBuilder.swift in Sources */,
 				1072E3E72564C42100D390FE /* Interpreter.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
+				103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */,
 				10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */,
 				D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */,
 				1072E3EF2565942100D390FE /* EGRenderable.swift in Sources */,

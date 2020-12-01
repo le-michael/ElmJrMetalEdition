@@ -29,6 +29,7 @@ class EGRenderer: NSObject {
         self.scene = scene
         view.depthStencilPixelFormat = .depth32Float
         scene.fps = Float(view.preferredFramesPerSecond)
+        scene.createBuffers(device: device)
         super.init()
         buildPipelineStates()
         buildDepthStencilState()
