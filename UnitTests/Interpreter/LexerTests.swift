@@ -10,175 +10,127 @@ import XCTest
 @testable import ElmJrMetalEdition
 
 class LexerTests: XCTestCase {
-    func testSymbols() throws {
-        let s = "()+-++*^/: ::->{}<||>.|";
-        let t:[Token.TokenType] = [
-            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .colon, .coloncolon, .arrow, .leftCurly, .rightCurly, .leftFuncApp, .rightFuncApp, .dot, .bar, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
+    func checkTokenTypes(_ text: String, _ tokenTypes:[Token.TokenType]) throws {
+        let lexer = Lexer(text: text)
+        for tokenType in tokenTypes {
+            let token = try lexer.nextToken()
+            XCTAssert(token.type == tokenType)
         }
+    }
+    
+    
+    func testSymbols() throws {
+        let text = "()+-++*^/: ::->{}<||>.|";
+        let tokenTypes:[Token.TokenType] = [
+            .leftParan, .rightParan, .plus, .minus, .plusplus, .asterisk, .caret, .forwardSlash, .colon, .coloncolon, .arrow, .leftCurly, .rightCurly, .leftFuncApp, .rightFuncApp, .dot, .bar, .endOfFile]
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testWhitespace() throws {
-        let s = " (  )   + ++    ";
-        let t:[Token.TokenType] = [
+        let text = " (  )   + ++    ";
+        let tokenTypes:[Token.TokenType] = [
             .leftParan, .rightParan, .plus, .plusplus, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testIdentifier() throws {
-        let s = "a bc asd_ bird27";
-        let t:[Token.TokenType] = [
+        let text = "a bc asd_ bird27";
+        let tokenTypes:[Token.TokenType] = [
             .identifier, .identifier, .identifier, .identifier, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testNumber() throws {
-        let s = "1 987.456 5.0 800000";
-        let t:[Token.TokenType] = [
+        let text = "1 987.456 5.0 800000";
+        let tokenTypes:[Token.TokenType] = [
             .number, .number, .number, .number, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testExpression() throws {
-        let s = "(1 + x) + b2";
-        let t:[Token.TokenType] = [
+        let text = "(1 + x) + b2";
+        let tokenTypes:[Token.TokenType] = [
             .leftParan, .number, .plus, .identifier, .rightParan, .plus, .identifier, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testReservedWords() throws {
-        let s = "if then else case of let in type alias ifcat";
-        
-        let t:[Token.TokenType] = [
+        let text = "if then else case of let in type alias ifcat";
+        let tokenTypes:[Token.TokenType] = [
             .IF, .THEN, .ELSE, .CASE, .OF, .LET, .IN, .TYPE, .ALIAS, .identifier, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testLetterAfterDigit() throws {
-        let s = "1234A"
-        let l = Lexer(text: s)
-        XCTAssertThrowsError(try l.nextToken()) { (error) in
+        let text = "1234A"
+        let lexer = Lexer(text: text)
+        XCTAssertThrowsError(try lexer.nextToken()) { (error) in
             XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.UnexpectedCharacter("A"))
         }
     }
     
     func testNumberTwoDecimal() throws {
-        let s = "1234.456.789"
-        let l = Lexer(text: s)
-        XCTAssertThrowsError(try l.nextToken()) { (error) in
+        let text = "1234.456.789"
+        let lexer = Lexer(text: text)
+        XCTAssertThrowsError(try lexer.nextToken()) { (error) in
             XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.InvalidNumber)
         }
     }
     
     func testNewlines() throws {
-        let s = "1 \n a \n + \n \n";
-        let t:[Token.TokenType] = [
+        let text = "1 \n a \n + \n \n";
+        let tokenTypes:[Token.TokenType] = [
             .number, .identifier, .plus, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testSingleLineComments() throws {
-        let s = "( \n -- a \n = -- + \n";
-        let t:[Token.TokenType] = [
+        let text = "( \n -- a \n = -- + \n";
+        let tokenTypes:[Token.TokenType] = [
             .leftParan, .equal, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testBlockComments() throws {
-        let s = "( \n {- a -} \n = {- + -} \n";
-        let t:[Token.TokenType] = [
+        let text = "( \n {- a -} \n = {- + -} \n";
+        let tokenTypes:[Token.TokenType] = [
             .leftParan, .equal, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testBlockCommentsNested() throws {
-        let s = "( \n {- {- a -} b -} \n = {- {--} {--} + -} \n";
-        let t:[Token.TokenType] = [
+        let text = "( \n {- {- a -} b -} \n = {- {--} {--} + -} \n";
+        let tokenTypes:[Token.TokenType] = [
             .leftParan, .equal, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testStringChar() throws {
-        let s = "\"cat\" ++ 's'";
-        let t:[Token.TokenType] = [
+        let text = "\"cat\" ++ 's'";
+        let tokenTypes:[Token.TokenType] = [
             .string, .plusplus, .char, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testSyntaxExample1() throws {
-        let s = "{--} \n add x y = x + y \n --} \n";
-        let t:[Token.TokenType] = [
+        let text = "{--} \n add x y = x + y \n --} \n";
+        let tokenTypes:[Token.TokenType] = [
             .identifier, .identifier, .identifier, .equal, .identifier, .plus, .identifier, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testSyntaxExample2() throws {
-        let s = "\"abc\" ++ \"def\"";
-        let t:[Token.TokenType] = [
+        let text = "\"abc\" ++ \"def\"";
+        let tokenTypes:[Token.TokenType] = [
             .string, .plusplus, .string, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     func testSyntaxExample3() throws {
-        let s = "if powerLevel > 9000 then [] else 1 :: [2,3]";
-        let t:[Token.TokenType] = [
+        let text = "if powerLevel > 9000 then [] else 1 :: [2,3]";
+        let tokenTypes:[Token.TokenType] = [
             .IF, .identifier, .greaterthan, .number, .THEN, .leftSquare, .rightSquare, .ELSE, .number, .coloncolon, .leftSquare, .number, .comma, .number, .rightSquare, .endOfFile]
-        let l = Lexer(text: s)
-        for type in t {
-            let v = try l.nextToken()
-            XCTAssert(v.type == type)
-        }
+        try checkTokenTypes(text, tokenTypes);
     }
     
     
