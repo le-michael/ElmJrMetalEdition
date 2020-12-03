@@ -185,8 +185,10 @@ class Parser {
         // read arguments until we counter something that can't be an argument
         while !flag {
             if token.type == .identifier {
-                // we don't support passing functions yet
-                throw ParserError.NotImplemented
+                // here we are either passing a variable value or a function
+                arguments.append(FunctionCall(name: token.raw, arguments:[]))
+                advance()
+                continue;
             }
             switch token.type {
             case .leftParan: fallthrough

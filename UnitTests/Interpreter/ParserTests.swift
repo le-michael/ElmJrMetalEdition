@@ -44,6 +44,7 @@ class ParserTests: XCTestCase {
         try checkASTExpression("f 1", "FunctionCall(\"f,[Integer(1)]\")")
         try checkASTExpression("foo 1+1", "FunctionCall(\"foo,[BinaryOpAdd(Integer(1),Integer(1))]\")")
         try checkASTExpression("bar (foo 6) 3 5", "FunctionCall(\"bar,[FunctionCall(\"foo,[Integer(6)]\"), Integer(3), Integer(5)]\")")
+        try checkASTExpression("add x y", "FunctionCall(\"add,[FunctionCall(\"x\"), FunctionCall(\"y\")]\")")
     }
 
 }
