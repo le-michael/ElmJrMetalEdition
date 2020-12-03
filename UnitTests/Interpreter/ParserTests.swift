@@ -11,11 +11,9 @@ import XCTest
 
 class ParserTests: XCTestCase {
     func testIdentifier() throws {
-        /*
         let s = "foo"
-        let ast = parse(text: s)
-        XCTAssertEqual(ast,Variable("foo"))
-        */
+        let ast = try Parser(text:s).parseExpression()
+        XCTAssertEqual("\(ast)","Variable(\"foo\")")
     }
 
 }
