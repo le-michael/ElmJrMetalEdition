@@ -29,7 +29,11 @@ class Parser {
     }
     
     func parseExpression() throws -> ASTNode {
-        return try! additiveExpression()
+        return try additiveExpression()
+    }
+    
+    func parseDeclaration() throws -> ASTNode {
+        return try functionDeclaration()
     }
     
     enum ParserError : Error {
@@ -79,7 +83,39 @@ class Parser {
         return "Variable(\"\(name)\")"
       }
     }
+    
+    class Function : ASTNode {
+        let name : String
+        let parameters : [String]
+        let body : ASTNode
+        
+        init(name : String, parameters : [String], body: ASTNode) {
+            self.name = name
+            self.parameters = parameters
+            self.body = body
+        }
 
+        var description : String {
+          return "\(name)(\(parameters)){\(body)}"
+        }
+    }
+
+    func functionDeclaration() throws -> ASTNode {
+        assert(token.type == .identifier)
+        let name = token.raw
+        advance()
+        var parameters = [String]()
+        // for now we assume parameters are strings rather than patterns
+        while token.type == .identifier {
+            parameters.append(token.raw)
+            advance()
+        }
+        assert(token.type == .equal)
+        advance()
+        let body = try additiveExpression()
+        return Function(name: name, parameters: parameters, body: body)
+    }
+    
     func additiveExpression() throws -> ASTNode {
         var result = try multiplicativeExpression()
         while true {
