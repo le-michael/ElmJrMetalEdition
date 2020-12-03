@@ -39,6 +39,7 @@ class Parser {
     enum ParserError : Error {
       case MissingRightParantheses
       case UnexpectedToken
+      case NotImplemented
     }
     
     class BinaryOp : ASTNode {
@@ -72,15 +73,21 @@ class Parser {
         }
     }
 
-    class Variable : ASTNode {
-      var name : String
+    class FunctionCall : ASTNode {
+        var name : String
+        var arguments : [ASTNode]
 
-      init(_ name : String) {
-        self.name = name
-      }
+        init(name : String, arguments : [ASTNode]) {
+            self.name = name
+            self.arguments = arguments
+        }
 
       var description : String {
-        return "Variable(\"\(name)\")"
+        if arguments.count == 0 {
+            return "FunctionCall(\"\(name)\")"
+        } else {
+            return "FunctionCall(\"\(name),\(arguments)\")"
+        }
       }
     }
     
@@ -159,8 +166,7 @@ class Parser {
             }
             advance()
           case .identifier:
-            result = Variable(token.raw)
-            advance()
+            result = try parseFunctionCall()
         case .number:
             // for now we assume is an int
             result = Integer(Int(token.raw)!)
@@ -170,6 +176,29 @@ class Parser {
         }
         return result
       }
+    
+    func parseFunctionCall() throws -> ASTNode {
+        let name = token.raw
+        var arguments = [ASTNode]()
+        advance()
+        var flag = false
+        // read arguments until we counter something that can't be an argument
+        while !flag {
+            if token.type == .identifier {
+                // we don't support passing functions yet
+                throw ParserError.NotImplemented
+            }
+            switch token.type {
+            case .leftParan: fallthrough
+            case .identifier: fallthrough
+            case .number:
+                arguments.append(try additiveExpression())
+            default:
+                flag = true
+            }
+        }
+        return FunctionCall(name: name, arguments: arguments)
+    }
 
 }
 
