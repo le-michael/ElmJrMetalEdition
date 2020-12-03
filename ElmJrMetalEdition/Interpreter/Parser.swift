@@ -56,7 +56,7 @@ class Parser {
     class BinaryOpSubtract : BinaryOp {}
     class BinaryOpDivide : BinaryOp {}
 
-    class IntegerConstant : ASTNode         {
+    class Integer : ASTNode         {
       let value : Int
 
       init(_ value : Int) {
@@ -64,7 +64,7 @@ class Parser {
       }
 
         var description : String {
-          return "IntegerConstant(\(value))"
+          return "Integer(\(value))"
         }
     }
 
@@ -127,8 +127,8 @@ class Parser {
             advance()
         case .number:
             // for now we assume is an int
+            result = Integer(Int(token.raw)!)
             advance()
-            result = IntegerConstant(Int(token.raw)!)
           default:
             throw ParserError.UnexpectedToken
         }

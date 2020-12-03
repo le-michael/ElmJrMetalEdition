@@ -15,21 +15,21 @@ class ParserTests: XCTestCase {
         XCTAssertEqual("\(ast)", toOutput)
     }
     
-    func testIdentifier1() throws {
+    func testIdentifier() throws {
         try checkASTString("foo", "Variable(\"foo\")")
+        try checkASTString("(bar)", "Variable(\"bar\")")
+        try checkASTString("(((moon)))", "Variable(\"moon\")")
+    }
+    
+    func testMultiply() throws {
+        try checkASTString("x*y", "BinaryOpMultiply(Variable(\"x\"),Variable(\"y\"))")
+        try checkASTString("x*(y*z)", "BinaryOpMultiply(Variable(\"x\"),BinaryOpMultiply(Variable(\"y\"),Variable(\"z\")))")
+    }
+    
+    func testMath() throws {
+        try checkASTString("(1+x)/(y*5)", "BinaryOpDivide(BinaryOpAdd(Integer(1),Variable(\"x\")),BinaryOpMultiply(Variable(\"y\"),Integer(5)))")
     }
 
 }
-/*
- let tests = [
-   "foo",
-   "(bar)",
-   "(((moo)))",
-   "x*y",
-   "x*(y*z)",
-   "a + b*c + d*(e + f + g)",
-   "a + 1",
-   "(2 + y * 5 + 123) * (4/fooBar - 2)",
- ]
- 
- */
+
+
