@@ -10,10 +10,13 @@ import XCTest
 @testable import ElmJrMetalEdition
 
 class ParserTests: XCTestCase {
-    func testIdentifier() throws {
-        let s = "foo"
-        let ast = try Parser(text:s).parseExpression()
-        XCTAssertEqual("\(ast)","Variable(\"foo\")")
+    func checkASTString(_ toParse: String, _ toOutput: String) throws {
+        let ast = try Parser(text: toParse).parseExpression()
+        XCTAssertEqual("\(ast)", toOutput)
+    }
+    
+    func testIdentifier1() throws {
+        try checkASTString("foo", "Variable(\"foo\")")
     }
 
 }
