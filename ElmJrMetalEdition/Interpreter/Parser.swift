@@ -45,18 +45,28 @@ class Parser {
     class BinaryOp : ASTNode {
       let leftOperand : ASTNode;
       let rightOperand : ASTNode;
+        //let opSymbol : String;
 
-      init(_ leftOperand : ASTNode, _ rightOperand : ASTNode) {
-        self.leftOperand = leftOperand
-        self.rightOperand = rightOperand
+        init(_ leftOperand : ASTNode, _ rightOperand : ASTNode) {
+            //self.opSymbol = opSymbol
+            self.leftOperand = leftOperand
+            self.rightOperand = rightOperand
       }
 
-      var description : String {
-        return "\(String(describing:type(of:self)))(\(leftOperand),\(rightOperand))"
+        var description : String {
+            var opSymbol : String
+            switch self {
+                case _ as BinaryOpAdd: opSymbol = "+"
+                case _ as BinaryOpMultiply: opSymbol = "*"
+                case _ as BinaryOpSubtract: opSymbol = "-"
+                case _ as BinaryOpDivide: opSymbol = "/"
+            default: opSymbol="ERROR"; assert(false) // Don't want to make this a real exception
+            }
+            return "(\(leftOperand)\(opSymbol)\(rightOperand))"
       }
     }
 
-    class BinaryOpAdd : BinaryOp {}
+    class BinaryOpAdd : BinaryOp { }
     class BinaryOpMultiply : BinaryOp {}
     class BinaryOpSubtract : BinaryOp {}
     class BinaryOpDivide : BinaryOp {}
@@ -69,11 +79,12 @@ class Parser {
       }
 
         var description : String {
-          return "Integer(\(value))"
+          return "\(value)"
         }
     }
 
     class FunctionCall : ASTNode {
+        
         var name : String
         var arguments : [ASTNode]
 
@@ -81,14 +92,18 @@ class Parser {
             self.name = name
             self.arguments = arguments
         }
-
-      var description : String {
-        if arguments.count == 0 {
-            return "FunctionCall(\"\(name)\")"
-        } else {
-            return "FunctionCall(\"\(name),\(arguments)\")"
-        }
-      }
+            
+        var description : String {
+              if arguments.count == 0 {
+                    return "\(name)"
+              } else {
+                var result = "\(name)"
+                for argument in arguments {
+                    result += " \(argument)"
+                }
+                return "(\(result))"
+              }
+       }
     }
     
     class Function : ASTNode {
@@ -103,7 +118,12 @@ class Parser {
         }
 
         var description : String {
-          return "\(name)(\(parameters)){\(body)}"
+            var result = "\(name)"
+            for parameter in parameters {
+                result += " \(parameter)"
+            }
+            result += " = \(body)"
+            return result
         }
     }
 
