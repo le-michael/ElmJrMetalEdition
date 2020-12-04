@@ -206,7 +206,7 @@ class EGDemoScenes {
         return scene
     }
 
-    static func pointCube() -> EGScene {
+    static func cubeTunnel() -> EGScene {
         let scene = EGScene()
         scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
         scene.camera.xRotationMatrix.setXRotation(angle: -20 * Float.pi / 180)
