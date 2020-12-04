@@ -51,7 +51,7 @@ class EGCurvedPolygon: EGGraphicsNode {
     }
     
     private func updateModelConstants(_ sceneProps: EGSceneProps) {
-        let transformationMatrx = transform.getTransformationMatrix(sceneProps: sceneProps)
+        let transformationMatrx = transform.getTransformationMatrix(sceneProps)
         
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix

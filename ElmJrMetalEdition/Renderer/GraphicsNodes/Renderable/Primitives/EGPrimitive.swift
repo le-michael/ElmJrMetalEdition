@@ -40,7 +40,7 @@ class EGPrimitive: EGGraphicsNode {
     }
 
     private func updateModelConstants(_ sceneProps: EGSceneProps) {
-        let transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        let transformationMatrix = transform.getTransformationMatrix(sceneProps)
         
         modelConstants.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix
