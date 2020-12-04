@@ -94,6 +94,48 @@ class EGTransformTests: XCTestCase {
         XCTAssert(translationMatrix.usesTime() == true)
     }
     
+    func testEGXRotationMatrix() throws {
+        let xRotationMatrix = EGXRotationMatrix()
+        xRotationMatrix.setXRotation(angle: 182)
+        var expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: 182)
+        XCTAssert(xRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(xRotationMatrix.usesTime() == false)
+        
+        sceneProps.time = 18888
+        xRotationMatrix.setXRotation(angle: EGTime())
+        expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: sceneProps.time)
+        XCTAssert(xRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(xRotationMatrix.usesTime() == true)
+        
+        xRotationMatrix.setXRotation(
+            angle: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime()))
+        )
+        expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: cos(sin(sceneProps.time)))
+        XCTAssert(xRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(xRotationMatrix.usesTime() == true)
+    }
+    
+    func testEGYRotationMatrix() throws {
+        let yRotationMatrix = EGYRotationMatrix()
+        yRotationMatrix.setYRotation(angle: 1002.155)
+        var expectedMatrix = EGMatrixBuilder.createYRotationMatrix(radians: 1002.155)
+        XCTAssert(yRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(yRotationMatrix.usesTime() == false)
+        
+        sceneProps.time = 10000.21324
+        yRotationMatrix.setYRotation(angle: EGTime())
+        expectedMatrix = EGMatrixBuilder.createYRotationMatrix(radians: sceneProps.time)
+        XCTAssert(yRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(yRotationMatrix.usesTime() == true)
+        
+        yRotationMatrix.setYRotation(
+            angle: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime()))
+        )
+        expectedMatrix = EGMatrixBuilder.createYRotationMatrix(radians: cos(sin(sceneProps.time)))
+        XCTAssert(yRotationMatrix.evaluate(sceneProps) == expectedMatrix)
+        XCTAssert(yRotationMatrix.usesTime() == true)
+    }
+    
     func testEGZRotationMatrix() throws {
         let zRotationMatrix = EGZRotationMatrix()
         zRotationMatrix.setZRotation(angle: 1.222)
@@ -127,7 +169,7 @@ class EGTransformTests: XCTestCase {
         )
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
-        var transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        var transformationMatrix = transform.getTransformationMatrix(sceneProps)
         var expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(12)), y: cos(tan(8)), z: abs(sin(311)))
         print(expectedMatrix)
         XCTAssert(transformationMatrix == expectedMatrix)
@@ -140,10 +182,10 @@ class EGTransformTests: XCTestCase {
         )
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
-        transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        transformationMatrix = transform.getTransformationMatrix(sceneProps)
         expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
         XCTAssert(transformationMatrix == expectedMatrix)
-        transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        transformationMatrix = transform.getTransformationMatrix(sceneProps)
         XCTAssert(transformationMatrix == expectedMatrix)
         
         sceneProps.time = 122
@@ -154,14 +196,14 @@ class EGTransformTests: XCTestCase {
         )
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == false)
-        transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        transformationMatrix = transform.getTransformationMatrix(sceneProps)
         expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
             * EGMatrixBuilder.createScaleMatrix(x: sin(sceneProps.time), y: cos(cos(sceneProps.time)), z: sin(sceneProps.time))
         
         XCTAssert(transformationMatrix == expectedMatrix)
         
         sceneProps.time = 15885
-        transformationMatrix = transform.getTransformationMatrix(sceneProps: sceneProps)
+        transformationMatrix = transform.getTransformationMatrix(sceneProps)
         expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
             * EGMatrixBuilder.createScaleMatrix(x: sin(sceneProps.time), y: cos(cos(sceneProps.time)), z: sin(sceneProps.time))
         

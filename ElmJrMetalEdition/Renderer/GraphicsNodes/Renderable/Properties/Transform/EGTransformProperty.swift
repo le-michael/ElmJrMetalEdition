@@ -11,6 +11,8 @@ import simd
 class EGTransformProperty {
     var scaleMatrix = EGScaleMatrix()
     var translationMatrix = EGTranslationMatrix()
+    var xRotationMatrix = EGXRotationMatrix()
+    var yRotationMatrix = EGYRotationMatrix()
     var zRotationMatrix = EGZRotationMatrix()
     
     var isStatic = true
@@ -21,22 +23,35 @@ class EGTransformProperty {
     }
     
     func checkIfStatic() {
-        isStatic = !scaleMatrix.usesTime() && !translationMatrix.usesTime() && !zRotationMatrix.usesTime()
+        isStatic = !scaleMatrix.usesTime()
+            && !translationMatrix.usesTime()
+            && !xRotationMatrix.usesTime()
+            && !yRotationMatrix.usesTime()
+            && !zRotationMatrix.usesTime()
+        
         if isStatic {
             let sceneProps = EGSceneProps(
                 projectionMatrix: matrix_identity_float4x4,
                 viewMatrix: matrix_identity_float4x4,
                 time: 0
             )
-            cachedMatrix = translationMatrix.evaluate(sceneProps) * zRotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
+            cachedMatrix = translationMatrix.evaluate(sceneProps)
+                * xRotationMatrix.evaluate(sceneProps)
+                * yRotationMatrix.evaluate(sceneProps)
+                * zRotationMatrix.evaluate(sceneProps)
+                * scaleMatrix.evaluate(sceneProps)
         }
     }
     
-    func getTransformationMatrix(sceneProps: EGSceneProps) -> matrix_float4x4 {
+    func getTransformationMatrix(_ sceneProps: EGSceneProps) -> matrix_float4x4 {
         if isStatic {
             return cachedMatrix
         }
         
-        return translationMatrix.evaluate(sceneProps) * zRotationMatrix.evaluate(sceneProps) * scaleMatrix.evaluate(sceneProps)
+        return translationMatrix.evaluate(sceneProps)
+            * xRotationMatrix.evaluate(sceneProps)
+            * yRotationMatrix.evaluate(sceneProps)
+            * zRotationMatrix.evaluate(sceneProps)
+            * scaleMatrix.evaluate(sceneProps)
     }
 }
