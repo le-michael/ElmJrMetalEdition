@@ -8,8 +8,8 @@
 
 import Foundation
 
-protocol ASTNode : CustomStringConvertible {
-}
+protocol ASTNode : CustomStringConvertible {}
+protocol Literal : ASTNode {}
 
 class Parser {
     let lexer : Lexer
@@ -66,12 +66,14 @@ class Parser {
       }
     }
 
-    class BinaryOpAdd : BinaryOp { }
+    class BinaryOpAdd : BinaryOp {}
     class BinaryOpMultiply : BinaryOp {}
     class BinaryOpSubtract : BinaryOp {}
     class BinaryOpDivide : BinaryOp {}
 
-    class FloatingPoint : ASTNode {
+    
+    
+    class FloatingPoint : Literal {
         let value : Float
 
         init(_ value : Float) {
@@ -83,7 +85,7 @@ class Parser {
         }
     }
     
-    class Integer : ASTNode {
+    class Integer : Literal {
       let value : Int
 
       init(_ value : Int) {
@@ -96,7 +98,6 @@ class Parser {
     }
 
     class FunctionCall : ASTNode {
-        
         var name : String
         var arguments : [ASTNode]
 
