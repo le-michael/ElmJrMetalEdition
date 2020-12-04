@@ -141,7 +141,7 @@ class EGDemoScenes {
             type: .mul,
             leftChild: EGConstant(0.5),
             rightChild: EGUnaryOp(
-                type: .sin,
+                type: .cos,
                 child: EGTime()
             )
         ))
@@ -202,6 +202,70 @@ class EGDemoScenes {
                 scene.add(point)
             }
         }
+
+        return scene
+    }
+
+    static func pointCube() -> EGScene {
+        let scene = EGScene()
+        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        scene.camera.xRotationMatrix.setXRotation(angle: -20 * Float.pi / 180)
+        scene.camera.yRotationMatrix.setYRotation(angle: EGBinaryOp(
+            type: .mul,
+            leftChild: EGConstant(Float.pi),
+            rightChild: EGUnaryOp(
+                type: .sin,
+                child: EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(5))
+            )
+        ))
+        scene.camera.zRotationMatrix.setZRotation(angle: EGBinaryOp(
+            type: .mul,
+            leftChild: EGConstant(0.5),
+            rightChild: EGUnaryOp(
+                type: .cos,
+                child: EGTime()
+            )
+        ))
+
+        var pointCords: [simd_float3] = []
+
+        let layers = 20
+        let pointSpacing = 5
+        let layerSpacing = 5
+
+        for i in 0 ..< layers {
+            pointCords.append(simd_float3(Float(pointSpacing), Float(pointSpacing), Float(i * layerSpacing) - Float(layers * layerSpacing) / 2))
+            pointCords.append(simd_float3(Float(pointSpacing), Float(-pointSpacing), Float(i * layerSpacing) - Float(layers * layerSpacing) / 2))
+            pointCords.append(simd_float3(Float(-pointSpacing), Float(-pointSpacing), Float(i * layerSpacing) - Float(layers * layerSpacing) / 2))
+            pointCords.append(simd_float3(Float(-pointSpacing), Float(pointSpacing), Float(i * layerSpacing) - Float(layers * layerSpacing) / 2))
+        }
+        for pointCord in pointCords {
+            let point = EGCube()
+            point.transform.translationMatrix.setTranslation(x: pointCord.x, y: pointCord.y, z: pointCord.z)
+            point.color.setColor(
+                r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGBinaryOp(type: .add, leftChild: EGConstant(pointCord.z), rightChild: EGTime()))),
+                g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGBinaryOp(type: .add, leftChild: EGConstant(pointCord.z), rightChild: EGTime()))),
+                b: EGConstant(1),
+                a: EGConstant(1)
+            )
+            point.transform.xRotationMatrix.setXRotation(angle: EGTime())
+            point.transform.yRotationMatrix.setYRotation(angle: EGTime())
+            
+            scene.add(point)
+        }
+
+        let ball = EGCube()
+        ball.transform.translationMatrix.setTranslation(
+            x: EGConstant(0),
+            y: EGConstant(0),
+            z: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(Float(layers * layerSpacing) / 2),
+                rightChild: EGUnaryOp(type: .sin, child: EGTime())
+            )
+        )
+        ball.color.setColor(r: 1, g: 0, b: 0, a: 1)
+        scene.add(ball)
 
         return scene
     }
