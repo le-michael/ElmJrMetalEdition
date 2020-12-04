@@ -32,7 +32,7 @@ class ParserTests: XCTestCase {
     }
     
     func testMath() throws {
-        try checkASTExpression("(1+x)/(y*5)", "((1+x)/(y*5))")
+        try checkASTExpression("(1+x)/(y*5.2)", "((1+x)/(y*5.2))")
     }
     
     func testMakeFunction() throws {

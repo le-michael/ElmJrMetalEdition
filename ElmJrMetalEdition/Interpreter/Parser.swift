@@ -71,7 +71,19 @@ class Parser {
     class BinaryOpSubtract : BinaryOp {}
     class BinaryOpDivide : BinaryOp {}
 
-    class Integer : ASTNode         {
+    class FloatingPoint : ASTNode {
+        let value : Float
+
+        init(_ value : Float) {
+          self.value = value
+        }
+
+        var description : String {
+            return "\(value)"
+        }
+    }
+    
+    class Integer : ASTNode {
       let value : Int
 
       init(_ value : Int) {
@@ -188,14 +200,24 @@ class Parser {
           case .identifier:
             result = try parseFunctionCall()
         case .number:
-            // for now we assume is an int
-            result = Integer(Int(token.raw)!)
-            advance()
+            result = try number()
           default:
             throw ParserError.UnexpectedToken
         }
         return result
       }
+    
+    func number() throws -> ASTNode {
+        assert(token.type == .number)
+        let result : ASTNode
+        if token.raw.contains(".") {
+            result = FloatingPoint(Float(token.raw)!)
+        } else {
+            result = Integer(Int(token.raw)!)
+        }
+        advance()
+        return result
+    }
     
     func parseFunctionCall() throws -> ASTNode {
         let name = token.raw
