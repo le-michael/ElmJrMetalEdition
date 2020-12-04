@@ -16,6 +16,11 @@ class EvaluatorTests: XCTestCase {
         XCTAssertEqual("\(result)", toOutput)
     }
     
+    func checkInterpret(_ toInterpret: String, _ toOutput: String) throws {
+        let result = try Evaluator().interpret(toInterpret)
+        XCTAssertEqual("\(result)", toOutput)
+    }
+    
     func testLiteral() throws {
         try checkEvaluateExpression("1","1")
         try checkEvaluateExpression("2.73","2.73")
@@ -29,6 +34,11 @@ class EvaluatorTests: XCTestCase {
         try checkEvaluateExpression("(2 + 3)*6", "30")
         try checkEvaluateExpression("1*2 + 3*4 + 6/2", "17")
         try checkEvaluateExpression("5.0/2", "2.5")
+    }
+    
+    func testInterpret() throws {
+        try checkInterpret("1+1","2")
+        try checkInterpret("x = 1","x = 1")
     }
 
 

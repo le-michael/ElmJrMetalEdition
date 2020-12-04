@@ -19,6 +19,14 @@ class Evaluator {
         
     }
     
+    func interpret(_ text : String) throws -> ASTNode {
+        let ast = try Parser(text: text).parse()
+        if ast is Parser.Function {
+            return ast
+        }
+        return try evaluate(ast, [:])
+    }
+    
     func evaluate(_ node : ASTNode, _ locals : [String:ASTNode]) throws -> Literal {
         switch node {
         case let literal as Literal:

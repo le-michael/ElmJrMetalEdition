@@ -28,6 +28,14 @@ class Parser {
         return token.type != .endOfFile
     }
     
+    func parse() throws -> ASTNode {
+        // generic parsing logic for the REPL that can parse declerations AND expressions
+        if token.type == .identifier {
+            return try functionDeclaration()
+        }
+        return try additiveExpression()
+    }
+    
     func parseExpression() throws -> ASTNode {
         return try additiveExpression()
     }
