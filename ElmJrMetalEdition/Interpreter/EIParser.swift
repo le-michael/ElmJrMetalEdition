@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol ASTNode : CustomStringConvertible {}
-protocol Literal : ASTNode {}
+protocol EINode : CustomStringConvertible {}
+protocol EILiteral : EINode {}
 
-class Parser {
-    let lexer : Lexer
+class EIParser {
+    let lexer : EILexer
     var token : Token
     
     func advance() {
@@ -20,7 +20,7 @@ class Parser {
     }
     
     init(text : String) {
-        lexer = Lexer(text: text)
+        lexer = EILexer(text: text)
         token = try! lexer.nextToken()
     }
 
@@ -28,19 +28,19 @@ class Parser {
         return token.type != .endOfFile
     }
     
-    func parse() throws -> ASTNode {
-        // generic parsing logic for the REPL that can parse declerations AND expressions
+    func parse() throws -> EINode {
+        // generic parsing logic for the REPL that can parse declarations AND expressions
         if token.type == .identifier {
             return try functionDeclaration()
         }
         return try additiveExpression()
     }
     
-    func parseExpression() throws -> ASTNode {
+    func parseExpression() throws -> EINode {
         return try additiveExpression()
     }
     
-    func parseDeclaration() throws -> ASTNode {
+    func parseDeclaration() throws -> EINode {
         return try functionDeclaration()
     }
     
@@ -50,16 +50,16 @@ class Parser {
       case NotImplemented
     }
     
-    class BinaryOp : ASTNode {
-        let leftOperand : ASTNode;
-        let rightOperand : ASTNode;
+    class BinaryOp : EINode {
+        let leftOperand : EINode;
+        let rightOperand : EINode;
         let type: BinaryOpType;
 
         enum BinaryOpType : String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
         }
         
-        init(_ leftOperand : ASTNode, _ rightOperand : ASTNode, _ type: BinaryOpType) {
+        init(_ leftOperand : EINode, _ rightOperand : EINode, _ type: BinaryOpType) {
             self.leftOperand = leftOperand
             self.rightOperand = rightOperand
             self.type = type
@@ -73,7 +73,7 @@ class Parser {
 
     
     
-    class FloatingPoint : Literal {
+    class FloatingPoint : EILiteral {
         let value : Float
 
         init(_ value : Float) {
@@ -85,7 +85,7 @@ class Parser {
         }
     }
     
-    class Integer : Literal {
+    class Integer : EILiteral {
       let value : Int
 
       init(_ value : Int) {
@@ -97,11 +97,11 @@ class Parser {
         }
     }
 
-    class FunctionCall : ASTNode {
+    class FunctionCall : EINode {
         var name : String
-        var arguments : [ASTNode]
+        var arguments : [EINode]
 
-        init(name : String, arguments : [ASTNode]) {
+        init(name : String, arguments : [EINode]) {
             self.name = name
             self.arguments = arguments
         }
@@ -119,12 +119,12 @@ class Parser {
        }
     }
     
-    class Function : ASTNode {
+    class Function : EINode {
         let name : String
         let parameters : [String]
-        let body : ASTNode
+        let body : EINode
         
-        init(name : String, parameters : [String], body: ASTNode) {
+        init(name : String, parameters : [String], body: EINode) {
             self.name = name
             self.parameters = parameters
             self.body = body
@@ -140,7 +140,7 @@ class Parser {
         }
     }
 
-    func functionDeclaration() throws -> ASTNode {
+    func functionDeclaration() throws -> EINode {
         assert(token.type == .identifier)
         let name = token.raw
         advance()
@@ -156,7 +156,7 @@ class Parser {
         return Function(name: name, parameters: parameters, body: body)
     }
     
-    func additiveExpression() throws -> ASTNode {
+    func additiveExpression() throws -> EINode {
         var result = try multiplicativeExpression()
         while true {
             switch token.type {
@@ -172,7 +172,7 @@ class Parser {
         }
       }
 
-      func multiplicativeExpression() throws -> ASTNode {
+      func multiplicativeExpression() throws -> EINode {
         var result = try unaryExpression()
         while true {
             switch token.type {
@@ -188,8 +188,8 @@ class Parser {
         }
       }
 
-      func unaryExpression() throws -> ASTNode {
-        let result : ASTNode
+      func unaryExpression() throws -> EINode {
+        let result : EINode
         switch token.type {
           case .leftParan:
             advance()
@@ -209,9 +209,9 @@ class Parser {
         return result
       }
     
-    func number() throws -> ASTNode {
+    func number() throws -> EINode {
         assert(token.type == .number || token.type == .minus)
-        let result : ASTNode
+        let result : EINode
         var minus = false;
         if token.type == .minus {
             minus = true;
@@ -233,9 +233,9 @@ class Parser {
         return result
     }
     
-    func parseFunctionCall() throws -> ASTNode {
+    func parseFunctionCall() throws -> EINode {
         let name = token.raw
-        var arguments = [ASTNode]()
+        var arguments = [EINode]()
         advance()
         var flag = false
         // read arguments until we counter something that can't be an argument
