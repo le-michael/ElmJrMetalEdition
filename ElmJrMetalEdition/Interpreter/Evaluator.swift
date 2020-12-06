@@ -25,15 +25,20 @@ class Evaluator {
         return try evaluate(ast, [:])
     }
     
-    func evaluate(_ node : ASTNode, _ locals : [String:ASTNode]) throws -> Literal {
+    /**
+    Given an AST subtree 'evaluate' will attempt to find the value of the tree and return it as a Literal.
+    Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
+    Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
+     */
+    func evaluate(_ node : ASTNode, _ scope : [String:ASTNode]) throws -> Literal {
         switch node {
         case let literal as Literal:
             return literal
         case let binOp as Parser.BinaryOp:
                 // If one argument is a float convert both to float
                 // TODO: In the future we should should should instead have a 'numeric' type
-            var left = try evaluate(binOp.leftOperand, locals);
-            var right = try evaluate(binOp.rightOperand, locals);
+            var left = try evaluate(binOp.leftOperand, scope);
+            var right = try evaluate(binOp.rightOperand, scope);
             // handle case where both operands are integers
             if let leftInt = left as? Parser.Integer,
                let rightInt = right as? Parser.Integer {
