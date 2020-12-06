@@ -29,26 +29,24 @@ class Evaluator {
         switch node {
         case let literal as Literal:
             return literal
-        case let obj as Parser.BinaryOp:
+        case let binOp as Parser.BinaryOp:
                 // If one argument is a float convert both to float
                 // TODO: In the future we should should should instead have a 'numeric' type
-            var left = try evaluate(obj.leftOperand, locals);
-            var right = try evaluate(obj.rightOperand, locals);
+            var left = try evaluate(binOp.leftOperand, locals);
+            var right = try evaluate(binOp.rightOperand, locals);
             // handle case where both operands are integers
             if let leftInt = left as? Parser.Integer,
                let rightInt = right as? Parser.Integer {
-                switch obj {
-                case _ as Parser.BinaryOpAdd:
+                switch binOp.type {
+                case .add:
                     return Parser.Integer(leftInt.value + rightInt.value)
-                case _ as Parser.BinaryOpSubtract:
+                case .subtract:
                     return Parser.Integer(leftInt.value - rightInt.value)
-                case _ as Parser.BinaryOpMultiply:
+                case .multiply:
                     return Parser.Integer(leftInt.value * rightInt.value)
-                case _ as Parser.BinaryOpDivide:
+                case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
                     return Parser.Integer(leftInt.value / rightInt.value)
-                default:
-                    throw EvaluatorError.NotImplemented
                 }
             }
             // handle case where at least one operand is not an integer
@@ -61,18 +59,16 @@ class Evaluator {
             }
             if let leftFloat = left as? Parser.FloatingPoint,
                let rightFloat = right as? Parser.FloatingPoint {
-                switch obj {
-                case _ as Parser.BinaryOpAdd:
+                switch binOp.type {
+                case .add:
                     return Parser.FloatingPoint(leftFloat.value + rightFloat.value)
-                case _ as Parser.BinaryOpSubtract:
+                case .subtract:
                     return Parser.FloatingPoint(leftFloat.value - rightFloat.value)
-                case _ as Parser.BinaryOpMultiply:
+                case .multiply:
                     return Parser.FloatingPoint(leftFloat.value * rightFloat.value)
-                case _ as Parser.BinaryOpDivide:
+                case .divide:
                     if rightFloat.value == 0 { throw EvaluatorError.DivisionByZero }
                     return Parser.FloatingPoint(leftFloat.value / rightFloat.value)
-                default:
-                    throw EvaluatorError.NotImplemented
                 }
             }
             // if we made it this far at least one operand is not an int or float

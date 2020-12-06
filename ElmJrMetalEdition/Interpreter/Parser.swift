@@ -51,31 +51,25 @@ class Parser {
     }
     
     class BinaryOp : ASTNode {
-      let leftOperand : ASTNode;
-      let rightOperand : ASTNode;
+        let leftOperand : ASTNode;
+        let rightOperand : ASTNode;
+        let type: BinaryOpType;
 
-        init(_ leftOperand : ASTNode, _ rightOperand : ASTNode) {
+        enum BinaryOpType : String {
+            case add = "+", subtract = "-", multiply = "*", divide = "/"
+        }
+        
+        init(_ leftOperand : ASTNode, _ rightOperand : ASTNode, _ type: BinaryOpType) {
             self.leftOperand = leftOperand
             self.rightOperand = rightOperand
-      }
+            self.type = type
+        }
 
         var description : String {
-            var opSymbol : String
-            switch self {
-                case _ as BinaryOpAdd: opSymbol = "+"
-                case _ as BinaryOpMultiply: opSymbol = "*"
-                case _ as BinaryOpSubtract: opSymbol = "-"
-                case _ as BinaryOpDivide: opSymbol = "/"
-            default: opSymbol="ERROR"; assert(false) // Don't want to make this a real exception
-            }
-            return "(\(leftOperand)\(opSymbol)\(rightOperand))"
-      }
+            return "(\(leftOperand)\(self.type.rawValue)\(rightOperand))"
+        }
     }
 
-    class BinaryOpAdd : BinaryOp {}
-    class BinaryOpMultiply : BinaryOp {}
-    class BinaryOpSubtract : BinaryOp {}
-    class BinaryOpDivide : BinaryOp {}
 
     
     
@@ -168,10 +162,10 @@ class Parser {
             switch token.type {
             case .plus:
               advance()
-              result = BinaryOpAdd(result, try multiplicativeExpression())
+              result = BinaryOp(result, try multiplicativeExpression(), .add)
             case .minus:
               advance()
-              result = BinaryOpSubtract(result, try multiplicativeExpression())
+              result = BinaryOp(result, try multiplicativeExpression(), .subtract)
             default:
               return result
           }
@@ -184,10 +178,10 @@ class Parser {
             switch token.type {
             case .asterisk:
               advance()
-              result = BinaryOpMultiply(result, try unaryExpression())
+                result = BinaryOp(result, try unaryExpression(), .multiply)
             case .forwardSlash:
               advance()
-              result = BinaryOpDivide(result, try unaryExpression())
+                result = BinaryOp(result, try unaryExpression(), .divide)
             default:
               return result
           }
