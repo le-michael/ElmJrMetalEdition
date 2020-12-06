@@ -9,7 +9,7 @@
 
 import Foundation
 
-class Lexer {
+class EILexer {
     var characters : [Character];
     var characterIndex : Int;
     init(text: String) {
