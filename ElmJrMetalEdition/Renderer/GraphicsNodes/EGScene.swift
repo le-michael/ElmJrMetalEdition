@@ -12,6 +12,7 @@ class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
     var sceneProps: EGSceneProps!
     var fps: Float = 60
+    var camera = EGTransformProperty()
 
     override init() {
         super.init()
@@ -24,7 +25,7 @@ class EGScene: EGGraphicsNode {
             fovDegrees: 65,
             aspect: Float(size.width / size.height),
             nearZ: 0.1,
-            farZ: 200
+            farZ: 300
         )
     }
 
@@ -39,15 +40,23 @@ class EGScene: EGGraphicsNode {
     override func add(_ node: EGGraphicsNode) {
         super.add(node)
     }
-    
+
     override func createBuffers(device: MTLDevice) {
+        camera.checkIfStatic()
         for child in children {
             child.createBuffers(device: device)
         }
     }
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: [EGPipelineStates: MTLRenderPipelineState]) {
+    private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
+
+        sceneProps.viewMatrix = camera.getTransformationMatrix(sceneProps)
+    }
+
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: [EGPipelineStates: MTLRenderPipelineState]) {
+        updateSceneProps()
+        
         for child in children {
             child.draw(
                 commandEncoder: commandEncoder,

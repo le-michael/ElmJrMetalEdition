@@ -61,4 +61,27 @@ class EGBufferDataBuilder {
 
         return bufferData
     }
+
+    static func createCubeBufferData() -> EGBufferData {
+        return EGBufferData(
+            vertexPositions: [
+                simd_float3(-1, -1, 1),
+                simd_float3(-1, -1, -1),
+                simd_float3(1, -1, -1),
+                simd_float3(1, -1, 1),
+                simd_float3(-1, 1, 1),
+                simd_float3(-1, 1, -1),
+                simd_float3(1, 1, -1),
+                simd_float3(1, 1, 1)
+            ],
+            indices: [
+                0, 1, 2, 0, 2, 3, // Bottom
+                4, 5, 6, 4, 6, 7, // Top
+                0, 4, 7, 0, 7, 3, // Front
+                2, 6, 5, 2, 5, 1, // Back
+                3, 7, 6, 3, 6, 2, // Right
+                1, 5, 4, 1, 4, 0 // Left
+            ]
+        )
+    }
 }
