@@ -53,10 +53,8 @@ class Parser {
     class BinaryOp : ASTNode {
       let leftOperand : ASTNode;
       let rightOperand : ASTNode;
-        //let opSymbol : String;
 
         init(_ leftOperand : ASTNode, _ rightOperand : ASTNode) {
-            //self.opSymbol = opSymbol
             self.leftOperand = leftOperand
             self.rightOperand = rightOperand
       }
@@ -208,6 +206,7 @@ class Parser {
             advance()
           case .identifier:
             result = try parseFunctionCall()
+        case .minus: fallthrough // unary minus
         case .number:
             result = try number()
           default:
@@ -217,12 +216,24 @@ class Parser {
       }
     
     func number() throws -> ASTNode {
-        assert(token.type == .number)
+        assert(token.type == .number || token.type == .minus)
         let result : ASTNode
-        if token.raw.contains(".") {
-            result = FloatingPoint(Float(token.raw)!)
+        var minus = false;
+        if token.type == .minus {
+            minus = true;
+            advance()
+        }
+        if token.type != .number {
+            throw ParserError.UnexpectedToken
+        }
+        var numberRaw = token.raw;
+        if minus {
+            numberRaw = "-" + numberRaw;
+        }
+        if numberRaw.contains(".") {
+            result = FloatingPoint(Float(numberRaw)!)
         } else {
-            result = Integer(Int(token.raw)!)
+            result = Integer(Int(numberRaw)!)
         }
         advance()
         return result

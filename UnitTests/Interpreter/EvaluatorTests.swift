@@ -24,10 +24,12 @@ class EvaluatorTests: XCTestCase {
     func testLiteral() throws {
         try checkEvaluateExpression("1","1")
         try checkEvaluateExpression("2.73","2.73")
+        try checkEvaluateExpression("-5", "-5")
     }
     
     func testSimpleMath() throws {
         try checkEvaluateExpression("1+1", "2")
+        try checkEvaluateExpression("1 + -5", "-4")
         try checkEvaluateExpression("4+5+6", "15")
         try checkEvaluateExpression("1.5+4.5", "6.0")
         try checkEvaluateExpression("2.9+3", "5.9")

@@ -31,6 +31,11 @@ class ParserTests: XCTestCase {
         try checkASTExpression("x*(y*z)","(x*(y*z))")
     }
     
+    func testNegativeNumbers() throws {
+        try checkASTExpression("-5", "-5")
+        try checkASTExpression("1 + -5", "(1+-5)")
+    }
+    
     func testMath() throws {
         try checkASTExpression("(1+x)/(y*5.2)", "((1+x)/(y*5.2))")
     }

@@ -15,9 +15,7 @@ class Evaluator {
         case NotImplemented
     }
     
-    init () {
-        
-    }
+    init () {}
     
     func interpret(_ text : String) throws -> ASTNode {
         let ast = try Parser(text: text).parse()
