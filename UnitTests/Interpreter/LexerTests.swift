@@ -9,9 +9,9 @@
 import XCTest
 @testable import ElmJrMetalEdition
 
-class EILexerTests: XCTestCase {
+class LexerTests: XCTestCase {
     func checkTokenTypes(_ text: String, _ tokenTypes:[Token.TokenType]) throws {
-        let lexer = EILexer(text: text)
+        let lexer = Lexer(text: text)
         for tokenType in tokenTypes {
             let token = try lexer.nextToken()
             XCTAssert(token.type == tokenType)
@@ -63,17 +63,17 @@ class EILexerTests: XCTestCase {
     
     func testLetterAfterDigit() throws {
         let text = "1234A"
-        let lexer = EILexer(text: text)
+        let lexer = Lexer(text: text)
         XCTAssertThrowsError(try lexer.nextToken()) { (error) in
-            XCTAssertEqual(error as! EILexer.LexerError, EILexer.LexerError.UnexpectedCharacter("A"))
+            XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.UnexpectedCharacter("A"))
         }
     }
     
     func testNumberTwoDecimal() throws {
         let text = "1234.456.789"
-        let lexer = EILexer(text: text)
+        let lexer = Lexer(text: text)
         XCTAssertThrowsError(try lexer.nextToken()) { (error) in
-            XCTAssertEqual(error as! EILexer.LexerError, EILexer.LexerError.InvalidNumber)
+            XCTAssertEqual(error as! Lexer.LexerError, Lexer.LexerError.InvalidNumber)
         }
     }
     
