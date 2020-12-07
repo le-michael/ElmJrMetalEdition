@@ -30,10 +30,10 @@
 		1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066EB9E256D9D3C00667E1E /* EGColorTests.swift */; };
 		106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */; };
 		1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */; };
-		1072E3E42564C41000D390FE /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* Lexer.swift */; };
-		1072E3E72564C42100D390FE /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* Interpreter.swift */; };
-		1072E3EA2564C43B00D390FE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* Parser.swift */; };
-		1072E3EF2565942100D390FE /* EGPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3EE2565942100D390FE /* EGPrimitive.swift */; };
+		1072E3E42564C41000D390FE /* EILexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* EILexer.swift */; };
+		1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* EIEvaluator.swift */; };
+		1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* EIParser.swift */; };
+		1072E3EF2565942100D390FE /* EGRenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3EE2565942100D390FE /* EGRenderable.swift */; };
 		1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F12565979D00D390FE /* EGBufferDataBuilder.swift */; };
 		1072E3F52565983A00D390FE /* EGRegularPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3F42565983A00D390FE /* EGRegularPolygon.swift */; };
 		107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* EGRenderer.swift */; };
@@ -62,11 +62,11 @@
 		D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1F8251BDD1F00F9457F /* Assets.xcassets */; };
 		D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1FA251BDD1F00F9457F /* LaunchScreen.storyboard */; };
 		D95DF207251C06CA00F9457F /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF206251C06CA00F9457F /* EditorViewController.swift */; };
-		FE11C777256C5AE300A9D6BA /* InterpreterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE11C776256C5AE300A9D6BA /* InterpreterTests.swift */; };
+		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
 		FE42166C256C8C41008622FB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* Token.swift */; };
 		FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* TokenTests.swift */; };
-		FEFA37E9256F41D600797CD2 /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* LexerTests.swift */; };
-		FEFA37ED256F656900797CD2 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* ParserTests.swift */; };
+		FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* EILexerTests.swift */; };
+		FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* EIParserTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,10 +105,10 @@
 		1066EB9E256D9D3C00667E1E /* EGColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorTests.swift; sourceTree = "<group>"; };
 		106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCurvedPolygon.swift; sourceTree = "<group>"; };
 		1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMatrixBuilder.swift; sourceTree = "<group>"; };
-		1072E3E32564C41000D390FE /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
-		1072E3E62564C42100D390FE /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
-		1072E3E92564C43B00D390FE /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		1072E3EE2565942100D390FE /* EGPrimitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPrimitive.swift; sourceTree = "<group>"; };
+		1072E3E32564C41000D390FE /* EILexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexer.swift; sourceTree = "<group>"; };
+		1072E3E62564C42100D390FE /* EIEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluator.swift; sourceTree = "<group>"; };
+		1072E3E92564C43B00D390FE /* EIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParser.swift; sourceTree = "<group>"; };
+		1072E3EE2565942100D390FE /* EGRenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRenderable.swift; sourceTree = "<group>"; };
 		1072E3F12565979D00D390FE /* EGBufferDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBufferDataBuilder.swift; sourceTree = "<group>"; };
 		1072E3F42565983A00D390FE /* EGRegularPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRegularPolygon.swift; sourceTree = "<group>"; };
 		107596F8251C461600BBE3B6 /* EGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRenderer.swift; sourceTree = "<group>"; };
@@ -139,11 +139,11 @@
 		D95DF1FB251BDD1F00F9457F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D95DF1FD251BDD1F00F9457F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D95DF206251C06CA00F9457F /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
-		FE11C776256C5AE300A9D6BA /* InterpreterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpreterTests.swift; sourceTree = "<group>"; };
+		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
 		FE42166B256C8C41008622FB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		FE59C9DD256CADC00098042C /* TokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
-		FEFA37E8256F41D600797CD2 /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
-		FEFA37EC256F656900797CD2 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
+		FEFA37E8256F41D600797CD2 /* EILexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexerTests.swift; sourceTree = "<group>"; };
+		FEFA37EC256F656900797CD2 /* EIParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,9 +257,9 @@
 		1072E3E22564C3BF00D390FE /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				1072E3E32564C41000D390FE /* Lexer.swift */,
-				1072E3E62564C42100D390FE /* Interpreter.swift */,
-				1072E3E92564C43B00D390FE /* Parser.swift */,
+				1072E3E32564C41000D390FE /* EILexer.swift */,
+				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
+				1072E3E92564C43B00D390FE /* EIParser.swift */,
 				FE42166B256C8C41008622FB /* Token.swift */,
 			);
 			path = Interpreter;
@@ -418,10 +418,10 @@
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				FEFA37EC256F656900797CD2 /* ParserTests.swift */,
-				FEFA37E8256F41D600797CD2 /* LexerTests.swift */,
+				FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */,
+				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
+				FEFA37E8256F41D600797CD2 /* EILexerTests.swift */,
 				FE59C9DD256CADC00098042C /* TokenTests.swift */,
-				FE11C776256C5AE300A9D6BA /* InterpreterTests.swift */,
 			);
 			path = Interpreter;
 			sourceTree = "<group>";
@@ -526,10 +526,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */,
 				FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */,
-				FE11C777256C5AE300A9D6BA /* InterpreterTests.swift in Sources */,
-				FEFA37ED256F656900797CD2 /* ParserTests.swift in Sources */,
-				FEFA37E9256F41D600797CD2 /* LexerTests.swift in Sources */,
+				FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */,
+				FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */,
 				1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */,
 				101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */,
 				10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */,
@@ -542,8 +542,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				10126A96257600B6001659B3 /* EGPipelineStateBuilder.swift in Sources */,
+				1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */,
 				109A2FC0257ADA4C00A861D6 /* EGYRotationMatrix.swift in Sources */,
-				1072E3E72564C42100D390FE /* Interpreter.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */,
 				10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */,
@@ -575,7 +575,7 @@
 				106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */,
 				105CCF0225769453006A6634 /* EGBezierVertex.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
-				1072E3E42564C41000D390FE /* Lexer.swift in Sources */,
+				1072E3E42564C41000D390FE /* EILexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */,
 				103EC561257AF78B00111267 /* EGCube.swift in Sources */,
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
@@ -583,7 +583,7 @@
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
-				1072E3EA2564C43B00D390FE /* Parser.swift in Sources */,
+				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				FE42166C256C8C41008622FB /* Token.swift in Sources */,
 				1072E3F52565983A00D390FE /* EGRegularPolygon.swift in Sources */,
 				1049A25025671E20007E85BE /* EGZRotationMatrix.swift in Sources */,
