@@ -69,10 +69,11 @@ class EITypeInferencer {
         }
     }
     
-    func apply(_ s : inout Subst, with scheme : Scheme) -> Scheme {
+    func apply(_ s : Subst, with scheme : Scheme) -> Scheme {
         // Remove variable capturing from the scheme
+        var newSubst = s
         for tvarname in scheme.tyVars {
-            s.removeValue(forKey: tvarname)
+            newSubst.removeValue(forKey: tvarname)
         }
         
         // Reapply fresh substitutions with the new context
@@ -83,7 +84,7 @@ class EITypeInferencer {
  
     func apply(_ s : inout Subst) {
         for (tyvar, scheme) in typeEnv {
-            typeEnv[tyvar] = apply(&s, with : scheme)
+            typeEnv[tyvar] = apply(s, with : scheme)
         }
     }
 }
