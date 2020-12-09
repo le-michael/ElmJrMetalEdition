@@ -30,6 +30,7 @@ class EITypeInferencer {
         case UnificationFail(MonoType, MonoType)
         case InfiniteType(TVar, MonoType)
         case UnboundedVariable(String)
+        case UnimplementedError
     }
     
     // monomorphic types
@@ -38,6 +39,11 @@ class EITypeInferencer {
         case TCon(String)
         indirect case TArr(MonoType, MonoType)
     }
+    
+    // Declarations of built-in types that correspond to literals
+    let typeFloat : MonoType = MonoType.TVar("Float")
+    let typeInt : MonoType = MonoType.TVar("Int")
+    let typeString = MonoType.TVar("String")
     
     // polymorphic type schemes
     class Scheme {
@@ -184,5 +190,17 @@ class EITypeInferencer {
     func generalize(_ tyEnv : TypeEnv, t : MonoType) -> Scheme {
         let tyVars = Array(ftv(with : t).subtracting(ftv(with : tyEnv)))
         return Scheme(tyVars: tyVars, ty: t)
+    }
+    
+    // The main function: infer the type of an expression (AST node)
+    func infer(_ expr : EINode) throws -> (Subst, MonoType) {
+        switch expr {
+        case _ as EIParser.FloatingPoint:
+            return (nullSubst, typeFloat)
+        case _ as EIParser.Integer:
+            return (nullSubst, typeInt)
+        default:
+            throw TypeError.UnimplementedError
+        }
     }
 }
