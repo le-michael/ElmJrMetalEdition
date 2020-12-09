@@ -134,9 +134,9 @@ class EITypeInferencer {
         return ftvSet
     }
     
-    func fresh() -> String {
+    func fresh() -> MonoType {
         counter += 1
-        return "v" + String(counter)
+        return MonoType.TVar("v" + String(counter))
     }
     
     // Unification of two expressions under a substituion
@@ -171,4 +171,18 @@ class EITypeInferencer {
         return ftv(with : t).contains(a)
     }
     
+    // Generalization and instantiation
+    func instantiate(_ s : Scheme) -> MonoType {
+        var subst = Subst()
+        for oldVar in s.tyVars {
+            let newVar = fresh()
+            subst[oldVar] = newVar
+        }
+        return apply(subst, with : s.ty)
+    }
+    
+    func generalize(_ tyEnv : TypeEnv, t : MonoType) -> Scheme {
+        let tyVars = Array(ftv(with : t).subtracting(ftv(with : tyEnv)))
+        return Scheme(tyVars: tyVars, ty: t)
+    }
 }
