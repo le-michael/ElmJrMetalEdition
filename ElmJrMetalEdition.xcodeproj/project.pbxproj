@@ -53,6 +53,7 @@
 		10D89633256865E60053D762 /* EGLine2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* EGLine2D.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */; };
+		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923593025646F6900C0D98F /* TriangleEditNode.swift */; };
@@ -129,6 +130,7 @@
 		10D89632256865E60053D762 /* EGLine2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLine2D.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencer.swift; sourceTree = "<group>"; };
+		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D923593025646F6900C0D98F /* TriangleEditNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleEditNode.swift; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
 				FEFA37E8256F41D600797CD2 /* EILexerTests.swift */,
 				FE59C9DD256CADC00098042C /* TokenTests.swift */,
+				7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */,
 			);
 			path = Interpreter;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */,
 				10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */,
 				101D0826256C6BD6008F5A0D /* EGTransformTests.swift in Sources */,
+				7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
