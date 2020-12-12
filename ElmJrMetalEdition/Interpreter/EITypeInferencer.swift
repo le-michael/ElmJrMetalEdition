@@ -183,7 +183,7 @@ class EITypeInferencer {
     }
     
     func apply(_ s : Subst, with cs : [Constraint]) -> [Constraint] {
-        return cs.map( { c in return apply(s, with : c) } )
+        return cs.map { apply(s, with : $0 ) } 
     }
     
     func apply(_ s : Subst, with tEnv : TypeEnv) {
