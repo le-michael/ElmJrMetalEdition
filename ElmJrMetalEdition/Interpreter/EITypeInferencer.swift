@@ -20,7 +20,7 @@ class EITypeInferencer {
         inferState = Infer()
     }
     
-    class TypeEnv : CustomStringConvertible {
+    class TypeEnv {
         var types : [Var : Scheme]
         
         init () {
@@ -35,8 +35,8 @@ class EITypeInferencer {
             types[v] = nil
         }
         
-        var description : String {
-            return "unimplemented"
+        func lookup(_ x : Var) throws -> Scheme {
+            return types[x]!
         }
     }
     
@@ -95,19 +95,20 @@ class EITypeInferencer {
         case TVar(TVar)
         case TCon(String)
         indirect case TArr(MonoType, MonoType)
-        case SuperType(SuperType)
         
         var description : String {
-            return "unimplemented"
+            switch self {
+            case .TVar(let v):
+                return v
+            case .TCon(let con):
+                return con
+            case .TArr(let t1, let t2):
+                return "\(t1.description) -> \(t2.description)"
+            }
         }
     }
     
-    enum SuperType : String, Equatable {
-        case Number = "number"
-        case Comparable = "comparable"
-        case Appendable = "appendable"
-        case CompAppend = "compappend"
-    }
+    lazy var superNumber = MonoType.TVar("number")
     
     typealias Constraint = (MonoType, MonoType)
     
@@ -117,7 +118,7 @@ class EITypeInferencer {
     let typeString = MonoType.TVar("String")
     
     // polymorphic type schemes
-    class Scheme {
+    class Scheme : CustomStringConvertible {
         var tyVars : [TVar]
         var ty : MonoType
         
@@ -125,6 +126,8 @@ class EITypeInferencer {
             self.tyVars = tyVars
             self.ty = ty
         }
+        
+        lazy var description = "\(ty.description)"
     }
     
     // Substitution of type variables to types
@@ -158,8 +161,6 @@ class EITypeInferencer {
             }
         case .TArr(let t1, let t2):
             return MonoType.TArr(apply(s, with: t1), apply(s, with: t2))
-        case .SuperType(let superTy):
-            return MonoType.SuperType(superTy)
         }
     }
     
@@ -193,7 +194,10 @@ class EITypeInferencer {
     
     func ftv(with tyVar : MonoType) -> Set<TVar> {
         switch tyVar {
-        case .TCon( _), .SuperType( _):
+        case .TCon( _):
+            return []
+        // TODO: Are type constraints ftvs?
+        case .TVar(let a) where a == "number":
             return []
         case .TVar(let a):
             return [a]
@@ -217,6 +221,10 @@ class EITypeInferencer {
     // Unification of two expressions under a substituion
     func unify(_ t1 : MonoType, _ t2 : MonoType) throws -> Subst {
         switch(t1, t2) {
+        // Downcast Number supertype when encountering Floats
+        case(.TVar(let a), .TCon(let x))
+                where a == "number" && x == "Float":
+            return try bind(a, t2)
         case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
             let s1 = try unify(l1, l2)
             let s2 = try unify(apply(s1, with : r1), apply(s1, with : r2))
@@ -226,11 +234,6 @@ class EITypeInferencer {
         case(let t, .TVar(let a)):
             return try bind(a, t)
         case(.TCon(let a), .TCon(let b)) where a == b:
-            return nullSubst
-        // Downcast Number supertype when encountering Int/Floats
-        case(.TCon(let a), .SuperType(let sup))
-                where (a == "Int" || a == "Float")
-                && sup == SuperType.Number:
             return nullSubst
         default:
             throw TypeError.UnificationFail(t1, t2)
@@ -242,6 +245,9 @@ class EITypeInferencer {
             return nullSubst
         } else if (occursCheck(a, t)) {
             throw TypeError.InfiniteType(a, t)
+        // This may be redundant
+        } else if t == superNumber {
+            return [a : superNumber]
         } else {
             return [a : t]
         }
@@ -272,16 +278,18 @@ class EITypeInferencer {
              EIParser.BinaryOp.BinaryOpType.subtract,
              EIParser.BinaryOp.BinaryOpType.multiply,
              EIParser.BinaryOp.BinaryOpType.divide:
-            return MonoType.TArr(MonoType.SuperType(SuperType.Number),
-                   MonoType.TArr(MonoType.SuperType(SuperType.Number),
-                                 MonoType.SuperType(SuperType.Number)))
+            return MonoType.TArr(superNumber,
+                   MonoType.TArr(superNumber, superNumber))
         }
     }
     
     func infer(_ expr : EINode) throws -> (MonoType, [Constraint]) {
         switch expr {
+        // Since we don't know if standalone integers may be used as
+        // part of a subexpression with floats, we infer the more general
+        // type constraint "number"
         case _ as EIParser.Integer:
-            return (MonoType.TCon("Int"), [])
+            return (MonoType.TVar("number"), [])
         case _ as EIParser.FloatingPoint:
             return (MonoType.TCon("Float"), [])
         case let e as EIParser.BinaryOp:
@@ -317,10 +325,11 @@ class EITypeInferencer {
     func normalize(_ s : Scheme) throws -> Scheme {
         func fv(_ m : MonoType) -> [TVar] {
             switch m {
+            // no free variables in type constraints
+            case .TVar(let a) where a == "number":
+                return []
             case .TVar(let a):
                 return [a]
-            case .SuperType(_):
-                return []
             case .TCon(_):
                 return []
             case .TArr(let a, let b):
@@ -337,6 +346,10 @@ class EITypeInferencer {
         
         func normtype(_ m : MonoType) throws -> MonoType {
             switch m {
+            // do NOT normalize type constraints
+            case .TVar(let a)
+                    where a == "number":
+                return superNumber
             case .TVar(let a):
                 if let x = Dictionary(uniqueKeysWithValues: ord)[a] {
                     return x
@@ -345,8 +358,6 @@ class EITypeInferencer {
                 }
             case .TCon(let a):
                 return .TCon(a)
-            case .SuperType(let sty):
-                return .SuperType(sty)
             case .TArr(let a, let b):
                 return .TArr(try normtype(a), try normtype(b))
             }
@@ -373,7 +384,7 @@ class EITypeInferencer {
         return try solver(nullSubst, &cs)
     }
     
-    func showEnv() -> String {
-        return inferState.typeEnv.description
+    func showEnv(_ x : String) throws -> String {
+        return try inferState.typeEnv.lookup(x).description
     }
 }
