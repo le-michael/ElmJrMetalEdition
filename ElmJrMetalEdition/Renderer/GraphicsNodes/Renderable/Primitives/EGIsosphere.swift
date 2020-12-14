@@ -6,4 +6,9 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import Foundation
+class EGIsosphere: EGPrimitive {
+    init() {
+        let bufferData = EGBufferDataBuilder.createIsosphereBufferData()
+        super.init(mesh: EGMesh(bufferData))
+    }
+}

@@ -47,6 +47,7 @@
 		10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */; };
 		10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
+		10BC15B9257F544D00540350 /* EGIsosphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BC15B8257F544D00540350 /* EGIsosphere.swift */; };
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
 		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
 		10D89628256840480053D762 /* EGPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* EGPlane.swift */; };
@@ -122,6 +123,7 @@
 		10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPoint2D.swift; sourceTree = "<group>"; };
 		10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
+		10BC15B8257F544D00540350 /* EGIsosphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGIsosphere.swift; sourceTree = "<group>"; };
 		10BE1C832575C88A002C2D49 /* EGRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRandom.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
 		10D89627256840480053D762 /* EGPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPlane.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				10D89627256840480053D762 /* EGPlane.swift */,
 				10D89632256865E60053D762 /* EGLine2D.swift */,
 				103EC560257AF78B00111267 /* EGCube.swift */,
+				10BC15B8257F544D00540350 /* EGIsosphere.swift */,
 			);
 			path = Primitives;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */,
 				1072E3EF2565942100D390FE /* EGPrimitive.swift in Sources */,
 				554723032564778900E2E934 /* ListParser.swift in Sources */,
+				10BC15B9257F544D00540350 /* EGIsosphere.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,

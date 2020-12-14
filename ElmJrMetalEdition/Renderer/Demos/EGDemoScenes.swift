@@ -269,4 +269,36 @@ class EGDemoScenes {
 
         return scene
     }
+    
+    static func isopheres() -> EGScene {
+        let scene = EGScene()
+        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        scene.camera.xRotationMatrix.setXRotation(angle: -20 * Float.pi / 180)
+        scene.camera.yRotationMatrix.setYRotation(angle: EGBinaryOp(
+            type: .mul,
+            leftChild: EGConstant(Float.pi),
+            rightChild: EGUnaryOp(
+                type: .sin,
+                child: EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(5))
+            )
+        ))
+        scene.camera.zRotationMatrix.setZRotation(angle: EGBinaryOp(
+            type: .mul,
+            leftChild: EGConstant(0.5),
+            rightChild: EGUnaryOp(
+                type: .cos,
+                child: EGTime()
+            )
+        ))
+        
+        let isosphere = EGIsosphere()
+        isosphere.transform.scaleMatrix.setScale(x: 10, y: 10, z: 10)
+        scene.add(isosphere)
+        isosphere.triangleFillMode = .lines
+        
+        
+        return scene
+    }
+    
+    
 }
