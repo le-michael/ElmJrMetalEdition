@@ -14,7 +14,7 @@ class EGCurvedPolygon: EGGraphicsNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
 
-    var modelConstants = EGBezierModelConstants()
+    var vertexUniforms = EGVertexUniforms.Bezier()
     var transform = EGTransformProperty()
     var color = EGColorProperty()
 
@@ -39,7 +39,7 @@ class EGCurvedPolygon: EGGraphicsNode {
         color.checkIfStatic()
         vertexBuffer = device.makeBuffer(
             bytes: mesh.vertices,
-            length: mesh.vertices.count * MemoryLayout<EGBezierVertex>.stride,
+            length: mesh.vertices.count * MemoryLayout<EGVertex.Bezier>.stride,
             options: []
         )
         
@@ -50,20 +50,20 @@ class EGCurvedPolygon: EGGraphicsNode {
         )
     }
     
-    private func updateModelConstants(_ sceneProps: EGSceneProps) {
+    private func updateVertexUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrx = transform.getTransformationMatrix(sceneProps)
         
-        modelConstants.modelViewMatrix = sceneProps.projectionMatrix
+        vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix
             * transformationMatrx
         
         let colorValue = color.evaluate(sceneProps)
-        modelConstants.color = colorValue
+        vertexUniforms.color = colorValue
         
-        modelConstants.p0 = p0.evaluate(sceneProps)
-        modelConstants.p1 = p1.evaluate(sceneProps)
-        modelConstants.p2 = p2.evaluate(sceneProps)
-        modelConstants.p3 = p3.evaluate(sceneProps)
+        vertexUniforms.p0 = p0.evaluate(sceneProps)
+        vertexUniforms.p1 = p1.evaluate(sceneProps)
+        vertexUniforms.p2 = p2.evaluate(sceneProps)
+        vertexUniforms.p3 = p3.evaluate(sceneProps)
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
@@ -74,14 +74,14 @@ class EGCurvedPolygon: EGGraphicsNode {
               let pipeline = pipelineStates[.BezierPipelineState],
               let vertexBuffer = vertexBuffer else { return }
         
-        updateModelConstants(sceneProps)
+        updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
-            &modelConstants,
-            length: MemoryLayout<EGBezierModelConstants>.stride,
+            &vertexUniforms,
+            length: MemoryLayout<EGVertexUniforms.Bezier>.stride,
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(

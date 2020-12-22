@@ -9,7 +9,7 @@
 import Foundation
 
 class EGBezierMesh {
-    var vertices: [EGBezierVertex]
+    var vertices: [EGVertex.Bezier]
     var indices: [UInt16]
 
     init(_ bufferData: EGBufferData) {
@@ -17,7 +17,7 @@ class EGBezierMesh {
         self.vertices = bufferData.vertexPositions.enumerated().map { ind, pos in
             let dt = 1.0 / (Float(bufferData.vertexPositions.count) - 1)
             let time = Float(ind) * dt
-            return EGBezierVertex(
+            return EGVertex.Bezier(
                 position: pos,
                 time: time
             )

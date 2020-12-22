@@ -7,29 +7,15 @@
 //
 
 #include <metal_stdlib>
+#include "Types.h"
+
 using namespace metal;
 
-struct ModelConstants {
-    float4x4 modelViewMatrix;
-    float4 color;
-};
-
-struct VertexIn {
-    float4 position [[ attribute(0) ]];
-    //float4 color [[ attribute(1) ]];
-};
-
-struct VertexOut {
-    float4 position [[ position ]];
-    float4 color;
-};
-
-
 vertex VertexOut primitive_vertex_shader(const VertexIn vertexIn [[ stage_in ]],
-                               constant ModelConstants &modelConstants [[ buffer(1) ]]) {
+                               constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(1) ]]) {
     VertexOut vertexOut;
-    vertexOut.position = modelConstants.modelViewMatrix * vertexIn.position;
-    vertexOut.color = modelConstants.color;
+    vertexOut.position = vertexUniforms.modelViewMatrix * vertexIn.position;
+    vertexOut.color = vertexUniforms.color;
     
     return vertexOut;
 }

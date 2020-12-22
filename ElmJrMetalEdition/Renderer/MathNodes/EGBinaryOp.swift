@@ -1,5 +1,5 @@
 //
-//  RMBinaryOp.swift
+//  EGBinaryOp.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-23.
