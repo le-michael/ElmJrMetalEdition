@@ -50,7 +50,7 @@ class EGCurvedPolygon: EGGraphicsNode {
         )
     }
     
-    private func updateModelConstants(_ sceneProps: EGSceneProps) {
+    private func updateVertexUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrx = transform.getTransformationMatrix(sceneProps)
         
         vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
@@ -74,7 +74,7 @@ class EGCurvedPolygon: EGGraphicsNode {
               let pipeline = pipelineStates[.BezierPipelineState],
               let vertexBuffer = vertexBuffer else { return }
         
-        updateModelConstants(sceneProps)
+        updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
