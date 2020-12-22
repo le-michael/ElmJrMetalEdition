@@ -14,7 +14,7 @@ class EGPrimitive: EGGraphicsNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
     
-    var modelConstants = EGModelConstants()
+    var vertexUniforms = EGVertexUniforms.Primitive()
     var transform = EGTransformProperty()
     var color = EGColorProperty()
     
@@ -28,7 +28,7 @@ class EGPrimitive: EGGraphicsNode {
         color.checkIfStatic()
         vertexBuffer = device.makeBuffer(
             bytes: mesh.vertices,
-            length: mesh.vertices.count * MemoryLayout<EGVertex>.stride,
+            length: mesh.vertices.count * MemoryLayout<EGVertex.Primitive>.stride,
             options: []
         )
         
@@ -42,12 +42,12 @@ class EGPrimitive: EGGraphicsNode {
     private func updateModelConstants(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps)
         
-        modelConstants.modelViewMatrix = sceneProps.projectionMatrix
+        vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix
             * transformationMatrix
         
         let colorValue = color.evaluate(sceneProps)
-        modelConstants.color = colorValue
+        vertexUniforms.color = colorValue
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
@@ -64,8 +64,8 @@ class EGPrimitive: EGGraphicsNode {
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
-            &modelConstants,
-            length: MemoryLayout<EGModelConstants>.stride,
+            &vertexUniforms,
+            length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(

@@ -23,7 +23,7 @@ class EGPipelineStateBuilder {
         primitiveVertexDescriptor.attributes[0].offset = 0
         primitiveVertexDescriptor.attributes[0].bufferIndex = 0
         
-        primitiveVertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex>.stride
+        primitiveVertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex.Primitive>.stride
         
         primitivePipelineDescriptor.vertexDescriptor = primitiveVertexDescriptor
         primitivePipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
@@ -50,12 +50,12 @@ class EGPipelineStateBuilder {
         bezierVertexDescriptor.attributes[1].offset = MemoryLayout<simd_float3>.stride
         bezierVertexDescriptor.attributes[1].bufferIndex = 0
         
-        bezierVertexDescriptor.layouts[0].stride = MemoryLayout<EGBezierVertex>.stride
+        bezierVertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex.Bezier>.stride
         
         bezierPipelineDescriptor.vertexDescriptor = bezierVertexDescriptor
         bezierPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
         
-        let primitivePipelineState = try device.makeRenderPipelineState(descriptor: bezierPipelineDescriptor)
-        return primitivePipelineState
+        let bezierPipelineState = try device.makeRenderPipelineState(descriptor: bezierPipelineDescriptor)
+        return bezierPipelineState
     }
 }
