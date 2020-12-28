@@ -251,6 +251,7 @@ class EGDemoScenes {
             point.transform.xRotationMatrix.setXRotation(angle: EGTime())
             point.transform.yRotationMatrix.setYRotation(angle: EGTime())
             
+            point.drawOutline = true
             scene.add(point)
         }
 
