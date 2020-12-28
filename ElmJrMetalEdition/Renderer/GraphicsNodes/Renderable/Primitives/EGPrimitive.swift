@@ -66,7 +66,6 @@ class EGPrimitive: EGGraphicsNode {
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
-        commandEncoder.setCullMode(.front)
         commandEncoder.setVertexBytes(
             &vertexUniforms,
             length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
