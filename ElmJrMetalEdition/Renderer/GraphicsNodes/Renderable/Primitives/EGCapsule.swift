@@ -1,5 +1,5 @@
 //
-//  EGCube.swift
+//  EGCapsule.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2021-01-02.
@@ -8,15 +8,15 @@
 
 import MetalKit
 
-class EGCube: EGPrimitive3D {
+class EGCapsule: EGPrimitive3D {
     init() {
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: [1, 1, 1],
-                    segments: [1, 1, 1],
+            MDLMesh(capsuleWithExtent: [0.5, 1.5, 0.5],
+                    cylinderSegments: [10, 10],
+                    hemisphereSegments: 10,
                     inwardNormals: false,
                     geometryType: .triangles,
                     allocator: allocator)
-
         })
     }
 }

@@ -67,11 +67,11 @@ class EGCurvedPolygon: EGGraphicsNode {
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
+                       pipelineStates: EGPipelineState,
                        sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
-              let pipeline = pipelineStates[.BezierPipelineState],
+              let pipeline = pipelineStates.states[.bezier],
               let vertexBuffer = vertexBuffer else { return }
         
         updateVertexUniforms(sceneProps)

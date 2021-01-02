@@ -9,7 +9,7 @@
 import MetalKit
 
 class EGPrimitive: EGGraphicsNode {
-    var mesh: EGMesh
+    var mesh: EGMesh?
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
     
@@ -21,12 +21,16 @@ class EGPrimitive: EGGraphicsNode {
     var transform = EGTransformProperty()
     var color = EGColorProperty()
     
+    override init() { super.init() }
+    
     init(mesh: EGMesh) {
         self.mesh = mesh
         super.init()
     }
     
     override func createBuffers(device: MTLDevice) {
+        guard let mesh = mesh else { return }
+        
         transform.checkIfStatic()
         color.checkIfStatic()
         vertexBuffer = device.makeBuffer(
@@ -42,7 +46,7 @@ class EGPrimitive: EGGraphicsNode {
         )
     }
 
-    private func updateVertexUniforms(_ sceneProps: EGSceneProps) {
+    func updateVertexUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps)
         
         vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
@@ -54,12 +58,13 @@ class EGPrimitive: EGGraphicsNode {
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
+                       pipelineStates: EGPipelineState,
                        sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
-              let pipeline = pipelineStates[.PrimitivePipelineState],
-              let vertexBuffer = vertexBuffer else { return }
+              let pipeline = pipelineStates.states[.primitive],
+              let vertexBuffer = vertexBuffer,
+              let mesh = mesh else { return }
         
         updateVertexUniforms(sceneProps)
       

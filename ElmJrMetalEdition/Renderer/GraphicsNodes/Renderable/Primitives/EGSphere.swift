@@ -1,22 +1,21 @@
 //
-//  EGCube.swift
+//  Cube.swift
 //  ElmJrMetalEdition
 //
-//  Created by Michael Le on 2021-01-02.
-//  Copyright © 2021 Thomas Armena. All rights reserved.
+//  Created by Michael Le on 2020-12-04.
+//  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
 import MetalKit
 
-class EGCube: EGPrimitive3D {
+class EGSphere: EGPrimitive3D {
     init() {
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: [1, 1, 1],
-                    segments: [1, 1, 1],
+            MDLMesh(sphereWithExtent: [0.75, 0.75, 0.75],
+                    segments: [25, 25],
                     inwardNormals: false,
                     geometryType: .triangles,
                     allocator: allocator)
-
         })
     }
 }

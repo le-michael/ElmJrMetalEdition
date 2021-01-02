@@ -12,7 +12,7 @@ class EGGraphicsNode {
     var children: [EGGraphicsNode] = []
 
     func draw(commandEncoder: MTLRenderCommandEncoder,
-              pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
+              pipelineStates: EGPipelineState,
               sceneProps: EGSceneProps) {}
 
     func createBuffers(device: MTLDevice) {}
