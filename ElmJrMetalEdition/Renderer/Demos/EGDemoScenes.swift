@@ -24,9 +24,10 @@ class EGDemoScenes {
                 p2: EGPoint2D(x: 20, y: 10),
                 p3: EGPoint2D(x: 30, y: 0)
             )
-
-            blade.transform.zRotationMatrix.setZRotation(
-                angle: EGBinaryOp(
+            blade.transform.rotationMatrix.setRotation(
+                x: EGConstant(0),
+                y: EGConstant(0),
+                z: EGBinaryOp(
                     type: .add,
                     leftChild: EGConstant(rotationBuffer),
                     rightChild: EGBinaryOp(
@@ -36,7 +37,6 @@ class EGDemoScenes {
                     )
                 )
             )
-
             blade.p3.xEquation = EGBinaryOp(
                 type: .add,
                 leftChild: EGConstant(30),
@@ -48,7 +48,6 @@ class EGDemoScenes {
                     )
                 )
             )
-
             blade.transform.translationMatrix.xEquation = EGBinaryOp(
                 type: .mul,
                 leftChild: EGConstant(30),
@@ -63,25 +62,22 @@ class EGDemoScenes {
                 b: EGConstant(1),
                 a: EGConstant(1)
             )
+
             scene.add(blade)
         }
 
         let circle = EGRegularPolygon(30)
         circle.transform.scaleMatrix.setScale(x: 5, y: 5, z: 1)
-        circle.transform.translationMatrix.xEquation = EGBinaryOp(
-            type: .mul,
-            leftChild: EGConstant(30),
-            rightChild: EGUnaryOp(
-                type: .cos,
-                child: EGTime()
-            )
-        )
-        circle.color.setColor(
-            r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime())),
-            g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime())),
-            b: EGConstant(1),
-            a: EGConstant(1)
-        )
+        circle.transform.translationMatrix.xEquation = EGBinaryOp(type: .mul,
+                                                                  leftChild: EGConstant(30),
+                                                                  rightChild: EGUnaryOp(
+                                                                      type: .cos,
+                                                                      child: EGTime()
+                                                                  ))
+        circle.color.setColor(r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime())),
+                              g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime())),
+                              b: EGConstant(1),
+                              a: EGConstant(1))
         scene.add(circle)
 
         return scene
@@ -128,23 +124,25 @@ class EGDemoScenes {
     static func pointField() -> EGScene {
         let scene = EGScene()
         scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -125)
-        scene.camera.xRotationMatrix.setXRotation(angle: -20 * Float.pi / 180)
-        scene.camera.yRotationMatrix.setYRotation(angle: EGBinaryOp(
-            type: .mul,
-            leftChild: EGConstant(0.5),
-            rightChild: EGUnaryOp(
-                type: .sin,
-                child: EGTime()
+        scene.camera.rotationMatrix.setRotation(
+            x: EGConstant(-20 * Float.pi / 180),
+            y: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(0.5),
+                rightChild: EGUnaryOp(
+                    type: .sin,
+                    child: EGTime()
+                )
+            ),
+            z: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(0.5),
+                rightChild: EGUnaryOp(
+                    type: .cos,
+                    child: EGTime()
+                )
             )
-        ))
-        scene.camera.zRotationMatrix.setZRotation(angle: EGBinaryOp(
-            type: .mul,
-            leftChild: EGConstant(0.5),
-            rightChild: EGUnaryOp(
-                type: .cos,
-                child: EGTime()
-            )
-        ))
+        )
 
         let rows = 30
         let cols = 30
@@ -209,23 +207,25 @@ class EGDemoScenes {
     static func cubeTunnel() -> EGScene {
         let scene = EGScene()
         scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -50)
-        scene.camera.xRotationMatrix.setXRotation(angle: -20 * Float.pi / 180)
-        scene.camera.yRotationMatrix.setYRotation(angle: EGBinaryOp(
-            type: .mul,
-            leftChild: EGConstant(Float.pi),
-            rightChild: EGUnaryOp(
-                type: .sin,
-                child: EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(5))
+        scene.camera.rotationMatrix.setRotation(
+            x: EGConstant(-20 * Float.pi / 180),
+            y: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(0.5),
+                rightChild: EGUnaryOp(
+                    type: .sin,
+                    child: EGTime()
+                )
+            ),
+            z: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(0.5),
+                rightChild: EGUnaryOp(
+                    type: .cos,
+                    child: EGTime()
+                )
             )
-        ))
-        scene.camera.zRotationMatrix.setZRotation(angle: EGBinaryOp(
-            type: .mul,
-            leftChild: EGConstant(0.5),
-            rightChild: EGUnaryOp(
-                type: .cos,
-                child: EGTime()
-            )
-        ))
+        )
 
         var pointCords: [simd_float3] = []
 
@@ -248,9 +248,7 @@ class EGDemoScenes {
                 b: EGConstant(1),
                 a: EGConstant(1)
             )
-            point.transform.xRotationMatrix.setXRotation(angle: EGTime())
-            point.transform.yRotationMatrix.setYRotation(angle: EGTime())
-
+            point.transform.rotationMatrix.setRotation(x: EGTime(), y: EGTime(), z: EGConstant(0))
             point.drawOutline = true
             scene.add(point)
         }
@@ -274,11 +272,11 @@ class EGDemoScenes {
     static func shapes3D() -> EGScene {
         let scene = EGScene()
         scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -5)
-        scene.camera.xRotationMatrix.setXRotation(angle: EGTime())
-        
+        scene.camera.rotationMatrix.setRotation(x: EGTime(), y: EGConstant(0), z: EGConstant(0))
+
         let sphere = EGSphere()
         sphere.color.setColor(r: 1.0, g: 0, b: 0, a: 1)
-        sphere.transform.yRotationMatrix.setYRotation(angle: EGTime())
+        sphere.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         sphere.transform.translationMatrix.setTranslation(x: 0, y: 2, z: 0)
         sphere.drawOutline = true
         scene.add(sphere)
@@ -286,45 +284,42 @@ class EGDemoScenes {
         let cube = EGCube()
         cube.color.setColor(r: 0, g: 0, b: 1, a: 1)
         cube.transform.translationMatrix.setTranslation(x: -2, y: 2, z: 0)
-        cube.transform.yRotationMatrix.setYRotation(angle: EGTime())
+        cube.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         cube.drawOutline = true
         scene.add(cube)
 
         let cone = EGCone()
         cone.color.setColor(r: 0, g: 1, b: 0, a: 1)
         cone.transform.translationMatrix.setTranslation(x: 2, y: 2, z: 0)
-        cone.transform.yRotationMatrix.setYRotation(angle: EGTime())
+        cone.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         cone.drawOutline = true
         scene.add(cone)
 
         let capsule = EGCapsule()
         capsule.color.setColor(r: 1, g: 1, b: 0, a: 1)
         capsule.transform.translationMatrix.setTranslation(x: 2, y: 0, z: 0)
-        capsule.transform.yRotationMatrix.setYRotation(angle: EGTime())
+        capsule.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         capsule.drawOutline = true
         scene.add(capsule)
 
         let hemisphere = EGHemisphere()
         hemisphere.color.setColor(r: 1, g: 0, b: 1, a: 1)
         hemisphere.transform.translationMatrix.setTranslation(x: 0, y: 0, z: 0)
-        hemisphere.transform.yRotationMatrix.setYRotation(angle: EGTime())
-        hemisphere.transform.xRotationMatrix.setXRotation(angle: EGTime())
+        hemisphere.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         hemisphere.drawOutline = true
         scene.add(hemisphere)
 
         let cylinder = EGCylinder()
         cylinder.color.setColor(r: 0, g: 1, b: 1, a: 1)
         cylinder.transform.translationMatrix.setTranslation(x: -2, y: 0, z: 0)
-        cylinder.transform.yRotationMatrix.setYRotation(angle: EGTime())
-        cylinder.transform.xRotationMatrix.setXRotation(angle: EGTime())
+        cylinder.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         cylinder.drawOutline = true
         scene.add(cylinder)
 
         let isosahedron = EGIcosahedron()
         isosahedron.color.setColor(r: 0.5, g: 0.74, b: 1, a: 1)
         isosahedron.transform.translationMatrix.setTranslation(x: -2, y: -2, z: 0)
-        isosahedron.transform.yRotationMatrix.setYRotation(angle: EGTime())
-        isosahedron.transform.xRotationMatrix.setXRotation(angle: EGTime())
+        isosahedron.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
         isosahedron.drawOutline = true
         scene.add(isosahedron)
 
