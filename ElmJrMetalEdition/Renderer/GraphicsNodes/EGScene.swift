@@ -53,9 +53,7 @@ class EGScene: EGGraphicsNode {
         sceneProps.viewMatrix = camera.getTransformationMatrix(sceneProps)
     }
 
-    func draw(commandEncoder: MTLRenderCommandEncoder,
-              pipelineStates: EGPipelineState)
-    {
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {
         updateSceneProps()
 
         for child in children {

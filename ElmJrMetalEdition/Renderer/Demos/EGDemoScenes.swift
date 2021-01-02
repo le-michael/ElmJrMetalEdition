@@ -250,7 +250,7 @@ class EGDemoScenes {
             )
             point.transform.xRotationMatrix.setXRotation(angle: EGTime())
             point.transform.yRotationMatrix.setYRotation(angle: EGTime())
-            
+
             point.drawOutline = true
             scene.add(point)
         }
@@ -270,10 +270,11 @@ class EGDemoScenes {
 
         return scene
     }
-    
+
     static func shapes3D() -> EGScene {
         let scene = EGScene()
         scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -5)
+        scene.camera.xRotationMatrix.setXRotation(angle: EGTime())
         
         let sphere = EGSphere()
         sphere.color.setColor(r: 1.0, g: 0, b: 0, a: 1)
@@ -281,28 +282,28 @@ class EGDemoScenes {
         sphere.transform.translationMatrix.setTranslation(x: 0, y: 2, z: 0)
         sphere.drawOutline = true
         scene.add(sphere)
-        
+
         let cube = EGCube()
         cube.color.setColor(r: 0, g: 0, b: 1, a: 1)
         cube.transform.translationMatrix.setTranslation(x: -2, y: 2, z: 0)
         cube.transform.yRotationMatrix.setYRotation(angle: EGTime())
         cube.drawOutline = true
         scene.add(cube)
-        
+
         let cone = EGCone()
         cone.color.setColor(r: 0, g: 1, b: 0, a: 1)
         cone.transform.translationMatrix.setTranslation(x: 2, y: 2, z: 0)
         cone.transform.yRotationMatrix.setYRotation(angle: EGTime())
         cone.drawOutline = true
         scene.add(cone)
-        
+
         let capsule = EGCapsule()
         capsule.color.setColor(r: 1, g: 1, b: 0, a: 1)
         capsule.transform.translationMatrix.setTranslation(x: 2, y: 0, z: 0)
         capsule.transform.yRotationMatrix.setYRotation(angle: EGTime())
         capsule.drawOutline = true
         scene.add(capsule)
-        
+
         let hemisphere = EGHemisphere()
         hemisphere.color.setColor(r: 1, g: 0, b: 1, a: 1)
         hemisphere.transform.translationMatrix.setTranslation(x: 0, y: 0, z: 0)
@@ -310,7 +311,7 @@ class EGDemoScenes {
         hemisphere.transform.xRotationMatrix.setXRotation(angle: EGTime())
         hemisphere.drawOutline = true
         scene.add(hemisphere)
-        
+
         let cylinder = EGCylinder()
         cylinder.color.setColor(r: 0, g: 1, b: 1, a: 1)
         cylinder.transform.translationMatrix.setTranslation(x: -2, y: 0, z: 0)
@@ -318,7 +319,7 @@ class EGDemoScenes {
         cylinder.transform.xRotationMatrix.setXRotation(angle: EGTime())
         cylinder.drawOutline = true
         scene.add(cylinder)
-        
+
         let isosahedron = EGIcosahedron()
         isosahedron.color.setColor(r: 0.5, g: 0.74, b: 1, a: 1)
         isosahedron.transform.translationMatrix.setTranslation(x: -2, y: -2, z: 0)
@@ -326,7 +327,7 @@ class EGDemoScenes {
         isosahedron.transform.xRotationMatrix.setXRotation(angle: EGTime())
         isosahedron.drawOutline = true
         scene.add(isosahedron)
-        
+
         return scene
     }
 }

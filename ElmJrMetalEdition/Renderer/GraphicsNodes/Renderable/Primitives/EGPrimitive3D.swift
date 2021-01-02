@@ -49,13 +49,11 @@ class EGPrimitive3D: EGPrimitive {
                                       length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
                                       index: 1)
         commandEncoder.setTriangleFillMode(triangleFillMode)
-        commandEncoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: submesh.indexCount,
-            indexType: submesh.indexType,
-            indexBuffer: submesh.indexBuffer.buffer,
-            indexBufferOffset: submesh.indexBuffer.offset
-        )
+        commandEncoder.drawIndexedPrimitives(type: .triangle,
+                                             indexCount: submesh.indexCount,
+                                             indexType: submesh.indexType,
+                                             indexBuffer: submesh.indexBuffer.buffer,
+                                             indexBufferOffset: submesh.indexBuffer.offset)
 
         if drawOutline {
             vertexUniforms.color = outlineColor
@@ -66,13 +64,11 @@ class EGPrimitive3D: EGPrimitive {
                                           length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
                                           index: 1)
             commandEncoder.setTriangleFillMode(.lines)
-            commandEncoder.drawIndexedPrimitives(
-                type: .triangle,
-                indexCount: submesh.indexCount,
-                indexType: submesh.indexType,
-                indexBuffer: submesh.indexBuffer.buffer,
-                indexBufferOffset: submesh.indexBuffer.offset
-            )
+            commandEncoder.drawIndexedPrimitives(type: .triangle,
+                                                 indexCount: submesh.indexCount,
+                                                 indexType: submesh.indexType,
+                                                 indexBuffer: submesh.indexBuffer.buffer,
+                                                 indexBufferOffset: submesh.indexBuffer.offset)
         }
     }
 }
