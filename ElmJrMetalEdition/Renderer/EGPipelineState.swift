@@ -1,5 +1,5 @@
 //
-//  EGPipelineStateBuilder.swift
+//  EGPipelineState.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-11-30.
@@ -12,8 +12,7 @@ class EGPipelineState {
     enum PipelineType {
         case primitive
         case bezier
-        case sphere
-        case cube
+        case primitive3D
     }
     
     var states = [PipelineType: MTLRenderPipelineState]()
@@ -97,16 +96,8 @@ class EGPipelineState {
                                  inwardNormals: false,
                                  geometryType: .triangles,
                                  allocator: nil)
-        let cubeMesh = MDLMesh(boxWithExtent: [1, 1, 1],
-                               segments: [1, 1, 1],
-                               inwardNormals: false,
-                               geometryType: .triangles,
-                               allocator: nil)
         
         shape3DPipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(sphereMesh.vertexDescriptor)
-        states[.sphere] = try device.makeRenderPipelineState(descriptor: shape3DPipelineDescriptor)
-        
-        shape3DPipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(cubeMesh.vertexDescriptor)
-        states[.cube] = try device.makeRenderPipelineState(descriptor: shape3DPipelineDescriptor)
+        states[.primitive3D] = try device.makeRenderPipelineState(descriptor: shape3DPipelineDescriptor)
     }
 }

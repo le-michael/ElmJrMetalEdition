@@ -37,7 +37,7 @@ class EGPrimitive3D: EGPrimitive {
                        pipelineStates: EGPipelineState,
                        sceneProps: EGSceneProps)
     {
-        guard let pipeline = pipelineStates.states[.sphere],
+        guard let pipeline = pipelineStates.states[.primitive3D],
               let mtkMesh = mtkMesh,
               let submesh = mtkMesh.submeshes.first else { return }
 
