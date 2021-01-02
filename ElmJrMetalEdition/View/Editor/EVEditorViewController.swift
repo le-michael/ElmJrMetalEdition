@@ -30,6 +30,8 @@ class EVEditorViewController: UIViewController {
         editor.delegate = self
         leftRightDivider.editor = editor
         upDownDivider.editor = editor
+        textEditorView.editor = editor
+        toolBarView.editor = editor
         setupViews()
     }
     
