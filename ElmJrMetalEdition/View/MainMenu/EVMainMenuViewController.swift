@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainMenuViewController: UIViewController {
+class EVMainMenuViewController: UIViewController {
     
     let nextButton = UIButton()
     let metalWorkspaceButton = UIButton()
