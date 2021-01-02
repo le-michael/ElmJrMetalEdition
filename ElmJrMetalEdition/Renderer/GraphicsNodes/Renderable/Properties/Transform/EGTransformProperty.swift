@@ -15,7 +15,7 @@ class EGTransformProperty {
     var yRotationMatrix = EGYRotationMatrix()
     var zRotationMatrix = EGZRotationMatrix()
     
-    var isStatic = true
+    var isStatic = false
     var cachedMatrix = matrix_identity_float4x4
     
     init() {

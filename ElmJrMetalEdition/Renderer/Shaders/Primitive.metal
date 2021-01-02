@@ -13,9 +13,10 @@ using namespace metal;
 
 vertex VertexOut primitive_vertex_shader(const VertexIn vertexIn [[ stage_in ]],
                                constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(1) ]]) {
-    VertexOut vertexOut;
-    vertexOut.position = vertexUniforms.modelViewMatrix * vertexIn.position;
-    vertexOut.color = vertexUniforms.color;
+    VertexOut vertexOut {
+        .position = vertexUniforms.modelViewMatrix * vertexIn.position,
+        .color = vertexUniforms.color,
+    };
     
     return vertexOut;
 }

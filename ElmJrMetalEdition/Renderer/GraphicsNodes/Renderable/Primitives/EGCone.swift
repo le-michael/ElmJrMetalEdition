@@ -1,5 +1,5 @@
 //
-//  EGCube.swift
+//  EGCone.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2021-01-02.
@@ -8,15 +8,15 @@
 
 import MetalKit
 
-class EGCube: EGPrimitive3D {
+class EGCone: EGPrimitive3D {
     init() {
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: [1, 1, 1],
-                    segments: [1, 1, 1],
+            MDLMesh(coneWithExtent: [1, 1, 1],
+                    segments: [20, 20],
                     inwardNormals: false,
+                    cap: true,
                     geometryType: .triangles,
                     allocator: allocator)
-
         })
     }
 }

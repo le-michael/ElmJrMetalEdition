@@ -9,7 +9,7 @@
 import MetalKit
 
 class EGPrimitive: EGGraphicsNode {
-    var mesh: EGMesh
+    var mesh: EGMesh?
     var vertexBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
     
@@ -21,28 +21,28 @@ class EGPrimitive: EGGraphicsNode {
     var transform = EGTransformProperty()
     var color = EGColorProperty()
     
+    override init() { super.init() }
+    
     init(mesh: EGMesh) {
         self.mesh = mesh
         super.init()
     }
     
     override func createBuffers(device: MTLDevice) {
+        guard let mesh = mesh else { return }
+        
         transform.checkIfStatic()
         color.checkIfStatic()
-        vertexBuffer = device.makeBuffer(
-            bytes: mesh.vertices,
-            length: mesh.vertices.count * MemoryLayout<EGVertex.Primitive>.stride,
-            options: []
-        )
         
-        indexBuffer = device.makeBuffer(
-            bytes: mesh.indices,
-            length: mesh.indices.count * MemoryLayout<UInt16>.size,
-            options: []
-        )
+        vertexBuffer = device.makeBuffer(bytes: mesh.vertices,
+                                         length: mesh.vertices.count * MemoryLayout<EGVertex.Primitive>.stride,
+                                         options: [])
+        indexBuffer = device.makeBuffer(bytes: mesh.indices,
+                                        length: mesh.indices.count * MemoryLayout<UInt16>.size,
+                                        options: [])
     }
 
-    private func updateVertexUniforms(_ sceneProps: EGSceneProps) {
+    func updateVertexUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.getTransformationMatrix(sceneProps)
         
         vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
@@ -54,30 +54,27 @@ class EGPrimitive: EGGraphicsNode {
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
-                       pipelineStates: [EGPipelineStates: MTLRenderPipelineState],
+                       pipelineStates: EGPipelineState,
                        sceneProps: EGSceneProps)
     {
         guard let indexBuffer = indexBuffer,
-              let pipeline = pipelineStates[.PrimitivePipelineState],
-              let vertexBuffer = vertexBuffer else { return }
+              let pipeline = pipelineStates.states[.primitive],
+              let vertexBuffer = vertexBuffer,
+              let mesh = mesh else { return }
         
         updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
-        commandEncoder.setVertexBytes(
-            &vertexUniforms,
-            length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
-            index: 1
-        )
-        commandEncoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: mesh.indices.count,
-            indexType: .uint16,
-            indexBuffer: indexBuffer,
-            indexBufferOffset: 0
-        )
+        commandEncoder.setVertexBytes(&vertexUniforms,
+                                      length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                      index: 1)
+        commandEncoder.drawIndexedPrimitives(type: .triangle,
+                                             indexCount: mesh.indices.count,
+                                             indexType: .uint16,
+                                             indexBuffer: indexBuffer,
+                                             indexBufferOffset: 0)
         
         if drawOutline {
             vertexUniforms.color = outlineColor
@@ -85,18 +82,14 @@ class EGPrimitive: EGGraphicsNode {
             commandEncoder.setRenderPipelineState(pipeline)
             commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             commandEncoder.setTriangleFillMode(.lines)
-            commandEncoder.setVertexBytes(
-                &vertexUniforms,
-                length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
-                index: 1
-            )
-            commandEncoder.drawIndexedPrimitives(
-                type: .triangle,
-                indexCount: mesh.indices.count,
-                indexType: .uint16,
-                indexBuffer: indexBuffer,
-                indexBufferOffset: 0
-            )
+            commandEncoder.setVertexBytes(&vertexUniforms,
+                                          length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                          index: 1)
+            commandEncoder.drawIndexedPrimitives(type: .triangle,
+                                                 indexCount: mesh.indices.count,
+                                                 indexType: .uint16,
+                                                 indexBuffer: indexBuffer,
+                                                 indexBufferOffset: 0)
         }
     }
 }
