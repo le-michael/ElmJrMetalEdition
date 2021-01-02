@@ -49,16 +49,13 @@
 		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
 		10D89628256840480053D762 /* EGPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* EGPlane.swift */; };
 		10D89633256865E60053D762 /* EGLine2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* EGLine2D.swift */; };
-		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
 		7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */; };
 		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
-		D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923593025646F6900C0D98F /* TriangleEditNode.swift */; };
-		D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92359322564733C00C0D98F /* ColorEditNode.swift */; };
 		D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1EF251BDD1900F9457F /* AppDelegate.swift */; };
 		D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */; };
-		D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F3251BDD1900F9457F /* MainMenuViewController.swift */; };
+		D95DF1F4251BDD1900F9457F /* EVMainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */; };
 		D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1F8251BDD1F00F9457F /* Assets.xcassets */; };
 		D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1FA251BDD1F00F9457F /* LaunchScreen.storyboard */; };
 		D95DF207251C06CA00F9457F /* EVEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF206251C06CA00F9457F /* EVEditorViewController.swift */; };
@@ -131,17 +128,14 @@
 		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
 		10D89627256840480053D762 /* EGPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPlane.swift; sourceTree = "<group>"; };
 		10D89632256865E60053D762 /* EGLine2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLine2D.swift; sourceTree = "<group>"; };
-		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
 		7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencer.swift; sourceTree = "<group>"; };
 		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
-		D923593025646F6900C0D98F /* TriangleEditNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleEditNode.swift; sourceTree = "<group>"; };
-		D92359322564733C00C0D98F /* ColorEditNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorEditNode.swift; sourceTree = "<group>"; };
 		D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElmJrMetalEdition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95DF1EF251BDD1900F9457F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D95DF1F3251BDD1900F9457F /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVMainMenuViewController.swift; sourceTree = "<group>"; };
 		D95DF1F8251BDD1F00F9457F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D95DF1FB251BDD1F00F9457F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D95DF1FD251BDD1F00F9457F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -373,9 +367,6 @@
 				D98A8C7225A02AAB00FA3539 /* View */,
 				1072E3E22564C3BF00D390FE /* Interpreter */,
 				107596F7251C460200BBE3B6 /* Renderer */,
-				D95DF205251BDD9C00F9457F /* Models */,
-				D95DF204251BDD9400F9457F /* Controllers */,
-				D95DF203251BDD7A00F9457F /* Views */,
 				D95DF1EF251BDD1900F9457F /* AppDelegate.swift */,
 				D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */,
 				D95DF1F8251BDD1F00F9457F /* Assets.xcassets */,
@@ -385,36 +376,11 @@
 			path = ElmJrMetalEdition;
 			sourceTree = "<group>";
 		};
-		D95DF203251BDD7A00F9457F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		D95DF204251BDD9400F9457F /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				D95DF1F3251BDD1900F9457F /* MainMenuViewController.swift */,
-				D90C14F32531064700375F0A /* MetalWorkspaceController.swift */,
-				D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */,
-				554723022564778900E2E934 /* ListParser.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		D95DF205251BDD9C00F9457F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				D923593025646F6900C0D98F /* TriangleEditNode.swift */,
-				D92359322564733C00C0D98F /* ColorEditNode.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		D98A8C7225A02AAB00FA3539 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D9BDF52E25A069E0008E6D2C /* DemoWorkspaces */,
+				D9BDF52D25A069D4008E6D2C /* MainMenu */,
 				D98A8C7325A02B3C00FA3539 /* Editor */,
 				D98A8C7425A02B9600FA3539 /* EVEditor.swift */,
 			);
@@ -432,6 +398,23 @@
 				D98A8C7E25A037C700FA3539 /* EVMenuView.swift */,
 			);
 			path = Editor;
+			sourceTree = "<group>";
+		};
+		D9BDF52D25A069D4008E6D2C /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */,
+			);
+			path = MainMenu;
+			sourceTree = "<group>";
+		};
+		D9BDF52E25A069E0008E6D2C /* DemoWorkspaces */ = {
+			isa = PBXGroup;
+			children = (
+				D90C14F32531064700375F0A /* MetalWorkspaceController.swift */,
+				D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */,
+			);
+			path = DemoWorkspaces;
 			sourceTree = "<group>";
 		};
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
@@ -569,13 +552,11 @@
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */,
 				10A0BB9D2575F91F001CD1F8 /* EGPoint2D.swift in Sources */,
-				D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */,
 				1072E3EF2565942100D390FE /* EGPrimitive.swift in Sources */,
-				554723032564778900E2E934 /* ListParser.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
-				D95DF1F4251BDD1900F9457F /* MainMenuViewController.swift in Sources */,
+				D95DF1F4251BDD1900F9457F /* EVMainMenuViewController.swift in Sources */,
 				10D89633256865E60053D762 /* EGLine2D.swift in Sources */,
 				10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */,
 				D98A8C7725A0375600FA3539 /* EVTextEditorView.swift in Sources */,
@@ -605,7 +586,6 @@
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
-				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
 				D98A8C7925A0377900FA3539 /* EVToolBarView.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
