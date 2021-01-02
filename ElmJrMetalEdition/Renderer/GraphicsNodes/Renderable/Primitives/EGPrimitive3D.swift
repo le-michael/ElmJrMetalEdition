@@ -1,5 +1,5 @@
 //
-//  EGModelPrimitive.swift
+//  EGPrimitive3D.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2021-01-01.
