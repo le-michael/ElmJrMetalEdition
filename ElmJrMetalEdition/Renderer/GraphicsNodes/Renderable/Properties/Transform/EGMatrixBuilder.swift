@@ -19,46 +19,52 @@ class EGMatrixBuilder {
         ))
     }
 
-    static func createXRotationMatrix(radians angle: Float) -> matrix_float4x4 {
+    static func createXRotationMatrix(radians: Float) -> matrix_float4x4 {
         return matrix_float4x4([
             simd_float4(1, 0, 0, 0),
-            simd_float4(0, cos(angle), -sin(angle), 0),
-            simd_float4(0, sin(angle), cos(angle), 0),
+            simd_float4(0, cos(radians), -sin(radians), 0),
+            simd_float4(0, sin(radians), cos(radians), 0),
             simd_float4(0, 0, 0, 1)
         ])
     }
 
-    static func createXRotationMatrix(degrees deg: Float) -> matrix_float4x4 {
-        let radians = GLKMathDegreesToRadians(deg)
+    static func createXRotationMatrix(degrees: Float) -> matrix_float4x4 {
+        let radians = GLKMathDegreesToRadians(degrees)
         return createXRotationMatrix(radians: radians)
     }
 
-    static func createYRotationMatrix(radians angle: Float) -> matrix_float4x4 {
+    static func createYRotationMatrix(radians: Float) -> matrix_float4x4 {
         return matrix_float4x4([
-            simd_float4(cos(angle), 0, sin(angle), 0),
+            simd_float4(cos(radians), 0, sin(radians), 0),
             simd_float4(0, 1, 0, 0),
-            simd_float4(-sin(angle), 0, cos(angle), 0),
+            simd_float4(-sin(radians), 0, cos(radians), 0),
             simd_float4(0, 0, 0, 1)
         ])
     }
 
-    static func createYRotationMatrix(degrees deg: Float) -> matrix_float4x4 {
-        let radians = GLKMathDegreesToRadians(deg)
+    static func createYRotationMatrix(degrees: Float) -> matrix_float4x4 {
+        let radians = GLKMathDegreesToRadians(degrees)
         return createYRotationMatrix(radians: radians)
     }
 
-    static func createZRotationMatrix(radians angle: Float) -> matrix_float4x4 {
+    static func createZRotationMatrix(radians: Float) -> matrix_float4x4 {
         return matrix_float4x4([
-            simd_float4(cos(angle), sin(angle), 0, 0),
-            simd_float4(-sin(angle), cos(angle), 0, 0),
+            simd_float4(cos(radians), sin(radians), 0, 0),
+            simd_float4(-sin(radians), cos(radians), 0, 0),
             simd_float4(0, 0, 1, 0),
             simd_float4(0, 0, 0, 1)
         ])
     }
 
-    static func createZRotationMatrix(degrees deg: Float) -> matrix_float4x4 {
-        let radians = GLKMathDegreesToRadians(deg)
+    static func createZRotationMatrix(degrees: Float) -> matrix_float4x4 {
+        let radians = GLKMathDegreesToRadians(degrees)
         return createZRotationMatrix(radians: radians)
+    }
+
+    static func createRotationMatrix(x: Float, y: Float, z: Float) -> matrix_float4x4 {
+        return createXRotationMatrix(radians: x)
+            * createYRotationMatrix(radians: y)
+            * createZRotationMatrix(radians: z)
     }
 
     static func createScaleMatrix(x: Float, y: Float, z: Float) -> matrix_float4x4 {
