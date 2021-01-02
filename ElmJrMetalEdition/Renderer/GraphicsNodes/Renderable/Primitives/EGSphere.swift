@@ -1,5 +1,5 @@
 //
-//  Cube.swift
+//  EGSphere.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2020-12-04.
