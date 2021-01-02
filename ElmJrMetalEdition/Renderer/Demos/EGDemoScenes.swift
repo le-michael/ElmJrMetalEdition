@@ -68,16 +68,20 @@ class EGDemoScenes {
 
         let circle = EGRegularPolygon(30)
         circle.transform.scaleMatrix.setScale(x: 5, y: 5, z: 1)
-        circle.transform.translationMatrix.xEquation = EGBinaryOp(type: .mul,
-                                                                  leftChild: EGConstant(30),
-                                                                  rightChild: EGUnaryOp(
-                                                                      type: .cos,
-                                                                      child: EGTime()
-                                                                  ))
-        circle.color.setColor(r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime())),
-                              g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime())),
-                              b: EGConstant(1),
-                              a: EGConstant(1))
+        circle.transform.translationMatrix.xEquation = EGBinaryOp(
+            type: .mul,
+            leftChild: EGConstant(30),
+            rightChild: EGUnaryOp(
+                type: .cos,
+                child: EGTime()
+            )
+        )
+        circle.color.setColor(
+            r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime())),
+            g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime())),
+            b: EGConstant(1),
+            a: EGConstant(1)
+        )
         scene.add(circle)
 
         return scene
