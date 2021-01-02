@@ -46,7 +46,6 @@ class EVEditor {
         print("raw: --------")
         print(sourceCode)
         print("evaluation: ------")
-        
         let evaluator = EIEvaluator()
         do {
             let node = try evaluator.interpret(sourceCode)
@@ -54,7 +53,6 @@ class EVEditor {
         } catch {
             print("Error evaluating")
         }
-        
-
     }
+    
 }
