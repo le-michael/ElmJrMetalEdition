@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainMenuViewController: UIViewController {
+class EVMainMenuViewController: UIViewController {
     
     let nextButton = UIButton()
     let metalWorkspaceButton = UIButton()
@@ -58,7 +58,7 @@ class MainMenuViewController: UIViewController {
     }
     
     @objc func nextButtonClicked(_: UIButton!){
-        let editorViewController = EditorViewController()
+        let editorViewController = EVEditorViewController()
         editorViewController.modalPresentationStyle = .fullScreen
         self.present(editorViewController, animated: true, completion: nil)
     }
