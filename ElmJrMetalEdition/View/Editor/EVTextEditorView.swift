@@ -48,21 +48,21 @@ class EVTextEditorView: UIView {
         let lexer = EILexer(text: mainString)
         while(true){
             let rangeStart = lexer.characterIndex
+            
             var token: Token
-            do {
-                token = try lexer.nextToken()
-            } catch {
-                break;
-            }
-            let rangeEnd = lexer.characterIndex
+            do { token = try lexer.nextToken() } catch { break }
+            
+            let length = lexer.characterIndex - rangeStart
+            
             if token.type == .endOfFile {
                 break
             }
-            guard let color = getTokenColor(token) else { continue }
+            
+            guard let color = getTokenTypeColor(token.type) else { continue }
             mutableAttributedString.addAttribute(
                 NSAttributedString.Key.foregroundColor,
                 value: color,
-                range: NSRange(location: rangeStart, length: rangeEnd-rangeStart)
+                range: NSRange(location: rangeStart, length: length)
             )
         }
         textView.attributedText = mutableAttributedString
@@ -81,9 +81,8 @@ extension EVTextEditorView: UITextViewDelegate {
     }
 }
 
-func getTokenColor(_ token: Token) -> UIColor? {
-    switch(token.type){
-    case .IF:           return EVTheme.Colors.reserved
+func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
+    switch(tokenType){
     case .leftParan:    return EVTheme.Colors.symbol
     case .rightParan:   return EVTheme.Colors.symbol
     case .plus:         return EVTheme.Colors.symbol
@@ -115,6 +114,7 @@ func getTokenColor(_ token: Token) -> UIColor? {
     case .bar:          return EVTheme.Colors.symbol
     case .string:       return EVTheme.Colors.string
     case .char:         return EVTheme.Colors.string
+    case .IF:           return EVTheme.Colors.reserved
     case .THEN:         return EVTheme.Colors.reserved
     case .ELSE:         return EVTheme.Colors.reserved
     case .CASE:         return EVTheme.Colors.reserved
@@ -125,6 +125,6 @@ func getTokenColor(_ token: Token) -> UIColor? {
     case .ALIAS:        return EVTheme.Colors.reserved
     case .identifier:   return EVTheme.Colors.identifier
     case .number:       return EVTheme.Colors.number
-
+    default:            return EVTheme.Colors.foreground
     }
 }

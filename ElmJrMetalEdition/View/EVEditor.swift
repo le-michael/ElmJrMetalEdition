@@ -43,16 +43,18 @@ class EVEditor {
     }
     
     func run() {
+        print("raw: --------")
         print(sourceCode)
-        print("------")
-        let lexer = EILexer(text: sourceCode)
-        while(true){
-            let token = try! lexer.nextToken()
-            print(token)
-            if token.type == .endOfFile {
-                break
-            }
+        print("evaluation: ------")
+        
+        let evaluator = EIEvaluator()
+        do {
+            let node = try evaluator.interpret(sourceCode)
+            print(node)
+        } catch {
+            print("Error evaluating")
         }
+        
 
     }
 }
