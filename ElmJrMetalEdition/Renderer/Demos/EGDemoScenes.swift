@@ -329,4 +329,91 @@ class EGDemoScenes {
 
         return scene
     }
+
+    static func rings3D() -> EGScene {
+        let scene = EGScene()
+        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        scene.camera.rotationMatrix.setRotation(
+            x: EGConstant(0),
+            y: EGTime(),
+            z: EGTime()
+        )
+
+        for i in 0 ..< 14 {
+            let count = i * 10 + 30
+            for j in 0 ..< count {
+                let amplitude = Float(i * 4)
+                let step = Float(j) / 60 * 10
+                let asteroid = EGSphere()
+                asteroid.transform.scaleMatrix.setScale(x: 1, y: 1, z: 1)
+                asteroid.transform.translationMatrix.setTranslation(
+                    x: EGBinaryOp(
+                        type: .mul,
+                        leftChild: EGConstant(amplitude),
+                        rightChild: EGUnaryOp(
+                            type: i % 2 == 0 ? .sin : .cos,
+                            child: EGBinaryOp(
+                                type: .add,
+                                leftChild: EGConstant(step),
+                                rightChild: EGTime()
+                            )
+                        )
+                    ),
+                    y: EGBinaryOp(
+                        type: .mul,
+                        leftChild: EGConstant(30),
+                        rightChild: EGUnaryOp(
+                            type: .sin,
+                            child: EGBinaryOp(
+                                type: .add,
+                                leftChild: EGConstant(step),
+                                rightChild: EGTime()
+                            )
+                        )
+                    ),
+                    z: EGBinaryOp(
+                        type: .mul,
+                        leftChild: EGConstant(amplitude),
+                        rightChild: EGUnaryOp(
+                            type: i % 2 == 0 ? .cos : .sin,
+                            child: EGBinaryOp(
+                                type: .add,
+                                leftChild: EGConstant(step),
+                                rightChild: EGTime()
+                            )
+                        )
+                    )
+                )
+                asteroid.color.setColor(
+                    r: EGUnaryOp(
+                        type: .abs,
+                        child: EGUnaryOp(
+                            type: .sin,
+                            child: EGBinaryOp(
+                                type: .add,
+                                leftChild: EGConstant(step),
+                                rightChild: EGTime()
+                            )
+                        )
+                    ),
+                    g: EGUnaryOp(
+                        type: .abs,
+                        child: EGUnaryOp(
+                            type: .cos,
+                            child: EGBinaryOp(
+                                type: .add,
+                                leftChild: EGConstant(step),
+                                rightChild: EGTime()
+                            )
+                        )
+                    ),
+                    b: EGConstant(1),
+                    a: EGConstant(1)
+                )
+                scene.add(asteroid)
+            }
+        }
+
+        return scene
+    }
 }
