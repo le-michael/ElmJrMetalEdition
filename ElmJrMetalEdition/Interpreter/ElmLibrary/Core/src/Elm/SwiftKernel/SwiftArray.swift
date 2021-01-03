@@ -61,3 +61,88 @@ func _SwiftArray_unsafeSet<A>
         return result
     }}
 }
+
+/* Original JsArray semantics copies the entire array
+   This will therefore be an O(n) operation
+*/
+func _SwiftArray_push<A>
+(_ value : A) -> (_ array : [A]) -> [A] {
+    { array in
+        return array + [value]
+    }
+}
+
+func _SwiftArray_foldl<A, B>
+(_ f : @escaping (A) -> (B) -> (B)) -> (_ acc : B) -> (_ array : [A])
+-> B {
+    { acc in { array in
+        var result = acc
+        for i in 0..<array.count {
+            result = f(array[i])(result)
+        }
+        return result
+    }}
+}
+
+func _SwiftArray_foldr<A, B>
+(_ f : @escaping (A) -> (B) -> (B)) -> (_ acc :B) -> (_ array : [A])
+-> B {
+    { acc in { array in
+        var result = acc
+        for i in (0..<array.count).reversed() {
+            result = f(array[i])(result)
+        }
+        return result
+    }}
+}
+
+func _SwiftArray_map<A, B>
+(_ f : @escaping (A) -> B) -> ([A]) -> [B] {
+    { array in
+        let result = array
+        return result.fmap(f)
+    }
+}
+
+func _SwiftArray_indexedMap<A, B>
+(_ f : @escaping (Int) -> (A) -> B) -> (Int) -> ([A]) -> [B] {
+    { offset in { array in
+        var result = Array<B>()
+        for i in 0..<array.count {
+            result[i] = f(offset + i)(array[i])
+        }
+        return result
+    }}
+}
+
+// Slice up to but not including the last element
+func _SwiftArray_slice<A>
+(_ from : Int) -> (_ to : Int) -> (_ array : [A]) -> [A] {
+    { to in { array in
+        return Array(array[from..<to])
+    }}
+}
+
+func _SwiftArray_appendN<A>
+(_ n : Int) -> (_ dest : [A]) -> (_ source : [A]) -> [A] {
+    { dest in { source in
+        let destLen = dest.count
+        var itemsToCopy = n - destLen
+        
+        if (itemsToCopy > source.count) {
+            itemsToCopy = source.count
+        }
+        
+        var result = Array<A>()
+        
+        for i in 0..<destLen {
+            result.append(dest[i])
+        }
+        
+        for i in 0..<itemsToCopy {
+            result.append(source[i])
+        }
+        
+        return result
+    }}
+}
