@@ -1,0 +1,70 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Chalk",
+        "repositoryURL": "https://github.com/mxcl/Chalk.git",
+        "state": {
+          "branch": null,
+          "revision": "9aa9f348b86db3cf6702a3e43c081ecec80cf3c7",
+          "version": "0.4.0"
+        }
+      },
+      {
+        "package": "FileCheck",
+        "repositoryURL": "https://github.com/llvm-swift/FileCheck.git",
+        "state": {
+          "branch": null,
+          "revision": "0dc8a5bff1a7f01e1d7bcc20c79e2127b2ea3eeb",
+          "version": "0.2.5"
+        }
+      },
+      {
+        "package": "Operadics",
+        "repositoryURL": "https://github.com/typelift/Operadics.git",
+        "state": {
+          "branch": null,
+          "revision": "ef9c00e70ac4e5fba046f4eae3bd4e4e8f058648",
+          "version": "0.4.0"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
+        "state": {
+          "branch": null,
+          "revision": "92646c0cdbaca076c8d3d0207891785b3379cbff",
+          "version": "0.3.1"
+        }
+      },
+      {
+        "package": "SwiftCheck",
+        "repositoryURL": "https://github.com/typelift/SwiftCheck.git",
+        "state": {
+          "branch": null,
+          "revision": "077c096c3ddfc38db223ac8e525ad16ffb987138",
+          "version": "0.12.0"
+        }
+      },
+      {
+        "package": "Swiftx",
+        "repositoryURL": "https://github.com/typelift/Swiftx.git",
+        "state": {
+          "branch": null,
+          "revision": "4affb6451b6981cf56c2ec1287aaee3406a5e5e0",
+          "version": "0.8.0"
+        }
+      },
+      {
+        "package": "Swiftz",
+        "repositoryURL": "https://github.com/typelift/Swiftz.git",
+        "state": {
+          "branch": "master",
+          "revision": "6cc11367d8222486312846e460b3ec63d7e9018d",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

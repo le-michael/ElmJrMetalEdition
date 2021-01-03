@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -52,6 +52,12 @@
 		10D89628256840480053D762 /* EGPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* EGPlane.swift */; };
 		10D89633256865E60053D762 /* EGLine2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* EGLine2D.swift */; };
 		554723032564778900E2E934 /* ListParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554723022564778900E2E934 /* ListParser.swift */; };
+		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
+		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
+		7C1856AF259E8C6200546CD3 /* Char.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AE259E8C6200546CD3 /* Char.swift */; };
+		7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B225A123CC00546CD3 /* SwiftArray.swift */; };
+		7C1856B725A142D900546CD3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B625A142D900546CD3 /* List.swift */; };
+		7C1856C025A14F8000546CD3 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1856BF25A14F8000546CD3 /* Swiftz */; };
 		7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */; };
 		7C1A44B32573637400C3017B /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44B22573637400C3017B /* Fix.elm */; };
 		7C1A44DB2575C20900C3017B /* Array.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BA2575C20900C3017B /* Array.elm */; };
@@ -86,6 +92,7 @@
 		7C1A44F82575C20900C3017B /* Tuple.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44DA2575C20900C3017B /* Tuple.elm */; };
 		7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */; };
 		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
+		7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9B92584A6C300311C48 /* Basics.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D923593125646F6900C0D98F /* TriangleEditNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923593025646F6900C0D98F /* TriangleEditNode.swift */; };
@@ -161,6 +168,11 @@
 		10D89627256840480053D762 /* EGPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPlane.swift; sourceTree = "<group>"; };
 		10D89632256865E60053D762 /* EGLine2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLine2D.swift; sourceTree = "<group>"; };
 		554723022564778900E2E934 /* ListParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListParser.swift; sourceTree = "<group>"; };
+		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
+		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
+		7C1856B225A123CC00546CD3 /* SwiftArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftArray.swift; sourceTree = "<group>"; };
+		7C1856B625A142D900546CD3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = GraphicSVG.elm; sourceTree = "<group>"; };
 		7C1A44B22573637400C3017B /* Fix.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
 		7C1A44BA2575C20900C3017B /* Array.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Array.elm; sourceTree = "<group>"; };
@@ -195,6 +207,7 @@
 		7C1A44DA2575C20900C3017B /* Tuple.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tuple.elm; sourceTree = "<group>"; };
 		7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencer.swift; sourceTree = "<group>"; };
 		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
+		7C74A9B92584A6C300311C48 /* Basics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basics.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D923593025646F6900C0D98F /* TriangleEditNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleEditNode.swift; sourceTree = "<group>"; };
@@ -226,6 +239,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C1856C025A14F8000546CD3 /* Swiftz in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,9 +341,6 @@
 			children = (
 				7C1A44B12573635C00C3017B /* ElmCodeExamples */,
 				7C1A44A825721C8200C3017B /* ElmLibrary */,
-				1072E3E32564C41000D390FE /* Lexer.swift */,
-				1072E3E62564C42100D390FE /* Interpreter.swift */,
-				1072E3E92564C43B00D390FE /* Parser.swift */,
 				1072E3E32564C41000D390FE /* EILexer.swift */,
 				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
 				1072E3E92564C43B00D390FE /* EIParser.swift */,
@@ -486,6 +497,7 @@
 		7C1A44C02575C20900C3017B /* Elm */ = {
 			isa = PBXGroup;
 			children = (
+				7C74A9B82584A6A800311C48 /* SwiftKernel */,
 				7C1A44C12575C20900C3017B /* JsArray.elm */,
 				7C1A44C22575C20900C3017B /* Kernel */,
 			);
@@ -518,6 +530,19 @@
 				7C1A44D32575C20900C3017B /* Sub.elm */,
 			);
 			path = Platform;
+			sourceTree = "<group>";
+		};
+		7C74A9B82584A6A800311C48 /* SwiftKernel */ = {
+			isa = PBXGroup;
+			children = (
+				7C74A9B92584A6C300311C48 /* Basics.swift */,
+				7C1856A6259E7D7300546CD3 /* Bitwise.swift */,
+				7C1856AE259E8C6200546CD3 /* Char.swift */,
+				7C1856B225A123CC00546CD3 /* SwiftArray.swift */,
+				7C1856B625A142D900546CD3 /* List.swift */,
+				7C1856AA259E82A400546CD3 /* Utils.swift */,
+			);
+			path = SwiftKernel;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -629,6 +654,9 @@
 			dependencies = (
 			);
 			name = ElmJrMetalEdition;
+			packageProductDependencies = (
+				7C1856BF25A14F8000546CD3 /* Swiftz */,
+			);
 			productName = ElmJrMetalEdition;
 			productReference = D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */;
 			productType = "com.apple.product-type.application";
@@ -661,6 +689,9 @@
 				Base,
 			);
 			mainGroup = D95DF1E3251BDD1900F9457F;
+			packageReferences = (
+				7C1856BE25A14F8000546CD3 /* XCRemoteSwiftPackageReference "Swiftz" */,
+			);
 			productRefGroup = D95DF1ED251BDD1900F9457F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -760,10 +791,12 @@
 				10D89633256865E60053D762 /* EGLine2D.swift in Sources */,
 				10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */,
 				105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */,
+				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
 				105CCF0725769544006A6634 /* EGModelConstants.swift in Sources */,
 				108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
+				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
@@ -771,6 +804,7 @@
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,
 				10D89628256840480053D762 /* EGPlane.swift in Sources */,
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,
+				7C1856AB259E82A400546CD3 /* Utils.swift in Sources */,
 				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
 				109A2FBA257ADA3900A861D6 /* EGXRotationMatrix.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
@@ -780,6 +814,7 @@
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
 				1072E3E42564C41000D390FE /* EILexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */,
+				7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */,
 				103EC561257AF78B00111267 /* EGCube.swift in Sources */,
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
@@ -787,7 +822,9 @@
 				D92359332564733C00C0D98F /* ColorEditNode.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
+				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
 				FE42166C256C8C41008622FB /* Token.swift in Sources */,
+				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,
 				1072E3F52565983A00D390FE /* EGRegularPolygon.swift in Sources */,
 				1049A25025671E20007E85BE /* EGZRotationMatrix.swift in Sources */,
 				107FDB5D2567182800D1B54C /* EGMathNode.swift in Sources */,
@@ -1048,6 +1085,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7C1856BE25A14F8000546CD3 /* XCRemoteSwiftPackageReference "Swiftz" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/typelift/Swiftz.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7C1856BF25A14F8000546CD3 /* Swiftz */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C1856BE25A14F8000546CD3 /* XCRemoteSwiftPackageReference "Swiftz" */;
+			productName = Swiftz;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D95DF1E4251BDD1900F9457F /* Project object */;
 }
