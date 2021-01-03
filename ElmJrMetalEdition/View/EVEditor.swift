@@ -27,13 +27,32 @@ class EVEditor {
         textEditorHeight = 500
     }
     
-    func setTextEditorWidth(_ width: CGFloat){
+    func setTextEditorWidth(_ width: CGFloat) {
         textEditorWidth = width
         delegate?.editor(self, didChangeTextEditorWidth: width)
     }
     
-    func setTextEditorHeight(_ height: CGFloat){
+    func setTextEditorHeight(_ height: CGFloat) {
         textEditorHeight = height
         delegate?.editor(self, didChangeTextEditorHeight: height)
     }
+    
+    func setSourceCode(_ sourceCode: String) {
+        self.sourceCode = sourceCode
+        delegate?.editor(self, didChangeSourceCode: sourceCode)
+    }
+    
+    func run() {
+        print("raw: --------")
+        print(sourceCode)
+        print("evaluation: ------")
+        let evaluator = EIEvaluator()
+        do {
+            let node = try evaluator.interpret(sourceCode)
+            print(node)
+        } catch {
+            print("Error evaluating")
+        }
+    }
+    
 }
