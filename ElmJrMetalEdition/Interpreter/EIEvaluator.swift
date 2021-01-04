@@ -9,20 +9,33 @@
 import Foundation
 
 class EIEvaluator {
+    var globals : [String:EIParser.Function]
     
     enum EvaluatorError : Error {
         case DivisionByZero
+        case UnknownIdentifier
+        case VariableShadowing
+        case WrongNumberArguments
         case NotImplemented
     }
     
-    init () {}
+    init () {
+        globals = [String:EIParser.Function]()
+    }
     
+    /**
+     Evaluates an expression or declaration.
+     Intended to be used in an Elm REPL.
+     Declarations will be stored to the 'globals' dictionary.
+     */
     func interpret(_ text : String) throws -> EINode {
         let ast = try EIParser(text: text).parse()
-        if ast is EIParser.Function {
+        if let function = ast as? EIParser.Function {
+            // functions are added to the global scope
+            globals[function.name] = function
             return ast
         }
-        return try evaluate(ast, [:])
+        return try evaluate(ast, globals)
     }
     
     /**
@@ -30,7 +43,7 @@ class EIEvaluator {
     Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
     Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
      */
-    func evaluate(_ node : EINode, _ scope : [String:EINode]) throws -> EILiteral {
+    func evaluate(_ node : EINode, _ scope : [String:EIParser.Function]) throws -> EILiteral {
         switch node {
         case let literal as EILiteral:
             return literal
@@ -78,6 +91,26 @@ class EIEvaluator {
             }
             // if we made it this far at least one operand is not an int or float
             throw EvaluatorError.NotImplemented
+        case let funcCall as EIParser.FunctionCall:
+            if let function = scope[funcCall.name] {
+                if function.parameters.count != funcCall.arguments.count {
+                    throw EvaluatorError.WrongNumberArguments
+                }
+                // map function parameters to funcCall arguments
+                var newScope = scope;
+                for i in 0..<function.parameters.count {
+                    let key = function.parameters[i]
+                    let value = funcCall.arguments[i]
+                    if newScope[key] != nil {
+                        throw EvaluatorError.VariableShadowing
+                    }
+                    // note that variables are just treated as functions with no parameters
+                    newScope[key] = EIParser.Function(name: key, parameters: [], body: value)
+                }
+                return try evaluate(function.body, newScope)
+            } else {
+                throw EvaluatorError.UnknownIdentifier
+            }
         default:
             throw EvaluatorError.NotImplemented
         }
