@@ -8,8 +8,13 @@
 
 import UIKit
 
+protocol EVEditorViewControllerDelegate {
+    func didOpenProjects()
+}
+
 class EVEditorViewController: UIViewController {
     
+    var delegate: EVEditorViewControllerDelegate?
     let editor = EVEditor()
 
     let toolBarView = EVToolBarView()
@@ -120,6 +125,10 @@ extension EVEditorViewController: EVEditorDelegate {
     
     func editor(_ editor: EVEditor, didChangeSourceCode: String){
         
+    }
+    
+    func didOpenProjects() {
+        delegate?.didOpenProjects()
     }
     
 }

@@ -10,6 +10,15 @@ import UIKit
 
 class EVMainMenuViewController: UIViewController {
     
+    //let projectionCollectionView = UICollectionView()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemPink
+    }
+    
+    
+    /*
     let nextButton = UIButton()
     let metalWorkspaceButton = UIButton()
     let metalWorkspace2Button = UIButton()
@@ -74,6 +83,6 @@ class EVMainMenuViewController: UIViewController {
         metalWorkspace2Controller.modalPresentationStyle = .fullScreen
         self.present(metalWorkspace2Controller, animated: true, completion: nil)
     }
-
+    */
 }
 

@@ -71,6 +71,8 @@
 		D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98A8C7C25A037AD00FA3539 /* EVGraphicsView.swift */; };
 		D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98A8C7E25A037C700FA3539 /* EVMenuView.swift */; };
 		D9BDF53A25A10F24008E6D2C /* EVTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF53925A10F24008E6D2C /* EVTheme.swift */; };
+		D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54725A2B856008E6D2C /* EVProject.swift */; };
+		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
 		FE42166C256C8C41008622FB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* Token.swift */; };
 		FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* TokenTests.swift */; };
@@ -158,6 +160,8 @@
 		D98A8C7C25A037AD00FA3539 /* EVGraphicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVGraphicsView.swift; sourceTree = "<group>"; };
 		D98A8C7E25A037C700FA3539 /* EVMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVMenuView.swift; sourceTree = "<group>"; };
 		D9BDF53925A10F24008E6D2C /* EVTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVTheme.swift; sourceTree = "<group>"; };
+		D9BDF54725A2B856008E6D2C /* EVProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProject.swift; sourceTree = "<group>"; };
+		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
 		FE42166B256C8C41008622FB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		FE59C9DD256CADC00098042C /* TokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
@@ -401,6 +405,8 @@
 				D98A8C7325A02B3C00FA3539 /* Editor */,
 				D98A8C7425A02B9600FA3539 /* EVEditor.swift */,
 				D9BDF53925A10F24008E6D2C /* EVTheme.swift */,
+				D9BDF54725A2B856008E6D2C /* EVProject.swift */,
+				D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* EVMainMenuViewController.swift in Sources */,
+				D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */,
 				10D89633256865E60053D762 /* EGLine2D.swift in Sources */,
 				10EFCB7525A047AA003514E0 /* EGCube.swift in Sources */,
 				10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */,
@@ -597,6 +604,7 @@
 				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
 				D98A8C7525A02B9600FA3539 /* EVEditor.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
+				D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */,
 				D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */,
 				106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */,
 				D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */,
@@ -812,7 +820,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -832,7 +840,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

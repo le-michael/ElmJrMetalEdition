@@ -12,6 +12,8 @@ protocol EVEditorDelegate {
     func editor(_ editor: EVEditor, didChangeTextEditorWidth width: CGFloat)
     func editor(_ editor: EVEditor, didChangeTextEditorHeight height: CGFloat)
     func editor(_ editor: EVEditor, didChangeSourceCode sourceCode: String)
+    func didOpenProjects()
+
 }
 
 class EVEditor {
@@ -40,6 +42,10 @@ class EVEditor {
     func setSourceCode(_ sourceCode: String) {
         self.sourceCode = sourceCode
         delegate?.editor(self, didChangeSourceCode: sourceCode)
+    }
+    
+    func openProjects() {
+        delegate?.didOpenProjects()
     }
     
     func run() {

@@ -23,6 +23,9 @@ class EVToolBarView: UIView {
         let navigationItem = UINavigationItem()
         navigationItem.title = "Elm Project"
         
+        let projectsButton = UIBarButtonItem(title: "Projects", style: UIBarButtonItem.Style.plain, target: self, action: #selector(projectsClicked))
+        navigationItem.leftBarButtonItem = projectsButton
+        
         let runButton = UIBarButtonItem(title: "Run", style: UIBarButtonItem.Style.plain, target: self, action: #selector(runClicked))
         navigationItem.rightBarButtonItem = runButton
         
@@ -41,6 +44,10 @@ class EVToolBarView: UIView {
     
     @objc func runClicked(sender: UIBarButtonItem) {
         editor?.run()
+    }
+    
+    @objc func projectsClicked(sender: UIBarButtonItem) {
+        editor?.openProjects()
     }
     
 }
