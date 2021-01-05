@@ -97,7 +97,7 @@ class EIEvaluator {
                     throw EvaluatorError.WrongNumberArguments
                 }
                 // map function parameters to funcCall arguments
-                var newScope = scope;
+                var newScope = globals;
                 for i in 0..<function.parameters.count {
                     let key = function.parameters[i]
                     let value = funcCall.arguments[i]
