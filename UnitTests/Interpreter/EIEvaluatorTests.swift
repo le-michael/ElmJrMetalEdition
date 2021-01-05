@@ -16,9 +16,13 @@ class EIEvaluatorTests: XCTestCase {
         XCTAssertEqual("\(result)", toOutput)
     }
     
-    func checkInterpret(_ toInterpret: String, _ toOutput: String) throws {
-        let result = try EIEvaluator().interpret(toInterpret)
-        XCTAssertEqual("\(result)", toOutput)
+    func checkInterpret(_ toInterpret: [String], _ toOutput: [String]) throws {
+        XCTAssertEqual(toInterpret.count, toOutput.count)
+        let evaluator = EIEvaluator()
+        for i in 0..<toInterpret.count {
+            let result = try evaluator.interpret(toInterpret[i])
+            XCTAssertEqual("\(result)", toOutput[i])
+        }
     }
     
     func testLiteral() throws {
@@ -39,8 +43,15 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func testInterpret() throws {
-        try checkInterpret("1+1","2")
-        try checkInterpret("x = 1","x = 1")
+        try checkInterpret(["1+1"],["2"])
+        try checkInterpret(["x = 1"],["x = 1"])
+        try checkInterpret(["x = 1", "(x)"], ["x = 1","1"])
+        try checkInterpret(["x = 1","y = 2","(x + y)"], ["x = 1","y = 2","3"])
+    }
+    
+    func testSimpleFunctionCalls() throws {
+        try checkInterpret(["f x = x + 1", "(f 1)"],["f x = (x+1)", "2"])
+        try checkInterpret(["f x = x + 1", "(f(f(f 1)))"],["f x = (x+1)", "4"])
     }
 
 
