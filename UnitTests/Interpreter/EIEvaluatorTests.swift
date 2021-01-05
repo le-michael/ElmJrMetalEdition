@@ -52,6 +52,13 @@ class EIEvaluatorTests: XCTestCase {
     func testSimpleFunctionCalls() throws {
         try checkInterpret(["f x = x + 1", "(f 1)"],["f x = (x+1)", "2"])
         try checkInterpret(["f x = x + 1", "(f(f(f 1)))"],["f x = (x+1)", "4"])
+        try checkInterpret(["f x y = x + y", "(f 1 2)"], ["f x y = (x+y)", "3"])
+        try checkInterpret(["f x = x + 1", "(f (1+1))"],["f x = (x+1)", "3"])
+    }
+    
+    func testPassingFunction() throws {
+        try checkInterpret(["f g x = (g x) + (g x)","h x = 3*x","(f h 5)"],
+                           ["f g x = ((g x)+(g x))","h x = (3*x)","30"])
     }
 
 
