@@ -8,15 +8,8 @@
 
 import UIKit
 
-protocol EVEditorViewControllerDelegate {
-    func didOpenProjects()
-}
-
 class EVEditorViewController: UIViewController {
     
-    var delegate: EVEditorViewControllerDelegate?
-    let editor = EVEditor()
-
     let toolBarView = EVToolBarView()
     let textEditorView = EVTextEditorView()
     let graphicsView = EVGraphicsView()
@@ -26,22 +19,18 @@ class EVEditorViewController: UIViewController {
     
     var textEditorWidthConstraint: NSLayoutConstraint?
     var textEditorHeightConstraint: NSLayoutConstraint?
-
-    var lrDragStartPoint: CGFloat = 0
-    var udDragStartPoint: CGFloat = 0
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        editor.delegate = self
-        leftRightDivider.editor = editor
-        upDownDivider.editor = editor
-        textEditorView.editor = editor
-        toolBarView.editor = editor
+        EVEditor.shared.subscribe(delegate: self)
+        EVProjectManager.shared.subscribe(delegate: self)
         setupViews()
     }
     
     func setupViews() {
         view.backgroundColor = .darkGray
+        
+        addDropShadow()
         
         view.addSubview(toolBarView)
         view.addSubview(textEditorView)
@@ -56,7 +45,6 @@ class EVEditorViewController: UIViewController {
         setupGraphicsViewLayout()
         setupUpDownDividerLayout()
         setupMenuViewLayout()
-        
     }
     
     func setupToolBarLayout() {
@@ -72,10 +60,10 @@ class EVEditorViewController: UIViewController {
         textEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
         textEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         
-        textEditorWidthConstraint = textEditorView.widthAnchor.constraint(equalToConstant: editor.textEditorWidth)
+        textEditorWidthConstraint = textEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
         textEditorWidthConstraint?.isActive = true
         
-        textEditorHeightConstraint = textEditorView.heightAnchor.constraint(equalToConstant: editor.textEditorHeight)
+        textEditorHeightConstraint = textEditorView.heightAnchor.constraint(equalToConstant: EVEditor.shared.textEditorHeight)
         textEditorHeightConstraint?.isActive = true
     }
     
@@ -111,26 +99,40 @@ class EVEditorViewController: UIViewController {
         menuView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
     }
     
+    func addDropShadow() {
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
+    }
 }
 
 extension EVEditorViewController: EVEditorDelegate {
-    
-    func editor(_ editor: EVEditor, didChangeTextEditorWidth width: CGFloat){
+    func didChangeTextEditorWidth(width: CGFloat) {
         textEditorWidthConstraint?.constant = width
     }
     
-    func editor(_ editor: EVEditor, didChangeTextEditorHeight height: CGFloat){
+    func didChangeTextEditorHeight(height: CGFloat) {
         textEditorHeightConstraint?.constant = height
     }
     
-    func editor(_ editor: EVEditor, didChangeSourceCode: String){
-        
-    }
+    func didChangeSourceCode(sourceCode: String) {}
     
-    func didOpenProjects() {
-        delegate?.didOpenProjects()
-    }
+    func didLoadProject(project: EVProject) {}
     
+    func editor(_ editor: EVEditor, didChangeSourceCode: String){}
+    
+    func didOpenProjects() {}
+}
+
+extension EVEditorViewController: EVProjectManagerDelegate {
+    func didUpdateProjects() {}
+    
+    func didSaveSuccessfully() {
+        let alert = UIAlertController(title: "Save successful!", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
 }
 
 

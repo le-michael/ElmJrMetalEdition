@@ -11,17 +11,20 @@ import UIKit
 
 class EVContainerViewController: UIViewController {
     
+    
     var editorViewController: EVEditorViewController!
-    var menuViewController: EVMainMenuViewController!
+    var menuViewController: EVProjectMenuViewController!
     var isExpanded = false
     
     let expandedOffset: CGFloat = 90
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        EVEditor.shared.subscribe(delegate: self)
+        
         editorViewController = EVEditorViewController()
-        menuViewController = EVMainMenuViewController()
-        editorViewController.delegate = self
+        menuViewController = EVProjectMenuViewController()
+        
         view.addSubview(editorViewController.view)
         view.insertSubview(menuViewController.view, at: 0)
         addChild(editorViewController)
@@ -42,7 +45,15 @@ class EVContainerViewController: UIViewController {
     
 }
 
-extension EVContainerViewController: EVEditorViewControllerDelegate {
+extension EVContainerViewController: EVEditorDelegate {
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeTextEditorHeight(height: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didLoadProject(project: EVProject) {}
+    
     func didOpenProjects() {
         if !isExpanded {
             isExpanded = true

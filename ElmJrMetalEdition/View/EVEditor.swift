@@ -9,52 +9,73 @@
 import UIKit
 
 protocol EVEditorDelegate {
-    func editor(_ editor: EVEditor, didChangeTextEditorWidth width: CGFloat)
-    func editor(_ editor: EVEditor, didChangeTextEditorHeight height: CGFloat)
-    func editor(_ editor: EVEditor, didChangeSourceCode sourceCode: String)
+    func didChangeTextEditorWidth(width: CGFloat)
+    func didChangeTextEditorHeight(height: CGFloat)
+    func didChangeSourceCode(sourceCode: String)
     func didOpenProjects()
-
+    func didLoadProject(project: EVProject)
 }
 
 class EVEditor {
     
-    var delegate: EVEditorDelegate?
-    var sourceCode: String
+    static let shared = EVEditor()
+    
+    var delegates: [EVEditorDelegate]
+    
+    var currentProjectInd: Int
     var textEditorWidth: CGFloat
     var textEditorHeight: CGFloat
     
+    var project: EVProject {
+        return EVProjectManager.shared.projects[currentProjectInd]
+    }
+    
     init(){
-        sourceCode = ""
+        delegates = []
+        currentProjectInd = 0
         textEditorWidth = 500
         textEditorHeight = 500
     }
     
+    func subscribe(delegate: EVEditorDelegate) {
+        delegates.append(delegate)
+    }
+    
     func setTextEditorWidth(_ width: CGFloat) {
         textEditorWidth = width
-        delegate?.editor(self, didChangeTextEditorWidth: width)
+        delegates.forEach({ $0.didChangeTextEditorWidth(width: width) })
     }
     
     func setTextEditorHeight(_ height: CGFloat) {
         textEditorHeight = height
-        delegate?.editor(self, didChangeTextEditorHeight: height)
+        delegates.forEach({ $0.didChangeTextEditorHeight(height: height) })
     }
     
     func setSourceCode(_ sourceCode: String) {
-        self.sourceCode = sourceCode
-        delegate?.editor(self, didChangeSourceCode: sourceCode)
+        project.sourceCode = sourceCode
+        delegates.forEach({ $0.didChangeSourceCode(sourceCode: sourceCode) })
     }
     
-    func openProjects() {
-        delegate?.didOpenProjects()
+    func toggleProjectMenu() {
+        delegates.forEach({ $0.didOpenProjects() })
+    }
+    
+    func loadProject(projectTitle: String) {
+        for (ind, project) in EVProjectManager.shared.projects.enumerated() {
+            if project.title == projectTitle {
+                currentProjectInd = ind
+                delegates.forEach({ $0.didLoadProject(project: project) })
+            }
+        }
     }
     
     func run() {
         print("raw: --------")
-        print(sourceCode)
+        print(project.sourceCode)
         print("evaluation: ------")
         let evaluator = EIEvaluator()
         do {
-            let node = try evaluator.interpret(sourceCode)
+            let node = try evaluator.interpret(project.sourceCode)
             print(node)
         } catch {
             print("Error evaluating")

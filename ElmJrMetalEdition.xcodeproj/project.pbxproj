@@ -58,9 +58,13 @@
 		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
+		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
+		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
+		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
+		D951051D25A4031A00B07B79 /* EVButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051C25A4031A00B07B79 /* EVButtonCell.swift */; };
 		D95DF1F0251BDD1900F9457F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1EF251BDD1900F9457F /* AppDelegate.swift */; };
 		D95DF1F2251BDD1900F9457F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */; };
-		D95DF1F4251BDD1900F9457F /* EVMainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */; };
+		D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF1F3251BDD1900F9457F /* EVProjectMenuViewController.swift */; };
 		D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1F8251BDD1F00F9457F /* Assets.xcassets */; };
 		D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D95DF1FA251BDD1F00F9457F /* LaunchScreen.storyboard */; };
 		D95DF207251C06CA00F9457F /* EVEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95DF206251C06CA00F9457F /* EVEditorViewController.swift */; };
@@ -145,10 +149,14 @@
 		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
+		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
+		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
+		D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVSectionHeaderView.swift; sourceTree = "<group>"; };
+		D951051C25A4031A00B07B79 /* EVButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVButtonCell.swift; sourceTree = "<group>"; };
 		D95DF1EC251BDD1900F9457F /* ElmJrMetalEdition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElmJrMetalEdition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D95DF1EF251BDD1900F9457F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D95DF1F1251BDD1900F9457F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVMainMenuViewController.swift; sourceTree = "<group>"; };
+		D95DF1F3251BDD1900F9457F /* EVProjectMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectMenuViewController.swift; sourceTree = "<group>"; };
 		D95DF1F8251BDD1F00F9457F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D95DF1FB251BDD1F00F9457F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D95DF1FD251BDD1F00F9457F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -401,12 +409,13 @@
 			isa = PBXGroup;
 			children = (
 				D9BDF52E25A069E0008E6D2C /* DemoWorkspaces */,
-				D9BDF52D25A069D4008E6D2C /* MainMenu */,
+				D9BDF52D25A069D4008E6D2C /* ProjectMenu */,
 				D98A8C7325A02B3C00FA3539 /* Editor */,
 				D98A8C7425A02B9600FA3539 /* EVEditor.swift */,
 				D9BDF53925A10F24008E6D2C /* EVTheme.swift */,
 				D9BDF54725A2B856008E6D2C /* EVProject.swift */,
 				D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */,
+				D951051125A3F4A500B07B79 /* EVProjectManager.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -424,12 +433,15 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
-		D9BDF52D25A069D4008E6D2C /* MainMenu */ = {
+		D9BDF52D25A069D4008E6D2C /* ProjectMenu */ = {
 			isa = PBXGroup;
 			children = (
-				D95DF1F3251BDD1900F9457F /* EVMainMenuViewController.swift */,
+				D95DF1F3251BDD1900F9457F /* EVProjectMenuViewController.swift */,
+				D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */,
+				D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */,
+				D951051C25A4031A00B07B79 /* EVButtonCell.swift */,
 			);
-			path = MainMenu;
+			path = ProjectMenu;
 			sourceTree = "<group>";
 		};
 		D9BDF52E25A069E0008E6D2C /* DemoWorkspaces */ = {
@@ -580,7 +592,9 @@
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
-				D95DF1F4251BDD1900F9457F /* EVMainMenuViewController.swift in Sources */,
+				D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */,
+				D951051D25A4031A00B07B79 /* EVButtonCell.swift in Sources */,
+				D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */,
 				D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */,
 				10D89633256865E60053D762 /* EGLine2D.swift in Sources */,
 				10EFCB7525A047AA003514E0 /* EGCube.swift in Sources */,
@@ -592,12 +606,14 @@
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				10EFCB7B25A053FF003514E0 /* EGCone.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
+				D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
 				10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
 				1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */,
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,
+				D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */,
 				10EFCB8325A058FB003514E0 /* EGHemisphere.swift in Sources */,
 				10D89628256840480053D762 /* EGPlane.swift in Sources */,
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,

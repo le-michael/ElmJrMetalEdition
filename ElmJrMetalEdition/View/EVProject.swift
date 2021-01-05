@@ -8,7 +8,12 @@
 
 import Foundation
 
-struct EVProject {
+class EVProject {
     var title: String
     var sourceCode: String
+    
+    init(title: String, sourceCode: String) {
+        self.title = title
+        self.sourceCode = sourceCode
+    }
 }

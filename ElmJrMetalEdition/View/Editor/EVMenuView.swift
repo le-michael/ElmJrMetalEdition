@@ -11,7 +11,7 @@ import UIKit
 class EVMenuView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .purple
+        backgroundColor = EVTheme.Colors.background
     }
     
     required init?(coder: NSCoder) {
