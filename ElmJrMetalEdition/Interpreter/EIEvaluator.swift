@@ -15,7 +15,7 @@ class EIEvaluator {
         case DivisionByZero
         case UnknownIdentifier
         case VariableShadowing
-        case WrongNumberArguments
+        case TooManyArguments
         case NotImplemented
     }
     
@@ -93,14 +93,19 @@ class EIEvaluator {
             throw EvaluatorError.NotImplemented
         case let funcCall as EIParser.FunctionCall:
             if let function = scope[funcCall.name] {
-                if function.parameters.count != funcCall.arguments.count {
-                    throw EvaluatorError.WrongNumberArguments
+                if function.parameters.count < funcCall.arguments.count {
+                    throw EvaluatorError.TooManyArguments
+                }
+                if function.parameters.count < funcCall.arguments.count {
+                    // TODO: Support partial function application
+                    // One way we could do this is by storing already set parameters
+                    throw EvaluatorError.NotImplemented
                 }
                 // map function parameters to funcCall arguments
                 var newScope = globals;
                 for i in 0..<function.parameters.count {
                     let key = function.parameters[i]
-                    let value = funcCall.arguments[i]
+                    let value = try evaluate(funcCall.arguments[i], scope)
                     if newScope[key] != nil {
                         throw EvaluatorError.VariableShadowing
                     }
