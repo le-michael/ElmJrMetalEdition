@@ -29,6 +29,7 @@ class EIParser {
     }
     
     func parse() throws -> EINode {
+        // TODO: This check is incorrect. An expression can also start with an identifier.
         // generic parsing logic for the REPL that can parse declarations AND expressions
         if token.type == .identifier {
             return try functionDeclaration()

@@ -50,19 +50,16 @@ class EGScene: EGGraphicsNode {
 
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
-
         sceneProps.viewMatrix = camera.getTransformationMatrix(sceneProps)
     }
 
-    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: [EGPipelineStates: MTLRenderPipelineState]) {
+    func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {
         updateSceneProps()
-        
+
         for child in children {
-            child.draw(
-                commandEncoder: commandEncoder,
-                pipelineStates: pipelineStates,
-                sceneProps: sceneProps
-            )
+            child.draw(commandEncoder: commandEncoder,
+                       pipelineStates: pipelineStates,
+                       sceneProps: sceneProps)
         }
     }
 }

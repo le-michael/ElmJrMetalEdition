@@ -20,44 +20,22 @@ class EGRenderer: NSObject {
     let scene: EGScene
     
     var depthStencilState: MTLDepthStencilState?
-    var pipelineStates: [EGPipelineStates: MTLRenderPipelineState] = [:]
+    var pipelineStates: EGPipelineState
     
     init(device: MTLDevice, view: MTKView, scene: EGScene) {
         self.device = device
-        self.commandQueue = device.makeCommandQueue()!
+        commandQueue = device.makeCommandQueue()!
+        
         self.view = view
-        self.scene = scene
         view.depthStencilPixelFormat = .depth32Float
+        
+        self.scene = scene
         scene.fps = Float(view.preferredFramesPerSecond)
         scene.createBuffers(device: device)
+        
+        pipelineStates = EGPipelineState(device: device, view: view)
         super.init()
-        buildPipelineStates()
         buildDepthStencilState()
-    }
-    
-    private func buildPipelineStates() {
-        guard let library = device.makeDefaultLibrary() else {
-            print("buildPipelineStates error: Unable to generate MTLLibrary")
-            return
-        }
-
-        do {
-            let primitivePipelineState = try EGPipelineStateBuilder.createPrimitivePipelineState(
-                library: library,
-                device: device,
-                view: view
-            )
-            pipelineStates[.PrimitivePipelineState] = primitivePipelineState
-            
-            let bezierPipelineState = try EGPipelineStateBuilder.createBezierPipelineState(
-                library: library,
-                device: device,
-                view: view
-            )
-            pipelineStates[.BezierPipelineState] = bezierPipelineState
-        } catch let error as NSError {
-            print("buildPipelineStates error: \(error.localizedDescription)")
-        }
     }
     
     private func buildDepthStencilState() {

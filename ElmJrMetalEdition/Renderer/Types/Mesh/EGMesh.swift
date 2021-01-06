@@ -7,13 +7,13 @@
 //
 
 class EGMesh {
-    var vertices: [EGVertex]
+    var vertices: [EGVertex.Primitive]
     var indices: [UInt16]
 
     init(_ bufferData: EGBufferData) {
         self.indices = bufferData.indices
         self.vertices = bufferData.vertexPositions.map {
-            EGVertex(position: $0)
+            EGVertex.Primitive(position: $0)
         }
     }
 }

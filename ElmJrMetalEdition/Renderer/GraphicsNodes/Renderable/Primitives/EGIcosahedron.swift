@@ -1,5 +1,5 @@
 //
-//  EGCube.swift
+//  EGIcosahedron.swift
 //  ElmJrMetalEdition
 //
 //  Created by Michael Le on 2021-01-02.
@@ -8,15 +8,13 @@
 
 import MetalKit
 
-class EGCube: EGPrimitive3D {
+class EGIcosahedron: EGPrimitive3D {
     init() {
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: [1, 1, 1],
-                    segments: [1, 1, 1],
+            MDLMesh(icosahedronWithExtent: [0.75, 0.75, 0.75],
                     inwardNormals: false,
                     geometryType: .triangles,
                     allocator: allocator)
-
         })
     }
 }
