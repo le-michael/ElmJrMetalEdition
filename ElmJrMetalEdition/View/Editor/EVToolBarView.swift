@@ -9,22 +9,33 @@
 import UIKit
 
 class EVToolBarView: UIView {
-    
-    var editor: EVEditor?
-    
+        
     let navigationBar = UINavigationBar()
+    var navigationItem: UINavigationItem!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        EVEditor.shared.subscribe(delegate: self)
         addSubview(navigationBar)
-        navigationBar.backgroundColor = .white
+        
+        navigationBar.barTintColor = EVTheme.Colors.background
+        navigationBar.titleTextAttributes = [.foregroundColor: EVTheme.Colors.foreground]
         navigationBar.delegate = self
         
-        let navigationItem = UINavigationItem()
-        navigationItem.title = "Elm Project"
+        navigationItem = UINavigationItem()
+        navigationItem.title = EVEditor.shared.project.title
+        
+        let projectsButton = UIBarButtonItem(title: "Projects", style: UIBarButtonItem.Style.plain, target: self, action: #selector(projectsClicked))
+        navigationItem.leftBarButtonItem = projectsButton
+        projectsButton.tintColor = EVTheme.Colors.highlighted
+
+        let saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveClicked))
+        saveButton.tintColor = EVTheme.Colors.highlighted
         
         let runButton = UIBarButtonItem(title: "Run", style: UIBarButtonItem.Style.plain, target: self, action: #selector(runClicked))
-        navigationItem.rightBarButtonItem = runButton
+        runButton.tintColor = EVTheme.Colors.highlighted
+
+        navigationItem.setRightBarButtonItems([saveButton, runButton], animated: true)
         
         navigationBar.items = [navigationItem]
 
@@ -40,8 +51,32 @@ class EVToolBarView: UIView {
     }
     
     @objc func runClicked(sender: UIBarButtonItem) {
-        editor?.run()
+        EVEditor.shared.run()
     }
+    
+    @objc func projectsClicked(sender: UIBarButtonItem) {
+        EVEditor.shared.toggleProjectMenu()
+    }
+    
+    @objc func saveClicked(sender: UIBarButtonItem) {
+        EVProjectManager.shared.saveProjects()
+    }
+    
+}
+
+extension EVToolBarView: EVEditorDelegate {
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeTextEditorHeight(height: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didOpenProjects() {}
+    
+    func didLoadProject(project: EVProject) {
+        navigationItem.title = EVEditor.shared.project.title
+    }
+    
     
 }
 

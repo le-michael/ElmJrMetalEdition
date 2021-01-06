@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        window?.rootViewController = EVMainMenuViewController()
+        window?.rootViewController = EVContainerViewController()
 
         window?.makeKeyAndVisible()
     }

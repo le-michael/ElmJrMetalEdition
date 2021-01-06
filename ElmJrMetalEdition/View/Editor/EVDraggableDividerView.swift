@@ -10,7 +10,6 @@ import UIKit
 
 class EVDraggableDivider: UIView {
     
-    var editor: EVEditor?
     var dragsHorizontally: Bool
     var positionAtDragStart: CGFloat = 0
     
@@ -30,15 +29,13 @@ class EVDraggableDivider: UIView {
     @objc func panDivider(_ recognizer : UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self)
         if (recognizer.state == UIGestureRecognizer.State.began){
-            guard let widthConstant = editor?.textEditorWidth else { return }
-            guard let heightConstant = editor?.textEditorHeight else { return }
-            positionAtDragStart = dragsHorizontally ? widthConstant : heightConstant
+            positionAtDragStart = dragsHorizontally ? EVEditor.shared.textEditorWidth : EVEditor.shared.textEditorHeight
         } else {
             let deltaPosition = dragsHorizontally ? translation.x : translation.y
             if (dragsHorizontally){
-                editor?.setTextEditorWidth(positionAtDragStart + deltaPosition)
+                EVEditor.shared.setTextEditorWidth(positionAtDragStart + deltaPosition)
             } else {
-                editor?.setTextEditorHeight(positionAtDragStart + deltaPosition)
+                EVEditor.shared.setTextEditorHeight(positionAtDragStart + deltaPosition)
             }
         }
     }

@@ -11,12 +11,14 @@ import UIKit
 
 class EVTextEditorView: UIView {
     
-    var editor: EVEditor?
     let textView = UITextView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(textView)
+        
+        EVEditor.shared.subscribe(delegate: self)
+        updateTextViewFromEditor()
 
         backgroundColor = EVTheme.Colors.background
         textView.backgroundColor = .clear
@@ -30,6 +32,11 @@ class EVTextEditorView: UIView {
         textView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -padding).isActive = true
         textView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: padding).isActive = true
         textView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -padding).isActive = true
+    }
+    
+    func updateTextViewFromEditor(){
+        textView.text = EVEditor.shared.project.sourceCode
+        postProcess()
     }
     
     func postProcess() {
@@ -76,9 +83,24 @@ class EVTextEditorView: UIView {
 
 extension EVTextEditorView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        editor?.setSourceCode(textView.text)
+        EVEditor.shared.setSourceCode(textView.text)
         postProcess()
     }
+}
+
+extension EVTextEditorView: EVEditorDelegate {
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeTextEditorHeight(height: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didOpenProjects() {}
+    
+    func didLoadProject(project: EVProject) {
+        updateTextViewFromEditor()
+    }
+    
 }
 
 func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
@@ -125,6 +147,5 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .ALIAS:        return EVTheme.Colors.reserved
     case .identifier:   return EVTheme.Colors.identifier
     case .number:       return EVTheme.Colors.number
-    default:            return EVTheme.Colors.foreground
     }
 }

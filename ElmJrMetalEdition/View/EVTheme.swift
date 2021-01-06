@@ -13,6 +13,9 @@ class EVTheme {
     class Colors {
         static let background = UIColor(hex: "#272822")
         static let foreground = UIColor(hex: "#f8f8f2")
+        static let activeSelectionBackground = UIColor(hex: "#575b6180")
+        static let highlighted = UIColor(hex: "#A6E22E")
+        static let secondaryHighlighted = UIColor(hex: "#AE81FF")
         static let identifier = UIColor(hex: "#A6E22E")
         static let reserved = UIColor(hex: "#F92672")
         static let number = UIColor(hex: "#AE81FF")
