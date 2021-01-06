@@ -49,6 +49,7 @@ class EGPrimitive3D: EGPrimitive {
                                       length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
                                       index: 1)
         commandEncoder.setTriangleFillMode(triangleFillMode)
+        commandEncoder.setCullMode(.front)
         commandEncoder.drawIndexedPrimitives(type: .triangle,
                                              indexCount: submesh.indexCount,
                                              indexType: submesh.indexType,

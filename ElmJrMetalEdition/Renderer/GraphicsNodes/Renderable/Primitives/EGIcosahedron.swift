@@ -11,10 +11,24 @@ import MetalKit
 class EGIcosahedron: EGPrimitive3D {
     init() {
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(icosahedronWithExtent: [0.75, 0.75, 0.75],
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
+            MDLMesh(
+                icosahedronWithExtent: [0.75, 0.75, 0.75],
+                inwardNormals: false,
+                geometryType: .triangles,
+                allocator: allocator
+            )
+
+        })
+    }
+
+    init(extent: simd_float3) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(
+                icosahedronWithExtent: extent,
+                inwardNormals: false,
+                geometryType: .triangles,
+                allocator: allocator
+            )
         })
     }
 }

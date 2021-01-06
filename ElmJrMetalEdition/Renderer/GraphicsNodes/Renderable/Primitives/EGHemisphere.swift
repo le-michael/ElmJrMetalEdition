@@ -18,4 +18,15 @@ class EGHemisphere: EGPrimitive3D {
                     allocator: allocator)
         })
     }
+
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(hemisphereWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    cap: true,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
 }

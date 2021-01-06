@@ -19,4 +19,15 @@ class EGCapsule: EGPrimitive3D {
                     allocator: allocator)
         })
     }
+    
+    init(extent: simd_float3, cylinderSegments: simd_uint2, hemisphereSegments: Int32) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(capsuleWithExtent: extent,
+                    cylinderSegments: cylinderSegments,
+                    hemisphereSegments: hemisphereSegments,
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
 }

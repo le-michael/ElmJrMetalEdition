@@ -19,4 +19,15 @@ class EGCone: EGPrimitive3D {
                     allocator: allocator)
         })
     }
+
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(coneWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    cap: true,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
 }
