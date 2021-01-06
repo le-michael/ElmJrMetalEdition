@@ -9,8 +9,10 @@
 import Foundation
 import Swiftz
 
-// TODO: Check if this will have typecasting problems
-var _SwiftArray_empty = [Any]()
+// // Differs from the JS implementation - call this as a nullary function
+func _SwiftArray_empty<A>() -> [A] {
+    return [A]()
+}
 
 func _SwiftArray_singleton<A>(value: A) -> [A] {
     return [value]
