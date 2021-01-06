@@ -19,4 +19,15 @@ class EGCube: EGPrimitive3D {
 
         })
     }
+
+    init(extent: simd_float3) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(boxWithExtent: extent,
+                    segments: [1, 1, 1],
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+
+        })
+    }
 }

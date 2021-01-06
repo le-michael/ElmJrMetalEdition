@@ -18,4 +18,14 @@ class EGSphere: EGPrimitive3D {
                     allocator: allocator)
         })
     }
+    
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(sphereWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
 }
