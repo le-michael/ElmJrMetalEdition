@@ -12,7 +12,7 @@ class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
     var sceneProps: EGSceneProps
     var fps: Float = 60
-    var camera: EGCamera?
+    var camera: EGCamera = EGCamera()
 
     override init() {
         sceneProps = EGSceneProps(
@@ -34,18 +34,13 @@ class EGScene: EGGraphicsNode {
     }
 
     override func createBuffers(device: MTLDevice) {
-        camera?.transform.checkIfStatic()
+        camera.transform.checkIfStatic()
         for child in children {
             child.createBuffers(device: device)
         }
     }
 
     private func updateSceneProps() {
-        guard let camera = camera else {
-            print("Scene is missing a camera")
-            return
-        }
-
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
     }

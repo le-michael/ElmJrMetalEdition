@@ -40,13 +40,13 @@ class MetalWorkspaceController: UIViewController {
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: gesture.view)
         let delta = simd_float2(Float(translation.x), Float(-translation.y))
-        renderer.scene.camera?.rotate(delta: delta)
+        renderer.scene.camera.rotate(delta: delta)
         gesture.setTranslation(.zero, in: gesture.view)
     }
 
     @objc func handlePinch(gesture: UIPinchGestureRecognizer) {
         let delta = Float(gesture.scale - previousScale)
-        renderer.scene.camera?.zoom(delta: delta)
+        renderer.scene.camera.zoom(delta: delta)
 
         previousScale = gesture.scale
         if gesture.state == .ended {
