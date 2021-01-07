@@ -63,6 +63,12 @@ class EIEvaluatorTests: XCTestCase {
                            ["f g x = ((g x)+(g x))","h x = (3*x)","30"])
         */
     }
+    
+    func testSimpleIfElse() throws {
+        try checkEvaluateExpression("if True then 1 else 2","1")
+        try checkEvaluateExpression("if False then 1 else 2","2")
+        try checkEvaluateExpression("if False then 1 else if True then 2 else 3", "2")
+    }
 
 
 }

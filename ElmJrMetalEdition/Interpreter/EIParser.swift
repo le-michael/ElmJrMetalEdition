@@ -253,8 +253,10 @@ class EIParser {
     func TypeExpression() throws -> EINode {
         switch token.raw {
         case "True":
+            advance()
             return Boolean(true)
         case "False":
+            advance()
             return Boolean(false)
         default:
             // we don't support custom types yet

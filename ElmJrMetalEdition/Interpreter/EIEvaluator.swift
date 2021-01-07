@@ -16,6 +16,7 @@ class EIEvaluator {
         case UnknownIdentifier
         case VariableShadowing
         case TooManyArguments
+        case ConditionMustBeBool
         case NotImplemented
     }
     
@@ -130,6 +131,21 @@ class EIEvaluator {
             } else {
                 throw EvaluatorError.UnknownIdentifier
             }
+        case let ifElse as EIParser.IfElse:
+            assert(ifElse.branches.count == ifElse.conditions.count + 1)
+            for i in 0..<ifElse.conditions.count {
+                // evaluate ith condition
+                let condEvaluated = try evaluate(ifElse.conditions[i], scope) as? EIParser.Boolean
+                guard condEvaluated != nil else {
+                    throw EvaluatorError.ConditionMustBeBool
+                }
+                // if it's true, result is ith branch
+                if condEvaluated!.value {
+                    return try evaluate(ifElse.branches[i], scope)
+                }
+            }
+            // if no conditons are true we run the else logic
+            return try evaluate(ifElse.branches.last!, scope)
         default:
             throw EvaluatorError.NotImplemented
         }
