@@ -24,10 +24,11 @@ class EVGraphicsView: UIView {
         mtkView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
         mtkView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
-
-        let scene = EGDemoScenes.cubeTunnel()
+        
         mtkView.device = MTLCreateSystemDefaultDevice()
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
+
+        let scene = EGDemoScenes.cactus()
         renderer = EGRenderer(view: mtkView, scene: scene)
         mtkView.delegate = renderer
 

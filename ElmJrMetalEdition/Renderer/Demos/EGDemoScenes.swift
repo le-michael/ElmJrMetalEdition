@@ -430,7 +430,7 @@ class EGDemoScenes {
         return scene
     }
 
-    static func flowerPot() -> EGScene {
+    static func cactus() -> EGScene {
         let scene = EGScene()
         let camera = EGArcballCamera(distance: 2, target: [0, 0, -8])
         scene.camera = camera
