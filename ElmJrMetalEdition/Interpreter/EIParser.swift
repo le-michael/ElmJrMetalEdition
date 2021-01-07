@@ -98,6 +98,28 @@ class EIParser {
         }
     }
 
+    class IfElse : EINode {
+        let conditions : [EINode]
+        let branches : [EINode]
+        
+        init(conditions: [EINode], branches: [EINode]) {
+            self.conditions = conditions
+            self.branches = branches
+        }
+        
+        var description: String {
+            assert(branches.count == conditions.count + 1)
+            var index = 0
+            var result = ""
+            while index < conditions.count {
+                result += "if \(conditions[index]) then \(branches[index]) else "
+                index += 1;
+            }
+            result += "\(branches[index])"
+            return result
+        }
+    }
+    
     class FunctionCall : EINode {
         var name : String
         var arguments : [EINode]
@@ -201,6 +223,8 @@ class EIParser {
             advance()
           case .identifier:
             result = try parseFunctionCall()
+        case .IF:
+            result = try IfExpression()
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
@@ -209,6 +233,23 @@ class EIParser {
         }
         return result
       }
+    
+    func IfExpression() throws -> EINode {
+        assert(token.type == .IF)
+        var conditions = [EINode]()
+        var branches = [EINode]()
+        while (token.type == .IF) {
+            advance()
+            try conditions.append(additiveExpression())
+            assert(token.type == .THEN)
+            advance()
+            try branches.append(additiveExpression())
+            assert(token.type == .ELSE)
+            advance()
+        }
+        try branches.append(additiveExpression())
+        return IfElse(conditions: conditions, branches: branches)
+    }
     
     func number() throws -> EINode {
         assert(token.type == .number || token.type == .minus)

@@ -51,6 +51,13 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("bar (foo 6) 3 5", "(bar (foo 6) 3 5)")
         try checkASTExpression("add x y", "(add x y)")
     }
+    
+    func testIfElse() throws {
+        try checkASTExpression("if 1 then 2 else 3", "if 1 then 2 else 3")
+        try checkASTExpression("if 1 then 2 else if 3 then 4 else 5", "if 1 then 2 else if 3 then 4 else 5")
+        try checkASTExpression("if 1 then 2 else if 3 then 4 else if 5 then 6 else 7",
+                               "if 1 then 2 else if 3 then 4 else if 5 then 6 else 7")
+    }
 
 }
 
