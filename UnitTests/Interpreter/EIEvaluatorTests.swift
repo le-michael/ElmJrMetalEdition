@@ -91,6 +91,10 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("if 2 == 1+1 then 7 else 8", "7")
     }
     
+    func testRecursion() throws {
+        try checkInterpret(["fib x = if x==0 || x==1 then 1 else fib (x-1) + fib (x-2)","(fib 0)","(fib 1)","(fib 2)","(fib 3)","(fib 4)","(fib 5)"], ["fib x = if ((x==0)||(x==1)) then 1 else ((fib (x-1))+(fib (x-2)))","1","1","2","3","5","8"])
+    }
+    
     
     
 

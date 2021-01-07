@@ -207,7 +207,7 @@ class EIParser {
         }
         assert(token.type == .equal)
         advance()
-        let body = try additiveExpression()
+        let body = try andableExpression()
         return Function(name: name, parameters: parameters, body: body)
     }
     
@@ -397,7 +397,7 @@ class EIParser {
             case .leftParan: fallthrough
             case .identifier: fallthrough
             case .number:
-                arguments.append(try andableExpression())
+                arguments.append(try unaryExpression())
             default:
                 flag = true
             }
