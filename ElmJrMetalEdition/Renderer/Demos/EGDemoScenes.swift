@@ -11,7 +11,9 @@ import simd
 class EGDemoScenes {
     static func spinningFan() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        let camera = EGCamera()
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        scene.camera = camera
 
         let numBlades = 8
         let rotationChange = (2 * Float.pi) / Float(numBlades)
@@ -89,7 +91,9 @@ class EGDemoScenes {
 
     static func fractalTree() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -150)
+        let camera = EGCamera()
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -150)
+        scene.camera = camera
 
         func fratcalTreeHelper(currentDepth: Float, rotation: Float, currentPos: simd_float3, length: Float) {
             if length < 1 { return }
@@ -127,8 +131,9 @@ class EGDemoScenes {
 
     static func pointField() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -125)
-        scene.camera.rotationMatrix.setRotation(
+        let camera = EGCamera()
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -125)
+        camera.transform.rotationMatrix.setRotation(
             x: EGConstant(-20 * Float.pi / 180),
             y: EGBinaryOp(
                 type: .mul,
@@ -147,6 +152,7 @@ class EGDemoScenes {
                 )
             )
         )
+        scene.camera = camera
 
         let rows = 30
         let cols = 30
@@ -210,8 +216,10 @@ class EGDemoScenes {
 
     static func cubeTunnel() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -50)
-        scene.camera.rotationMatrix.setRotation(
+        let camera = EGCamera()
+        scene.camera = camera
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -50)
+        camera.transform.rotationMatrix.setRotation(
             x: EGConstant(-20 * Float.pi / 180),
             y: EGBinaryOp(
                 type: .mul,
@@ -275,9 +283,12 @@ class EGDemoScenes {
 
     static func shapes3D() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -5)
-        scene.camera.rotationMatrix.setRotation(x: EGTime(), y: EGConstant(0), z: EGConstant(0))
-
+        let camera = EGCamera()
+        
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -5)
+        camera.transform.rotationMatrix.setRotation(x: EGTime(), y: EGConstant(0), z: EGConstant(0))
+        scene.camera = camera
+        
         let sphere = EGSphere()
         sphere.color.setColor(r: 1.0, g: 0, b: 0, a: 1)
         sphere.transform.rotationMatrix.setRotation(x: EGConstant(0), y: EGTime(), z: EGTime())
@@ -332,12 +343,14 @@ class EGDemoScenes {
 
     static func rings3D() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
-        scene.camera.rotationMatrix.setRotation(
+        let camera = EGCamera()
+        camera.transform.translationMatrix.setTranslation(x: 0, y: 0, z: -100)
+        camera.transform.rotationMatrix.setRotation(
             x: EGConstant(0),
             y: EGTime(),
             z: EGTime()
         )
+        scene.camera = camera
 
         for i in 0 ..< 14 {
             let count = i * 10 + 30
@@ -419,59 +432,60 @@ class EGDemoScenes {
 
     static func flowerPot() -> EGScene {
         let scene = EGScene()
-        scene.camera.translationMatrix.setTranslation(x: 0, y: -3, z: -8)
-        scene.camera.rotationMatrix.setRotation(x: EGConstant(-0.366), y: EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(2)), z: EGConstant(0))
+        let camera = EGArcballCamera(distance: 2, target: [0, 0, -8])
+        scene.camera = camera
+
         // Flower Pot
         let potBottom = EGCylinder(extent: [1, 1.5, 1], segments: [10, 1])
+        potBottom.transform.translationMatrix.setTranslation(x: 0, y: -2, z: 0)
         potBottom.color.setColor(r: 1, g: 0.5, b: 0, a: 1)
         potBottom.drawOutline = true
         scene.add(potBottom)
 
         let potTop = EGCylinder(extent: [1.25, 1, 1.25], segments: [10, 1])
-        potTop.transform.translationMatrix.setTranslation(x: 0, y: 1, z: 0)
+        potTop.transform.translationMatrix.setTranslation(x: 0, y: -1, z: 0)
         potTop.color.setColor(r: 1, g: 0.5, b: 0, a: 1)
         potTop.drawOutline = true
         scene.add(potTop)
 
         let soil = EGHemisphere(extent: [1.2, 0.5, 1.2], segments: [10, 10])
-        soil.transform.translationMatrix.setTranslation(x: 0, y: 1.3, z: 0)
+        soil.transform.translationMatrix.setTranslation(x: 0, y: -0.7, z: 0)
         soil.color.setColor(r: 0.8, g: 0.5, b: 0.2, a: 1)
         scene.add(soil)
 
         // Cactus
         let stem = EGCapsule(extent: [0.75, 5, 0.75], cylinderSegments: [10, 10], hemisphereSegments: 5)
-        stem.transform.translationMatrix.setTranslation(x: 0, y: 3, z: 0)
+        stem.transform.translationMatrix.setTranslation(x: 0, y: 1, z: 0)
         stem.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
         stem.drawOutline = true
         scene.add(stem)
 
         // Arm
         let arm1 = EGCapsule(extent: [0.40, 1.5, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
-        arm1.transform.translationMatrix.setTranslation(x: 1.2, y: 3.5, z: 0)
+        arm1.transform.translationMatrix.setTranslation(x: 1.2, y: 1.5, z: 0)
         arm1.transform.rotationMatrix.setRotation(x: 0, y: 0, z: 1.5708)
         arm1.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
         arm1.drawOutline = true
         scene.add(arm1)
-        
+
         let arm2 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
-        arm2.transform.translationMatrix.setTranslation(x: 1.6, y: 4.25, z: 0)
+        arm2.transform.translationMatrix.setTranslation(x: 1.6, y: 2.25, z: 0)
         arm2.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
         arm2.drawOutline = true
         scene.add(arm2)
-        
+
         let arm3 = EGCapsule(extent: [0.40, 1.5, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
-        arm3.transform.translationMatrix.setTranslation(x: -1.2, y: 3.5, z: 0)
+        arm3.transform.translationMatrix.setTranslation(x: -1.2, y: 1.5, z: 0)
         arm3.transform.rotationMatrix.setRotation(x: 0, y: 0, z: 1.5708)
         arm3.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
         arm3.drawOutline = true
         scene.add(arm3)
-        
+
         let arm4 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
-        arm4.transform.translationMatrix.setTranslation(x: -1.6, y: 2.75, z: 0)
+        arm4.transform.translationMatrix.setTranslation(x: -1.6, y: 0.75, z: 0)
         arm4.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
         arm4.drawOutline = true
         scene.add(arm4)
-        
 
         return scene
     }

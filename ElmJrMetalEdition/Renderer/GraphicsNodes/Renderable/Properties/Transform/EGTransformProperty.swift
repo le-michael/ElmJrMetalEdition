@@ -21,9 +21,7 @@ class EGTransformProperty {
     }
     
     func checkIfStatic() {
-        isStatic = !translationMatrix.usesTime()
-            && !rotationMatrix.usesTime()
-            && !scaleMatrix.usesTime()
+        isStatic = self.usesTime()
         
         if isStatic {
             let sceneProps = EGSceneProps(
@@ -37,11 +35,16 @@ class EGTransformProperty {
         }
     }
     
+    func usesTime() -> Bool{
+        return !translationMatrix.usesTime()
+            && !rotationMatrix.usesTime()
+            && !scaleMatrix.usesTime()
+    }
+    
     func getTransformationMatrix(_ sceneProps: EGSceneProps) -> matrix_float4x4 {
         if isStatic {
             return cachedMatrix
         }
-        
         return translationMatrix.evaluate(sceneProps)
             * rotationMatrix.evaluate(sceneProps)
             * scaleMatrix.evaluate(sceneProps)
