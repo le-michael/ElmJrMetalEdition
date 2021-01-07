@@ -25,7 +25,7 @@ class EIParser {
     }
 
     func isDone() -> Bool {
-        return token.type != .endOfFile
+        return token.type == .endOfFile
     }
     
     func parse() throws -> EINode {
@@ -41,7 +41,7 @@ class EIParser {
         return try additiveExpression()
     }
     
-    func parseDeclaration() throws -> EINode {
+    func parseDeclaration() throws -> Function {
         return try functionDeclaration()
     }
     
@@ -141,7 +141,7 @@ class EIParser {
         }
     }
 
-    func functionDeclaration() throws -> EINode {
+    func functionDeclaration() throws -> Function {
         assert(token.type == .identifier)
         let name = token.raw
         advance()

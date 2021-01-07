@@ -38,6 +38,20 @@ class EIEvaluator {
         return try evaluate(ast, globals)
     }
     
+    func compile(_ text: String) throws -> EINode {
+        let parser = EIParser(text: text)
+        while (!parser.isDone()) {
+            let function = try parser.parseDeclaration()
+            globals[function.name] = function
+        }
+        // For now we will return the final value of the view variable
+        if let view = globals["view"] {
+            return try evaluate(view.body, globals)
+        } else {
+            throw EvaluatorError.NotImplemented
+        }
+    }
+    
     /**
     Given an AST subtree 'evaluate' will attempt to find the value of the tree and return it as a Literal.
     Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
