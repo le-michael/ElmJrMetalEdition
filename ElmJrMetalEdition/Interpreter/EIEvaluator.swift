@@ -80,6 +80,18 @@ class EIEvaluator {
                 case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
                     return EIParser.Integer(leftInt.value / rightInt.value)
+                case .eq:
+                    return EIParser.Boolean(leftInt.value == rightInt.value)
+                case .ne:
+                    return EIParser.Boolean(leftInt.value != rightInt.value)
+                case .le:
+                    return EIParser.Boolean(leftInt.value <= rightInt.value)
+                case .ge:
+                    return EIParser.Boolean(leftInt.value >= rightInt.value)
+                case .lt:
+                    return EIParser.Boolean(leftInt.value < rightInt.value)
+                case .gt:
+                    return EIParser.Boolean(leftInt.value > rightInt.value)
                 }
             }
             // handle case where at least one operand is not an integer
@@ -102,6 +114,18 @@ class EIEvaluator {
                 case .divide:
                     if rightFloat.value == 0 { throw EvaluatorError.DivisionByZero }
                     return EIParser.FloatingPoint(leftFloat.value / rightFloat.value)
+                case .eq:
+                    return EIParser.Boolean(leftFloat.value == rightFloat.value)
+                case .ne:
+                    return EIParser.Boolean(leftFloat.value != rightFloat.value)
+                case .le:
+                    return EIParser.Boolean(leftFloat.value <= rightFloat.value)
+                case .ge:
+                    return EIParser.Boolean(leftFloat.value >= rightFloat.value)
+                case .lt:
+                    return EIParser.Boolean(leftFloat.value < rightFloat.value)
+                case .gt:
+                    return EIParser.Boolean(leftFloat.value > rightFloat.value)
                 }
             }
             // if we made it this far at least one operand is not an int or float

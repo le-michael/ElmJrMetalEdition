@@ -42,6 +42,17 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("5.0/2", "2.5")
     }
     
+    func testEqualityOperators() throws {
+        try checkEvaluateExpression("1 == 1", "True")
+        try checkEvaluateExpression("1 == 2", "False")
+        try checkEvaluateExpression("1 /= 1", "False")
+        try checkEvaluateExpression("1 <= 1", "True")
+        try checkEvaluateExpression("1 >= 1", "True")
+        try checkEvaluateExpression("1 < 1", "False")
+        try checkEvaluateExpression("1 > 1", "False")
+        try checkEvaluateExpression("1 + 3 == 4", "True")
+    }
+    
     func testInterpret() throws {
         try checkInterpret(["1+1"],["2"])
         try checkInterpret(["x = 1"],["x = 1"])
