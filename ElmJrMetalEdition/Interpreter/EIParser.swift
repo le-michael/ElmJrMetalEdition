@@ -98,6 +98,18 @@ class EIParser {
         }
     }
 
+    class Boolean : EILiteral {
+        let value : Bool
+        
+        init(_ value : Bool) {
+          self.value = value
+        }
+        
+        var description : String {
+            return value ? "True": "False"
+        }
+    }
+    
     class IfElse : EINode {
         let conditions : [EINode]
         let branches : [EINode]
@@ -222,7 +234,11 @@ class EIParser {
             }
             advance()
           case .identifier:
-            result = try parseFunctionCall()
+            if tokenIsType() {
+                result = try TypeExpression()
+            } else {
+                result = try parseFunctionCall()
+            }
         case .IF:
             result = try IfExpression()
         case .minus: fallthrough // unary minus
@@ -233,6 +249,25 @@ class EIParser {
         }
         return result
       }
+    
+    func TypeExpression() throws -> EINode {
+        switch token.raw {
+        case "True":
+            return Boolean(true)
+        case "False":
+            return Boolean(false)
+        default:
+            // we don't support custom types yet
+            throw ParserError.NotImplemented
+        }
+    }
+    
+    func tokenIsType() -> Bool {
+        if token.type != .identifier { return false }
+        assert(token.raw.count >= 1)
+        let first = token.raw.first
+        return first!.isUppercase
+    }
     
     func IfExpression() throws -> EINode {
         assert(token.type == .IF)

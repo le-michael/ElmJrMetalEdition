@@ -40,6 +40,11 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("(1+x)/(y*5.2)", "((1+x)/(y*5.2))")
     }
     
+    func testBool() throws {
+        try checkASTExpression("True","True")
+        try checkASTExpression("False","False")
+    }
+    
     func testMakeFunction() throws {
         try checkASTDeclaration("x = 1", "x = 1")
         try checkASTDeclaration("addone x = x + 1", "addone x = (x+1)")
