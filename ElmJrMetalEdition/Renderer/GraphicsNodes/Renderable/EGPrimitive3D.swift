@@ -73,3 +73,96 @@ class EGPrimitive3D: EGPrimitive {
         }
     }
 }
+
+class EGSphere: EGPrimitive3D {
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(sphereWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
+}
+
+class EGCube: EGPrimitive3D {
+    init(extent: simd_float3) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(boxWithExtent: extent,
+                    segments: [1, 1, 1],
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+
+        })
+    }
+}
+
+class EGCone: EGPrimitive3D {
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(coneWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    cap: true,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
+}
+
+class EGCapsule: EGPrimitive3D {
+    init(extent: simd_float3, cylinderSegments: simd_uint2, hemisphereSegments: Int32) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(capsuleWithExtent: extent,
+                    cylinderSegments: cylinderSegments,
+                    hemisphereSegments: hemisphereSegments,
+                    inwardNormals: false,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
+}
+
+class EGHemisphere: EGPrimitive3D {
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(hemisphereWithExtent: extent,
+                    segments: segments,
+                    inwardNormals: false,
+                    cap: true,
+                    geometryType: .triangles,
+                    allocator: allocator)
+        })
+    }
+}
+
+class EGCylinder: EGPrimitive3D {
+    init(extent: simd_float3, segments: simd_uint2) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(
+                cylinderWithExtent: extent,
+                segments: segments,
+                inwardNormals: false,
+                topCap: true,
+                bottomCap: true,
+                geometryType: .triangles,
+                allocator: allocator
+            )
+        })
+    }
+}
+
+class EGIcosahedron: EGPrimitive3D {
+    init(extent: simd_float3) {
+        super.init(mdlMeshFunction: { allocator in
+            MDLMesh(
+                icosahedronWithExtent: extent,
+                inwardNormals: false,
+                geometryType: .triangles,
+                allocator: allocator
+            )
+        })
+    }
+}
