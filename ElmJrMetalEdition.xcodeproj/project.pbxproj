@@ -16,6 +16,7 @@
 		1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028E01A25632BAE00C4DBFA /* EGScene.swift */; };
 		102D1A5B2575EF8D00A6CD27 /* Bezier.metal in Sources */ = {isa = PBXBuildFile; fileRef = 102D1A5A2575EF8D00A6CD27 /* Bezier.metal */; };
 		10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10340BB0257697880006F922 /* EGPoint2DTests.swift */; };
+		1038643125A6AA9A0018402E /* EGCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1038643025A6AA9A0018402E /* EGCamera.swift */; };
 		103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103DF84325769FFA00C093D1 /* EGDemoScenes.swift */; };
 		103EC561257AF78B00111267 /* EGSphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103EC560257AF78B00111267 /* EGSphere.swift */; };
 		105CCEF625769166006A6634 /* EGMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF525769166006A6634 /* EGMesh.swift */; };
@@ -147,6 +148,7 @@
 		1029B41D2587205600B47320 /* Types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
 		102D1A5A2575EF8D00A6CD27 /* Bezier.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Bezier.metal; sourceTree = "<group>"; };
 		10340BB0257697880006F922 /* EGPoint2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPoint2DTests.swift; sourceTree = "<group>"; };
+		1038643025A6AA9A0018402E /* EGCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCamera.swift; sourceTree = "<group>"; };
 		103DF84325769FFA00C093D1 /* EGDemoScenes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGDemoScenes.swift; sourceTree = "<group>"; };
 		103EC560257AF78B00111267 /* EGSphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGSphere.swift; sourceTree = "<group>"; };
 		105CCEF525769166006A6634 /* EGMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMesh.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 		1028E0132563163700C4DBFA /* GraphicsNodes */ = {
 			isa = PBXGroup;
 			children = (
+				1038642F25A6AA660018402E /* Camera */,
 				10D8962B256845830053D762 /* Renderable */,
 				1028E01725632AA000C4DBFA /* EGGraphicsNode.swift */,
 				1028E01A25632BAE00C4DBFA /* EGScene.swift */,
@@ -314,6 +317,14 @@
 				1049A24E25671E11007E85BE /* Transform */,
 			);
 			path = Properties;
+			sourceTree = "<group>";
+		};
+		1038642F25A6AA660018402E /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				1038643025A6AA9A0018402E /* EGCamera.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		103DF84225769FE500C093D1 /* Demos */ = {
@@ -849,6 +860,7 @@
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,
 				7C1856AB259E82A400546CD3 /* Utils.swift in Sources */,
 				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
+				1038643125A6AA9A0018402E /* EGCamera.swift in Sources */,
 				D98A8C7525A02B9600FA3539 /* EVEditor.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
 				D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */,

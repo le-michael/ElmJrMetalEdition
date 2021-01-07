@@ -41,7 +41,6 @@ class EGTransformProperty {
         if isStatic {
             return cachedMatrix
         }
-        
         return translationMatrix.evaluate(sceneProps)
             * rotationMatrix.evaluate(sceneProps)
             * scaleMatrix.evaluate(sceneProps)

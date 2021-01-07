@@ -14,26 +14,29 @@ enum EGPipelineStates {
 }
 
 class EGRenderer: NSObject {
+    let view: MTKView
+    
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
-    let view: MTKView
+    
     let scene: EGScene
     
     var depthStencilState: MTLDepthStencilState?
     var pipelineStates: EGPipelineState
     
-    init(device: MTLDevice, view: MTKView, scene: EGScene) {
-        self.device = device
-        commandQueue = device.makeCommandQueue()!
-        
+    init(view: MTKView, scene: EGScene) {
         self.view = view
         view.depthStencilPixelFormat = .depth32Float
+        
+        self.device = view.device!
+        commandQueue = device.makeCommandQueue()!
         
         self.scene = scene
         scene.fps = Float(view.preferredFramesPerSecond)
         scene.createBuffers(device: device)
         
         pipelineStates = EGPipelineState(device: device, view: view)
+        
         super.init()
         buildDepthStencilState()
     }
