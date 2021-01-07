@@ -43,6 +43,10 @@ class EIParserTests: XCTestCase {
     func testBool() throws {
         try checkASTExpression("True","True")
         try checkASTExpression("False","False")
+        try checkASTExpression("True || False","(True||False)")
+        try checkASTExpression("False && True","(False&&True)")
+        try checkASTExpression("not False","(not False)")
+        try checkASTExpression("not True || False","((not True)||False)")
     }
     
     func testMakeFunction() throws {

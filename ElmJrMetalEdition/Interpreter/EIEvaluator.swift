@@ -17,6 +17,7 @@ class EIEvaluator {
         case VariableShadowing
         case TooManyArguments
         case ConditionMustBeBool
+        case UnsupportedOperation
         case NotImplemented
     }
     
@@ -62,11 +63,37 @@ class EIEvaluator {
         switch node {
         case let literal as EILiteral:
             return literal
+        case let unOp as EIParser.UnaryOp:
+            let operand = try evaluate(unOp.operand, scope)
+            switch unOp.type {
+            case .not:
+                let asBool = operand as? EIParser.Boolean
+                guard asBool != nil else {
+                    throw EvaluatorError.UnsupportedOperation
+                }
+                return EIParser.Boolean(!asBool!.value)
+            }
         case let binOp as EIParser.BinaryOp:
                 // If one argument is a float convert both to float
                 // TODO: In the future we should should should instead have a 'numeric' type
             var left = try evaluate(binOp.leftOperand, scope);
             var right = try evaluate(binOp.rightOperand, scope);
+            // handle case where both operands are booleans
+            if let leftBool = left as? EIParser.Boolean,
+               let rightBool = right as? EIParser.Boolean {
+                switch binOp.type {
+                case .and:
+                    return EIParser.Boolean(leftBool.value && rightBool.value)
+                case .or:
+                    return EIParser.Boolean(leftBool.value || rightBool.value)
+                default:
+                    throw EvaluatorError.UnsupportedOperation
+                }
+            }
+            guard (left as? EIParser.Boolean == nil && right as? EIParser.Boolean == nil) else {
+                // cannot perform binary op with one bool and one non-bool
+                throw EvaluatorError.UnsupportedOperation
+            }
             // handle case where both operands are integers
             if let leftInt = left as? EIParser.Integer,
                let rightInt = right as? EIParser.Integer {
@@ -92,6 +119,8 @@ class EIEvaluator {
                     return EIParser.Boolean(leftInt.value < rightInt.value)
                 case .gt:
                     return EIParser.Boolean(leftInt.value > rightInt.value)
+                default:
+                    throw EvaluatorError.UnsupportedOperation
                 }
             }
             // handle case where at least one operand is not an integer
@@ -126,6 +155,8 @@ class EIEvaluator {
                     return EIParser.Boolean(leftFloat.value < rightFloat.value)
                 case .gt:
                     return EIParser.Boolean(leftFloat.value > rightFloat.value)
+                default:
+                    throw EvaluatorError.UnsupportedOperation
                 }
             }
             // if we made it this far at least one operand is not an int or float

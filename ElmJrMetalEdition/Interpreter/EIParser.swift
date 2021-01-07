@@ -38,7 +38,7 @@ class EIParser {
     }
     
     func parseExpression() throws -> EINode {
-        return try equatableExpression()
+        return try andableExpression()
     }
     
     func parseDeclaration() throws -> Function {
@@ -59,6 +59,7 @@ class EIParser {
         enum BinaryOpType : String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
             case eq = "==", ne = "/=", le = "<=", ge = ">=", lt = "<", gt = ">"
+            case and = "&&", or = "||"
         }
         
         init(_ leftOperand : EINode, _ rightOperand : EINode, _ type: BinaryOpType) {
@@ -69,6 +70,24 @@ class EIParser {
 
         var description : String {
             return "(\(leftOperand)\(self.type.rawValue)\(rightOperand))"
+        }
+    }
+    
+    class UnaryOp : EINode {
+        let operand : EINode
+        let type: UnaryOpType
+        
+        enum UnaryOpType : String {
+            case not = "not"
+        }
+        
+        init(operand: EINode, type: UnaryOpType) {
+            self.operand = operand
+            self.type = type
+        }
+        
+        var description: String {
+            return "(\(self.type.rawValue) \(operand))"
         }
     }
 
@@ -192,7 +211,27 @@ class EIParser {
         return Function(name: name, parameters: parameters, body: body)
     }
     
+    func andableExpression() throws -> EINode {
+        var result = try equatableExpression()
+        while true {
+            switch token.type {
+            case .ampersandampersand:
+                advance()
+                result = BinaryOp(result, try equatableExpression(), .and)
+            case .barbar:
+                advance()
+                result = BinaryOp(result, try equatableExpression(), .or)
+            default:
+                return result
+            }
+        }
+    }
+    
     func equatableExpression() throws -> EINode {
+        if token.type == .not {
+            advance()
+            return UnaryOp(operand: try equatableExpression(), type: .not)
+        }
         var result = try additiveExpression()
         while true {
             switch token.type {
@@ -257,7 +296,7 @@ class EIParser {
         switch token.type {
           case .leftParan:
             advance()
-            result = try equatableExpression()
+            result = try andableExpression()
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
@@ -306,14 +345,14 @@ class EIParser {
         var branches = [EINode]()
         while (token.type == .IF) {
             advance()
-            try conditions.append(equatableExpression())
+            try conditions.append(andableExpression())
             assert(token.type == .THEN)
             advance()
-            try branches.append(equatableExpression())
+            try branches.append(andableExpression())
             assert(token.type == .ELSE)
             advance()
         }
-        try branches.append(equatableExpression())
+        try branches.append(andableExpression())
         return IfElse(conditions: conditions, branches: branches)
     }
     
@@ -358,7 +397,7 @@ class EIParser {
             case .leftParan: fallthrough
             case .identifier: fallthrough
             case .number:
-                arguments.append(try equatableExpression())
+                arguments.append(try andableExpression())
             default:
                 flag = true
             }
