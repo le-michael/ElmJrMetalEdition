@@ -12,7 +12,7 @@ class EGCamera {
     var transform = EGTransformProperty()
 
     func viewMatrix(sceneProps: EGSceneProps) -> matrix_float4x4 {
-        let matrix = transform.getTransformationMatrix(sceneProps)
+        let matrix = transform.transformationMatrix(sceneProps)
         return matrix
     }
 

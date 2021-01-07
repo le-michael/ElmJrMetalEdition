@@ -9,9 +9,9 @@
 import simd
 
 class EGTransformProperty {
-    var translationMatrix = EGTranslationMatrix()
-    var rotationMatrix = EGRotationMatrix()
-    var scaleMatrix = EGScaleMatrix()
+    var translate = EGTranslationMatrix()
+    var rotate = EGRotationMatrix()
+    var scale = EGScaleMatrix()
     
     var isStatic = false
     var cachedMatrix = matrix_identity_float4x4
@@ -21,9 +21,9 @@ class EGTransformProperty {
     }
     
     func checkIfStatic() {
-        isStatic = !translationMatrix.usesTime()
-            && !rotationMatrix.usesTime()
-            && !scaleMatrix.usesTime()
+        isStatic = !translate.usesTime()
+            && !rotate.usesTime()
+            && !scale.usesTime()
         
         if isStatic {
             let sceneProps = EGSceneProps(
@@ -31,18 +31,18 @@ class EGTransformProperty {
                 viewMatrix: matrix_identity_float4x4,
                 time: 0
             )
-            cachedMatrix = translationMatrix.evaluate(sceneProps)
-                * rotationMatrix.evaluate(sceneProps)
-                * scaleMatrix.evaluate(sceneProps)
+            cachedMatrix = translate.evaluate(sceneProps)
+                * rotate.evaluate(sceneProps)
+                * scale.evaluate(sceneProps)
         }
     }
     
-    func getTransformationMatrix(_ sceneProps: EGSceneProps) -> matrix_float4x4 {
+    func transformationMatrix(_ sceneProps: EGSceneProps) -> matrix_float4x4 {
         if isStatic {
             return cachedMatrix
         }
-        return translationMatrix.evaluate(sceneProps)
-            * rotationMatrix.evaluate(sceneProps)
-            * scaleMatrix.evaluate(sceneProps)
+        return translate.evaluate(sceneProps)
+            * rotate.evaluate(sceneProps)
+            * scale.evaluate(sceneProps)
     }
 }
