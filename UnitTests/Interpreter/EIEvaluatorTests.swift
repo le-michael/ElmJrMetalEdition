@@ -75,6 +75,15 @@ class EIEvaluatorTests: XCTestCase {
         */
     }
     
+    func testAndOrNot() throws {
+        try checkEvaluateExpression("True","True")
+        try checkEvaluateExpression("False","False")
+        try checkEvaluateExpression("True || False","True")
+        try checkEvaluateExpression("False && True","False")
+        try checkEvaluateExpression("not False","True")
+        try checkEvaluateExpression("not True || False","False")
+    }
+    
     func testIfElse() throws {
         try checkEvaluateExpression("if True then 1 else 2","1")
         try checkEvaluateExpression("if False then 1 else 2","2")
