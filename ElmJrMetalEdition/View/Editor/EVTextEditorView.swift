@@ -40,6 +40,10 @@ class EVTextEditorView: UIView {
     }
     
     func postProcess() {
+        
+        guard let selectedRange = textView.selectedTextRange else { return }
+        let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
+        
         guard let mainString = textView.text else { return }
 
         let defaultAttributes = [
@@ -73,6 +77,9 @@ class EVTextEditorView: UIView {
             )
         }
         textView.attributedText = mutableAttributedString
+        
+        textView.selectedRange = NSRange(location: cursorPosition, length: 0)
+
     }
     
     required init?(coder: NSCoder) {
