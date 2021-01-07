@@ -6,7 +6,6 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import Bow
 import Foundation
 
 func _Utils_eq<A>(x: A, y: A) {}
