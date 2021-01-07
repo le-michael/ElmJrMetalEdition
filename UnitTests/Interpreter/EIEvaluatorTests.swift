@@ -75,11 +75,15 @@ class EIEvaluatorTests: XCTestCase {
         */
     }
     
-    func testSimpleIfElse() throws {
+    func testIfElse() throws {
         try checkEvaluateExpression("if True then 1 else 2","1")
         try checkEvaluateExpression("if False then 1 else 2","2")
         try checkEvaluateExpression("if False then 1 else if True then 2 else 3", "2")
+        try checkEvaluateExpression("if 2 == 1+1 then 7 else 8", "7")
     }
+    
+    
+    
 
 
 }
