@@ -40,6 +40,15 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("(1+x)/(y*5.2)", "((1+x)/(y*5.2))")
     }
     
+    func testBool() throws {
+        try checkASTExpression("True","True")
+        try checkASTExpression("False","False")
+        try checkASTExpression("True || False","(True||False)")
+        try checkASTExpression("False && True","(False&&True)")
+        try checkASTExpression("not False","(not False)")
+        try checkASTExpression("not True || False","((not True)||False)")
+    }
+    
     func testMakeFunction() throws {
         try checkASTDeclaration("x = 1", "x = 1")
         try checkASTDeclaration("addone x = x + 1", "addone x = (x+1)")
@@ -50,6 +59,13 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("foo 1+1", "(foo (1+1))")
         try checkASTExpression("bar (foo 6) 3 5", "(bar (foo 6) 3 5)")
         try checkASTExpression("add x y", "(add x y)")
+    }
+    
+    func testIfElse() throws {
+        try checkASTExpression("if 1 then 2 else 3", "if 1 then 2 else 3")
+        try checkASTExpression("if 1 then 2 else if 3 then 4 else 5", "if 1 then 2 else if 3 then 4 else 5")
+        try checkASTExpression("if 1 then 2 else if 3 then 4 else if 5 then 6 else 7",
+                               "if 1 then 2 else if 3 then 4 else if 5 then 6 else 7")
     }
 
 }

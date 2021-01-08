@@ -125,10 +125,14 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .endOfFile:    return EVTheme.Colors.foreground
     case .equal:        return EVTheme.Colors.symbol
     case .equalequal:   return EVTheme.Colors.symbol
+    case .notequal:     return EVTheme.Colors.symbol
     case .greaterthan:  return EVTheme.Colors.symbol
     case .lessthan:     return EVTheme.Colors.symbol
     case .greaterequal: return EVTheme.Colors.symbol
     case .lessequal:    return EVTheme.Colors.symbol
+    case .ampersandampersand: return EVTheme.Colors.symbol
+    case .barbar:       return EVTheme.Colors.symbol
+    case .not:          return EVTheme.Colors.symbol
     case .colon:        return EVTheme.Colors.symbol
     case .coloncolon:   return EVTheme.Colors.symbol
     case .arrow:        return EVTheme.Colors.symbol
