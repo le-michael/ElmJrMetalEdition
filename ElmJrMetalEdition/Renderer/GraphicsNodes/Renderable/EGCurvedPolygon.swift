@@ -51,7 +51,7 @@ class EGCurvedPolygon: EGGraphicsNode {
     }
     
     private func updateVertexUniforms(_ sceneProps: EGSceneProps) {
-        let transformationMatrx = transform.getTransformationMatrix(sceneProps)
+        let transformationMatrx = transform.transformationMatrix(sceneProps)
         
         vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix

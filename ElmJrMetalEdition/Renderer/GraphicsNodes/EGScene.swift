@@ -10,18 +10,22 @@ import MetalKit
 
 class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
-    var sceneProps: EGSceneProps!
+    var sceneProps: EGSceneProps
     var fps: Float = 60
-    var camera = EGTransformProperty()
+    var camera: EGCamera = EGCamera()
 
     override init() {
+        sceneProps = EGSceneProps(
+            projectionMatrix: matrix_identity_float4x4,
+            viewMatrix: matrix_identity_float4x4,
+            time: 0
+        )
         super.init()
-        initSceneProps()
     }
 
     func setDrawableSize(size: CGSize) {
         drawableSize = size
-        sceneProps?.projectionMatrix = EGMatrixBuilder.createProjectionMatrix(
+        sceneProps.projectionMatrix = EGMatrixBuilder.createProjectionMatrix(
             fovDegrees: 65,
             aspect: Float(size.width / size.height),
             nearZ: 0.1,
@@ -29,20 +33,8 @@ class EGScene: EGGraphicsNode {
         )
     }
 
-    private func initSceneProps() {
-        sceneProps = EGSceneProps(
-            projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4,
-            time: 0
-        )
-    }
-
-    override func add(_ node: EGGraphicsNode) {
-        super.add(node)
-    }
-
     override func createBuffers(device: MTLDevice) {
-        camera.checkIfStatic()
+        camera.transform.checkIfStatic()
         for child in children {
             child.createBuffers(device: device)
         }
@@ -50,7 +42,7 @@ class EGScene: EGGraphicsNode {
 
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
-        sceneProps.viewMatrix = camera.getTransformationMatrix(sceneProps)
+        sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
     }
 
     func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {

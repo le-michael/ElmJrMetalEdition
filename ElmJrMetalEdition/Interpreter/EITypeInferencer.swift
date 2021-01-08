@@ -280,6 +280,12 @@ class EITypeInferencer {
              EIParser.BinaryOp.BinaryOpType.divide:
             return MonoType.TArr(superNumber,
                    MonoType.TArr(superNumber, superNumber))
+        default:
+            // @Lucas I'm putting in a default case while I add new operators for now.
+            // Feel free to remove this if you know a better way
+            assert(false)
+            return MonoType.TArr(superNumber,
+                   MonoType.TArr(superNumber, superNumber))
         }
     }
     

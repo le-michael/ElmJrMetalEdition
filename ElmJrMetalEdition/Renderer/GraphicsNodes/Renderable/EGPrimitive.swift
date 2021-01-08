@@ -43,8 +43,7 @@ class EGPrimitive: EGGraphicsNode {
     }
 
     func updateVertexUniforms(_ sceneProps: EGSceneProps) {
-        let transformationMatrix = transform.getTransformationMatrix(sceneProps)
-        
+        let transformationMatrix = transform.transformationMatrix(sceneProps)
         vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
             * sceneProps.viewMatrix
             * transformationMatrix
@@ -91,5 +90,26 @@ class EGPrimitive: EGGraphicsNode {
                                                  indexBuffer: indexBuffer,
                                                  indexBufferOffset: 0)
         }
+    }
+}
+
+class EGRegularPolygon: EGPrimitive {
+    init(_ numOfSides: Int) {
+        let bufferData = EGBufferDataBuilder.createRegularPolygonBufferData(numOfSides)
+        super.init(mesh: EGMesh(bufferData))
+    }
+}
+
+class EGPlane: EGPrimitive {
+    override init() {
+        let bufferData = EGBufferDataBuilder.createPlaneBufferData()
+        super.init(mesh: EGMesh(bufferData))
+    }
+}
+
+class EGLine2D: EGPrimitive {
+    init(p0: simd_float3, p1: simd_float3, size: Float) {
+        let bufferData = EGBufferDataBuilder.createLine2DBufferData(p0: p0, p1: p1, size: size)
+        super.init(mesh: EGMesh(bufferData))
     }
 }

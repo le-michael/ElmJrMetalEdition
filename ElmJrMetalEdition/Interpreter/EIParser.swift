@@ -25,7 +25,7 @@ class EIParser {
     }
 
     func isDone() -> Bool {
-        return token.type != .endOfFile
+        return token.type == .endOfFile
     }
     
     func parse() throws -> EINode {
@@ -38,10 +38,10 @@ class EIParser {
     }
     
     func parseExpression() throws -> EINode {
-        return try additiveExpression()
+        return try andableExpression()
     }
     
-    func parseDeclaration() throws -> EINode {
+    func parseDeclaration() throws -> Function {
         return try functionDeclaration()
     }
     
@@ -58,6 +58,8 @@ class EIParser {
 
         enum BinaryOpType : String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
+            case eq = "==", ne = "/=", le = "<=", ge = ">=", lt = "<", gt = ">"
+            case and = "&&", or = "||"
         }
         
         init(_ leftOperand : EINode, _ rightOperand : EINode, _ type: BinaryOpType) {
@@ -68,6 +70,24 @@ class EIParser {
 
         var description : String {
             return "(\(leftOperand)\(self.type.rawValue)\(rightOperand))"
+        }
+    }
+    
+    class UnaryOp : EINode {
+        let operand : EINode
+        let type: UnaryOpType
+        
+        enum UnaryOpType : String {
+            case not = "not"
+        }
+        
+        init(operand: EINode, type: UnaryOpType) {
+            self.operand = operand
+            self.type = type
+        }
+        
+        var description: String {
+            return "(\(self.type.rawValue) \(operand))"
         }
     }
 
@@ -98,6 +118,40 @@ class EIParser {
         }
     }
 
+    class Boolean : EILiteral {
+        let value : Bool
+        
+        init(_ value : Bool) {
+          self.value = value
+        }
+        
+        var description : String {
+            return value ? "True": "False"
+        }
+    }
+    
+    class IfElse : EINode {
+        let conditions : [EINode]
+        let branches : [EINode]
+        
+        init(conditions: [EINode], branches: [EINode]) {
+            self.conditions = conditions
+            self.branches = branches
+        }
+        
+        var description: String {
+            assert(branches.count == conditions.count + 1)
+            var index = 0
+            var result = ""
+            while index < conditions.count {
+                result += "if \(conditions[index]) then \(branches[index]) else "
+                index += 1;
+            }
+            result += "\(branches[index])"
+            return result
+        }
+    }
+    
     class FunctionCall : EINode {
         var name : String
         var arguments : [EINode]
@@ -141,7 +195,7 @@ class EIParser {
         }
     }
 
-    func functionDeclaration() throws -> EINode {
+    func functionDeclaration() throws -> Function {
         assert(token.type == .identifier)
         let name = token.raw
         advance()
@@ -153,8 +207,56 @@ class EIParser {
         }
         assert(token.type == .equal)
         advance()
-        let body = try additiveExpression()
+        let body = try andableExpression()
         return Function(name: name, parameters: parameters, body: body)
+    }
+    
+    func andableExpression() throws -> EINode {
+        var result = try equatableExpression()
+        while true {
+            switch token.type {
+            case .ampersandampersand:
+                advance()
+                result = BinaryOp(result, try equatableExpression(), .and)
+            case .barbar:
+                advance()
+                result = BinaryOp(result, try equatableExpression(), .or)
+            default:
+                return result
+            }
+        }
+    }
+    
+    func equatableExpression() throws -> EINode {
+        if token.type == .not {
+            advance()
+            return UnaryOp(operand: try equatableExpression(), type: .not)
+        }
+        var result = try additiveExpression()
+        while true {
+            switch token.type {
+            case .equalequal:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .eq)
+            case .notequal:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .ne)
+            case .lessequal:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .le)
+            case .greaterequal:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .ge)
+            case .lessthan:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .lt)
+            case .greaterthan:
+                advance()
+                result = BinaryOp(result, try additiveExpression(), .gt)
+            default:
+                return result
+            }
+        }
     }
     
     func additiveExpression() throws -> EINode {
@@ -194,13 +296,19 @@ class EIParser {
         switch token.type {
           case .leftParan:
             advance()
-            result = try additiveExpression()
+            result = try andableExpression()
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
             advance()
           case .identifier:
-            result = try parseFunctionCall()
+            if tokenIsType() {
+                result = try TypeExpression()
+            } else {
+                result = try parseFunctionCall()
+            }
+        case .IF:
+            result = try IfExpression()
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
@@ -209,6 +317,44 @@ class EIParser {
         }
         return result
       }
+    
+    func TypeExpression() throws -> EINode {
+        switch token.raw {
+        case "True":
+            advance()
+            return Boolean(true)
+        case "False":
+            advance()
+            return Boolean(false)
+        default:
+            // we don't support custom types yet
+            throw ParserError.NotImplemented
+        }
+    }
+    
+    func tokenIsType() -> Bool {
+        if token.type != .identifier { return false }
+        assert(token.raw.count >= 1)
+        let first = token.raw.first
+        return first!.isUppercase
+    }
+    
+    func IfExpression() throws -> EINode {
+        assert(token.type == .IF)
+        var conditions = [EINode]()
+        var branches = [EINode]()
+        while (token.type == .IF) {
+            advance()
+            try conditions.append(andableExpression())
+            assert(token.type == .THEN)
+            advance()
+            try branches.append(andableExpression())
+            assert(token.type == .ELSE)
+            advance()
+        }
+        try branches.append(andableExpression())
+        return IfElse(conditions: conditions, branches: branches)
+    }
     
     func number() throws -> EINode {
         assert(token.type == .number || token.type == .minus)
@@ -251,7 +397,7 @@ class EIParser {
             case .leftParan: fallthrough
             case .identifier: fallthrough
             case .number:
-                arguments.append(try additiveExpression())
+                arguments.append(try unaryExpression())
             default:
                 flag = true
             }

@@ -13,25 +13,44 @@ class MetalWorkspaceController: UIViewController {
     let mtkView = MTKView()
 
     var device: MTLDevice!
-    var renderer: MTKViewDelegate!
+    var renderer: EGRenderer!
+
+    var previousScale: CGFloat = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
-        view.addSubview(mtkView)
-        mtkView.translatesAutoresizingMaskIntoConstraints = false
-        mtkView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        mtkView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        mtkView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
-        mtkView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
+        view = mtkView
 
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
 
-        let scene = EGDemoScenes.flowerPot()
-        
+        let scene = EGDemoScenes.cactus()
+
         mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
-        renderer = EGRenderer(device: device, view: mtkView, scene: scene)
+        renderer = EGRenderer(view: mtkView, scene: scene)
         mtkView.delegate = renderer
+
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
+        mtkView.addGestureRecognizer(pan)
+
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(gesture:)))
+        mtkView.addGestureRecognizer(pinch)
+    }
+
+    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: gesture.view)
+        let delta = simd_float2(Float(translation.x), Float(-translation.y))
+        renderer.scene.camera.rotate(delta: delta)
+        gesture.setTranslation(.zero, in: gesture.view)
+    }
+
+    @objc func handlePinch(gesture: UIPinchGestureRecognizer) {
+        let delta = Float(gesture.scale - previousScale)
+        renderer.scene.camera.zoom(delta: delta)
+
+        previousScale = gesture.scale
+        if gesture.state == .ended {
+            previousScale = 1
+        }
     }
 }

@@ -25,6 +25,11 @@ class EIEvaluatorTests: XCTestCase {
         }
     }
     
+    func checkCompile(_ toCompile: String, _ toOutput: String) throws {
+        let view = try EIEvaluator().compile(toCompile)
+        XCTAssertEqual("\(view)", toOutput)
+    }
+    
     func testLiteral() throws {
         try checkEvaluateExpression("1","1")
         try checkEvaluateExpression("2.73","2.73")
@@ -40,6 +45,17 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("(2 + 3)*6", "30")
         try checkEvaluateExpression("1*2 + 3*4 + 6/2", "17")
         try checkEvaluateExpression("5.0/2", "2.5")
+    }
+    
+    func testEqualityOperators() throws {
+        try checkEvaluateExpression("1 == 1", "True")
+        try checkEvaluateExpression("1 == 2", "False")
+        try checkEvaluateExpression("1 /= 1", "False")
+        try checkEvaluateExpression("1 <= 1", "True")
+        try checkEvaluateExpression("1 >= 1", "True")
+        try checkEvaluateExpression("1 < 1", "False")
+        try checkEvaluateExpression("1 > 1", "False")
+        try checkEvaluateExpression("1 + 3 == 4", "True")
     }
     
     func testInterpret() throws {
@@ -63,6 +79,33 @@ class EIEvaluatorTests: XCTestCase {
                            ["f g x = ((g x)+(g x))","h x = (3*x)","30"])
         */
     }
+    
+    func testAndOrNot() throws {
+        try checkEvaluateExpression("True","True")
+        try checkEvaluateExpression("False","False")
+        try checkEvaluateExpression("True || False","True")
+        try checkEvaluateExpression("False && True","False")
+        try checkEvaluateExpression("not False","True")
+        try checkEvaluateExpression("not True || False","False")
+    }
+    
+    func testIfElse() throws {
+        try checkEvaluateExpression("if True then 1 else 2","1")
+        try checkEvaluateExpression("if False then 1 else 2","2")
+        try checkEvaluateExpression("if False then 1 else if True then 2 else 3", "2")
+        try checkEvaluateExpression("if 2 == 1+1 then 7 else 8", "7")
+    }
+    
+    func testRecursion() throws {
+        try checkInterpret(["fib x = if x==0 || x==1 then 1 else fib (x-1) + fib (x-2)","(fib 0)","(fib 1)","(fib 2)","(fib 3)","(fib 4)","(fib 5)"], ["fib x = if ((x==0)||(x==1)) then 1 else ((fib (x-1))+(fib (x-2)))","1","1","2","3","5","8"])
+    }
+    
+    func testSimpleMultiline() throws {
+        try checkCompile("x = 1\ny = 2\nview=x+y", "3")
+        try checkCompile("f x = x + 1\nview=(f 3)\nz=2", "4")
+    }
+    
+    
 
 
 }
