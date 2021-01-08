@@ -298,6 +298,8 @@ class EITypeInferencer {
             return (MonoType.TVar("number"), [])
         case _ as EIParser.FloatingPoint:
             return (MonoType.TCon("Float"), [])
+        case _ as EIParser.Boolean:
+            return (MonoType.TCon("Bool"), [])
         case let e as EIParser.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
