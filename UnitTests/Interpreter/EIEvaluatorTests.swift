@@ -25,6 +25,11 @@ class EIEvaluatorTests: XCTestCase {
         }
     }
     
+    func checkCompile(_ toCompile: String, _ toOutput: String) throws {
+        let view = try EIEvaluator().compile(toCompile)
+        XCTAssertEqual("\(view)", toOutput)
+    }
+    
     func testLiteral() throws {
         try checkEvaluateExpression("1","1")
         try checkEvaluateExpression("2.73","2.73")
@@ -95,6 +100,10 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["fib x = if x==0 || x==1 then 1 else fib (x-1) + fib (x-2)","(fib 0)","(fib 1)","(fib 2)","(fib 3)","(fib 4)","(fib 5)"], ["fib x = if ((x==0)||(x==1)) then 1 else ((fib (x-1))+(fib (x-2)))","1","1","2","3","5","8"])
     }
     
+    func testSimpleMultiline() throws {
+        try checkCompile("x = 1\ny = 2\nview=x+y", "3")
+        try checkCompile("f x = x + 1\nview=(f 3)\nz=2", "4")
+    }
     
     
 
