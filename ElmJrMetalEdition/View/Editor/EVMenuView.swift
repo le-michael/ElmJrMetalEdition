@@ -12,15 +12,6 @@ class EVMenuView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = EVTheme.Colors.background
-        
-        let innerBinaryOp = EIParser.BinaryOp(EIParser.Integer(3), EIParser.FloatingPoint(3), .multiply)
-        
-        let binaryOp = EIParser.BinaryOp(EIParser.Integer(1), innerBinaryOp, .add)
-        let binaryOpView = binaryOp.getUIView()
-                
-        addSubview(binaryOpView)
-        
-
     }
     
     required init?(coder: NSCoder) {

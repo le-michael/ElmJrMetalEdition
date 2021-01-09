@@ -96,6 +96,8 @@ extension EVTextEditorView: UITextViewDelegate {
 }
 
 extension EVTextEditorView: EVEditorDelegate {
+    func didToggleMode(isProjectional: Bool) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}

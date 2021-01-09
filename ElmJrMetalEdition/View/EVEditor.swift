@@ -14,6 +14,7 @@ protocol EVEditorDelegate {
     func didChangeSourceCode(sourceCode: String)
     func didOpenProjects()
     func didLoadProject(project: EVProject)
+    func didToggleMode(isProjectional: Bool)
 }
 
 class EVEditor {
@@ -25,6 +26,7 @@ class EVEditor {
     var currentProjectInd: Int
     var textEditorWidth: CGFloat
     var textEditorHeight: CGFloat
+    var isInProjectionalMode: Bool
     
     var project: EVProject {
         return EVProjectManager.shared.projects[currentProjectInd]
@@ -35,6 +37,7 @@ class EVEditor {
         currentProjectInd = 0
         textEditorWidth = 500
         textEditorHeight = 500
+        isInProjectionalMode = false
     }
     
     func subscribe(delegate: EVEditorDelegate) {
@@ -67,6 +70,11 @@ class EVEditor {
                 delegates.forEach({ $0.didLoadProject(project: project) })
             }
         }
+    }
+    
+    func toggleMode() {
+        isInProjectionalMode = !isInProjectionalMode
+        delegates.forEach({ $0.didToggleMode(isProjectional: isInProjectionalMode) })
     }
     
     func run() {

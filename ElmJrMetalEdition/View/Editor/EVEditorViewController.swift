@@ -12,13 +12,16 @@ class EVEditorViewController: UIViewController {
     
     let toolBarView = EVToolBarView()
     let textEditorView = EVTextEditorView()
+    let projectionalEditorView = EVProjectionalEditorView()
     let graphicsView = EVGraphicsView()
     let menuView = EVMenuView()
     let leftRightDivider = EVDraggableDivider(dragsHorizontally: true)
     let upDownDivider = EVDraggableDivider(dragsHorizontally: false)
     
-    var textEditorWidthConstraint: NSLayoutConstraint?
-    var textEditorHeightConstraint: NSLayoutConstraint?
+    let codeEditorView = UIView()
+    
+    var codeEditorWidthConstraint: NSLayoutConstraint?
+    var codeEditorHeightConstraint: NSLayoutConstraint?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +36,17 @@ class EVEditorViewController: UIViewController {
         addDropShadow()
         
         view.addSubview(toolBarView)
-        view.addSubview(textEditorView)
+        view.addSubview(codeEditorView)
         view.addSubview(leftRightDivider)
         view.addSubview(graphicsView)
         view.addSubview(upDownDivider)
         view.addSubview(menuView)
+        
+        codeEditorView.addSubview(textEditorView)
+        setupTextEditorLayout()
 
         setupToolBarLayout()
-        setupTextEditorViewLayout()
+        setupCodeEditorViewLayout()
         setupLeftRightDividerLayout()
         setupGraphicsViewLayout()
         setupUpDownDividerLayout()
@@ -55,23 +61,23 @@ class EVEditorViewController: UIViewController {
         toolBarView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    func setupTextEditorViewLayout() {
-        textEditorView.translatesAutoresizingMaskIntoConstraints = false
-        textEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
-        textEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+    func setupCodeEditorViewLayout() {
+        codeEditorView.translatesAutoresizingMaskIntoConstraints = false
+        codeEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
+        codeEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         
-        textEditorWidthConstraint = textEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
-        textEditorWidthConstraint?.isActive = true
+        codeEditorWidthConstraint = codeEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
+        codeEditorWidthConstraint?.isActive = true
         
-        textEditorHeightConstraint = textEditorView.heightAnchor.constraint(equalToConstant: EVEditor.shared.textEditorHeight)
-        textEditorHeightConstraint?.isActive = true
+        codeEditorHeightConstraint = codeEditorView.heightAnchor.constraint(equalToConstant: EVEditor.shared.textEditorHeight)
+        codeEditorHeightConstraint?.isActive = true
     }
     
     func setupLeftRightDividerLayout() {
         leftRightDivider.translatesAutoresizingMaskIntoConstraints = false
-        leftRightDivider.topAnchor.constraint(equalTo: textEditorView.topAnchor, constant: 0).isActive = true
-        leftRightDivider.bottomAnchor.constraint(equalTo: textEditorView.bottomAnchor, constant: 0).isActive = true
-        leftRightDivider.leadingAnchor.constraint(equalTo: textEditorView.trailingAnchor, constant: 0).isActive = true
+        leftRightDivider.topAnchor.constraint(equalTo: codeEditorView.topAnchor, constant: 0).isActive = true
+        leftRightDivider.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor, constant: 0).isActive = true
+        leftRightDivider.leadingAnchor.constraint(equalTo: codeEditorView.trailingAnchor, constant: 0).isActive = true
         leftRightDivider.widthAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
@@ -85,10 +91,26 @@ class EVEditorViewController: UIViewController {
     
     func setupUpDownDividerLayout() {
         upDownDivider.translatesAutoresizingMaskIntoConstraints = false
-        upDownDivider.topAnchor.constraint(equalTo: textEditorView.bottomAnchor, constant: 0).isActive = true
+        upDownDivider.topAnchor.constraint(equalTo: codeEditorView.bottomAnchor, constant: 0).isActive = true
         upDownDivider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         upDownDivider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         upDownDivider.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    }
+    
+    func setupTextEditorLayout() {
+        textEditorView.translatesAutoresizingMaskIntoConstraints = false
+        textEditorView.topAnchor.constraint(equalTo: codeEditorView.topAnchor).isActive = true
+        textEditorView.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor).isActive = true
+        textEditorView.leadingAnchor.constraint(equalTo: codeEditorView.leadingAnchor).isActive = true
+        textEditorView.trailingAnchor.constraint(equalTo: codeEditorView.trailingAnchor).isActive = true
+    }
+    
+    func setupProjectionalEditorLayout() {
+        projectionalEditorView.translatesAutoresizingMaskIntoConstraints = false
+        projectionalEditorView.topAnchor.constraint(equalTo: codeEditorView.topAnchor).isActive = true
+        projectionalEditorView.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor).isActive = true
+        projectionalEditorView.leadingAnchor.constraint(equalTo: codeEditorView.leadingAnchor).isActive = true
+        projectionalEditorView.trailingAnchor.constraint(equalTo: codeEditorView.trailingAnchor).isActive = true
     }
     
     func setupMenuViewLayout() {
@@ -108,12 +130,24 @@ class EVEditorViewController: UIViewController {
 }
 
 extension EVEditorViewController: EVEditorDelegate {
+    func didToggleMode(isProjectional: Bool) {
+        textEditorView.removeFromSuperview()
+        projectionalEditorView.removeFromSuperview()
+        if isProjectional {
+            codeEditorView.addSubview(projectionalEditorView)
+            setupProjectionalEditorLayout()
+        } else {
+            codeEditorView.addSubview(textEditorView)
+            setupTextEditorLayout()
+        }
+    }
+    
     func didChangeTextEditorWidth(width: CGFloat) {
-        textEditorWidthConstraint?.constant = width
+        codeEditorWidthConstraint?.constant = width
     }
     
     func didChangeTextEditorHeight(height: CGFloat) {
-        textEditorHeightConstraint?.constant = height
+        codeEditorHeightConstraint?.constant = height
     }
     
     func didChangeSourceCode(sourceCode: String) {}

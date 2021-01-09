@@ -83,8 +83,6 @@ extension EIParser.Boolean: EVProjectionalNode {
     }
 }
 
-
-
 extension EIParser.BinaryOp: EVProjectionalNode {
     func getUIView() -> UIView {
         

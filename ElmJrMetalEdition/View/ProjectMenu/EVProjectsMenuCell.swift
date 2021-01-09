@@ -58,6 +58,8 @@ class EVProjectsMenuCell: UICollectionViewCell {
 }
 
 extension EVProjectsMenuCell: EVEditorDelegate {
+    func didToggleMode(isProjectional: Bool) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}
