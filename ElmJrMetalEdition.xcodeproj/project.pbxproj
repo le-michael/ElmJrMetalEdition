@@ -416,7 +416,7 @@
 		7C1A44A825721C8200C3017B /* ElmLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44AA25721C8D00C3017B /* GraphicSVG */,
+				7C1A44AA25721C8D00C3017B /* Graphics */,
 				7C1A44A925721C8900C3017B /* Core */,
 			);
 			path = ElmLibrary;
@@ -430,14 +430,14 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		7C1A44AA25721C8D00C3017B /* GraphicSVG */ = {
+		7C1A44AA25721C8D00C3017B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
 				7C8184E625A7FA2200A7F349 /* API3D.elm */,
 				7C8184E525A7FA2200A7F349 /* Base.elm */,
 				7C8184DF25A7C39500A7F349 /* API2D.elm */,
 			);
-			path = GraphicSVG;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		7C1A44B12573635C00C3017B /* ElmCodeExamples */ = {
