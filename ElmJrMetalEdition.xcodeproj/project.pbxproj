@@ -44,7 +44,6 @@
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
 		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
-		10D89628256840480053D762 /* EGPlane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89627256840480053D762 /* EGPlane.swift */; };
 		10D89633256865E60053D762 /* EGLine2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* EGLine2D.swift */; };
 		10EFCB7525A047AA003514E0 /* EGCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB7425A047AA003514E0 /* EGCube.swift */; };
 		10EFCB7B25A053FF003514E0 /* EGCone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB7A25A053FF003514E0 /* EGCone.swift */; };
