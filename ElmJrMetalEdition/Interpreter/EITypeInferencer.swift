@@ -9,6 +9,7 @@
 import Foundation
 
 protocol Substitutable {}
+infix operator =>
 
 class EITypeInferencer {
     var inferState: Infer
@@ -94,6 +95,11 @@ class EITypeInferencer {
         case TCon(String)
         indirect case TArr(MonoType, MonoType)
         
+        static func => (left : MonoType, right : MonoType) -> MonoType {
+            return TArr(left, right)
+        }
+        
+        
         var description: String {
             switch self {
             case .TVar(let v):
@@ -111,9 +117,10 @@ class EITypeInferencer {
     typealias Constraint = (MonoType, MonoType)
     
     // Declarations of built-in types that correspond to literals
-    let typeFloat = MonoType.TVar("Float")
-    let typeInt = MonoType.TVar("Int")
-    let typeString = MonoType.TVar("String")
+    let typeFloat = MonoType.TCon("Float")
+    let typeInt = MonoType.TCon("Int")
+    let typeString = MonoType.TCon("String")
+    let typeBool = MonoType.TCon("Bool")
     
     // polymorphic type schemes
     class Scheme: CustomStringConvertible {
@@ -275,8 +282,18 @@ class EITypeInferencer {
              EIParser.BinaryOp.BinaryOpType.subtract,
              EIParser.BinaryOp.BinaryOpType.multiply,
              EIParser.BinaryOp.BinaryOpType.divide:
-            return MonoType.TArr(superNumber,
-                                 MonoType.TArr(superNumber, superNumber))
+            return superNumber => (superNumber => superNumber)
+        case EIParser.BinaryOp.BinaryOpType.eq,
+             EIParser.BinaryOp.BinaryOpType.ne,
+             EIParser.BinaryOp.BinaryOpType.le,
+             EIParser.BinaryOp.BinaryOpType.lt,
+             EIParser.BinaryOp.BinaryOpType.ge,
+             EIParser.BinaryOp.BinaryOpType.gt:
+            let tv = inferState.fresh()
+            return tv => (tv => typeBool)
+        case EIParser.BinaryOp.BinaryOpType.and,
+             EIParser.BinaryOp.BinaryOpType.or:
+            return typeBool => (typeBool => typeBool)
         default:
             // @Lucas I'm putting in a default case while I add new operators for now.
             // Feel free to remove this if you know a better way
@@ -312,11 +329,14 @@ class EITypeInferencer {
                     .map { (inferBranches[$0].0,
                             inferBranches[$0 + 1].0) }
             let condConstraints : [Constraint] =
-                inferConds.map( { ($0.0, MonoType.TCon("Bool")) } )
+                inferConds.map{ ($0.0, MonoType.TCon("Bool")) }
             let otherConstraints : [Constraint] =
                 inferConds.flatMap{$0.1} + inferBranches.flatMap{$0.1}
             return (inferBranches[0].0,
                     otherConstraints + branchConstraints + condConstraints)
+        // case let e as EIParser.Function:
+        //    let tv = inferState.fresh()
+            
         default:
             throw TypeError.UnimplementedError(expr)
         }
