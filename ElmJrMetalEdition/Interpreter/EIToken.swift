@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Token {
+struct EIToken {
     var type: TokenType;
     var raw: String;
     
@@ -18,6 +18,7 @@ struct Token {
         case IF, THEN, ELSE, CASE, OF, LET, IN, TYPE, ALIAS
         case identifier
         case number
+        case newline
     }
     
     static let symbols : [String: TokenType] = [

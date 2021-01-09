@@ -60,7 +60,7 @@ class EVTextEditorView: UIView {
         while(true){
             let rangeStart = lexer.characterIndex
             
-            var token: Token
+            var token: EIToken
             do { token = try lexer.nextToken() } catch { break }
             
             let length = lexer.characterIndex - rangeStart
@@ -110,7 +110,7 @@ extension EVTextEditorView: EVEditorDelegate {
     
 }
 
-func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
+func getTokenTypeColor(_ tokenType: EIToken.TokenType) -> UIColor? {
     switch(tokenType){
     case .leftParan:    return EVTheme.Colors.symbol
     case .rightParan:   return EVTheme.Colors.symbol
@@ -158,5 +158,6 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .ALIAS:        return EVTheme.Colors.reserved
     case .identifier:   return EVTheme.Colors.identifier
     case .number:       return EVTheme.Colors.number
+    case .newline:      return EVTheme.Colors.symbol
     }
 }

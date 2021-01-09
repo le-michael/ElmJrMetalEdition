@@ -108,7 +108,7 @@
 		D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54725A2B856008E6D2C /* EVProject.swift */; };
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
-		FE42166C256C8C41008622FB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* Token.swift */; };
+		FE42166C256C8C41008622FB /* EIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* EIToken.swift */; };
 		FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* TokenTests.swift */; };
 		FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* EILexerTests.swift */; };
 		FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* EIParserTests.swift */; };
@@ -230,7 +230,7 @@
 		D9BDF54725A2B856008E6D2C /* EVProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProject.swift; sourceTree = "<group>"; };
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
-		FE42166B256C8C41008622FB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		FE42166B256C8C41008622FB /* EIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIToken.swift; sourceTree = "<group>"; };
 		FE59C9DD256CADC00098042C /* TokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
 		FEFA37E8256F41D600797CD2 /* EILexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexerTests.swift; sourceTree = "<group>"; };
 		FEFA37EC256F656900797CD2 /* EIParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParserTests.swift; sourceTree = "<group>"; };
@@ -332,10 +332,10 @@
 			children = (
 				7C1A44B12573635C00C3017B /* ElmCodeExamples */,
 				7C1A44A825721C8200C3017B /* ElmLibrary */,
+				FE42166B256C8C41008622FB /* EIToken.swift */,
 				1072E3E32564C41000D390FE /* EILexer.swift */,
-				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
 				1072E3E92564C43B00D390FE /* EIParser.swift */,
-				FE42166B256C8C41008622FB /* Token.swift */,
+				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
 				7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */,
 			);
 			path = Interpreter;
@@ -817,7 +817,7 @@
 				10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
-				FE42166C256C8C41008622FB /* Token.swift in Sources */,
+				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,
 				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,
 				1098B33925A02F2200BD7AD1 /* EGPrimitive3D.swift in Sources */,
 				107FDB5D2567182800D1B54C /* EGMathNode.swift in Sources */,

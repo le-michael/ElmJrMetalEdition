@@ -13,7 +13,7 @@ protocol EILiteral : EINode {}
 
 class EIParser {
     let lexer : EILexer
-    var token : Token
+    var token : EIToken
     
     func advance() {
         token = try! lexer.nextToken()
@@ -32,7 +32,7 @@ class EIParser {
         // TODO: This check is incorrect. An expression can also start with an identifier.
         // generic parsing logic for the REPL that can parse declarations AND expressions
         if token.type == .identifier {
-            return try functionDeclaration()
+            return try declaration()
         }
         return try additiveExpression()
     }
@@ -41,8 +41,8 @@ class EIParser {
         return try andableExpression()
     }
     
-    func parseDeclaration() throws -> Function {
-        return try functionDeclaration()
+    func parseDeclaration() throws -> Declaration {
+        return try declaration()
     }
     
     enum ParserError : Error {
@@ -152,63 +152,77 @@ class EIParser {
         }
     }
     
-    class FunctionCall : EINode {
-        var name : String
-        var arguments : [EINode]
-
-        init(name : String, arguments : [EINode]) {
-            self.name = name
-            self.arguments = arguments
+    class FunctionApplication : EINode {
+        var function : EINode
+        var argument : EINode
+        
+        init(function: EINode, argument: EINode) {
+            self.function = function
+            self.argument = argument
         }
-            
         var description : String {
-              if arguments.count == 0 {
-                    return "\(name)"
-              } else {
-                var result = "\(name)"
-                for argument in arguments {
-                    result += " \(argument)"
-                }
-                return "(\(result))"
-              }
-       }
+            return "(\(function) \(argument)"
+        }
+    }
+    
+    class Variable : EINode {
+        let name : String
+        
+        init(name: String) {
+            self.name = name
+        }
+        
+        var description: String {
+            return name
+        }
     }
     
     class Function : EINode {
-        let name : String
-        let parameters : [String]
+        let parameter : String // Will be replaced by a pattern later
         let body : EINode
         
-        init(name : String, parameters : [String], body: EINode) {
-            self.name = name
-            self.parameters = parameters
+        init(parameter : String, body : EINode) {
+            self.parameter = parameter
             self.body = body
         }
 
         var description : String {
-            var result = "\(name)"
-            for parameter in parameters {
-                result += " \(parameter)"
-            }
-            result += " = \(body)"
-            return result
+            // display as anonymous function
+            return "(\\\(parameter) -> \(body))"
+        }
+    }
+    
+    class Declaration : EINode {
+        let name : String
+        let body : EINode
+        
+        init(name: String, body: EINode) {
+            self.name = name
+            self.body = body
+        }
+        
+        var description: String {
+            return "\(name) = \(body)"
         }
     }
 
-    func functionDeclaration() throws -> Function {
+    func declaration() throws -> Declaration {
         assert(token.type == .identifier)
         let name = token.raw
         advance()
-        var parameters = [String]()
         // for now we assume parameters are strings rather than patterns
+        var parameters = [String]()
         while token.type == .identifier {
             parameters.append(token.raw)
             advance()
         }
         assert(token.type == .equal)
         advance()
-        let body = try andableExpression()
-        return Function(name: name, parameters: parameters, body: body)
+        var node = try andableExpression()
+        for parameter in parameters.reversed() {
+            node = Function(parameter: parameter, body: node)
+        }
+        return Declaration(name: name, body: node)
     }
     
     func andableExpression() throws -> EINode {
@@ -276,20 +290,29 @@ class EIParser {
       }
 
       func multiplicativeExpression() throws -> EINode {
-        var result = try unaryExpression()
+        var result = try funcativeExpression()
         while true {
             switch token.type {
             case .asterisk:
               advance()
-                result = BinaryOp(result, try unaryExpression(), .multiply)
+                result = BinaryOp(result, try funcativeExpression(), .multiply)
             case .forwardSlash:
               advance()
-                result = BinaryOp(result, try unaryExpression(), .divide)
+                result = BinaryOp(result, try funcativeExpression(), .divide)
             default:
               return result
           }
         }
       }
+    
+    func funcativeExpression() throws -> EINode {
+        var result = try unaryExpression()
+        while token.type != .newline && token.type != .endOfFile {
+            result = FunctionApplication(function: result, argument: try unaryExpression())
+        }
+        advance()
+        return result
+    }
 
       func unaryExpression() throws -> EINode {
         let result : EINode
@@ -303,12 +326,12 @@ class EIParser {
             advance()
           case .identifier:
             if tokenIsType() {
-                result = try TypeExpression()
+                result = try typeExpression()
             } else {
-                result = try parseFunctionCall()
+                result = try variable()
             }
         case .IF:
-            result = try IfExpression()
+            result = try ifExpression()
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
@@ -318,7 +341,14 @@ class EIParser {
         return result
       }
     
-    func TypeExpression() throws -> EINode {
+    func variable() throws -> EINode {
+        assert(token.type == .identifier)
+        let name = token.raw
+        advance()
+        return Variable(name: name)
+    }
+    
+    func typeExpression() throws -> EINode {
         switch token.raw {
         case "True":
             advance()
@@ -339,7 +369,7 @@ class EIParser {
         return first!.isUppercase
     }
     
-    func IfExpression() throws -> EINode {
+    func ifExpression() throws -> EINode {
         assert(token.type == .IF)
         var conditions = [EINode]()
         var branches = [EINode]()
@@ -378,31 +408,6 @@ class EIParser {
         }
         advance()
         return result
-    }
-    
-    func parseFunctionCall() throws -> EINode {
-        let name = token.raw
-        var arguments = [EINode]()
-        advance()
-        var flag = false
-        // read arguments until we counter something that can't be an argument
-        while !flag {
-            if token.type == .identifier {
-                // here we are either passing a variable value or a function
-                arguments.append(FunctionCall(name: token.raw, arguments:[]))
-                advance()
-                continue;
-            }
-            switch token.type {
-            case .leftParan: fallthrough
-            case .identifier: fallthrough
-            case .number:
-                arguments.append(try unaryExpression())
-            default:
-                flag = true
-            }
-        }
-        return FunctionCall(name: name, arguments: arguments)
     }
 
 }

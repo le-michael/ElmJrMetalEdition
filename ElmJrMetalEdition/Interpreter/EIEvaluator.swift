@@ -9,7 +9,7 @@
 import Foundation
 
 class EIEvaluator {
-    var globals : [String:EIParser.Function]
+    var globals : [String:EINode]
     
     enum EvaluatorError : Error {
         case DivisionByZero
@@ -22,7 +22,7 @@ class EIEvaluator {
     }
     
     init () {
-        globals = [String:EIParser.Function]()
+        globals = [String:EINode]()
     }
     
     /**
@@ -32,9 +32,9 @@ class EIEvaluator {
      */
     func interpret(_ text : String) throws -> EINode {
         let ast = try EIParser(text: text).parse()
-        if let function = ast as? EIParser.Function {
+        if let decl = ast as? EIParser.Declaration {
             // functions are added to the global scope
-            globals[function.name] = function
+            globals[decl.name] = decl.body
             return ast
         }
         return try evaluate(ast, globals)
@@ -43,12 +43,12 @@ class EIEvaluator {
     func compile(_ text: String) throws -> EINode {
         let parser = EIParser(text: text)
         while (!parser.isDone()) {
-            let function = try parser.parseDeclaration()
-            globals[function.name] = function
+            let decl = try parser.parseDeclaration()
+            globals[decl.name] = decl.body
         }
         // For now we will return the final value of the view variable
         if let view = globals["view"] {
-            return try evaluate(view.body, globals)
+            return try evaluate(view, globals)
         } else {
             throw EvaluatorError.NotImplemented
         }
@@ -59,7 +59,7 @@ class EIEvaluator {
     Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
     Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
      */
-    func evaluate(_ node : EINode, _ scope : [String:EIParser.Function]) throws -> EILiteral {
+    func evaluate(_ node : EINode, _ scope : [String:EINode]) throws -> EILiteral {
         switch node {
         case let literal as EILiteral:
             return literal
@@ -161,7 +161,9 @@ class EIEvaluator {
             }
             // if we made it this far at least one operand is not an int or float
             throw EvaluatorError.NotImplemented
-        case let funcCall as EIParser.FunctionCall:
+        case let funcCall as EIParser.FunctionApplication:
+            throw EvaluatorError.NotImplemented
+            /*
             if let function = scope[funcCall.name] {
                 if function.parameters.count < funcCall.arguments.count {
                     throw EvaluatorError.TooManyArguments
@@ -186,6 +188,7 @@ class EIEvaluator {
             } else {
                 throw EvaluatorError.UnknownIdentifier
             }
+            */
         case let ifElse as EIParser.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
             for i in 0..<ifElse.conditions.count {
