@@ -109,7 +109,7 @@
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
 		FE42166C256C8C41008622FB /* EIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* EIToken.swift */; };
-		FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* TokenTests.swift */; };
+		FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* EITokenTests.swift */; };
 		FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* EILexerTests.swift */; };
 		FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* EIParserTests.swift */; };
 /* End PBXBuildFile section */
@@ -231,7 +231,7 @@
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
 		FE42166B256C8C41008622FB /* EIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIToken.swift; sourceTree = "<group>"; };
-		FE59C9DD256CADC00098042C /* TokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
+		FE59C9DD256CADC00098042C /* EITokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITokenTests.swift; sourceTree = "<group>"; };
 		FEFA37E8256F41D600797CD2 /* EILexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexerTests.swift; sourceTree = "<group>"; };
 		FEFA37EC256F656900797CD2 /* EIParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -601,10 +601,10 @@
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */,
-				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
+				FE59C9DD256CADC00098042C /* EITokenTests.swift */,
 				FEFA37E8256F41D600797CD2 /* EILexerTests.swift */,
-				FE59C9DD256CADC00098042C /* TokenTests.swift */,
+				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
+				FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */,
 				7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */,
 			);
 			path = Interpreter;
@@ -749,7 +749,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */,
-				FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */,
+				FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */,
 				FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */,
 				FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */,
 				1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */,

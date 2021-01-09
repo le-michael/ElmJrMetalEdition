@@ -51,14 +51,14 @@ class EIParserTests: XCTestCase {
     
     func testMakeFunction() throws {
         try checkASTDeclaration("x = 1", "x = 1")
-        try checkASTDeclaration("addone x = x + 1", "addone x = (x+1)")
+        try checkASTDeclaration("addone x = x + 1", "addone = (\\x -> (x+1))")
     }
     
     func testCallFunction() throws {
         try checkASTExpression("f 1", "(f 1)")
-        try checkASTExpression("foo 1+1", "(foo (1+1))")
-        try checkASTExpression("bar (foo 6) 3 5", "(bar (foo 6) 3 5)")
-        try checkASTExpression("add x y", "(add x y)")
+        try checkASTExpression("foo 1+1", "((foo 1)+1)")
+        try checkASTExpression("bar (foo 6) 3 5", "(((bar (foo 6)) 3) 5)")
+        try checkASTExpression("add x y", "((add x) y)")
     }
     
     func testIfElse() throws {

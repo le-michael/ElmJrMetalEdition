@@ -161,7 +161,7 @@ class EIParser {
             self.argument = argument
         }
         var description : String {
-            return "(\(function) \(argument)"
+            return "(\(function) \(argument))"
         }
     }
     
@@ -306,12 +306,17 @@ class EIParser {
       }
     
     func funcativeExpression() throws -> EINode {
+        while token.type == .newline { advance() }
         var result = try unaryExpression()
-        while token.type != .newline && token.type != .endOfFile {
+        while tokenCouldStartExpression() {
             result = FunctionApplication(function: result, argument: try unaryExpression())
         }
-        advance()
+        while token.type == .newline { advance() }
         return result
+    }
+
+    func tokenCouldStartExpression() -> Bool {
+        return token.type == .leftParan || token.type == .identifier || token.type == .number || token.type == .string
     }
 
       func unaryExpression() throws -> EINode {

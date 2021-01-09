@@ -32,6 +32,8 @@ class EILexer {
     func ignoreWhitespace() {
         while true {
             if characterIndex == characters.count { return }
+            // we don't consider \n to be whitespace
+            if characters[characterIndex] == "\n" { return }
             if !characters[characterIndex].isWhitespace { return }
             advance(1);
         }
@@ -69,6 +71,10 @@ class EILexer {
         while characterIndex + 1 < characters.count {
             if prefixMatches("--") {
                 while characterIndex < characters.count && characters[characterIndex] != "\n" {
+                    advance(1)
+                }
+                // remove \n at end of commented line
+                if characterIndex < characters.count && characters[characterIndex] == "\n" {
                     advance(1)
                 }
                 ignoreWhitespace()
@@ -203,6 +209,7 @@ class EILexer {
         var result: EIToken? = nil
         // \n
         result = try matchNewline()
+        if result != nil { return result! }
         // "string" or character 'c'
         result = try matchStringOrChar()
         if result != nil { return result! }

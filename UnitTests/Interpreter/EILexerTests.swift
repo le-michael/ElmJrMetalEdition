@@ -80,28 +80,28 @@ class EILexerTests: XCTestCase {
     func testNewlines() throws {
         let text = "1 \n a \n + \n \n";
         let tokenTypes:[EIToken.TokenType] = [
-            .number, .identifier, .plus, .endOfFile]
+            .number, .newline, .identifier, .newline, .plus, .newline, .newline, .endOfFile]
         try checkTokenTypes(text, tokenTypes);
     }
     
     func testSingleLineComments() throws {
         let text = "( \n -- a \n = -- + \n";
         let tokenTypes:[EIToken.TokenType] = [
-            .leftParan, .equal, .endOfFile]
+            .leftParan, .newline, .equal, .endOfFile]
         try checkTokenTypes(text, tokenTypes);
     }
     
     func testBlockComments() throws {
         let text = "( \n {- a -} \n = {- + -} \n";
         let tokenTypes:[EIToken.TokenType] = [
-            .leftParan, .equal, .endOfFile]
+            .leftParan, .newline, .newline, .equal, .newline, .endOfFile]
         try checkTokenTypes(text, tokenTypes);
     }
     
     func testBlockCommentsNested() throws {
         let text = "( \n {- {- a -} b -} \n = {- {--} {--} + -} \n";
         let tokenTypes:[EIToken.TokenType] = [
-            .leftParan, .equal, .endOfFile]
+            .leftParan, .newline, .newline, .equal, .newline, .endOfFile]
         try checkTokenTypes(text, tokenTypes);
     }
     
@@ -115,7 +115,7 @@ class EILexerTests: XCTestCase {
     func testSyntaxExample1() throws {
         let text = "{--} \n add x y = x + y \n --} \n";
         let tokenTypes:[EIToken.TokenType] = [
-            .identifier, .identifier, .identifier, .equal, .identifier, .plus, .identifier, .endOfFile]
+            .newline, .identifier, .identifier, .identifier, .equal, .identifier, .plus, .identifier, .newline, .endOfFile]
         try checkTokenTypes(text, tokenTypes);
     }
     
