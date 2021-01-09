@@ -167,14 +167,6 @@
 		10BE1C832575C88A002C2D49 /* EGRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRandom.swift; sourceTree = "<group>"; };
 		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
-		10D89627256840480053D762 /* EGPlane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPlane.swift; sourceTree = "<group>"; };
-		10D89632256865E60053D762 /* EGLine2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLine2D.swift; sourceTree = "<group>"; };
-		10EFCB7425A047AA003514E0 /* EGCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCube.swift; sourceTree = "<group>"; };
-		10EFCB7A25A053FF003514E0 /* EGCone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCone.swift; sourceTree = "<group>"; };
-		10EFCB7E25A05593003514E0 /* EGCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCapsule.swift; sourceTree = "<group>"; };
-		10EFCB8225A058FB003514E0 /* EGHemisphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGHemisphere.swift; sourceTree = "<group>"; };
-		10EFCB8625A059DD003514E0 /* EGCylinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCylinder.swift; sourceTree = "<group>"; };
-		10EFCB8A25A05AE6003514E0 /* EGIcosahedron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGIcosahedron.swift; sourceTree = "<group>"; };
 		10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRotationMatrix.swift; sourceTree = "<group>"; };
 		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
 		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -825,8 +817,6 @@
 				1072E3E42564C41000D390FE /* EILexer.swift in Sources */,
 				107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */,
 				7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */,
-				103EC561257AF78B00111267 /* EGSphere.swift in Sources */,
-				103EC561257AF78B00111267 /* EGSphere.swift in Sources */,
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
