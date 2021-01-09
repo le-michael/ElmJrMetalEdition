@@ -44,13 +44,6 @@
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
 		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
-		10D89633256865E60053D762 /* EGLine2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D89632256865E60053D762 /* EGLine2D.swift */; };
-		10EFCB7525A047AA003514E0 /* EGCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB7425A047AA003514E0 /* EGCube.swift */; };
-		10EFCB7B25A053FF003514E0 /* EGCone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB7A25A053FF003514E0 /* EGCone.swift */; };
-		10EFCB7F25A05593003514E0 /* EGCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB7E25A05593003514E0 /* EGCapsule.swift */; };
-		10EFCB8325A058FB003514E0 /* EGHemisphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB8225A058FB003514E0 /* EGHemisphere.swift */; };
-		10EFCB8725A059DD003514E0 /* EGCylinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB8625A059DD003514E0 /* EGCylinder.swift */; };
-		10EFCB8B25A05AE6003514E0 /* EGIcosahedron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB8A25A05AE6003514E0 /* EGIcosahedron.swift */; };
 		10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */; };
 		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
 		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
