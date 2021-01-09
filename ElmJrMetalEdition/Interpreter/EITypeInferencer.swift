@@ -12,9 +12,9 @@ protocol Substitutable {}
 
 class EITypeInferencer {
     var inferState: Infer
-    var input: [Var: EINode]
+    var input: [EINode]
     
-    init(parsed: [Var: EINode]) {
+    init(parsed: [EINode]) {
         input = parsed
         inferState = Infer()
     }
@@ -327,9 +327,13 @@ class EITypeInferencer {
     }
     
     func inferTop() throws -> TypeEnv {
-        for (x, expr) in input {
+        for expr in input {
             let ty = try inferExpr(expr)
-            inferState.typeEnv.extend(x, ty)
+            if let function = expr as? EIParser.Function {
+                inferState.typeEnv.extend(function.name, ty)
+            } else {
+                inferState.typeEnv.extend(expr.description, ty)
+            }
         }
         return inferState.typeEnv
     }
