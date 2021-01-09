@@ -85,7 +85,7 @@ class EITypeInferencer {
         case InfiniteType(TVar, MonoType)
         case UnboundedVariable(String)
         case NotInScopeTyVar
-        case UnimplementedError
+        case UnimplementedError(EINode)
     }
     
     // monomorphic types
@@ -295,6 +295,8 @@ class EITypeInferencer {
             return (MonoType.TVar("number"), [])
         case _ as EIParser.FloatingPoint:
             return (MonoType.TCon("Float"), [])
+        case _ as EIParser.Boolean:
+            return (MonoType.TCon("Bool"), [])
         case let e as EIParser.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
@@ -306,7 +308,7 @@ class EITypeInferencer {
             let inferConds = try e.conditions.map(infer)
             let inferBranches = try e.branches.map(infer)
             let branchConstraints : [Constraint] =
-                (0..<inferBranches.count)
+                (0..<inferBranches.count-1)
                     .map { (inferBranches[$0].0,
                             inferBranches[$0 + 1].0) }
             let condConstraints : [Constraint] =
@@ -316,7 +318,7 @@ class EITypeInferencer {
             return (inferBranches[0].0,
                     otherConstraints + branchConstraints + condConstraints)
         default:
-            throw TypeError.UnimplementedError
+            throw TypeError.UnimplementedError(expr)
         }
     }
     

@@ -34,5 +34,6 @@ class EITypeInferencerTests: XCTestCase {
     
     func testIfElse() throws {
         try checkExprTy("if True then 1 else 2", "number")
+        try checkExprTy("if False then 0 else if False then 1 else 2.2", "Float")
     }
 }
