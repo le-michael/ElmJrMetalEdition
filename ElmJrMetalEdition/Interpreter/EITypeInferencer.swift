@@ -112,8 +112,6 @@ class EITypeInferencer {
         }
     }
     
-    lazy var superNumber = MonoType.TVar("number")
-    
     typealias Constraint = (MonoType, MonoType)
     
     // Declarations of built-in types that correspond to literals
@@ -121,6 +119,17 @@ class EITypeInferencer {
     let typeInt = MonoType.TCon("Int")
     let typeString = MonoType.TCon("String")
     let typeBool = MonoType.TCon("Bool")
+    
+    // Declaration of type constraints
+    let superNumber = MonoType.TVar("number")
+    
+    // The collection of type constraints
+    let superTypes : [MonoType] =
+        [ MonoType.TVar("number")
+          , MonoType.TVar("appendable")
+          , MonoType.TVar("comparable")
+          , MonoType.TVar("compappend")
+        ]
     
     // polymorphic type schemes
     class Scheme: CustomStringConvertible {
@@ -225,33 +234,37 @@ class EITypeInferencer {
     // Unification of two expressions under a substituion
     func unify(_ t1: MonoType, _ t2: MonoType) throws -> Subst {
         switch (t1, t2) {
+        case(let a, let b) where a == b:
+            return nullSubst
         // Downcast Number supertype when encountering Floats
         case(.TVar(let a), .TCon(let x))
             where a == "number" && x == "Float":
             return try bind(a, t2)
+        case(.TCon(let x), .TVar(let a))
+            where a == "number" && x == "Float":
+            return try bind(a, t1)
         case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
             let s1 = try unify(l1, l2)
             let s2 = try unify(apply(s1, with: r1), apply(s1, with: r2))
             return compose(s2, s1)
-        case(.TVar(let a), let t):
+        case(.TVar(let a), let t)
+            where !superTypes.contains(t1):
             return try bind(a, t)
-        case(let t, .TVar(let a)):
+        case(let t, .TVar(let a))
+            where !superTypes.contains(t2):
             return try bind(a, t)
-        case(.TCon(let a), .TCon(let b)) where a == b:
-            return nullSubst
         default:
             throw TypeError.UnificationFail(t1, t2)
         }
     }
         
     func bind(_ a: TVar, _ t: MonoType) throws -> Subst {
-        if t == MonoType.TVar(a) {
+        if superTypes.contains(t) {
+            return [a : t]
+        } else if t == MonoType.TVar(a) {
             return nullSubst
         } else if occursCheck(a, t) {
             throw TypeError.InfiniteType(a, t)
-            // This may be redundant
-        } else if t == superNumber {
-            return [a: superNumber]
         } else {
             return [a: t]
         }
@@ -318,7 +331,7 @@ class EITypeInferencer {
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
             let tv = inferState.fresh()
-            let u1 = MonoType.TArr(t1, MonoType.TArr(t2, tv))
+            let u1 = t1 => (t2 => tv)
             let u2 = ops(e.type)
             return (tv, c1 + c2 + [(u1, u2)])
         case let e as EIParser.IfElse:

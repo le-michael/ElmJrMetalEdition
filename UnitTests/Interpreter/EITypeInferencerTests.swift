@@ -18,6 +18,12 @@ class EITypeInferencerTests: XCTestCase {
         XCTAssertEqual("\(try tyEnv.lookup("\(ast.description)").description)", toOutput)
     }
     
+    func checkTypeCheckErr(_ toEvaluate : String)
+        throws {
+        let ast = try EIParser(text : toEvaluate).parseExpression()
+        XCTAssertThrowsError(try EITypeInferencer(parsed : [ast]).inferTop())
+    }
+    
     func testLiteralTypes() throws {
         try checkExprTy("3", "number")
         try checkExprTy("3.5", "Float")
@@ -26,6 +32,7 @@ class EITypeInferencerTests: XCTestCase {
     func testOperators() throws {
         try checkExprTy("3+4", "number")
         try checkExprTy("3.5+4", "Float")
+        try checkTypeCheckErr("True + 1")
         // variables unimplemented
         // try checkSimpleExpressionTy("3+x", "number")
         // try checkSimpleExpressionTy("x+y", "number")
@@ -35,5 +42,7 @@ class EITypeInferencerTests: XCTestCase {
     func testIfElse() throws {
         try checkExprTy("if True then 1 else 2", "number")
         try checkExprTy("if False then 0 else if False then 1 else 2.2", "Float")
+        try checkTypeCheckErr("if 1+2 then True else False")
+        try checkTypeCheckErr("if False then 1 else True")
     }
 }
