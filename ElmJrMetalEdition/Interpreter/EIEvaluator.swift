@@ -209,9 +209,8 @@ class EIEvaluator {
                 throw EvaluatorError.TypeIsNotAFunction
             }
             var newScope = globals
-            newScope[function!.parameter] = argument
+            newScope[function!.parameter] = (argumentEvaled ? argument : EIParser.NoValue())
             let (result,_) = try evaluate(function!.body, newScope)
-            // TODO: Technically I think using 'argumentEvaled' might break on some fringe cases with nested anonymous functions
             return (result, argumentEvaled)
         case let ifElse as EIParser.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
