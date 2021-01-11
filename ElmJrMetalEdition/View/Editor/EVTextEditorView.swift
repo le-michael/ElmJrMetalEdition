@@ -119,6 +119,7 @@ func getTokenTypeColor(_ tokenType: EIToken.TokenType) -> UIColor? {
     case .minus:        return EVTheme.Colors.symbol
     case .asterisk:     return EVTheme.Colors.symbol
     case .caret:        return EVTheme.Colors.symbol
+    case .backSlash:    return EVTheme.Colors.symbol
     case .forwardSlash: return EVTheme.Colors.symbol
     case .singlequote:  return EVTheme.Colors.string
     case .doublequote:  return EVTheme.Colors.string

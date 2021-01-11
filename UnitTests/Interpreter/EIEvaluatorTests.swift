@@ -104,6 +104,13 @@ class EIEvaluatorTests: XCTestCase {
         try checkCompile("f x = x + 1\nview=(f 3)\nz=2", "4")
     }
     
+    func testAnonymousFunction() throws {
+        try checkInterpret(["f = \\x -> x + 1"],["f x = x + 1"])
+        try checkInterpret(["f = \\x -> \\y -> x + y"],["f x y = x + y"])
+        try checkInterpret(["f = \\x y -> x + y"],["f x y = x + y"])
+        try checkInterpret(["(\\x y -> x + y) 1 2"],["3"])
+    }
+    
     
 
 

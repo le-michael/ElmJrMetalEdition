@@ -342,6 +342,8 @@ class EIParser {
             }
         case .IF:
             result = try ifExpression()
+        case .backSlash:
+            result = try anonymousFunction()
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
@@ -350,6 +352,24 @@ class EIParser {
         }
         return result
       }
+    
+    func anonymousFunction() throws -> EINode {
+        assert(token.type == .backSlash)
+        advance()
+        assert(token.type == .identifier)
+        var parameters = [String]()
+        while token.type == .identifier {
+            parameters.append(token.raw)
+            advance()
+        }
+        assert(token.type == .arrow)
+        advance()
+        var node = try andableExpression()
+        for parameter in parameters.reversed() {
+            node = Function(parameter: parameter, body: node)
+        }
+        return node
+    }
     
     func variable() throws -> EINode {
         assert(token.type == .identifier)
