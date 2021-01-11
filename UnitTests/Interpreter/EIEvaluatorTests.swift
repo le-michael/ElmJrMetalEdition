@@ -13,7 +13,8 @@ class EIEvaluatorTests: XCTestCase {
     func checkEvaluateExpression(_ toEvaluate: String, _ toOutput: String) throws {
         let ast = try EIParser(text: toEvaluate).parseExpression()
         let (result,_) = try EIEvaluator().evaluate(ast, [:])
-        XCTAssertEqual("\(result)", toOutput)
+        let outputAst = try EIParser(text: toOutput).parseExpression()
+        XCTAssertEqual("\(result)", "\(outputAst)")
     }
     
     func checkInterpret(_ toInterpret: [String], _ toOutput: [String]) throws {
@@ -21,7 +22,8 @@ class EIEvaluatorTests: XCTestCase {
         let evaluator = EIEvaluator()
         for i in 0..<toInterpret.count {
             let result = try evaluator.interpret(toInterpret[i])
-            XCTAssertEqual("\(result)", toOutput[i])
+            let output = try EIParser(text: toOutput[i]).parse()
+            XCTAssertEqual("\(result)", "\(output)")
         }
     }
     

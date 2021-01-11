@@ -182,7 +182,10 @@ class EIEvaluator {
                 throw EvaluatorError.UnknownIdentifier
             }
         case let decl as EIParser.Declaration:
-            let (body, bodyEvaled) = try evaluate(decl.body, globals)
+            var newScope = globals
+            // put declaration name in scope to support recursion
+            newScope[decl.name] = EIParser.NoValue()
+            let (body, bodyEvaled) = try evaluate(decl.body, newScope)
             assert(bodyEvaled == true)
             if globals[decl.name] != nil {
                 throw EvaluatorError.VariableShadowing
@@ -196,50 +199,42 @@ class EIEvaluator {
             let result = EIParser.Function(parameter: function.parameter, body: body)
             return (result, true)
         case let funcApp as EIParser.FunctionApplication:
-            let (node, _) = try evaluate(funcApp.function, scope)
+            let (node, functionEvaled) = try evaluate(funcApp.function, scope)
+            let (argument, argumentEvaled) = try evaluate(funcApp.argument, scope)
+            if !functionEvaled {
+                return (EIParser.FunctionApplication(function: node, argument: argument), false)
+            }
             let function = node as? EIParser.Function
             if function == nil {
                 throw EvaluatorError.TypeIsNotAFunction
             }
-            let (argument, argumentEvaled) = try evaluate(funcApp.argument, scope)
-            let (result,_) = try evaluate(function!.body, [function!.parameter : argument])
+            var newScope = globals
+            newScope[function!.parameter] = argument
+            let (result,_) = try evaluate(function!.body, newScope)
             // TODO: Technically I think using 'argumentEvaled' might break on some fringe cases with nested anonymous functions
             return (result, argumentEvaled)
         case let ifElse as EIParser.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
-            var conditions : [EINode] = []
-            var branches : [EINode] = []
-            // evaluate conditions and branches
-            var couldEval = true
             for i in 0..<ifElse.conditions.count {
                 let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
                 let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
-                couldEval = couldEval && condEvaluated && branchEvaled
-                conditions.append(condition)
-                branches.append(branch)
-            }
-            let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
-            couldEval = couldEval && elseBranchEvaled
-            branches.append(elseBranch)
-            
-            // check if everything could be evaluated
-            if !couldEval {
-                let result = EIParser.IfElse(conditions: conditions, branches: branches)
-                return (result, false)
-            }
-            // carry out actual if/else logic
-            for i in 0..<conditions.count {
-                let condition = conditions[i] as? EIParser.Boolean
-                guard condition != nil else {
+                
+                // check if anything could not be evaluated
+                if !condEvaluated || !branchEvaled { return (node, false) }
+                
+                // check if condition is non-bool
+                let conditionBool = condition as? EIParser.Boolean
+                guard conditionBool != nil else {
                     throw EvaluatorError.ConditionMustBeBool
                 }
                 // if it's true, result is ith branch
-                if condition!.value {
-                    return (branches[i], true)
+                if conditionBool!.value {
+                    return (branch, true)
                 }
             }
-            // if no conditons are true we return the else ast
-            return (branches.last!, true)
+            let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
+            if !elseBranchEvaled { return (node, false) }
+            return (elseBranch, true)
         default:
             throw EvaluatorError.NotImplemented
         }
