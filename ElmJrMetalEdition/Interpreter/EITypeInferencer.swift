@@ -272,12 +272,12 @@ class EITypeInferencer {
         return Scheme(tyVars: tyVars, ty: t)
     }
     
-    func ops(_ op : EIParser.BinaryOp.BinaryOpType) -> MonoType {
+    func ops(_ op : EIAST.BinaryOp.BinaryOpType) -> MonoType {
         switch op {
-        case EIParser.BinaryOp.BinaryOpType.add,
-             EIParser.BinaryOp.BinaryOpType.subtract,
-             EIParser.BinaryOp.BinaryOpType.multiply,
-             EIParser.BinaryOp.BinaryOpType.divide:
+        case EIAST.BinaryOp.BinaryOpType.add,
+             EIAST.BinaryOp.BinaryOpType.subtract,
+             EIAST.BinaryOp.BinaryOpType.multiply,
+             EIAST.BinaryOp.BinaryOpType.divide:
             return MonoType.TArr(superNumber,
                    MonoType.TArr(superNumber, superNumber))
         default:
@@ -294,11 +294,11 @@ class EITypeInferencer {
         // Since we don't know if standalone integers may be used as
         // part of a subexpression with floats, we infer the more general
         // type constraint "number"
-        case _ as EIParser.Integer:
+        case _ as EIAST.Integer:
             return (MonoType.TVar("number"), [])
-        case _ as EIParser.FloatingPoint:
+        case _ as EIAST.FloatingPoint:
             return (MonoType.TCon("Float"), [])
-        case let e as EIParser.BinaryOp:
+        case let e as EIAST.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
             let tv = inferState.fresh()
