@@ -42,6 +42,7 @@ type Camera
 
 type Scene
     = Scene Camera (List Shape)
+    | SceneWithTime Camera (Float -> List Shape)
 
 type Shape
     = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
@@ -56,6 +57,14 @@ view shapes = Scene defaultCamera shapes
 -- Only direct manipulation to the Camera constructor is supported for now
 viewWithCamera : Camera -> List Shape -> Scene
 viewWithCamera camera shapes = Scene camera shapes
+
+-- Creating a scene with a time property requires this initializer
+-- The time is passed in as an argument to the scene
+viewWithTime : (Float -> List Shape) -> Scene
+viewWithTime shapes = SceneWithTime defaultCamera shapes
+
+viewWithTimeAndCamera : Camera -> (Float -> List Shape) -> Scene
+viewWithTimeAndCamera camera shapes = SceneWithTime camera shapes
 
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, 0))

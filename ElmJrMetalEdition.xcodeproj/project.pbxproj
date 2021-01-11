@@ -88,6 +88,8 @@
 		7C8184E025A7C39500A7F349 /* API2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184DF25A7C39500A7F349 /* API2D.elm */; };
 		7C8184E725A7FA2200A7F349 /* Base.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E525A7FA2200A7F349 /* Base.elm */; };
 		7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E625A7FA2200A7F349 /* API3D.elm */; };
+		7C81852A25ACD3FC00A7F349 /* elm.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851B25ACD3FC00A7F349 /* elm.json */; };
+		7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851D25ACD3FC00A7F349 /* Example2D.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
@@ -210,6 +212,8 @@
 		7C8184DF25A7C39500A7F349 /* API2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API2D.elm; sourceTree = "<group>"; };
 		7C8184E525A7FA2200A7F349 /* Base.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Base.elm; sourceTree = "<group>"; };
 		7C8184E625A7FA2200A7F349 /* API3D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API3D.elm; sourceTree = "<group>"; };
+		7C81851B25ACD3FC00A7F349 /* elm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elm.json; sourceTree = "<group>"; };
+		7C81851D25ACD3FC00A7F349 /* Example2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Example2D.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
@@ -433,6 +437,8 @@
 		7C1A44AA25721C8D00C3017B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				7C81851B25ACD3FC00A7F349 /* elm.json */,
+				7C81851C25ACD3FC00A7F349 /* Examples */,
 				7C8184E625A7FA2200A7F349 /* API3D.elm */,
 				7C8184E525A7FA2200A7F349 /* Base.elm */,
 				7C8184DF25A7C39500A7F349 /* API2D.elm */,
@@ -521,6 +527,14 @@
 				7C1856AA259E82A400546CD3 /* Utils.swift */,
 			);
 			path = SwiftKernel;
+			sourceTree = "<group>";
+		};
+		7C81851C25ACD3FC00A7F349 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				7C81851D25ACD3FC00A7F349 /* Example2D.elm */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -745,6 +759,8 @@
 				7C1A44EB2575C20900C3017B /* Scheduler.js in Resources */,
 				7C1A44ED2575C20900C3017B /* Utils.js in Resources */,
 				7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */,
+				7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */,
+				7C81852A25ACD3FC00A7F349 /* elm.json in Resources */,
 				7C1A44E52575C20900C3017B /* Debug.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
