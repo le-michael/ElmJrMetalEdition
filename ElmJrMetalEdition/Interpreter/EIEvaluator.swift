@@ -9,9 +9,9 @@
 import Foundation
 
 class EIEvaluator {
-    var globals : [String:EINode]
+    var globals: [String: EINode]
     
-    enum EvaluatorError : Error {
+    enum EvaluatorError: Error {
         case DivisionByZero
         case UnknownIdentifier
         case VariableShadowing
@@ -22,8 +22,8 @@ class EIEvaluator {
         case TypeIsNotAFunction
     }
     
-    init () {
-        globals = [String:EINode]()
+    init() {
+        globals = [String: EINode]()
     }
     
     /**
@@ -31,7 +31,7 @@ class EIEvaluator {
      Intended to be used in an Elm REPL.
      Declarations will be stored to the 'globals' dictionary.
      */
-    func interpret(_ text : String) throws -> EINode {
+    func interpret(_ text: String) throws -> EINode {
         let ast = try EIParser(text: text).parse()
         let (result, _) = try evaluate(ast, globals)
         return result
@@ -39,7 +39,7 @@ class EIEvaluator {
     
     func compile(_ text: String) throws -> EINode {
         let parser = EIParser(text: text)
-        while (!parser.isDone()) {
+        while !parser.isDone() {
             let decl = try parser.parseDeclaration()
             try evaluate(decl, globals)
         }
@@ -58,7 +58,7 @@ class EIEvaluator {
      Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
      If a variable is in scope but does not have a value is will be set to EIAST.NoValue.
      */
-    @discardableResult func evaluate(_ node : EINode, _ scope : [String:EINode]) throws -> (EINode, Bool) {
+    @discardableResult func evaluate(_ node: EINode, _ scope: [String: EINode]) throws -> (EINode, Bool) {
         switch node {
         case let literal as EILiteral:
             return (literal, true)
@@ -74,14 +74,15 @@ class EIEvaluator {
                 return (EIAST.Boolean(!asBool!.value), true)
             }
         case let binOp as EIAST.BinaryOp:
-                // TODO: In the future we should should should instead have a 'numeric' type
-            var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope);
-            var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope);
-            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false)}
+            // TODO: In the future we should should should instead have a 'numeric' type
+            var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
+            var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
+            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
             // handle case where both operands are booleans
             if let leftBool = left as? EIAST.Boolean,
-               let rightBool = right as? EIAST.Boolean {
-                let result : EINode
+               let rightBool = right as? EIAST.Boolean
+            {
+                let result: EINode
                 switch binOp.type {
                 case .and:
                     result = EIAST.Boolean(leftBool.value && rightBool.value)
@@ -92,14 +93,15 @@ class EIEvaluator {
                 }
                 return (result, true)
             }
-            guard (left as? EIAST.Boolean == nil && right as? EIAST.Boolean == nil) else {
+            guard left as? EIAST.Boolean == nil, right as? EIAST.Boolean == nil else {
                 // cannot perform binary op with one bool and one non-bool
                 throw EvaluatorError.UnsupportedOperation
             }
             // handle case where both operands are integers
             if let leftInt = left as? EIAST.Integer,
-               let rightInt = right as? EIAST.Integer {
-                let result : EINode
+               let rightInt = right as? EIAST.Integer
+            {
+                let result: EINode
                 switch binOp.type {
                 case .add:
                     result = EIAST.Integer(leftInt.value + rightInt.value)
@@ -136,8 +138,9 @@ class EIEvaluator {
                 right = EIAST.FloatingPoint(Float(rightInt.value))
             }
             if let leftFloat = left as? EIAST.FloatingPoint,
-               let rightFloat = right as? EIAST.FloatingPoint {
-                let result : EINode
+               let rightFloat = right as? EIAST.FloatingPoint
+            {
+                let result: EINode
                 switch binOp.type {
                 case .add:
                     result = EIAST.FloatingPoint(leftFloat.value + rightFloat.value)
@@ -168,7 +171,7 @@ class EIEvaluator {
             // if we made it this far at least one operand is not an int or float
             throw EvaluatorError.NotImplemented
         case let variable as EIAST.Variable:
-            let lookup : EINode? = scope[variable.name]
+            let lookup: EINode? = scope[variable.name]
             switch lookup {
             case .some(let value):
                 if value as? EIAST.NoValue != nil {
@@ -210,11 +213,11 @@ class EIEvaluator {
             }
             var newScope = globals
             newScope[function!.parameter] = (argumentEvaled ? argument : EIAST.NoValue())
-            let (result,_) = try evaluate(function!.body, newScope)
+            let (result, _) = try evaluate(function!.body, newScope)
             return (result, argumentEvaled)
         case let ifElse as EIAST.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
-            for i in 0..<ifElse.conditions.count {
+            for i in 0 ..< ifElse.conditions.count {
                 let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
                 let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
                 

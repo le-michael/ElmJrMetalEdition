@@ -6,13 +6,13 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import XCTest
 @testable import ElmJrMetalEdition
+import XCTest
 
 class EIEvaluatorTests: XCTestCase {
     func checkEvaluateExpression(_ toEvaluate: String, _ toOutput: String) throws {
         let ast = try EIParser(text: toEvaluate).parseExpression()
-        let (result,_) = try EIEvaluator().evaluate(ast, [:])
+        let (result, _) = try EIEvaluator().evaluate(ast, [:])
         let outputAst = try EIParser(text: toOutput).parseExpression()
         XCTAssertEqual("\(result)", "\(outputAst)")
     }
@@ -20,7 +20,7 @@ class EIEvaluatorTests: XCTestCase {
     func checkInterpret(_ toInterpret: [String], _ toOutput: [String]) throws {
         XCTAssertEqual(toInterpret.count, toOutput.count)
         let evaluator = EIEvaluator()
-        for i in 0..<toInterpret.count {
+        for i in 0 ..< toInterpret.count {
             let result = try evaluator.interpret(toInterpret[i])
             let output = try EIParser(text: toOutput[i]).parse()
             XCTAssertEqual("\(result)", "\(output)")
@@ -33,8 +33,8 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func testLiteral() throws {
-        try checkEvaluateExpression("1","1")
-        try checkEvaluateExpression("2.73","2.73")
+        try checkEvaluateExpression("1", "1")
+        try checkEvaluateExpression("2.73", "2.73")
         try checkEvaluateExpression("-5", "-5")
     }
     
@@ -61,42 +61,42 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func testInterpret() throws {
-        try checkInterpret(["1+1"],["2"])
-        try checkInterpret(["x = 1"],["x = 1"])
-        try checkInterpret(["x = 1", "(x)"], ["x = 1","1"])
-        try checkInterpret(["x = 1","y = 2","(x + y)"], ["x = 1","y = 2","3"])
+        try checkInterpret(["1+1"], ["2"])
+        try checkInterpret(["x = 1"], ["x = 1"])
+        try checkInterpret(["x = 1", "(x)"], ["x = 1", "1"])
+        try checkInterpret(["x = 1", "y = 2", "(x + y)"], ["x = 1", "y = 2", "3"])
     }
     
     func testSimpleFunctionCalls() throws {
-        try checkInterpret(["f x = x + 1", "(f 1)"],["f x = (x+1)", "2"])
-        try checkInterpret(["f x = x + 1", "(f(f(f 1)))"],["f x = (x+1)", "4"])
+        try checkInterpret(["f x = x + 1", "(f 1)"], ["f x = (x+1)", "2"])
+        try checkInterpret(["f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
         try checkInterpret(["f x y = x + y", "(f 1 2)"], ["f x y = (x+y)", "3"])
-        try checkInterpret(["f x = x + 1", "(f (1+1))"],["f x = (x+1)", "3"])
+        try checkInterpret(["f x = x + 1", "(f (1+1))"], ["f x = (x+1)", "3"])
     }
     
     func testPassingFunction() throws {
-        try checkInterpret(["f g x = (g x) + (g x)","h x = 3*x","(f h 5)"],
-                           ["f g x = ((g x)+(g x))","h x = (3*x)","30"])
+        try checkInterpret(["f g x = (g x) + (g x)", "h x = 3*x", "(f h 5)"],
+                           ["f g x = ((g x)+(g x))", "h x = (3*x)", "30"])
     }
     
     func testAndOrNot() throws {
-        try checkEvaluateExpression("True","True")
-        try checkEvaluateExpression("False","False")
-        try checkEvaluateExpression("True || False","True")
-        try checkEvaluateExpression("False && True","False")
-        try checkEvaluateExpression("not False","True")
-        try checkEvaluateExpression("not True || False","False")
+        try checkEvaluateExpression("True", "True")
+        try checkEvaluateExpression("False", "False")
+        try checkEvaluateExpression("True || False", "True")
+        try checkEvaluateExpression("False && True", "False")
+        try checkEvaluateExpression("not False", "True")
+        try checkEvaluateExpression("not True || False", "False")
     }
     
     func testIfElse() throws {
-        try checkEvaluateExpression("if True then 1 else 2","1")
-        try checkEvaluateExpression("if False then 1 else 2","2")
+        try checkEvaluateExpression("if True then 1 else 2", "1")
+        try checkEvaluateExpression("if False then 1 else 2", "2")
         try checkEvaluateExpression("if False then 1 else if True then 2 else 3", "2")
         try checkEvaluateExpression("if 2 == 1+1 then 7 else 8", "7")
     }
     
     func testRecursion() throws {
-        try checkInterpret(["fib x = if x==0 || x==1 then 1 else fib (x-1) + fib (x-2)","(fib 0)","(fib 1)","(fib 2)","(fib 3)","(fib 4)","(fib 5)"], ["fib x = if ((x==0)||(x==1)) then 1 else ((fib (x-1))+(fib (x-2)))","1","1","2","3","5","8"])
+        try checkInterpret(["fib x = if x==0 || x==1 then 1 else fib (x-1) + fib (x-2)", "(fib 0)", "(fib 1)", "(fib 2)", "(fib 3)", "(fib 4)", "(fib 5)"], ["fib x = if ((x==0)||(x==1)) then 1 else ((fib (x-1))+(fib (x-2)))", "1", "1", "2", "3", "5", "8"])
     }
     
     func testSimpleMultiline() throws {
@@ -105,13 +105,9 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func testAnonymousFunction() throws {
-        try checkInterpret(["f = \\x -> x + 1"],["f x = x + 1"])
-        try checkInterpret(["f = \\x -> \\y -> x + y"],["f x y = x + y"])
-        try checkInterpret(["f = \\x y -> x + y"],["f x y = x + y"])
-        try checkInterpret(["(\\x y -> x + y) 1 2"],["3"])
+        try checkInterpret(["f = \\x -> x + 1"], ["f x = x + 1"])
+        try checkInterpret(["f = \\x -> \\y -> x + y"], ["f x y = x + y"])
+        try checkInterpret(["f = \\x y -> x + y"], ["f x y = x + y"])
+        try checkInterpret(["(\\x y -> x + y) 1 2"], ["3"])
     }
-    
-    
-
-
 }

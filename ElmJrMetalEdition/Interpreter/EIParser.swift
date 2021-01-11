@@ -8,18 +8,18 @@
 
 import Foundation
 
-protocol EINode : CustomStringConvertible {}
-protocol EILiteral : EINode {}
+protocol EINode: CustomStringConvertible {}
+protocol EILiteral: EINode {}
 
 class EIParser {
-    let lexer : EILexer
-    var token : EIToken
+    let lexer: EILexer
+    var token: EIToken
     
     func advance() {
         token = try! lexer.nextToken()
     }
     
-    init(text : String) {
+    init(text: String) {
         lexer = EILexer(text: text)
         token = try! lexer.nextToken()
     }
@@ -45,13 +45,12 @@ class EIParser {
         return try declaration()
     }
     
-    enum ParserError : Error {
-      case MissingRightParantheses
-      case UnexpectedToken
-      case NotImplemented
+    enum ParserError: Error {
+        case MissingRightParantheses
+        case UnexpectedToken
+        case NotImplemented
     }
     
-
     func declaration() throws -> EIAST.Declaration {
         assert(token.type == .identifier)
         let name = token.raw
@@ -124,32 +123,32 @@ class EIParser {
         while true {
             switch token.type {
             case .plus:
-              advance()
+                advance()
                 result = EIAST.BinaryOp(result, try multiplicativeExpression(), .add)
             case .minus:
-              advance()
+                advance()
                 result = EIAST.BinaryOp(result, try multiplicativeExpression(), .subtract)
             default:
-              return result
-          }
+                return result
+            }
         }
-      }
+    }
 
-      func multiplicativeExpression() throws -> EINode {
+    func multiplicativeExpression() throws -> EINode {
         var result = try funcativeExpression()
         while true {
             switch token.type {
             case .asterisk:
-              advance()
+                advance()
                 result = EIAST.BinaryOp(result, try funcativeExpression(), .multiply)
             case .forwardSlash:
-              advance()
+                advance()
                 result = EIAST.BinaryOp(result, try funcativeExpression(), .divide)
             default:
-              return result
-          }
+                return result
+            }
         }
-      }
+    }
     
     func funcativeExpression() throws -> EINode {
         while token.type == .newline { advance() }
@@ -165,17 +164,17 @@ class EIParser {
         return token.type == .leftParan || token.type == .identifier || token.type == .number || token.type == .string
     }
 
-      func unaryExpression() throws -> EINode {
-        let result : EINode
+    func unaryExpression() throws -> EINode {
+        let result: EINode
         switch token.type {
-          case .leftParan:
+        case .leftParan:
             advance()
             result = try andableExpression()
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
             advance()
-          case .identifier:
+        case .identifier:
             if tokenIsType() {
                 result = try typeExpression()
             } else {
@@ -188,11 +187,11 @@ class EIParser {
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
-          default:
+        default:
             throw ParserError.UnexpectedToken
         }
         return result
-      }
+    }
     
     func anonymousFunction() throws -> EINode {
         assert(token.type == .backSlash)
@@ -244,7 +243,7 @@ class EIParser {
         assert(token.type == .IF)
         var conditions = [EINode]()
         var branches = [EINode]()
-        while (token.type == .IF) {
+        while token.type == .IF {
             advance()
             try conditions.append(andableExpression())
             assert(token.type == .THEN)
@@ -259,18 +258,18 @@ class EIParser {
     
     func number() throws -> EINode {
         assert(token.type == .number || token.type == .minus)
-        let result : EINode
-        var minus = false;
+        let result: EINode
+        var minus = false
         if token.type == .minus {
-            minus = true;
+            minus = true
             advance()
         }
         if token.type != .number {
             throw ParserError.UnexpectedToken
         }
-        var numberRaw = token.raw;
+        var numberRaw = token.raw
         if minus {
-            numberRaw = "-" + numberRaw;
+            numberRaw = "-" + numberRaw
         }
         if numberRaw.contains(".") {
             result = EIAST.FloatingPoint(Float(numberRaw)!)
@@ -280,9 +279,4 @@ class EIParser {
         advance()
         return result
     }
-
 }
-
-
-
-

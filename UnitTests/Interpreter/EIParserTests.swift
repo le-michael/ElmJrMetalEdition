@@ -6,8 +6,8 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import XCTest
 @testable import ElmJrMetalEdition
+import XCTest
 
 class EIParserTests: XCTestCase {
     func checkASTExpression(_ toParse: String, _ toOutput: String) throws {
@@ -28,7 +28,7 @@ class EIParserTests: XCTestCase {
     
     func testMultiply() throws {
         try checkASTExpression("x*y", "(x*y)")
-        try checkASTExpression("x*(y*z)","(x*(y*z))")
+        try checkASTExpression("x*(y*z)", "(x*(y*z))")
     }
     
     func testNegativeNumbers() throws {
@@ -41,12 +41,12 @@ class EIParserTests: XCTestCase {
     }
     
     func testBool() throws {
-        try checkASTExpression("True","True")
-        try checkASTExpression("False","False")
-        try checkASTExpression("True || False","(True||False)")
-        try checkASTExpression("False && True","(False&&True)")
-        try checkASTExpression("not False","(not False)")
-        try checkASTExpression("not True || False","((not True)||False)")
+        try checkASTExpression("True", "True")
+        try checkASTExpression("False", "False")
+        try checkASTExpression("True || False", "(True||False)")
+        try checkASTExpression("False && True", "(False&&True)")
+        try checkASTExpression("not False", "(not False)")
+        try checkASTExpression("not True || False", "((not True)||False)")
     }
     
     func testMakeFunction() throws {
@@ -67,7 +67,4 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("if 1 then 2 else if 3 then 4 else if 5 then 6 else 7",
                                "if 1 then 2 else if 3 then 4 else if 5 then 6 else 7")
     }
-
 }
-
-

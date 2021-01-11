@@ -9,34 +9,34 @@
 import Foundation
 
 class EIAST {
-    class BinaryOp : EINode {
-        let leftOperand : EINode;
-        let rightOperand : EINode;
-        let type: BinaryOpType;
+    class BinaryOp: EINode {
+        let leftOperand: EINode
+        let rightOperand: EINode
+        let type: BinaryOpType
 
-        enum BinaryOpType : String {
+        enum BinaryOpType: String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
             case eq = "==", ne = "/=", le = "<=", ge = ">=", lt = "<", gt = ">"
             case and = "&&", or = "||"
         }
         
-        init(_ leftOperand : EINode, _ rightOperand : EINode, _ type: BinaryOpType) {
+        init(_ leftOperand: EINode, _ rightOperand: EINode, _ type: BinaryOpType) {
             self.leftOperand = leftOperand
             self.rightOperand = rightOperand
             self.type = type
         }
 
-        var description : String {
-            return "(\(leftOperand)\(self.type.rawValue)\(rightOperand))"
+        var description: String {
+            return "(\(leftOperand)\(type.rawValue)\(rightOperand))"
         }
     }
     
-    class UnaryOp : EINode {
-        let operand : EINode
+    class UnaryOp: EINode {
+        let operand: EINode
         let type: UnaryOpType
         
-        enum UnaryOpType : String {
-            case not = "not"
+        enum UnaryOpType: String {
+            case not
         }
         
         init(operand: EINode, type: UnaryOpType) {
@@ -45,57 +45,54 @@ class EIAST {
         }
         
         var description: String {
-            return "(\(self.type.rawValue) \(operand))"
+            return "(\(type.rawValue) \(operand))"
         }
     }
 
+    class FloatingPoint: EILiteral {
+        let value: Float
 
-    
-    
-    class FloatingPoint : EILiteral {
-        let value : Float
-
-        init(_ value : Float) {
-          self.value = value
+        init(_ value: Float) {
+            self.value = value
         }
 
-        var description : String {
+        var description: String {
             return "\(value)"
         }
     }
     
-    class Integer : EILiteral {
-      let value : Int
+    class Integer: EILiteral {
+        let value: Int
 
-      init(_ value : Int) {
-        self.value = value
-      }
+        init(_ value: Int) {
+            self.value = value
+        }
 
-        var description : String {
-          return "\(value)"
+        var description: String {
+            return "\(value)"
         }
     }
 
-    class Boolean : EILiteral {
-        let value : Bool
+    class Boolean: EILiteral {
+        let value: Bool
         
-        init(_ value : Bool) {
-          self.value = value
+        init(_ value: Bool) {
+            self.value = value
         }
         
-        var description : String {
-            return value ? "True": "False"
+        var description: String {
+            return value ? "True" : "False"
         }
     }
     
-    class NoValue : EINode {
-        init(){}
+    class NoValue: EINode {
+        init() {}
         var description: String { return "NOVALUE" }
     }
     
-    class IfElse : EINode {
-        let conditions : [EINode]
-        let branches : [EINode]
+    class IfElse: EINode {
+        let conditions: [EINode]
+        let branches: [EINode]
         
         init(conditions: [EINode], branches: [EINode]) {
             self.conditions = conditions
@@ -108,28 +105,29 @@ class EIAST {
             var result = ""
             while index < conditions.count {
                 result += "if \(conditions[index]) then \(branches[index]) else "
-                index += 1;
+                index += 1
             }
             result += "\(branches[index])"
             return result
         }
     }
     
-    class FunctionApplication : EINode {
-        var function : EINode
-        var argument : EINode
+    class FunctionApplication: EINode {
+        var function: EINode
+        var argument: EINode
         
         init(function: EINode, argument: EINode) {
             self.function = function
             self.argument = argument
         }
-        var description : String {
+
+        var description: String {
             return "(\(function) \(argument))"
         }
     }
     
-    class Variable : EINode {
-        let name : String
+    class Variable: EINode {
+        let name: String
         
         init(name: String) {
             self.name = name
@@ -140,24 +138,24 @@ class EIAST {
         }
     }
     
-    class Function : EINode {
-        let parameter : String // Will be replaced by a pattern later
-        let body : EINode
+    class Function: EINode {
+        let parameter: String // Will be replaced by a pattern later
+        let body: EINode
         
-        init(parameter : String, body : EINode) {
+        init(parameter: String, body: EINode) {
             self.parameter = parameter
             self.body = body
         }
 
-        var description : String {
+        var description: String {
             // display as anonymous function
             return "(\\\(parameter) -> \(body))"
         }
     }
     
-    class Declaration : EINode {
-        let name : String
-        let body : EINode
+    class Declaration: EINode {
+        let name: String
+        let body: EINode
         
         init(name: String, body: EINode) {
             self.name = name
@@ -168,5 +166,4 @@ class EIAST {
             return "\(name) = \(body)"
         }
     }
-
 }
