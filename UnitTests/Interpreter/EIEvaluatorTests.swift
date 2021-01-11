@@ -12,7 +12,7 @@ import XCTest
 class EIEvaluatorTests: XCTestCase {
     func checkEvaluateExpression(_ toEvaluate: String, _ toOutput: String) throws {
         let ast = try EIParser(text: toEvaluate).parseExpression()
-        let result = try EIEvaluator().evaluate(ast, [:])
+        let (result,_) = try EIEvaluator().evaluate(ast, [:])
         XCTAssertEqual("\(result)", toOutput)
     }
     

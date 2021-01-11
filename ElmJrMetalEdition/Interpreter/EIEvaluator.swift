@@ -218,11 +218,16 @@ class EIEvaluator {
                 conditions.append(condition)
                 branches.append(branch)
             }
+            let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
+            couldEval = couldEval && elseBranchEvaled
+            branches.append(elseBranch)
+            
+            // check if everything could be evaluated
             if !couldEval {
                 let result = EIParser.IfElse(conditions: conditions, branches: branches)
                 return (result, false)
             }
-            
+            // carry out actual if/else logic
             for i in 0..<conditions.count {
                 let condition = conditions[i] as? EIParser.Boolean
                 guard condition != nil else {
