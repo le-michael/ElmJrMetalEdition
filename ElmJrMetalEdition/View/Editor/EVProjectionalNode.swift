@@ -15,6 +15,7 @@ class EVProjectionalNodeView: UIView {
     
     var innerView: UIView!
     var borderColor: UIColor!
+    var callback: ()->() = {}
     
     init(view: UIView, borderColor: UIColor) {
         super.init(frame: .zero)
@@ -35,6 +36,20 @@ class EVProjectionalNodeView: UIView {
         innerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -EVProjectionalNodeView.padding).isActive = true
         innerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: EVProjectionalNodeView.padding).isActive = true
         innerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -EVProjectionalNodeView.padding).isActive = true
+        
+        setupTapGesture()
+    }
+    
+    func setupTapGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.numberOfTouchesRequired = 1
+        addGestureRecognizer(tapGestureRecognizer)
+        isUserInteractionEnabled = true
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        callback()
     }
     
     required init?(coder: NSCoder) {
@@ -52,11 +67,28 @@ extension EIParser.Integer: EVProjectionalNode {
         let label = UILabel()
         label.text = self.value.description
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
+
             
         let nodeView = EVProjectionalNodeView(view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!)
-
+        nodeView.callback = {
+            let uiView = nodeView as UIView
+            let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.keyboardType = .numberPad
+                textField.text = "\(self.value)"
+            }
+            alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
+                guard let newValueStr = alert?.textFields![0].text else { return }
+                guard let newValue = Int(newValueStr) else { return }
+                self.value = newValue
+                print("updated to \(self.value)")
+                EVEditor.shared.astToSourceCode()
+            }))
+            uiView.parentViewController?.present(alert, animated: true, completion: nil)
+        }
         return nodeView
     }
+    
 }
 
 extension EIParser.FloatingPoint: EVProjectionalNode {
@@ -115,5 +147,18 @@ extension EIParser.UnaryOp: EVProjectionalNode {
     func getUIView() -> UIView {
         let cardView = EVProjectionalNodeView(view: UIView(), borderColor: .red)
         return cardView
+    }
+}
+
+extension UIView {
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder?.next
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+        }
+        return nil
     }
 }

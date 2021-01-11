@@ -52,9 +52,9 @@ class EIParser {
     }
     
     class BinaryOp : EINode {
-        let leftOperand : EINode;
-        let rightOperand : EINode;
-        let type: BinaryOpType;
+        var leftOperand : EINode;
+        var rightOperand : EINode;
+        var type: BinaryOpType;
 
         enum BinaryOpType : String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
@@ -74,8 +74,8 @@ class EIParser {
     }
     
     class UnaryOp : EINode {
-        let operand : EINode
-        let type: UnaryOpType
+        var operand : EINode
+        var type: UnaryOpType
         
         enum UnaryOpType : String {
             case not = "not"
@@ -95,7 +95,7 @@ class EIParser {
     
     
     class FloatingPoint : EILiteral {
-        let value : Float
+        var value : Float
 
         init(_ value : Float) {
           self.value = value
@@ -107,7 +107,7 @@ class EIParser {
     }
     
     class Integer : EILiteral {
-      let value : Int
+      var value : Int
 
       init(_ value : Int) {
         self.value = value
@@ -119,7 +119,7 @@ class EIParser {
     }
 
     class Boolean : EILiteral {
-        let value : Bool
+        var value : Bool
         
         init(_ value : Bool) {
           self.value = value

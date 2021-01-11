@@ -28,6 +28,8 @@ class EVEditor {
     var textEditorHeight: CGFloat
     var isInProjectionalMode: Bool
     
+    var ast: EINode?
+    
     var project: EVProject {
         return EVProjectManager.shared.projects[currentProjectInd]
     }
@@ -56,6 +58,7 @@ class EVEditor {
     
     func setSourceCode(_ sourceCode: String) {
         project.sourceCode = sourceCode
+        sourceCodeToAst()
         delegates.forEach({ $0.didChangeSourceCode(sourceCode: sourceCode) })
     }
     
@@ -67,6 +70,7 @@ class EVEditor {
         for (ind, project) in EVProjectManager.shared.projects.enumerated() {
             if project.title == projectTitle {
                 currentProjectInd = ind
+                sourceCodeToAst()
                 delegates.forEach({ $0.didLoadProject(project: project) })
             }
         }
@@ -88,6 +92,32 @@ class EVEditor {
         } catch {
             print("Error evaluating program: \(error)")
         }
+    }
+    
+    func getAST() -> EINode? {
+        do {
+            let ast = try EIParser(text: project.sourceCode).parse()
+            return ast
+        } catch {
+            return nil
+        }
+    }
+    
+    func sourceCodeToAst() {
+        do {
+            self.ast = try EIParser(text: project.sourceCode).parse()
+        } catch {
+            print("Unable to convert source code to AST")
+            self.ast = nil
+        }
+    }
+    
+    func astToSourceCode() {
+        guard let newSourceCode = self.ast?.description else {
+            print("Unable to convert AST to source code")
+            return
+        }
+        setSourceCode(newSourceCode)
     }
     
 }
