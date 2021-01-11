@@ -130,6 +130,11 @@ class EIParser {
         }
     }
     
+    class NoValue : EINode {
+        init(){}
+        var description: String { return "NOVALUE" }
+    }
+    
     class IfElse : EINode {
         let conditions : [EINode]
         let branches : [EINode]

@@ -19,6 +19,7 @@ class EIEvaluator {
         case ConditionMustBeBool
         case UnsupportedOperation
         case NotImplemented
+        case TypeIsNotAFunction
     }
     
     init () {
@@ -32,63 +33,64 @@ class EIEvaluator {
      */
     func interpret(_ text : String) throws -> EINode {
         let ast = try EIParser(text: text).parse()
-        if let decl = ast as? EIParser.Declaration {
-            // functions are added to the global scope
-            globals[decl.name] = decl.body
-            return ast
-        }
-        return try evaluate(ast, globals)
+        let (result, _) = try evaluate(ast, globals)
+        return result
     }
     
     func compile(_ text: String) throws -> EINode {
         let parser = EIParser(text: text)
         while (!parser.isDone()) {
             let decl = try parser.parseDeclaration()
-            globals[decl.name] = decl.body
+            try evaluate(decl, globals)
         }
         // For now we will return the final value of the view variable
         if let view = globals["view"] {
-            return try evaluate(view, globals)
+            let (result, _) = try evaluate(view, globals)
+            return result
         } else {
             throw EvaluatorError.NotImplemented
         }
     }
     
     /**
-    Given an AST subtree 'evaluate' will attempt to find the value of the tree and return it as a Literal.
-    Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
-    Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
+     Given an AST subtree 'evaluate' will attempt to evaluate (or at least simplify the tree).
+     It returns a 2-tuple (EINode, Bool) consisting respectively of the simplified tree and whether the tree could be evaluated.
+     Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
+     If a variable is in scope but does not have a value is will be set to EIParser.NoValue.
      */
-    func evaluate(_ node : EINode, _ scope : [String:EINode]) throws -> EILiteral {
+    @discardableResult func evaluate(_ node : EINode, _ scope : [String:EINode]) throws -> (EINode, Bool) {
         switch node {
         case let literal as EILiteral:
-            return literal
+            return (literal, true)
         case let unOp as EIParser.UnaryOp:
-            let operand = try evaluate(unOp.operand, scope)
+            let (operand, isEvaluated) = try evaluate(unOp.operand, scope)
+            if !isEvaluated { return (EIParser.UnaryOp(operand: operand, type: unOp.type), false) }
             switch unOp.type {
             case .not:
                 let asBool = operand as? EIParser.Boolean
                 guard asBool != nil else {
                     throw EvaluatorError.UnsupportedOperation
                 }
-                return EIParser.Boolean(!asBool!.value)
+                return (EIParser.Boolean(!asBool!.value), true)
             }
         case let binOp as EIParser.BinaryOp:
-                // If one argument is a float convert both to float
                 // TODO: In the future we should should should instead have a 'numeric' type
-            var left = try evaluate(binOp.leftOperand, scope);
-            var right = try evaluate(binOp.rightOperand, scope);
+            var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope);
+            var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope);
+            if !isLeftEvaled || !isRightEvaled { return (EIParser.BinaryOp(left, right, binOp.type), false)}
             // handle case where both operands are booleans
             if let leftBool = left as? EIParser.Boolean,
                let rightBool = right as? EIParser.Boolean {
+                let result : EINode
                 switch binOp.type {
                 case .and:
-                    return EIParser.Boolean(leftBool.value && rightBool.value)
+                    result = EIParser.Boolean(leftBool.value && rightBool.value)
                 case .or:
-                    return EIParser.Boolean(leftBool.value || rightBool.value)
+                    result = EIParser.Boolean(leftBool.value || rightBool.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
             guard (left as? EIParser.Boolean == nil && right as? EIParser.Boolean == nil) else {
                 // cannot perform binary op with one bool and one non-bool
@@ -97,31 +99,33 @@ class EIEvaluator {
             // handle case where both operands are integers
             if let leftInt = left as? EIParser.Integer,
                let rightInt = right as? EIParser.Integer {
+                let result : EINode
                 switch binOp.type {
                 case .add:
-                    return EIParser.Integer(leftInt.value + rightInt.value)
+                    result = EIParser.Integer(leftInt.value + rightInt.value)
                 case .subtract:
-                    return EIParser.Integer(leftInt.value - rightInt.value)
+                    result = EIParser.Integer(leftInt.value - rightInt.value)
                 case .multiply:
-                    return EIParser.Integer(leftInt.value * rightInt.value)
+                    result = EIParser.Integer(leftInt.value * rightInt.value)
                 case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
-                    return EIParser.Integer(leftInt.value / rightInt.value)
+                    result = EIParser.Integer(leftInt.value / rightInt.value)
                 case .eq:
-                    return EIParser.Boolean(leftInt.value == rightInt.value)
+                    result = EIParser.Boolean(leftInt.value == rightInt.value)
                 case .ne:
-                    return EIParser.Boolean(leftInt.value != rightInt.value)
+                    result = EIParser.Boolean(leftInt.value != rightInt.value)
                 case .le:
-                    return EIParser.Boolean(leftInt.value <= rightInt.value)
+                    result = EIParser.Boolean(leftInt.value <= rightInt.value)
                 case .ge:
-                    return EIParser.Boolean(leftInt.value >= rightInt.value)
+                    result = EIParser.Boolean(leftInt.value >= rightInt.value)
                 case .lt:
-                    return EIParser.Boolean(leftInt.value < rightInt.value)
+                    result = EIParser.Boolean(leftInt.value < rightInt.value)
                 case .gt:
-                    return EIParser.Boolean(leftInt.value > rightInt.value)
+                    result = EIParser.Boolean(leftInt.value > rightInt.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
             // handle case where at least one operand is not an integer
             // we cast any integers to floats
@@ -133,77 +137,104 @@ class EIEvaluator {
             }
             if let leftFloat = left as? EIParser.FloatingPoint,
                let rightFloat = right as? EIParser.FloatingPoint {
+                let result : EINode
                 switch binOp.type {
                 case .add:
-                    return EIParser.FloatingPoint(leftFloat.value + rightFloat.value)
+                    result = EIParser.FloatingPoint(leftFloat.value + rightFloat.value)
                 case .subtract:
-                    return EIParser.FloatingPoint(leftFloat.value - rightFloat.value)
+                    result = EIParser.FloatingPoint(leftFloat.value - rightFloat.value)
                 case .multiply:
-                    return EIParser.FloatingPoint(leftFloat.value * rightFloat.value)
+                    result = EIParser.FloatingPoint(leftFloat.value * rightFloat.value)
                 case .divide:
                     if rightFloat.value == 0 { throw EvaluatorError.DivisionByZero }
-                    return EIParser.FloatingPoint(leftFloat.value / rightFloat.value)
+                    result = EIParser.FloatingPoint(leftFloat.value / rightFloat.value)
                 case .eq:
-                    return EIParser.Boolean(leftFloat.value == rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value == rightFloat.value)
                 case .ne:
-                    return EIParser.Boolean(leftFloat.value != rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value != rightFloat.value)
                 case .le:
-                    return EIParser.Boolean(leftFloat.value <= rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value <= rightFloat.value)
                 case .ge:
-                    return EIParser.Boolean(leftFloat.value >= rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value >= rightFloat.value)
                 case .lt:
-                    return EIParser.Boolean(leftFloat.value < rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value < rightFloat.value)
                 case .gt:
-                    return EIParser.Boolean(leftFloat.value > rightFloat.value)
+                    result = EIParser.Boolean(leftFloat.value > rightFloat.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
             // if we made it this far at least one operand is not an int or float
             throw EvaluatorError.NotImplemented
-        case let funcCall as EIParser.FunctionApplication:
-            throw EvaluatorError.NotImplemented
-            /*
-            if let function = scope[funcCall.name] {
-                if function.parameters.count < funcCall.arguments.count {
-                    throw EvaluatorError.TooManyArguments
+        case let variable as EIParser.Variable:
+            let lookup : EINode? = scope[variable.name]
+            switch lookup {
+            case .some(let value):
+                if value as? EIParser.NoValue != nil {
+                    // variable is in scope but hasn't been assigned a value
+                    return (variable, false)
                 }
-                if function.parameters.count < funcCall.arguments.count {
-                    // TODO: Support partial function application
-                    // One way we could do this is by storing already set parameters
-                    throw EvaluatorError.NotImplemented
-                }
-                // map function parameters to funcCall arguments
-                var newScope = globals;
-                for i in 0..<function.parameters.count {
-                    let key = function.parameters[i]
-                    let value = try evaluate(funcCall.arguments[i], scope)
-                    if newScope[key] != nil {
-                        throw EvaluatorError.VariableShadowing
-                    }
-                    // note that variables are just treated as functions with no parameters
-                    newScope[key] = EIParser.Function(name: key, parameters: [], body: value)
-                }
-                return try evaluate(function.body, newScope)
-            } else {
+                // normal behavior
+                return (value, true)
+            default:
+                // unexpected variable
                 throw EvaluatorError.UnknownIdentifier
             }
-            */
+        case let decl as EIParser.Declaration:
+            let (body, bodyEvaled) = try evaluate(decl.body, globals)
+            assert(bodyEvaled == true)
+            if globals[decl.name] != nil {
+                throw EvaluatorError.VariableShadowing
+            }
+            globals[decl.name] = body
+            return (EIParser.Declaration(name: decl.name, body: body), true)
+        case let function as EIParser.Function:
+            var newScope = scope
+            newScope[function.parameter] = EIParser.NoValue()
+            let (body, _) = try evaluate(function.body, newScope)
+            let result = EIParser.Function(parameter: function.parameter, body: body)
+            return (result, true)
+        case let funcApp as EIParser.FunctionApplication:
+            let (node, _) = try evaluate(funcApp.function, scope)
+            let function = node as? EIParser.Function
+            if function == nil {
+                throw EvaluatorError.TypeIsNotAFunction
+            }
+            let (argument, argumentEvaled) = try evaluate(funcApp.argument, scope)
+            let (result,_) = try evaluate(function!.body, [function!.parameter : argument])
+            // TODO: Technically I think using 'argumentEvaled' might break on some fringe cases with nested anonymous functions
+            return (result, argumentEvaled)
         case let ifElse as EIParser.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
+            var conditions : [EINode] = []
+            var branches : [EINode] = []
+            // evaluate conditions and branches
+            var couldEval = true
             for i in 0..<ifElse.conditions.count {
-                // evaluate ith condition
-                let condEvaluated = try evaluate(ifElse.conditions[i], scope) as? EIParser.Boolean
-                guard condEvaluated != nil else {
+                let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
+                let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
+                couldEval = couldEval && condEvaluated && branchEvaled
+                conditions.append(condition)
+                branches.append(branch)
+            }
+            if !couldEval {
+                let result = EIParser.IfElse(conditions: conditions, branches: branches)
+                return (result, false)
+            }
+            
+            for i in 0..<conditions.count {
+                let condition = conditions[i] as? EIParser.Boolean
+                guard condition != nil else {
                     throw EvaluatorError.ConditionMustBeBool
                 }
                 // if it's true, result is ith branch
-                if condEvaluated!.value {
-                    return try evaluate(ifElse.branches[i], scope)
+                if condition!.value {
+                    return (branches[i], true)
                 }
             }
-            // if no conditons are true we run the else logic
-            return try evaluate(ifElse.branches.last!, scope)
+            // if no conditons are true we return the else ast
+            return (branches.last!, true)
         default:
             throw EvaluatorError.NotImplemented
         }
