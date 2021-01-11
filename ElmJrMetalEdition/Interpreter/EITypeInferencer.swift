@@ -289,23 +289,23 @@ class EITypeInferencer {
         return Scheme(tyVars: tyVars, ty: t)
     }
     
-    func ops(_ op: EIParser.BinaryOp.BinaryOpType) -> MonoType {
+    func ops(_ op: EIAST.BinaryOp.BinaryOpType) -> MonoType {
         switch op {
-        case EIParser.BinaryOp.BinaryOpType.add,
-             EIParser.BinaryOp.BinaryOpType.subtract,
-             EIParser.BinaryOp.BinaryOpType.multiply,
-             EIParser.BinaryOp.BinaryOpType.divide:
+        case EIAST.BinaryOp.BinaryOpType.add,
+             EIAST.BinaryOp.BinaryOpType.subtract,
+             EIAST.BinaryOp.BinaryOpType.multiply,
+             EIAST.BinaryOp.BinaryOpType.divide:
             return superNumber => (superNumber => superNumber)
-        case EIParser.BinaryOp.BinaryOpType.eq,
-             EIParser.BinaryOp.BinaryOpType.ne,
-             EIParser.BinaryOp.BinaryOpType.le,
-             EIParser.BinaryOp.BinaryOpType.lt,
-             EIParser.BinaryOp.BinaryOpType.ge,
-             EIParser.BinaryOp.BinaryOpType.gt:
+        case EIAST.BinaryOp.BinaryOpType.eq,
+             EIAST.BinaryOp.BinaryOpType.ne,
+             EIAST.BinaryOp.BinaryOpType.le,
+             EIAST.BinaryOp.BinaryOpType.lt,
+             EIAST.BinaryOp.BinaryOpType.ge,
+             EIAST.BinaryOp.BinaryOpType.gt:
             let tv = inferState.fresh()
             return tv => (tv => typeBool)
-        case EIParser.BinaryOp.BinaryOpType.and,
-             EIParser.BinaryOp.BinaryOpType.or:
+        case EIAST.BinaryOp.BinaryOpType.and,
+             EIAST.BinaryOp.BinaryOpType.or:
             return typeBool => (typeBool => typeBool)
         default:
             // @Lucas I'm putting in a default case while I add new operators for now.
@@ -321,13 +321,13 @@ class EITypeInferencer {
         // Since we don't know if standalone integers may be used as
         // part of a subexpression with floats, we infer the more general
         // type constraint "number"
-        case _ as EIParser.Integer:
+        case _ as EIAST.Integer:
             return (MonoType.TVar("number"), [])
-        case _ as EIParser.FloatingPoint:
+        case _ as EIAST.FloatingPoint:
             return (MonoType.TCon("Float"), [])
-        case _ as EIParser.Boolean:
+        case _ as EIAST.Boolean:
             return (MonoType.TCon("Bool"), [])
-        case let e as EIParser.BinaryOp:
+        case let e as EIAST.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
             let tv = inferState.fresh()
