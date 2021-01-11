@@ -51,7 +51,6 @@
 		7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B225A123CC00546CD3 /* SwiftArray.swift */; };
 		7C1856B725A142D900546CD3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B625A142D900546CD3 /* List.swift */; };
 		7C1856C025A14F8000546CD3 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1856BF25A14F8000546CD3 /* Swiftz */; };
-		7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */; };
 		7C1A44B32573637400C3017B /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44B22573637400C3017B /* Fix.elm */; };
 		7C1A44DB2575C20900C3017B /* Array.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BA2575C20900C3017B /* Array.elm */; };
 		7C1A44DC2575C20900C3017B /* Basics.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BB2575C20900C3017B /* Basics.elm */; };
@@ -86,6 +85,11 @@
 		7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */; };
 		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
 		7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9B92584A6C300311C48 /* Basics.swift */; };
+		7C8184E025A7C39500A7F349 /* API2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184DF25A7C39500A7F349 /* API2D.elm */; };
+		7C8184E725A7FA2200A7F349 /* Base.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E525A7FA2200A7F349 /* Base.elm */; };
+		7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E625A7FA2200A7F349 /* API3D.elm */; };
+		7C81852A25ACD3FC00A7F349 /* elm.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851B25ACD3FC00A7F349 /* elm.json */; };
+		7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851D25ACD3FC00A7F349 /* Example2D.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
@@ -172,7 +176,6 @@
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
 		7C1856B225A123CC00546CD3 /* SwiftArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftArray.swift; sourceTree = "<group>"; };
 		7C1856B625A142D900546CD3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = GraphicSVG.elm; sourceTree = "<group>"; };
 		7C1A44B22573637400C3017B /* Fix.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
 		7C1A44BA2575C20900C3017B /* Array.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Array.elm; sourceTree = "<group>"; };
 		7C1A44BB2575C20900C3017B /* Basics.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Basics.elm; sourceTree = "<group>"; };
@@ -207,6 +210,11 @@
 		7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencer.swift; sourceTree = "<group>"; };
 		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
 		7C74A9B92584A6C300311C48 /* Basics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basics.swift; sourceTree = "<group>"; };
+		7C8184DF25A7C39500A7F349 /* API2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API2D.elm; sourceTree = "<group>"; };
+		7C8184E525A7FA2200A7F349 /* Base.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Base.elm; sourceTree = "<group>"; };
+		7C8184E625A7FA2200A7F349 /* API3D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API3D.elm; sourceTree = "<group>"; };
+		7C81851B25ACD3FC00A7F349 /* elm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elm.json; sourceTree = "<group>"; };
+		7C81851D25ACD3FC00A7F349 /* Example2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Example2D.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
@@ -415,7 +423,7 @@
 		7C1A44A825721C8200C3017B /* ElmLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44AA25721C8D00C3017B /* GraphicSVG */,
+				7C1A44AA25721C8D00C3017B /* Graphics */,
 				7C1A44A925721C8900C3017B /* Core */,
 			);
 			path = ElmLibrary;
@@ -429,12 +437,16 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		7C1A44AA25721C8D00C3017B /* GraphicSVG */ = {
+		7C1A44AA25721C8D00C3017B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */,
+				7C81851B25ACD3FC00A7F349 /* elm.json */,
+				7C81851C25ACD3FC00A7F349 /* Examples */,
+				7C8184E625A7FA2200A7F349 /* API3D.elm */,
+				7C8184E525A7FA2200A7F349 /* Base.elm */,
+				7C8184DF25A7C39500A7F349 /* API2D.elm */,
 			);
-			path = GraphicSVG;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		7C1A44B12573635C00C3017B /* ElmCodeExamples */ = {
@@ -518,6 +530,14 @@
 				7C1856AA259E82A400546CD3 /* Utils.swift */,
 			);
 			path = SwiftKernel;
+			sourceTree = "<group>";
+		};
+		7C81851C25ACD3FC00A7F349 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				7C81851D25ACD3FC00A7F349 /* Example2D.elm */,
+			);
+			path = Examples;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -710,10 +730,12 @@
 				7C1A44EE2575C20900C3017B /* List.elm in Resources */,
 				7C1A44EA2575C20900C3017B /* Process.server.js in Resources */,
 				7C1A44E42575C20900C3017B /* Char.js in Resources */,
+				7C8184E025A7C39500A7F349 /* API2D.elm in Resources */,
 				7C1A44E62575C20900C3017B /* JsArray.js in Resources */,
 				7C1A44DB2575C20900C3017B /* Array.elm in Resources */,
 				7C1A44F52575C20900C3017B /* Set.elm in Resources */,
 				7C1A44F22575C20900C3017B /* Platform.elm in Resources */,
+				7C8184E725A7FA2200A7F349 /* Base.elm in Resources */,
 				7C1A44E22575C20900C3017B /* Basics.js in Resources */,
 				D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */,
 				7C1A44F82575C20900C3017B /* Tuple.elm in Resources */,
@@ -733,13 +755,15 @@
 				7C1A44F02575C20900C3017B /* Cmd.elm in Resources */,
 				7C1A44E72575C20900C3017B /* List.js in Resources */,
 				7C1A44B32573637400C3017B /* Fix.elm in Resources */,
-				7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */,
 				7C1A44E02575C20900C3017B /* Dict.elm in Resources */,
 				7C1A44E12575C20900C3017B /* JsArray.elm in Resources */,
 				7C1A44DD2575C20900C3017B /* Bitwise.elm in Resources */,
 				7C1A44EC2575C20900C3017B /* String.js in Resources */,
 				7C1A44EB2575C20900C3017B /* Scheduler.js in Resources */,
 				7C1A44ED2575C20900C3017B /* Utils.js in Resources */,
+				7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */,
+				7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */,
+				7C81852A25ACD3FC00A7F349 /* elm.json in Resources */,
 				7C1A44E52575C20900C3017B /* Debug.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
