@@ -334,7 +334,7 @@ class EITypeInferencer {
             let u1 = t1 => (t2 => tv)
             let u2 = ops(e.type)
             return (tv, c1 + c2 + [(u1, u2)])
-        case let e as EIParser.IfElse:
+        case let e as EIAST.IfElse:
             let inferConds = try e.conditions.map(infer)
             let inferBranches = try e.branches.map(infer)
             let branchConstraints : [Constraint] =
@@ -364,8 +364,8 @@ class EITypeInferencer {
     func inferTop() throws -> TypeEnv {
         for expr in input {
             let ty = try inferExpr(expr)
-            if let function = expr as? EIParser.Function {
-                inferState.typeEnv.extend(function.name, ty)
+            if let declr = expr as? EIAST.Declaration {
+                inferState.typeEnv.extend(declr.name, ty)
             } else {
                 inferState.typeEnv.extend(expr.description, ty)
             }
