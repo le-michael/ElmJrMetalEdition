@@ -35,11 +35,7 @@ class EGTransformTests: XCTestCase {
             y: EGTime(),
             z: EGUnaryOp(type: .cos, child: EGTime())
         )
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
-            x: 1.22,
-            y: sceneProps.time,
-            z: cos(sceneProps.time)
-        )
+        expectedMatrix = matrix_float4x4(translation: [1.22, sceneProps.time, cos(sceneProps.time)])
         XCTAssert(translate.evaluate(sceneProps) == expectedMatrix)
         XCTAssert(translate.usesTime() == true)
         
@@ -49,11 +45,11 @@ class EGTransformTests: XCTestCase {
             y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .sin, child: EGConstant(1.22))),
             z: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGTime()))
         )
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
-            x: cos(tan(sceneProps.time)),
-            y: sin(sin(1.22)),
-            z: cos(cos(sceneProps.time))
-        )
+        expectedMatrix = matrix_float4x4(translation: [
+            cos(tan(sceneProps.time)),
+            sin(sin(1.22)),
+            cos(cos(sceneProps.time))
+        ])
         XCTAssert(translate.evaluate(sceneProps) == expectedMatrix)
         XCTAssert(translate.usesTime() == true)
     }
@@ -105,11 +101,11 @@ class EGTransformTests: XCTestCase {
             y: EGUnaryOp(type: .cos, child: EGTime()),
             z: EGUnaryOp(type: .sin, child: EGTime())
         )
-        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
-            x: 10.22,
-            y: cos(sceneProps.time),
-            z: sin(sceneProps.time)
-        )
+        expectedMatrix = matrix_float4x4(scale: [
+            10.22,
+            cos(sceneProps.time),
+            sin(sceneProps.time)
+        ])
         XCTAssert(scale.evaluate(sceneProps) == expectedMatrix)
         XCTAssert(scale.usesTime() == true)
     
@@ -119,11 +115,11 @@ class EGTransformTests: XCTestCase {
             y: EGUnaryOp(type: .tan, child: EGTime()),
             z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .tan, child: EGConstant(2.33)))
         )
-        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
-            x: cos(sin(sceneProps.time)),
-            y: tan(sceneProps.time),
-            z: sin(tan(2.33))
-        )
+        expectedMatrix = matrix_float4x4(scale: [
+            cos(sin(sceneProps.time)),
+            tan(sceneProps.time),
+            sin(tan(2.33))
+        ])
         XCTAssert(scale.evaluate(sceneProps) == expectedMatrix)
         XCTAssert(scale.usesTime() == true)
     }
