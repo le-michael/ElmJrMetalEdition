@@ -11,6 +11,13 @@ import XCTest
 @testable import ElmJrMetalEdition
 
 class EITypeInferencerTests: XCTestCase {
+    func checkDeclrTy(_ toEvaluate : String, _ toOutput : String)
+        throws {
+        let ast = try EIParser(text: toEvaluate).parse() as! EIAST.Declaration
+        let tyEnv = try EITypeInferencer(parsed : [ast]).inferTop()
+        XCTAssertEqual("\(try tyEnv.lookup("\(ast.name)").description)", toOutput)
+    }
+    
     func checkExprTy(_ toEvaluate : String, _ toOutput : String)
         throws {
         let ast = try EIParser(text: toEvaluate).parseExpression()
@@ -44,5 +51,12 @@ class EITypeInferencerTests: XCTestCase {
         try checkExprTy("if False then 0 else if False then 1 else 2.2", "Float")
         try checkTypeCheckErr("if 1+2 then True else False")
         try checkTypeCheckErr("if False then 1 else True")
+    }
+    
+    func testFunctions() throws {
+        try checkDeclrTy("addone x = x + 1", "number -> number")
+        try checkDeclrTy("p x = x <= 2.2", "Float -> Bool")
+        try checkDeclrTy("id alongstring = alongstring", "v1 -> v1")
+        // try checkDeclrTy("ap f x = f x", "(v4 -> v3) -> v4 -> v3")
     }
 }

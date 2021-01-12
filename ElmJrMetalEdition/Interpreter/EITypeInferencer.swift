@@ -107,7 +107,12 @@ class EITypeInferencer {
             case .TCon(let con):
                 return con
             case .TArr(let t1, let t2):
-                return "\(t1.description) -> \(t2.description)"
+                switch t1 {
+                case .TArr(_, _):
+                    return "(\(t1.description)) -> \(t2.description)"
+                default:
+                    return "\(t1.description) -> \(t2.description)"
+                }
             }
         }
     }
@@ -321,6 +326,17 @@ class EITypeInferencer {
         // Since we don't know if standalone integers may be used as
         // part of a subexpression with floats, we infer the more general
         // type constraint "number"
+        case let v as EIAST.Variable:
+            return try (lookupEnv(x : v.name), [])
+        case let f as EIAST.Function:
+            let tv = inferState.fresh()
+            let (t, c) = try inEnv(f.parameter, Scheme(tyVars: [], ty: tv), f.body)
+            return (tv => t, c)
+        case let fApp as EIAST.FunctionApplication:
+            let (t1, c1) = try infer(fApp.function)
+            let (t2, c2) = try infer(fApp.argument)
+            let tv = inferState.fresh()
+            return (tv, c1 + c2 + [(t1, t2 => tv)])
         case _ as EIAST.Integer:
             return (MonoType.TVar("number"), [])
         case _ as EIAST.FloatingPoint:
@@ -363,10 +379,11 @@ class EITypeInferencer {
     
     func inferTop() throws -> TypeEnv {
         for expr in input {
-            let ty = try inferExpr(expr)
             if let declr = expr as? EIAST.Declaration {
+                let ty = try inferExpr(declr.body)
                 inferState.typeEnv.extend(declr.name, ty)
             } else {
+                let ty = try inferExpr(expr)
                 inferState.typeEnv.extend(expr.description, ty)
             }
         }
