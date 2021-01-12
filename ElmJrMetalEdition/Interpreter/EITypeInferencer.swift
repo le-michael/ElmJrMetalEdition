@@ -12,14 +12,38 @@ protocol Substitutable {}
 infix operator =>
 
 class EITypeInferencer {
+    // Type checker state
     var inferState: Infer
     var input: [EINode]
-    
+        
     init(parsed: [EINode]) {
         input = parsed
         inferState = Infer()
     }
     
+    /* This EINode represents functions which can be recursive
+        Additional constraints will be generated upon encountering this node
+        This will be applied to declaration nodes that have a function body
+     */
+    class Fix: EINode {
+        let body: EINode
+        
+        init(body: EINode) {
+            self.body = body
+        }
+        
+        // Don't care about displaying this as it should be invisible
+        // to other parts of the compiler
+        var description: String {
+            return body.description
+        }
+    }
+ 
+    // Alias variables and type variables to strings
+    typealias Var = String
+    typealias TVar = String
+    
+    // Stores type information of EINodes
     class TypeEnv {
         var types: [Var: Scheme]
         
@@ -40,6 +64,11 @@ class EITypeInferencer {
         }
     }
     
+    func showEnv(_ x: String) throws -> String {
+        return try inferState.typeEnv.lookup(x).description
+    }
+    
+    // Inference state - A type environment and a counter for fresh typevars
     class Infer {
         var typeEnv: TypeEnv
         var counter: Int
@@ -54,31 +83,6 @@ class EITypeInferencer {
             return MonoType.TVar("v" + String(counter))
         }
     }
-    
-    func inEnv(_ x: Var, _ s: Scheme, _ expr: EINode) throws -> (MonoType, [Constraint]) {
-        let saveEnv = inferState.typeEnv
-        inferState.typeEnv.remove(x)
-        inferState.typeEnv.extend(x, s)
-        let tyLoc = try infer(expr)
-        typeEnv = saveEnv
-        return tyLoc
-    }
-
-    func lookupEnv(x: Var) throws -> MonoType {
-        if let s = inferState.typeEnv.types[x] {
-            return instantiate(s)
-        } else {
-            throw TypeError.UnboundedVariable(x)
-        }
-    }
-    
-    // Alias variables and type variables to strings
-    typealias Var = String
-    typealias TVar = String
-    
-    // global variables: The type environment, and a fresh variable counter
-    var typeEnv = TypeEnv()
-    var counter = -1
     
     // Type checking errors
     enum TypeError: Error {
@@ -95,10 +99,9 @@ class EITypeInferencer {
         case TCon(String)
         indirect case TArr(MonoType, MonoType)
         
-        static func => (left : MonoType, right : MonoType) -> MonoType {
+        static func => (left: MonoType, right: MonoType) -> MonoType {
             return TArr(left, right)
         }
-        
         
         var description: String {
             switch self {
@@ -108,7 +111,7 @@ class EITypeInferencer {
                 return con
             case .TArr(let t1, let t2):
                 switch t1 {
-                case .TArr(_, _):
+                case .TArr:
                     return "(\(t1.description)) -> \(t2.description)"
                 default:
                     return "\(t1.description) -> \(t2.description)"
@@ -129,12 +132,11 @@ class EITypeInferencer {
     let superNumber = MonoType.TVar("number")
     
     // The collection of type constraints
-    let superTypes : [MonoType] =
-        [ MonoType.TVar("number")
-          , MonoType.TVar("appendable")
-          , MonoType.TVar("comparable")
-          , MonoType.TVar("compappend")
-        ]
+    let superTypes: [MonoType] =
+        [MonoType.TVar("number"),
+         MonoType.TVar("appendable"),
+         MonoType.TVar("comparable"),
+         MonoType.TVar("compappend")]
     
     // polymorphic type schemes
     class Scheme: CustomStringConvertible {
@@ -152,17 +154,11 @@ class EITypeInferencer {
     // Substitution of type variables to types
     typealias Subst = [TVar: MonoType]
     
-    let nullSubst = Subst()
-    
-    // Apply substitution `s1` then `s2`
-    func compose(_ s1: Subst, _ s2: Subst) -> Subst {
-        var newSubst = s1
-        let s2App = s2.mapValues { (tyVar: MonoType) -> MonoType in apply(s1, with: tyVar) }
-        for (k, v) in s2App {
-            newSubst[k] = v
-        }
-        return newSubst
-    }
+    /*
+     Substitutable instances define the `apply` and `ftv` functions:
+     - `apply` takes a substitution and applies it to the given data
+     - `ftv` queries the set of free variables in an expression
+     */
     
     // Apply a substitution to a monotype
     // For type variables, if a substitution does not exist, return
@@ -230,53 +226,59 @@ class EITypeInferencer {
     
     func ftvTyEnv() -> Set<TVar> {
         var ftvSet: Set<TVar> = []
-        for sch in typeEnv.types.values {
+        for sch in inferState.typeEnv.types.values {
             ftvSet = ftvSet.union(ftv(with: sch))
         }
         return ftvSet
     }
     
-    // Unification of two expressions under a substituion
-    func unify(_ t1: MonoType, _ t2: MonoType) throws -> Subst {
-        switch (t1, t2) {
-        case(let a, let b) where a == b:
-            return nullSubst
-        // Downcast Number supertype when encountering Floats
-        case(.TVar(let a), .TCon(let x))
-            where a == "number" && x == "Float":
-            return try bind(a, t2)
-        case(.TCon(let x), .TVar(let a))
-            where a == "number" && x == "Float":
-            return try bind(a, t1)
-        case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
-            let s1 = try unify(l1, l2)
-            let s2 = try unify(apply(s1, with: r1), apply(s1, with: r2))
-            return compose(s2, s1)
-        case(.TVar(let a), let t)
-            where !superTypes.contains(t1):
-            return try bind(a, t)
-        case(let t, .TVar(let a))
-            where !superTypes.contains(t2):
-            return try bind(a, t)
-        default:
-            throw TypeError.UnificationFail(t1, t2)
-        }
-    }
-        
-    func bind(_ a: TVar, _ t: MonoType) throws -> Subst {
-        if superTypes.contains(t) {
-            return [a : t]
-        } else if t == MonoType.TVar(a) {
-            return nullSubst
-        } else if occursCheck(a, t) {
-            throw TypeError.InfiniteType(a, t)
-        } else {
-            return [a: t]
-        }
+    /*
+     INFERENCE
+     */
+    
+    func inferExpr(_ expr: EINode) throws -> Scheme {
+        var (ty, cs) = try infer(expr)
+        let subst = try runSolve(&cs)
+        return try closeOver(apply(subst, with: ty))
     }
     
-    func occursCheck(_ a: String, _ t: MonoType) -> Bool {
-        return ftv(with: t).contains(a)
+    func inferTop() throws -> TypeEnv {
+        for expr in input {
+            if let declr = expr as? EIAST.Declaration {
+                let ty: Scheme
+                if let fn = declr.body as? EIAST.Function {
+                    ty = try inferExpr(Fix(body: fn))
+                } else {
+                    ty = try inferExpr(declr.body)
+                }
+                inferState.typeEnv.extend(declr.name, ty)
+            } else {
+                let ty = try inferExpr(expr)
+                inferState.typeEnv.extend(expr.description, ty)
+            }
+        }
+        return inferState.typeEnv
+    }
+
+    func closeOver(_ ty: MonoType) throws -> Scheme {
+        return try normalize(generalize(ty))
+    }
+    
+    func inEnv(_ x: Var, _ s: Scheme, _ expr: EINode) throws -> (MonoType, [Constraint]) {
+        let saveEnv = inferState.typeEnv
+        inferState.typeEnv.remove(x)
+        inferState.typeEnv.extend(x, s)
+        let tyLoc = try infer(expr)
+        inferState.typeEnv = saveEnv
+        return tyLoc
+    }
+
+    func lookupEnv(x: Var) throws -> MonoType {
+        if let s = inferState.typeEnv.types[x] {
+            return instantiate(s)
+        } else {
+            throw TypeError.UnboundedVariable(x)
+        }
     }
     
     // Generalization and instantiation
@@ -293,7 +295,7 @@ class EITypeInferencer {
         let tyVars = Array(ftv(with: t).subtracting(ftvTyEnv()))
         return Scheme(tyVars: tyVars, ty: t)
     }
-    
+
     func ops(_ op: EIAST.BinaryOp.BinaryOpType) -> MonoType {
         switch op {
         case EIAST.BinaryOp.BinaryOpType.add,
@@ -327,7 +329,7 @@ class EITypeInferencer {
         // part of a subexpression with floats, we infer the more general
         // type constraint "number"
         case let v as EIAST.Variable:
-            return try (lookupEnv(x : v.name), [])
+            return try (lookupEnv(x: v.name), [])
         case let f as EIAST.Function:
             let tv = inferState.fresh()
             let (t, c) = try inEnv(f.parameter, Scheme(tyVars: [], ty: tv), f.body)
@@ -353,14 +355,14 @@ class EITypeInferencer {
         case let e as EIAST.IfElse:
             let inferConds = try e.conditions.map(infer)
             let inferBranches = try e.branches.map(infer)
-            let branchConstraints : [Constraint] =
-                (0..<inferBranches.count-1)
+            let branchConstraints: [Constraint] =
+                (0..<inferBranches.count - 1)
                     .map { (inferBranches[$0].0,
                             inferBranches[$0 + 1].0) }
-            let condConstraints : [Constraint] =
-                inferConds.map{ ($0.0, MonoType.TCon("Bool")) }
-            let otherConstraints : [Constraint] =
-                inferConds.flatMap{$0.1} + inferBranches.flatMap{$0.1}
+            let condConstraints: [Constraint] =
+                inferConds.map { ($0.0, MonoType.TCon("Bool")) }
+            let otherConstraints: [Constraint] =
+                inferConds.flatMap { $0.1 } + inferBranches.flatMap { $0.1 }
             return (inferBranches[0].0,
                     otherConstraints + branchConstraints + condConstraints)
         // case let e as EIParser.Function:
@@ -369,29 +371,6 @@ class EITypeInferencer {
         default:
             throw TypeError.UnimplementedError(expr)
         }
-    }
-    
-    func inferExpr(_ expr: EINode) throws -> Scheme {
-        var (ty, cs) = try infer(expr)
-        let subst = try runSolve(&cs)
-        return try closeOver(apply(subst, with: ty))
-    }
-    
-    func inferTop() throws -> TypeEnv {
-        for expr in input {
-            if let declr = expr as? EIAST.Declaration {
-                let ty = try inferExpr(declr.body)
-                inferState.typeEnv.extend(declr.name, ty)
-            } else {
-                let ty = try inferExpr(expr)
-                inferState.typeEnv.extend(expr.description, ty)
-            }
-        }
-        return inferState.typeEnv
-    }
-    
-    func closeOver(_ ty: MonoType) throws -> Scheme {
-        return try normalize(generalize(ty))
     }
     
     func normalize(_ s: Scheme) throws -> Scheme {
@@ -441,7 +420,70 @@ class EITypeInferencer {
         }
         return Scheme(tyVars: extracted, ty: try normtype(s.ty))
     }
+
+    /*
+     Constraint Solver
+     */
     
+    let nullSubst = Subst()
+    
+    // Apply substitution `s1` then `s2`
+    func compose(_ s1: Subst, _ s2: Subst) -> Subst {
+        var newSubst = s1
+        let s2App = s2.mapValues { (tyVar: MonoType) -> MonoType in apply(s1, with: tyVar) }
+        for (k, v) in s2App {
+            newSubst[k] = v
+        }
+        return newSubst
+    }
+    
+    func runSolve(_ cs: inout [Constraint]) throws -> Subst {
+        return try solver(nullSubst, &cs)
+    }
+    
+    // Unification of two expressions under a substituion
+    func unify(_ t1: MonoType, _ t2: MonoType) throws -> Subst {
+        switch (t1, t2) {
+        case(let a, let b) where a == b:
+            return nullSubst
+        // Downcast Number supertype when encountering Floats
+        case(.TVar(let a), .TCon(let x))
+            where a == "number" && x == "Float":
+            return try bind(a, t2)
+        case(.TCon(let x), .TVar(let a))
+            where a == "number" && x == "Float":
+            return try bind(a, t1)
+        case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
+            let s1 = try unify(l1, l2)
+            let s2 = try unify(apply(s1, with: r1), apply(s1, with: r2))
+            return compose(s2, s1)
+        case(.TVar(let a), let t)
+            where !superTypes.contains(t1):
+            return try bind(a, t)
+        case(let t, .TVar(let a))
+            where !superTypes.contains(t2):
+            return try bind(a, t)
+        default:
+            throw TypeError.UnificationFail(t1, t2)
+        }
+    }
+        
+    func bind(_ a: TVar, _ t: MonoType) throws -> Subst {
+        if superTypes.contains(t) {
+            return [a: t]
+        } else if t == MonoType.TVar(a) {
+            return nullSubst
+        } else if occursCheck(a, t) {
+            throw TypeError.InfiniteType(a, t)
+        } else {
+            return [a: t]
+        }
+    }
+    
+    func occursCheck(_ a: String, _ t: MonoType) -> Bool {
+        return ftv(with: t).contains(a)
+    }
+        
     func solver(_ su: Subst, _ cs: inout [Constraint]) throws -> Subst {
         if cs.count == 0 {
             return su
@@ -450,13 +492,5 @@ class EITypeInferencer {
         let su1 = try unify(t1, t2)
         var cs2 = apply(su1, with: cs)
         return try solver(compose(su1, su), &cs2)
-    }
-    
-    func runSolve(_ cs: inout [Constraint]) throws -> Subst {
-        return try solver(nullSubst, &cs)
-    }
-    
-    func showEnv(_ x: String) throws -> String {
-        return try inferState.typeEnv.lookup(x).description
     }
 }
