@@ -34,6 +34,6 @@ class EGTranslationMatrix {
         let y = yEquation.evaluate(sceneProps)
         let z = zEquation.evaluate(sceneProps)
 
-        return EGMatrixBuilder.createTranslationMatrix(x: x, y: y, z: z)
+        return matrix_float4x4(translation: [x, y, z])
     }
 }

@@ -34,6 +34,6 @@ class EGRotationMatrix {
         let y = yEquation.evaluate(sceneProps)
         let z = zEquation.evaluate(sceneProps)
 
-        return EGMatrixBuilder.createRotationMatrix(x: x, y: y, z: z)
+        return matrix_float4x4(rotation: [x, y, z])
     }
 }

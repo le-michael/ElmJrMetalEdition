@@ -12,7 +12,7 @@ class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
     var sceneProps: EGSceneProps
     var fps: Float = 60
-    var camera: EGCamera = EGCamera()
+    var camera = EGCamera()
 
     override init() {
         sceneProps = EGSceneProps(
@@ -25,11 +25,11 @@ class EGScene: EGGraphicsNode {
 
     func setDrawableSize(size: CGSize) {
         drawableSize = size
-        sceneProps.projectionMatrix = EGMatrixBuilder.createProjectionMatrix(
-            fovDegrees: 65,
-            aspect: Float(size.width / size.height),
-            nearZ: 0.1,
-            farZ: 300
+        sceneProps.projectionMatrix = matrix_float4x4(
+            projectionFov: Float(65).degreesToRadians,
+            near: 0.1,
+            far: 300,
+            aspect: Float(size.width / size.height)
         )
     }
 

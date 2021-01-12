@@ -50,15 +50,15 @@ class EGBufferDataBuilder {
         let bufferData = createPlaneBufferData()
 
         let magnitude = simd_distance(p0, p1)
-        bufferData.applyTransform(transformMatrix: EGMatrixBuilder.createScaleMatrix(x: size, y: magnitude, z: 1))
-
+        bufferData.applyTransform(transformMatrix: matrix_float4x4(scale: [size, magnitude, 1]))
+        
         let v = p1 - p0
         let angle = -atan(v.x / v.y)
-        bufferData.applyTransform(transformMatrix: EGMatrixBuilder.createZRotationMatrix(radians: angle))
-
+        bufferData.applyTransform(transformMatrix: matrix_float4x4(rotationZ: angle))
+        
         let midPoint = p0 + v / 2
-        bufferData.applyTransform(transformMatrix: EGMatrixBuilder.createTranslationMatrix(x: midPoint.x, y: midPoint.y, z: midPoint.z))
-
+        bufferData.applyTransform(transformMatrix: matrix_float4x4(translation: [midPoint.x, midPoint.y, midPoint.z]))
+        
         return bufferData
     }
 }

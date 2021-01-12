@@ -488,4 +488,18 @@ class EGDemoScenes {
 
         return scene
     }
+    
+    static func sphere() -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 2, target: [0, 0, -2])
+        scene.camera = camera
+        
+        let sphere = EGSphere(extent: [1, 1, 1], segments: [20, 20])
+        sphere.transform.rotate.setRotation(x: EGConstant(0), y: EGConstant(0), z: EGTime())
+        sphere.transform.scale.setScale(x: 1, y: 1, z: 1)
+        sphere.drawOutline = true
+        scene.add(sphere)
+        
+        return scene
+    }
 }
