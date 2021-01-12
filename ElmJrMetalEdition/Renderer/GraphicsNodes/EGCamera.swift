@@ -51,8 +51,8 @@ class EGArcballCamera: EGCamera {
     }
 
     func updateViewMatrix() {
-        let translateMatrix = EGMatrixBuilder.createTranslationMatrix(x: target.x, y: target.y, z: target.z - distance)
-        let rotateMatrix = EGMatrixBuilder.createRotationMatrix(x: rotation.x, y: -rotation.y, z: 0)
+        let translateMatrix = matrix_float4x4(translation: [target.x, target.y, target.z - distance])
+        let rotateMatrix = matrix_float4x4(rotation: [rotation.x, rotation.y, 0])
 
         viewMatrix = translateMatrix * rotateMatrix
     }

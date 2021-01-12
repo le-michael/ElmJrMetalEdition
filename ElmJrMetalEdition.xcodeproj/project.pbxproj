@@ -25,7 +25,6 @@
 		105CCF132576968B006A6634 /* EGBufferData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCF122576968B006A6634 /* EGBufferData.swift */; };
 		1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066EB9E256D9D3C00667E1E /* EGColorTests.swift */; };
 		106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */; };
-		1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */; };
 		1072E3E42564C41000D390FE /* EILexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* EILexer.swift */; };
 		1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* EIEvaluator.swift */; };
 		1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* EIParser.swift */; };
@@ -42,6 +41,7 @@
 		10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
+		10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736125AE48E20011DF97 /* EGMathUtils.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
 		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
 		10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */; };
@@ -151,7 +151,6 @@
 		105CCF122576968B006A6634 /* EGBufferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBufferData.swift; sourceTree = "<group>"; };
 		1066EB9E256D9D3C00667E1E /* EGColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorTests.swift; sourceTree = "<group>"; };
 		106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCurvedPolygon.swift; sourceTree = "<group>"; };
-		1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMatrixBuilder.swift; sourceTree = "<group>"; };
 		1072E3E32564C41000D390FE /* EILexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexer.swift; sourceTree = "<group>"; };
 		1072E3E62564C42100D390FE /* EIEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluator.swift; sourceTree = "<group>"; };
 		1072E3E92564C43B00D390FE /* EIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParser.swift; sourceTree = "<group>"; };
@@ -168,6 +167,7 @@
 		10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10BE1C832575C88A002C2D49 /* EGRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRandom.swift; sourceTree = "<group>"; };
+		10C3736125AE48E20011DF97 /* EGMathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathUtils.swift; sourceTree = "<group>"; };
 		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
 		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
 		10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRotationMatrix.swift; sourceTree = "<group>"; };
@@ -323,7 +323,6 @@
 				108815242567253900E0850D /* EGTranslationMatrix.swift */,
 				10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */,
 				10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */,
-				1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */,
 			);
 			path = Transform;
 			sourceTree = "<group>";
@@ -362,6 +361,7 @@
 				10ACC0B12562F47700ABEAD4 /* Shaders */,
 				107596F8251C461600BBE3B6 /* EGRenderer.swift */,
 				10126A95257600B6001659B3 /* EGPipelineState.swift */,
+				10C3736125AE48E20011DF97 /* EGMathUtils.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -820,7 +820,6 @@
 				10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
-				1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */,
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,
 				D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */,
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,
@@ -839,6 +838,7 @@
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
+				10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
 				D98A8C7925A0377900FA3539 /* EVToolBarView.swift in Sources */,

@@ -34,6 +34,6 @@ class EGScaleMatrix {
         let y = yEquation.evaluate(sceneProps)
         let z = zEquation.evaluate(sceneProps)
 
-        return EGMatrixBuilder.createScaleMatrix(x: x, y: y, z: z)
+        return matrix_float4x4(scale: [x, y, z])
     }
 }
