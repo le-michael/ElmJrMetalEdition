@@ -105,6 +105,7 @@ extension EVTextEditorView: EVEditorDelegate {
     func didChangeSourceCode(sourceCode: String) {
         if sourceCode != textView.text {
             textView.text = sourceCode
+            postProcess()
         }
     }
     

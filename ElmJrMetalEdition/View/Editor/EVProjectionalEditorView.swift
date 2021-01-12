@@ -59,7 +59,7 @@ class EVProjectionalEditorView: UIView {
             rootNodeView = getErrorLabelView(message: "Couldn't render code as projectional node")
             return
         }
-        rootNodeView = projectionalNode.getUIView()
+        rootNodeView = projectionalNode.getUIView(isStore: false)
         addSubview(rootNodeView!)
     }
 
