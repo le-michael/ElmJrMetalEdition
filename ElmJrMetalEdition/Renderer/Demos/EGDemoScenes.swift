@@ -438,13 +438,13 @@ class EGDemoScenes {
         let potBottom = EGCylinder(extent: [1, 1.5, 1], segments: [10, 1])
         potBottom.transform.translate.setTranslation(x: 0, y: -2, z: 0)
         potBottom.color.setColor(r: 1, g: 0.5, b: 0, a: 1)
-        potBottom.drawOutline = true
+        //potBottom.drawOutline = true
         scene.add(potBottom)
 
         let potTop = EGCylinder(extent: [1.25, 1, 1.25], segments: [10, 1])
         potTop.transform.translate.setTranslation(x: 0, y: -1, z: 0)
         potTop.color.setColor(r: 1, g: 0.5, b: 0, a: 1)
-        potTop.drawOutline = true
+        //potTop.drawOutline = true
         scene.add(potTop)
 
         let soil = EGHemisphere(extent: [1.2, 0.5, 1.2], segments: [10, 10])
@@ -456,7 +456,7 @@ class EGDemoScenes {
         let stem = EGCapsule(extent: [0.75, 5, 0.75], cylinderSegments: [10, 10], hemisphereSegments: 5)
         stem.transform.translate.setTranslation(x: 0, y: 1, z: 0)
         stem.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
-        stem.drawOutline = true
+        //stem.drawOutline = true
         scene.add(stem)
 
         // Arm
@@ -464,26 +464,26 @@ class EGDemoScenes {
         arm1.transform.translate.setTranslation(x: 1.2, y: 1.5, z: 0)
         arm1.transform.rotate.setRotation(x: 0, y: 0, z: 1.5708)
         arm1.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
-        arm1.drawOutline = true
+        //arm1.drawOutline = true
         scene.add(arm1)
 
         let arm2 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm2.transform.translate.setTranslation(x: 1.6, y: 2.25, z: 0)
         arm2.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
-        arm2.drawOutline = true
+        //arm2.drawOutline = true
         scene.add(arm2)
 
         let arm3 = EGCapsule(extent: [0.40, 1.5, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm3.transform.translate.setTranslation(x: -1.2, y: 1.5, z: 0)
         arm3.transform.rotate.setRotation(x: 0, y: 0, z: 1.5708)
         arm3.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
-        arm3.drawOutline = true
+        //arm3.drawOutline = true
         scene.add(arm3)
 
         let arm4 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm4.transform.translate.setTranslation(x: -1.6, y: 0.75, z: 0)
         arm4.color.setColor(r: 0, g: 0.5, b: 0, a: 1)
-        arm4.drawOutline = true
+        //arm4.drawOutline = true
         scene.add(arm4)
 
         return scene

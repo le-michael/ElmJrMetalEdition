@@ -23,7 +23,8 @@ class EGColorProperty {
             let sceneProps = EGSceneProps(
                 projectionMatrix: matrix_identity_float4x4,
                 viewMatrix: matrix_identity_float4x4,
-                time: 0
+                time: 0,
+                cameraPosition: [0, 0, 0]
             )
 
             let r = rEquation.evaluate(sceneProps)

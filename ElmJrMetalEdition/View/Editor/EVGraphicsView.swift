@@ -31,7 +31,7 @@ class EVGraphicsView: UIView {
         let scene = EGDemoScenes.cactus()
         renderer = EGRenderer(view: mtkView, scene: scene)
         mtkView.delegate = renderer
-
+        
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
         mtkView.addGestureRecognizer(pan)
 

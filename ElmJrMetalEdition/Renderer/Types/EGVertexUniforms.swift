@@ -12,6 +12,13 @@ class EGVertexUniforms {
     struct Primitive {
         var modelViewMatrix = matrix_identity_float4x4
         var color = simd_float4(1, 1, 1, 1)
+        var modelMatrix = matrix_identity_float4x4
+        var viewMatrix = matrix_identity_float4x4
+        var projectionMatrix = matrix_identity_float4x4
+        var normalMatrix = matrix_identity_float3x3
+        
+        // Delete this debug
+        var cameraPosition = simd_float3(0, 0 , 0)
     }
 
     struct Bezier {

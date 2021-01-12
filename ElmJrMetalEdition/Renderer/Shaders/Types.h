@@ -16,10 +16,16 @@ using namespace metal;
 struct PrimitiveVertexUniforms {
     float4x4 modelViewMatrix;
     float4 color;
+    float4x4 modelMatrix;
+    float4x4 viewMatrix;
+    float4x4 projectionMatrix;
+    float3x3 normalMatrix;
+    float3 cameraPosition;
 };
 
 struct VertexIn {
     float4 position [[ attribute(0) ]];
+    float3 normal [[ attribute(1) ]];
 };
 
 struct BezierVertexUniforms {
@@ -39,6 +45,9 @@ struct BezierVertexIn {
 struct VertexOut {
     float4 position [[ position ]];
     float4 color;
+    float3 worldPosition;
+    float3 worldNormal;
+    float3 cameraPosition;
 };
 
 #endif /* Types_h */

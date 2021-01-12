@@ -18,7 +18,8 @@ class EGScene: EGGraphicsNode {
         sceneProps = EGSceneProps(
             projectionMatrix: matrix_identity_float4x4,
             viewMatrix: matrix_identity_float4x4,
-            time: 0
+            time: 0,
+            cameraPosition: [0, 0 ,0]
         )
         super.init()
     }
@@ -43,6 +44,7 @@ class EGScene: EGGraphicsNode {
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
+        sceneProps.cameraPosition = camera.position
     }
 
     func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {

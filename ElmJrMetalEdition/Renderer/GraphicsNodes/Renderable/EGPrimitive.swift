@@ -48,6 +48,12 @@ class EGPrimitive: EGGraphicsNode {
             * sceneProps.viewMatrix
             * transformationMatrix
         
+        vertexUniforms.projectionMatrix = sceneProps.projectionMatrix
+        vertexUniforms.viewMatrix = sceneProps.viewMatrix
+        vertexUniforms.modelMatrix = transformationMatrix
+        vertexUniforms.normalMatrix = transformationMatrix.upperLeft
+        vertexUniforms.cameraPosition = sceneProps.cameraPosition
+        
         let colorValue = color.evaluate(sceneProps)
         vertexUniforms.color = colorValue
     }
