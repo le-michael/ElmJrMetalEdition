@@ -166,4 +166,67 @@ class EIAST {
             return "\(name) = \(body)"
         }
     }
+    
+    class TypeName : EINode {
+        let name : String
+        init(_ name : String) {
+            self.name = name
+        }
+        var description: String {
+            return name
+        }
+    }
+    
+    class CustomTypeDefinition: EINode {
+        let name: TypeName
+        let typeParameters: [String]
+        let typeConstructors: [String:Function]
+        
+        init(name: String, typeParameters: [String], typeConstructors:[String:Function]) {
+            self.name = TypeName(name)
+            self.typeParameters = typeParameters
+            self.typeConstructors = typeConstructors
+        }
+        
+        var description: String {
+            var typeParametersStr = ""
+            for param in typeParameters {
+                typeParametersStr += param
+            }
+            var typeConstructorStr = ""
+            var first = true
+            for (constructorName,constructorFunction) in typeConstructors {
+                if !first {
+                    typeConstructorStr += " | "
+                }
+                typeConstructorStr += "\(constructorName) \(constructorFunction)"
+                first = false
+            }
+            return "type \(name) \(typeParametersStr) = \(typeConstructorStr)"
+        }
+    }
+    
+    class CustomTypeInstance: EINode {
+        let type: TypeName
+        let arguments: [EINode]
+        
+        init(type: TypeName, arguments: [EINode]) {
+            self.type = type
+            self.arguments = arguments
+        }
+        
+        var description: String {
+            var argStr = ""
+            var first = true
+            for arg in arguments {
+                if !first {
+                    argStr += " "
+                }
+                argStr += "\(arg)"
+                first = false
+            }
+            return"(\(type) \(argStr)"
+        }
+    }
+    
 }
