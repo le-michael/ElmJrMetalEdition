@@ -86,7 +86,6 @@ extension EVProjectionalNodeView: UIDragInteractionDelegate {
     }
     
     func dragInteraction(_ interaction: UIDragInteraction, willAnimateLiftWith animator: UIDragAnimating, session: UIDragSession) {
-        print("hiding")
     }
 }
 
@@ -177,8 +176,8 @@ extension EIParser.BinaryOp: EVProjectionalNode {
         guard let leftOperandNode = self.leftOperand as? EVProjectionalNode else { return UIView() }
         guard let rightOperandNode = self.rightOperand as? EVProjectionalNode else { return UIView() }
         
-        let leftOperandView = leftOperandNode.getUIView(isStore: false) as! EVProjectionalNodeView
-        let rightOperandView = rightOperandNode.getUIView(isStore: false) as! EVProjectionalNodeView
+        let leftOperandView = leftOperandNode.getUIView(isStore: isStore) as! EVProjectionalNodeView
+        let rightOperandView = rightOperandNode.getUIView(isStore: isStore) as! EVProjectionalNodeView
         
         leftOperandView.dropHandler = handleLeftOperandDrop
         rightOperandView.dropHandler = handleRightOperandDrop
