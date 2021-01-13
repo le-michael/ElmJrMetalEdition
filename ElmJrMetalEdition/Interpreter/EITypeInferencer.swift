@@ -247,7 +247,7 @@ class EITypeInferencer {
             if let declr = expr as? EIAST.Declaration {
                 let ty: Scheme
                 if let fn = declr.body as? EIAST.Function {
-                    ty = try inferExpr(Fix(body: fn))
+                    ty = try inferExpr(Fix(body: EIAST.Function(parameter: declr.name, body: fn)))
                 } else {
                     ty = try inferExpr(declr.body)
                 }
@@ -339,6 +339,10 @@ class EITypeInferencer {
             let (t2, c2) = try infer(fApp.argument)
             let tv = inferState.fresh()
             return (tv, c1 + c2 + [(t1, t2 => tv)])
+        case let fix as Fix:
+            let (t1, c1) = try infer(fix.body)
+            let tv = inferState.fresh()
+            return (tv, c1 + [(tv => tv, t1)])
         case _ as EIAST.Integer:
             return (MonoType.TVar("number"), [])
         case _ as EIAST.FloatingPoint:
