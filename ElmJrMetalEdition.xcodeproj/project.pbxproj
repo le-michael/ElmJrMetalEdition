@@ -33,7 +33,6 @@
 		107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* EGRenderer.swift */; };
 		107FDB5D2567182800D1B54C /* EGMathNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5C2567182800D1B54C /* EGMathNode.swift */; };
 		107FDB602567189D00D1B54C /* EGConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* EGConstant.swift */; };
-		108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* EGTranslationMatrix.swift */; };
 		109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109357AD256D8C0200CC2F3D /* EGColorProperty.swift */; };
 		1098B33925A02F2200BD7AD1 /* EGPrimitive3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1098B33825A02F2200BD7AD1 /* EGPrimitive3D.swift */; };
 		109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* EGTransformProperty.swift */; };
@@ -42,9 +41,8 @@
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
 		10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736125AE48E20011DF97 /* EGMathUtils.swift */; };
+		10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736925AE676E0011DF97 /* EGTransformFunction.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
-		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
-		10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */; };
 		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
 		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
 		7C1856AF259E8C6200546CD3 /* Char.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AE259E8C6200546CD3 /* Char.swift */; };
@@ -159,7 +157,6 @@
 		107596F8251C461600BBE3B6 /* EGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRenderer.swift; sourceTree = "<group>"; };
 		107FDB5C2567182800D1B54C /* EGMathNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathNode.swift; sourceTree = "<group>"; };
 		107FDB5F2567189D00D1B54C /* EGConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGConstant.swift; sourceTree = "<group>"; };
-		108815242567253900E0850D /* EGTranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTranslationMatrix.swift; sourceTree = "<group>"; };
 		109357AD256D8C0200CC2F3D /* EGColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorProperty.swift; sourceTree = "<group>"; };
 		1098B33825A02F2200BD7AD1 /* EGPrimitive3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPrimitive3D.swift; sourceTree = "<group>"; };
 		109DD9CD256B27C700FB700F /* EGTransformProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformProperty.swift; sourceTree = "<group>"; };
@@ -168,9 +165,8 @@
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10BE1C832575C88A002C2D49 /* EGRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRandom.swift; sourceTree = "<group>"; };
 		10C3736125AE48E20011DF97 /* EGMathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathUtils.swift; sourceTree = "<group>"; };
+		10C3736925AE676E0011DF97 /* EGTransformFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformFunction.swift; sourceTree = "<group>"; };
 		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
-		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
-		10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRotationMatrix.swift; sourceTree = "<group>"; };
 		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
 		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
@@ -320,9 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				109DD9CD256B27C700FB700F /* EGTransformProperty.swift */,
-				108815242567253900E0850D /* EGTranslationMatrix.swift */,
-				10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */,
-				10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */,
+				10C3736925AE676E0011DF97 /* EGTransformFunction.swift */,
 			);
 			path = Transform;
 			sourceTree = "<group>";
@@ -803,6 +797,7 @@
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */,
+				10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */,
 				D951051D25A4031A00B07B79 /* EVButtonCell.swift in Sources */,
 				D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */,
 				D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */,
@@ -811,7 +806,6 @@
 				105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */,
 				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
-				108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
@@ -824,7 +818,6 @@
 				D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */,
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,
 				7C1856AB259E82A400546CD3 /* Utils.swift in Sources */,
-				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
 				1038643125A6AA9A0018402E /* EGCamera.swift in Sources */,
 				D98A8C7525A02B9600FA3539 /* EVEditor.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
@@ -842,7 +835,6 @@
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
 				D98A8C7925A0377900FA3539 /* EVToolBarView.swift in Sources */,
-				10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
 				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,

@@ -24,18 +24,18 @@ class EGColorTests: XCTestCase {
 
     func testEGColorProperty() throws {
         let color = EGColorProperty()
-        color.setColor(r: 1.0, g: 0.334, b: 0.232, a: 1.0)
+        color.set(r: 1.0, g: 0.334, b: 0.232, a: 1.0)
         color.checkIfStatic()
         XCTAssert(color.isStatic == true)
         XCTAssert(color.evaluate(sceneProps) == simd_float4(1.0, 0.334, 0.232, 1.0))
 
-        color.setColor(r: 0.215, g: 0.14, b: 0.555, a: 0.22)
+        color.set(r: 0.215, g: 0.14, b: 0.555, a: 0.22)
         color.checkIfStatic()
         XCTAssert(color.isStatic == true)
         XCTAssert(color.evaluate(sceneProps) == simd_float4(0.215, 0.14, 0.555, 0.22))
 
         sceneProps.time = 2415.111
-        color.setColor(
+        color.set(
             r: EGBinaryOp(
                 type: .sub,
                 leftChild: EGBinaryOp(type: .add, leftChild: EGTime(), rightChild: EGTime()),
@@ -58,7 +58,7 @@ class EGColorTests: XCTestCase {
         XCTAssert(color.evaluate(sceneProps) == simd_float4(r, g, b, a))
 
         sceneProps.time = 1111.15
-        color.setColor(
+        color.set(
             r: EGBinaryOp(
                 type: .sub,
                 leftChild: EGBinaryOp(type: .add, leftChild: EGTime(), rightChild: EGTime()),

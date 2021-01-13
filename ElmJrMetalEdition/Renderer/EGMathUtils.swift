@@ -62,8 +62,8 @@ extension matrix_float4x4 {
     init(rotationZ rad: Float) {
         self.init()
         columns = (
-            [cos(rad), -sin(rad), 0, 0],
-            [sin(rad), cos(rad), 0, 0],
+            [cos(rad), sin(rad), 0, 0],
+            [-sin(rad), cos(rad), 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]
         )
