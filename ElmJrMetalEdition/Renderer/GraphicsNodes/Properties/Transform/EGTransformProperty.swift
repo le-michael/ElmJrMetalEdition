@@ -49,9 +49,9 @@ class EGTransformProperty {
     }
 
     func transformationMatrix(_ sceneProps: EGSceneProps) -> matrix_float4x4 {
-        /* if isStatic {
+        if isStatic {
              return cachedMatrix
-         } */
+         }
         return translate.evaluate(sceneProps)
             * rotate.evaluate(sceneProps)
             * scale.evaluate(sceneProps)
