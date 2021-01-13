@@ -9,7 +9,7 @@
 import simd
 
 struct EGSceneProps {
-    var projectionMatrix: matrix_float4x4
-    var viewMatrix: matrix_float4x4
-    var time: Float
+    var projectionMatrix: matrix_float4x4 = matrix_identity_float4x4
+    var viewMatrix: matrix_float4x4 = matrix_identity_float4x4
+    var time: Float = 0
 }
