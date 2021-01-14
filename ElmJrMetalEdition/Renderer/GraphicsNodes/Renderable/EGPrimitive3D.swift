@@ -7,6 +7,8 @@
 //
 
 import MetalKit
+import ModelIO
+import SceneKit.ModelIO
 
 class EGPrimitive3D: EGPrimitive {
     var mtkMesh: MTKMesh?
@@ -38,38 +40,67 @@ class EGPrimitive3D: EGPrimitive {
                        sceneProps: EGSceneProps)
     {
         guard let pipeline = pipelineStates.states[.primitive3D],
-              let mtkMesh = mtkMesh,
-              let submesh = mtkMesh.submeshes.first else { return }
+              let mtkMesh = mtkMesh else { return }
 
         updateVertexUniforms(sceneProps)
-
         commandEncoder.setRenderPipelineState(pipeline)
+
+        fragmentUniforms.surfaceType = Lit
+        fragmentUniforms.lightCount = UInt32(sceneProps.lights.count)
+        fragmentUniforms.cameraPosition = sceneProps.cameraPosition
+        
+        commandEncoder.setFragmentBytes(
+            &fragmentUniforms,
+            length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
+            index: 2
+        )
+        commandEncoder.setFragmentBytes(
+            sceneProps.lights,
+            length: MemoryLayout<Light>.stride * sceneProps.lights.count,
+            index: 3
+        )
+
         commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
         commandEncoder.setVertexBytes(&vertexUniforms,
-                                      length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                      length: MemoryLayout<PrimitiveVertexUniforms>.stride,
                                       index: 1)
+
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setCullMode(.front)
-        commandEncoder.drawIndexedPrimitives(type: .triangle,
-                                             indexCount: submesh.indexCount,
-                                             indexType: submesh.indexType,
-                                             indexBuffer: submesh.indexBuffer.buffer,
-                                             indexBufferOffset: submesh.indexBuffer.offset)
+        for submesh in mtkMesh.submeshes {
+            commandEncoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: submesh.indexCount,
+                indexType: submesh.indexType,
+                indexBuffer: submesh.indexBuffer.buffer,
+                indexBufferOffset: submesh.indexBuffer.offset
+            )
+        }
 
         if drawOutline {
             vertexUniforms.color = outlineColor
+            fragmentUniforms.surfaceType = Unlit
 
+            commandEncoder.setFragmentBytes(
+                &fragmentUniforms,
+                length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
+                index: 2
+            )
             commandEncoder.setRenderPipelineState(pipeline)
             commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
             commandEncoder.setVertexBytes(&vertexUniforms,
-                                          length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                          length: MemoryLayout<PrimitiveVertexUniforms>.stride,
                                           index: 1)
             commandEncoder.setTriangleFillMode(.lines)
-            commandEncoder.drawIndexedPrimitives(type: .triangle,
-                                                 indexCount: submesh.indexCount,
-                                                 indexType: submesh.indexType,
-                                                 indexBuffer: submesh.indexBuffer.buffer,
-                                                 indexBufferOffset: submesh.indexBuffer.offset)
+            for submesh in mtkMesh.submeshes {
+                commandEncoder.drawIndexedPrimitives(
+                    type: .triangle,
+                    indexCount: submesh.indexCount,
+                    indexType: submesh.indexType,
+                    indexBuffer: submesh.indexBuffer.buffer,
+                    indexBufferOffset: submesh.indexBuffer.offset
+                )
+            }
         }
     }
 }
@@ -79,9 +110,10 @@ class EGSphere: EGPrimitive3D {
         super.init(mdlMeshFunction: { allocator in
             MDLMesh(sphereWithExtent: extent,
                     segments: segments,
-                    inwardNormals: false,
+                    inwardNormals: true,
                     geometryType: .triangles,
                     allocator: allocator)
+
         })
     }
 }

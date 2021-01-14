@@ -10,17 +10,33 @@ import MetalKit
 
 class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
-    var sceneProps: EGSceneProps
+    var sceneProps = EGSceneProps()
     var fps: Float = 60
+
     var camera = EGCamera()
+    var lights = [Light]()
 
     override init() {
-        sceneProps = EGSceneProps(
-            projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4,
-            time: 0
-        )
         super.init()
+        // TODO: Remove this
+        lights.append(
+            Light(
+                position: [1, 2, 2],
+                color: [0.7, 0.7, 0.7],
+                intensity: 1,
+                type: Directional
+            )
+        )
+        
+        lights.append(
+            Light(
+                position: [1, -2, -2],
+                color: [0.7, 0.7, 0.7],
+                intensity: 0.5,
+                type: Directional
+            )
+        )
+
     }
 
     func setDrawableSize(size: CGSize) {
@@ -43,6 +59,8 @@ class EGScene: EGGraphicsNode {
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
+        sceneProps.lights = lights
+        sceneProps.cameraPosition = camera.position
     }
 
     func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {

@@ -17,7 +17,9 @@ class EGPrimitive: EGGraphicsNode {
     var drawOutline: Bool = false
     var outlineColor = simd_float4(0, 0, 0, 1)
     
-    var vertexUniforms = EGVertexUniforms.Primitive()
+    var vertexUniforms = PrimitiveVertexUniforms()
+    var fragmentUniforms = PrimitiveFragmentUniforms()
+    
     var transform = EGTransformProperty()
     var color = EGColorProperty()
     
@@ -44,9 +46,10 @@ class EGPrimitive: EGGraphicsNode {
 
     func updateVertexUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.transformationMatrix(sceneProps)
-        vertexUniforms.modelViewMatrix = sceneProps.projectionMatrix
-            * sceneProps.viewMatrix
-            * transformationMatrix
+        vertexUniforms.modelMatrix = transformationMatrix
+        vertexUniforms.viewMatrix = sceneProps.viewMatrix
+        vertexUniforms.projectionMatrix = sceneProps.projectionMatrix
+        vertexUniforms.normalMatrix = transformationMatrix.upperLeft
         
         let colorValue = color.evaluate(sceneProps)
         vertexUniforms.color = colorValue
@@ -67,7 +70,7 @@ class EGPrimitive: EGGraphicsNode {
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(&vertexUniforms,
-                                      length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                      length: MemoryLayout<PrimitiveVertexUniforms>.stride,
                                       index: 1)
         commandEncoder.drawIndexedPrimitives(type: .triangle,
                                              indexCount: mesh.indices.count,
@@ -82,7 +85,7 @@ class EGPrimitive: EGGraphicsNode {
             commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             commandEncoder.setTriangleFillMode(.lines)
             commandEncoder.setVertexBytes(&vertexUniforms,
-                                          length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
+                                          length: MemoryLayout<PrimitiveVertexUniforms>.stride,
                                           index: 1)
             commandEncoder.drawIndexedPrimitives(type: .triangle,
                                                  indexCount: mesh.indices.count,

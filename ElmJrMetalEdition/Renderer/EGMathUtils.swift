@@ -12,9 +12,9 @@ extension Float {
     var degreesToRadians: Float {
         (self / 180) * Float.pi
     }
-    
+
     var radiansToDegrees: Float {
-        (self / Float.pi ) * 180
+        (self / Float.pi) * 180
     }
 }
 
@@ -87,6 +87,16 @@ extension matrix_float4x4 {
             [0, y, 0, 0],
             [0, 0, z, -1],
             [0, 0, z * near, 0]
+        )
+    }
+
+    var upperLeft: float3x3 {
+        return float3x3(
+            columns: (
+                [columns.0.x, columns.0.y, columns.0.z],
+                [columns.1.x, columns.1.y, columns.1.z],
+                [columns.2.x, columns.2.y, columns.2.z]
+            )
         )
     }
 }

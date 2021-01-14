@@ -14,7 +14,7 @@ class EGCurvedPolygon: EGGraphicsNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
 
-    var vertexUniforms = EGVertexUniforms.Bezier()
+    var vertexUniforms = BezierVertexUniforms()
     var transform = EGTransformProperty()
     var color = EGColorProperty()
 
@@ -81,7 +81,7 @@ class EGCurvedPolygon: EGGraphicsNode {
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &vertexUniforms,
-            length: MemoryLayout<EGVertexUniforms.Bezier>.stride,
+            length: MemoryLayout<BezierVertexUniforms>.stride,
             index: 1
         )
         commandEncoder.drawIndexedPrimitives(

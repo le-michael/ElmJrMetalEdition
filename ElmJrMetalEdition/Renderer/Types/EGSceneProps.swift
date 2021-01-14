@@ -12,4 +12,6 @@ struct EGSceneProps {
     var projectionMatrix: matrix_float4x4 = matrix_identity_float4x4
     var viewMatrix: matrix_float4x4 = matrix_identity_float4x4
     var time: Float = 0
+    var lights = [Light]()
+    var cameraPosition: simd_float3 = [0, 0, 0]
 }

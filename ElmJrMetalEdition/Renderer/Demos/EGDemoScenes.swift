@@ -443,33 +443,34 @@ class EGDemoScenes {
 
     static func cactus() -> EGScene {
         let scene = EGScene()
-        let camera = EGArcballCamera(distance: 2, target: [0, 0, -8])
+        let camera = EGArcballCamera(distance: 5, target: [0, 0, 0])
         scene.camera = camera
 
         // Flower Pot
-        let potBottom = EGCylinder(extent: [1, 1.5, 1], segments: [10, 1])
+        let potBottom = EGModel(modelName: "cylinder.obj")//EGCylinder(extent: [1, 1.5, 1], segments: [10, 1])
         potBottom.transform.translate.set(x: 0, y: -2, z: 0)
+        potBottom.transform.scale.set(x: 1, y: 0.5, z: 1)
         potBottom.color.set(r: 1, g: 0.5, b: 0, a: 1)
-        potBottom.drawOutline = true
+        //potBottom.drawOutline = true
         scene.add(potBottom)
 
         let potTop = EGCylinder(extent: [1.25, 1, 1.25], segments: [10, 1])
         potTop.transform.translate.set(x: 0, y: -1, z: 0)
         potTop.color.set(r: 1, g: 0.5, b: 0, a: 1)
         potTop.drawOutline = true
-        scene.add(potTop)
+        //scene.add(potTop)
 
         let soil = EGHemisphere(extent: [1.2, 0.5, 1.2], segments: [10, 10])
         soil.transform.translate.set(x: 0, y: -0.7, z: 0)
         soil.color.set(r: 0.8, g: 0.5, b: 0.2, a: 1)
-        scene.add(soil)
+        //scene.add(soil)
 
         // Cactus
         let stem = EGCapsule(extent: [0.75, 5, 0.75], cylinderSegments: [10, 10], hemisphereSegments: 5)
         stem.transform.translate.set(x: 0, y: 1, z: 0)
         stem.color.set(r: 0, g: 0.5, b: 0, a: 1)
         stem.drawOutline = true
-        scene.add(stem)
+        //scene.add(stem)
 
         // Arm
         let arm1 = EGCapsule(extent: [0.40, 1.5, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
@@ -477,39 +478,37 @@ class EGDemoScenes {
         arm1.transform.rotate.set(x: 0, y: 0, z: 1.5708)
         arm1.color.set(r: 0, g: 0.5, b: 0, a: 1)
         arm1.drawOutline = true
-        scene.add(arm1)
+        //scene.add(arm1)
 
         let arm2 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm2.transform.translate.set(x: 1.6, y: 2.25, z: 0)
         arm2.color.set(r: 0, g: 0.5, b: 0, a: 1)
         arm2.drawOutline = true
-        scene.add(arm2)
+        //scene.add(arm2)
 
         let arm3 = EGCapsule(extent: [0.40, 1.5, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm3.transform.translate.set(x: -1.2, y: 1.5, z: 0)
         arm3.transform.rotate.set(x: 0, y: 0, z: 1.5708)
         arm3.color.set(r: 0, g: 0.5, b: 0, a: 1)
         arm3.drawOutline = true
-        scene.add(arm3)
+        //scene.add(arm3)
 
         let arm4 = EGCapsule(extent: [0.40, 2, 0.40], cylinderSegments: [10, 10], hemisphereSegments: 5)
         arm4.transform.translate.set(x: -1.6, y: 0.75, z: 0)
         arm4.color.set(r: 0, g: 0.5, b: 0, a: 1)
         arm4.drawOutline = true
-        scene.add(arm4)
+        //scene.add(arm4)
 
         return scene
     }
 
     static func sphere() -> EGScene {
         let scene = EGScene()
-        let camera = EGArcballCamera(distance: 2, target: [0, 0, -2])
+        let camera = EGArcballCamera(distance: 2, target: [0, 0, 0])
         scene.camera = camera
 
-        let sphere = EGSphere(extent: [1, 1, 1], segments: [20, 20])
-        sphere.transform.rotate.set(x: EGConstant(0), y: EGConstant(0), z: EGTime())
+        let sphere = EGModel(modelName: "capsule.obj")
         sphere.transform.scale.set(x: 1, y: 1, z: 1)
-        sphere.drawOutline = true
         scene.add(sphere)
 
         return scene

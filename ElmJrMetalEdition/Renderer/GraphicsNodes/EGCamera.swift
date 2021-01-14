@@ -10,6 +10,7 @@ import simd
 
 class EGCamera {
     var transform = EGTransformProperty()
+    var position: simd_float3 = [0, 0, 0]
 
     func viewMatrix(sceneProps: EGSceneProps) -> matrix_float4x4 {
         let matrix = transform.transformationMatrix(sceneProps)
@@ -52,9 +53,11 @@ class EGArcballCamera: EGCamera {
 
     func updateViewMatrix() {
         let translateMatrix = matrix_float4x4(translation: [target.x, target.y, target.z - distance])
-        let rotateMatrix = matrix_float4x4(rotation: [rotation.x, rotation.y, 0])
+        let rotateMatrix = matrix_float4x4(rotation: [-rotation.x, rotation.y, 0])
 
-        viewMatrix = translateMatrix * rotateMatrix
+        let matrix = translateMatrix * rotateMatrix
+        position = -simd_float3(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z) * rotateMatrix.upperLeft
+        viewMatrix = matrix
     }
 
     override func viewMatrix(sceneProps: EGSceneProps) -> matrix_float4x4 {

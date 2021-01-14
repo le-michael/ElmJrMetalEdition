@@ -24,6 +24,7 @@ class EGTransformProperty {
         matrixFunction: { xyz in matrix_float4x4(scale: xyz) }
     )
 
+
     var isStatic = false
     var cachedMatrix = matrix_identity_float4x4
 

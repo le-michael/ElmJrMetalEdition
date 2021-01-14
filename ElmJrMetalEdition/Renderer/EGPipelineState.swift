@@ -24,10 +24,11 @@ class EGPipelineState {
         
         do {
             try createPrimitivePipelineState(library: library, device: device, view: view)
-            try createBezierPipelineState(library: library, device: device, view: view)
+            // TODO: Create new fragment function
+            // try createBezierPipelineState(library: library, device: device, view: view)
             try create3DPipelineStates(library: library, device: device, view: view)
         } catch {
-            fatalError("Unable to initalize pipeline states")
+            fatalError("Unable to initalize pipeline states: \(error)")
         }
     }
     
@@ -40,10 +41,16 @@ class EGPipelineState {
         primitivePipelineDescriptor.fragmentFunction = primitiveFragmentFunction
         primitivePipelineDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat
         
+        var offset = 0
         let primitiveVertexDescriptor = MTLVertexDescriptor()
         primitiveVertexDescriptor.attributes[0].format = .float3
-        primitiveVertexDescriptor.attributes[0].offset = 0
+        primitiveVertexDescriptor.attributes[0].offset = offset
         primitiveVertexDescriptor.attributes[0].bufferIndex = 0
+        
+        offset += MemoryLayout<simd_float3>.stride
+        primitiveVertexDescriptor.attributes[1].format = .float3
+        primitiveVertexDescriptor.attributes[1].offset = offset
+        primitiveVertexDescriptor.attributes[1].bufferIndex = 0
         
         primitiveVertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex.Primitive>.stride
         
@@ -90,14 +97,28 @@ class EGPipelineState {
         shape3DPipelineDescriptor.fragmentFunction = primitiveFragmentFunction
         shape3DPipelineDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat
         shape3DPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+        /*
+                let vertexDescriptor = MDLVertexDescriptor()
+                var offset = 0
+                vertexDescriptor.attributes[0] = MDLVertexAttribute(
+                    name: MDLVertexAttributePosition,
+                    format: .float3,
+                    offset: offset,
+                    bufferIndex: 0
+                )
+                offset += MemoryLayout<simd_float3>.stride
         
-        let sphereMesh = MDLMesh(sphereWithExtent: [1, 1, 1],
-                                 segments: [1, 1],
-                                 inwardNormals: false,
-                                 geometryType: .triangles,
-                                 allocator: nil)
+                vertexDescriptor.attributes[1] = MDLVertexAttribute(
+                    name: MDLVertexAttributePosition,
+                    format: .float3,
+                    offset: offset,
+                    bufferIndex: 0
+                )
+                offset += MemoryLayout<simd_float3>.stride
         
-        shape3DPipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(sphereMesh.vertexDescriptor)
+                vertexDescriptor.layouts[0] = MDLVertexBufferLayout(stride: offset)
+         */
+        shape3DPipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(EGVertexDescriptor.primitive)
         states[.primitive3D] = try device.makeRenderPipelineState(descriptor: shape3DPipelineDescriptor)
     }
 }
