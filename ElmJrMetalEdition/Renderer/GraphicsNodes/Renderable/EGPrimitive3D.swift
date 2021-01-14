@@ -11,6 +11,7 @@ import MetalKit
 class EGPrimitive3D: EGPrimitive {
     var mtkMesh: MTKMesh?
     var mdlMeshFunction: (MTKMeshBufferAllocator) -> MDLMesh?
+    var smoothIntensity: Float = 0
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
@@ -25,7 +26,7 @@ class EGPrimitive3D: EGPrimitive {
         guard let mdlMesh = mdlMeshFunction(allocator) else {
             return
         }
-        mdlMesh.addNormals(withAttributeNamed: MDLVertexAttributeNormal, creaseThreshold: 1)
+        mdlMesh.addNormals(withAttributeNamed: MDLVertexAttributeNormal, creaseThreshold: max(0, 1 - smoothIntensity))
         transform.checkIfStatic()
         color.checkIfStatic()
 

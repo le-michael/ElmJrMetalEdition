@@ -414,6 +414,7 @@ class EGDemoScenes {
 
         let monkey = EGMonkey()
         monkey.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
+        monkey.smoothIntensity = 0.5
         scene.add(monkey)
 
         let ring = EGRing()
@@ -421,6 +422,7 @@ class EGDemoScenes {
         ring.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
         ring.color.set(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
+        ring.smoothIntensity = 0.5
         scene.add(ring)
 
         let monkey2 = EGMonkey()
@@ -438,6 +440,7 @@ class EGDemoScenes {
         let monkey3 = EGMonkey()
         monkey3.transform.translate.set(x: 3, y: 0, z: 0)
         monkey3.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
+        monkey3.smoothIntensity = 1
         scene.add(monkey3)
 
         let ring3 = EGRing()
@@ -445,6 +448,7 @@ class EGDemoScenes {
         ring3.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring3.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
         ring3.color.set(r: 212/255, g: 175/255, b: 55/255, a: 1)
+        ring3.smoothIntensity = 1
         scene.add(ring3)
 
         return scene
