@@ -7,8 +7,6 @@
 //
 
 import MetalKit
-import ModelIO
-import SceneKit.ModelIO
 
 class EGPrimitive3D: EGPrimitive {
     var mtkMesh: MTKMesh?

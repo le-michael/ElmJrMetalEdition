@@ -396,8 +396,8 @@ class EGDemoScenes {
         let scene = EGScene()
         scene.camera.transform.translate.set(x: 0, y: 0, z: -5)
         scene.camera.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
-        //let camera = EGArcballCamera(distance: 2, target: [0, 0, 0])
-        //scene.camera = camera
+        let camera = EGArcballCamera(distance: 2, target: [0, 0, 0])
+        scene.camera = camera
 
         scene.lights.append(
             EGLight.directional(color: [1, 1, 1], position: [0, 0, 1], intensity: 1, specularColor: [0.6, 0.6, 0.6])
