@@ -319,7 +319,7 @@ class EGDemoScenes {
             for j in 0 ..< count {
                 let amplitude = Float(i * 4)
                 let step = Float(j)/60 * 10
-                let asteroid = EGSphere(extent: [0.75, 0.75, 0.75], segments: [25, 25])
+                let asteroid = EGSphere()
                 asteroid.transform.scale.set(x: 1, y: 1, z: 1)
                 asteroid.transform.translate.set(
                     x: EGBinaryOp(
@@ -412,35 +412,35 @@ class EGDemoScenes {
             EGLight.directional(color: [1, 1, 1], position: [0, -1, 0], intensity: 0.3, specularColor: [0.6, 0.6, 0.6])
         )
 
-        let monkey = EGModel(modelName: "monkey.obj")
+        let monkey = EGMonkey()
         monkey.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(monkey)
 
-        let ring = EGModel(modelName: "ring.obj")
+        let ring = EGRing()
         ring.transform.translate.set(x: 0, y: 1.25, z: 0)
         ring.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
         ring.color.set(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
         scene.add(ring)
 
-        let monkey2 = EGModel(modelName: "monkey.obj")
+        let monkey2 = EGMonkey()
         monkey2.transform.translate.set(x: -3, y: 0, z: 0)
         monkey2.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(monkey2)
 
-        let ring2 = EGModel(modelName: "ring.obj")
+        let ring2 = EGRing()
         ring2.transform.translate.set(x: -3, y: 1.25, z: 0)
         ring2.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring2.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
         ring2.color.set(r: 212/255, g: 175/255, b: 55/255, a: 1)
         scene.add(ring2)
 
-        let monkey3 = EGModel(modelName: "monkey.obj")
+        let monkey3 = EGMonkey()
         monkey3.transform.translate.set(x: 3, y: 0, z: 0)
         monkey3.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(monkey3)
 
-        let ring3 = EGModel(modelName: "ring.obj")
+        let ring3 = EGRing()
         ring3.transform.translate.set(x: 3, y: 1.25, z: 0)
         ring3.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring3.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))

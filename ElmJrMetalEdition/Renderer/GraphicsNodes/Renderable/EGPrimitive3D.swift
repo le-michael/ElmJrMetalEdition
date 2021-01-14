@@ -79,96 +79,66 @@ class EGPrimitive3D: EGPrimitive {
     }
 }
 
-class EGSphere: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
+class EGModel: EGPrimitive3D {
+    var name: String
+    init(modelName name: String) {
+        self.name = name
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(sphereWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: true,
-                    geometryType: .triangles,
-                    allocator: allocator)
-
-        })
-    }
-}
-
-class EGCube: EGPrimitive3D {
-    init(extent: simd_float3) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: extent,
-                    segments: [1, 1, 1],
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
-
-        })
-    }
-}
-
-class EGCone: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(coneWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: false,
-                    cap: true,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGCapsule: EGPrimitive3D {
-    init(extent: simd_float3, cylinderSegments: simd_uint2, hemisphereSegments: Int32) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(capsuleWithExtent: extent,
-                    cylinderSegments: cylinderSegments,
-                    hemisphereSegments: hemisphereSegments,
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGHemisphere: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(hemisphereWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: false,
-                    cap: true,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGCylinder: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(
-                cylinderWithExtent: extent,
-                segments: segments,
-                inwardNormals: false,
-                topCap: true,
-                bottomCap: true,
-                geometryType: .triangles,
-                allocator: allocator
+            guard let assetURL = Bundle.main.url(forResource: name, withExtension: nil) else {
+                fatalError("Cannot find model '\(name)'")
+            }
+            
+            let asset = MDLAsset(
+                url: assetURL,
+                vertexDescriptor: EGVertexDescriptor.primitive,
+                bufferAllocator: allocator
             )
+            
+            return asset.childObjects(of: MDLMesh.self).first as! MDLMesh
         })
     }
 }
 
-class EGIcosahedron: EGPrimitive3D {
-    init(extent: simd_float3) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(
-                icosahedronWithExtent: extent,
-                inwardNormals: false,
-                geometryType: .triangles,
-                allocator: allocator
-            )
-        })
+
+class EGSphere: EGModel {
+    init() {
+        super.init(modelName: "sphere.obj")
     }
 }
+
+class EGCube: EGModel {
+    init() {
+        super.init(modelName: "cube.obj")
+    }
+}
+
+class EGCone: EGModel {
+    init() {
+        super.init(modelName: "cone.obj")
+    }
+}
+
+class EGCapsule: EGModel {
+    init() {
+        super.init(modelName: "capsule.obj")
+    }
+}
+
+class EGCylinder: EGModel {
+    init() {
+        super.init(modelName: "cylinder.obj")
+    }
+}
+
+class EGMonkey: EGModel {
+    init() {
+        super.init(modelName: "monkey.obj")
+    }
+}
+
+class EGRing: EGModel {
+    init() {
+        super.init(modelName: "ring.obj")
+    }
+}
+
