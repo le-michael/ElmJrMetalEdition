@@ -30,6 +30,7 @@
 		104792EF25AFD8B700269311 /* capsule.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E325AFD8B700269311 /* capsule.mtl */; };
 		104792F025AFD8B700269311 /* cylinder.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792E425AFD8B700269311 /* cylinder.obj */; };
 		104792F125AFD8B700269311 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E525AFD8B700269311 /* sphere.mtl */; };
+		104792F525B00BE600269311 /* Primitive3D.metal in Sources */ = {isa = PBXBuildFile; fileRef = 104792F425B00BE600269311 /* Primitive3D.metal */; };
 		105CCEF625769166006A6634 /* EGMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF525769166006A6634 /* EGMesh.swift */; };
 		105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF9257691CE006A6634 /* EGBezierMesh.swift */; };
 		105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEFD257692B3006A6634 /* EGVertex.swift */; };
@@ -169,6 +170,7 @@
 		104792E325AFD8B700269311 /* capsule.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = capsule.mtl; sourceTree = "<group>"; };
 		104792E425AFD8B700269311 /* cylinder.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cylinder.obj; sourceTree = "<group>"; };
 		104792E525AFD8B700269311 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
+		104792F425B00BE600269311 /* Primitive3D.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive3D.metal; sourceTree = "<group>"; };
 		105CCEF525769166006A6634 /* EGMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMesh.swift; sourceTree = "<group>"; };
 		105CCEF9257691CE006A6634 /* EGBezierMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBezierMesh.swift; sourceTree = "<group>"; };
 		105CCEFD257692B3006A6634 /* EGVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertex.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 			children = (
 				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
 				102D1A5A2575EF8D00A6CD27 /* Bezier.metal */,
+				104792F425B00BE600269311 /* Primitive3D.metal */,
 				1029B41D2587205600B47320 /* Types.h */,
 			);
 			path = Shaders;
@@ -852,6 +855,7 @@
 			files = (
 				10126A96257600B6001659B3 /* EGPipelineState.swift in Sources */,
 				1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */,
+				104792F525B00BE600269311 /* Primitive3D.metal in Sources */,
 				7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */,

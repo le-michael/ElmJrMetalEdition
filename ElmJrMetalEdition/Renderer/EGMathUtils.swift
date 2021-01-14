@@ -93,10 +93,16 @@ extension matrix_float4x4 {
     var upperLeft: float3x3 {
         return float3x3(
             columns: (
-                [columns.0.x, columns.0.y, columns.0.z],
-                [columns.1.x, columns.1.y, columns.1.z],
-                [columns.2.x, columns.2.y, columns.2.z]
+                columns.0.xyz,
+                columns.1.xyz,
+                columns.2.xyz
             )
         )
+    }
+}
+
+extension simd_float4 {
+    var xyz: simd_float3 {
+        simd_float3(x, y, z)
     }
 }

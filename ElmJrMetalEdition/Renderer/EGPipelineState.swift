@@ -25,7 +25,7 @@ class EGPipelineState {
         do {
             try createPrimitivePipelineState(library: library, device: device, view: view)
             // TODO: Create new fragment function
-            // try createBezierPipelineState(library: library, device: device, view: view)
+            try createBezierPipelineState(library: library, device: device, view: view)
             try create3DPipelineStates(library: library, device: device, view: view)
         } catch {
             fatalError("Unable to initalize pipeline states: \(error)")
@@ -89,35 +89,15 @@ class EGPipelineState {
     }
     
     func create3DPipelineStates(library: MTLLibrary, device: MTLDevice, view: MTKView) throws {
-        let primitiveVertexFunction = library.makeFunction(name: "primitive_vertex_shader")
-        let primitiveFragmentFunction = library.makeFunction(name: "primitive_fragment_shader")
+        let primitiveVertexFunction = library.makeFunction(name: "primitive3d_vertex_shader")
+        let primitiveFragmentFunction = library.makeFunction(name: "primitive3d_fragment_shader")
         
         let shape3DPipelineDescriptor = MTLRenderPipelineDescriptor()
         shape3DPipelineDescriptor.vertexFunction = primitiveVertexFunction
         shape3DPipelineDescriptor.fragmentFunction = primitiveFragmentFunction
         shape3DPipelineDescriptor.colorAttachments[0].pixelFormat = view.colorPixelFormat
         shape3DPipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
-        /*
-                let vertexDescriptor = MDLVertexDescriptor()
-                var offset = 0
-                vertexDescriptor.attributes[0] = MDLVertexAttribute(
-                    name: MDLVertexAttributePosition,
-                    format: .float3,
-                    offset: offset,
-                    bufferIndex: 0
-                )
-                offset += MemoryLayout<simd_float3>.stride
-        
-                vertexDescriptor.attributes[1] = MDLVertexAttribute(
-                    name: MDLVertexAttributePosition,
-                    format: .float3,
-                    offset: offset,
-                    bufferIndex: 0
-                )
-                offset += MemoryLayout<simd_float3>.stride
-        
-                vertexDescriptor.layouts[0] = MDLVertexBufferLayout(stride: offset)
-         */
+
         shape3DPipelineDescriptor.vertexDescriptor = MTKMetalVertexDescriptorFromModelIO(EGVertexDescriptor.primitive)
         states[.primitive3D] = try device.makeRenderPipelineState(descriptor: shape3DPipelineDescriptor)
     }

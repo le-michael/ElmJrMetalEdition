@@ -21,6 +21,7 @@ typedef enum {
 struct Light {
     vector_float3 position;
     vector_float3 color;
+    vector_float3 specularColor;
     float intensity;
     LightType type;
 };
@@ -42,6 +43,8 @@ struct PrimitiveVertexUniforms {
 struct PrimitiveFragmentUniforms {
     uint lightCount;
     vector_float3 cameraPosition;
+    float materialShine;
+    vector_float3 materialSpecularColor;
     SurfaceType surfaceType;
 };
 

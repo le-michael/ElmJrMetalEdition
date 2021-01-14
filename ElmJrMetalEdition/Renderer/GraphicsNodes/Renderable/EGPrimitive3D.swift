@@ -17,6 +17,9 @@ class EGPrimitive3D: EGPrimitive {
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
         super.init()
+        surfaceType = Lit
+        fragmentUniforms.materialShine = 32
+        fragmentUniforms.materialSpecularColor = [0.6, 0.6, 0.6]
     }
 
     override func createBuffers(device: MTLDevice) {
@@ -45,15 +48,12 @@ class EGPrimitive3D: EGPrimitive {
         updateVertexUniforms(sceneProps)
         commandEncoder.setRenderPipelineState(pipeline)
 
-        fragmentUniforms.surfaceType = Lit
-        fragmentUniforms.lightCount = UInt32(sceneProps.lights.count)
-        fragmentUniforms.cameraPosition = sceneProps.cameraPosition
-        
         commandEncoder.setFragmentBytes(
             &fragmentUniforms,
             length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
             index: 2
         )
+
         commandEncoder.setFragmentBytes(
             sceneProps.lights,
             length: MemoryLayout<Light>.stride * sceneProps.lights.count,

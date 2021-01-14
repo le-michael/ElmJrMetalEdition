@@ -13,7 +13,11 @@ class EGCamera {
     var position: simd_float3 = [0, 0, 0]
 
     func viewMatrix(sceneProps: EGSceneProps) -> matrix_float4x4 {
-        let matrix = transform.transformationMatrix(sceneProps)
+        let translateMatrix = transform.translate.evaluate(sceneProps)
+        let rotateMatrix = transform.rotate.evaluate(sceneProps)
+        
+        let matrix = translateMatrix * rotateMatrix
+        position = -simd_float3(matrix.columns.3.x, matrix.columns.3.y, matrix.columns.3.z) * rotateMatrix.upperLeft
         return matrix
     }
 

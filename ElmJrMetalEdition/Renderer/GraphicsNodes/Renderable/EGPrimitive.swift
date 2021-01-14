@@ -23,6 +23,8 @@ class EGPrimitive: EGGraphicsNode {
     var transform = EGTransformProperty()
     var color = EGColorProperty()
     
+    var surfaceType: SurfaceType = Unlit
+    
     override init() { super.init() }
     
     init(mesh: EGMesh) {
@@ -53,6 +55,10 @@ class EGPrimitive: EGGraphicsNode {
         
         let colorValue = color.evaluate(sceneProps)
         vertexUniforms.color = colorValue
+        
+        fragmentUniforms.surfaceType = surfaceType
+        fragmentUniforms.lightCount = UInt32(sceneProps.lights.count)
+        fragmentUniforms.cameraPosition = sceneProps.cameraPosition
     }
     
     override func draw(commandEncoder: MTLRenderCommandEncoder,
