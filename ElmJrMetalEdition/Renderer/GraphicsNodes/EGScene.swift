@@ -22,21 +22,38 @@ class EGScene: EGGraphicsNode {
         lights.append(
             Light(
                 position: [1, 2, 2],
-                color: [0.7, 0.7, 0.7],
+                color: [1, 1, 1],
                 intensity: 1,
+                type: Directional
+            )
+        )
+        lights.append(
+            Light(
+                position: [1, -2, -2],
+                color: [1, 1, 1],
+                intensity: 0.5,
                 type: Directional
             )
         )
         
         lights.append(
             Light(
-                position: [1, -2, -2],
-                color: [0.7, 0.7, 0.7],
-                intensity: 0.5,
+                position: [-1, -1, 0],
+                color: [1, 1, 1],
+                intensity: 0.7,
                 type: Directional
             )
         )
-
+        
+        
+        lights.append(
+            Light(
+                position: [1, -2, -2],
+                color: [0.4, 0.4, 0.4],
+                intensity: 0.1,
+                type: Ambient
+            )
+        )
     }
 
     func setDrawableSize(size: CGSize) {
@@ -59,6 +76,7 @@ class EGScene: EGGraphicsNode {
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
+        lights[0].position = camera.position
         sceneProps.lights = lights
         sceneProps.cameraPosition = camera.position
     }

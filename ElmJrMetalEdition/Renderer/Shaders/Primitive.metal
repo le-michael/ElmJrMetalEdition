@@ -43,7 +43,7 @@ fragment float4 primitive_fragment_shader(
     constant Light *lights [[buffer(3)]]
 ) {
     if (fragmentUniforms.surfaceType == Lit) {
-        // Sunlight
+        // Directional
         float3 baseColor = vertexIn.color.xyz;
         float3 diffuseColor = 0;
         
@@ -51,7 +51,10 @@ fragment float4 primitive_fragment_shader(
         float3 specularColor = 0;
         float materialShine = 32;
         float3 materialSpecularColor = float3(0.6, 0.6, 0.6);
-
+        
+        // Ambient
+        float3 ambientColor = 0;
+        
         float3 normalDirection = normalize(vertexIn.worldNormal);
         for (uint i = 0; i < fragmentUniforms.lightCount; i++) {            
             Light light = lights[i];
@@ -65,9 +68,11 @@ fragment float4 primitive_fragment_shader(
                     float3 specularIntensity = pow(saturate(-dot(reflection, cameraDirection)), materialShine);
                     specularColor += float3(0.6, 0.6, 0.6) * materialSpecularColor * specularIntensity;
                 }
+            } else if (light.type == Ambient) {
+                ambientColor += light.color * light.intensity;
             }
         }
-        float3 color = diffuseColor + specularColor;
+        float3 color = diffuseColor + ambientColor + specularColor;
         return float4(color, 1);
     }
     

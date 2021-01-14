@@ -24,7 +24,7 @@ class EGPrimitive3D: EGPrimitive {
         guard let mdlMesh = mdlMeshFunction(allocator) else {
             return
         }
-
+        mdlMesh.addNormals(withAttributeNamed: MDLVertexAttributeNormal, creaseThreshold: 1)
         transform.checkIfStatic()
         color.checkIfStatic()
 
