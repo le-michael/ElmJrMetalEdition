@@ -24,7 +24,6 @@ class EGPipelineState {
         
         do {
             try createPrimitivePipelineState(library: library, device: device, view: view)
-            // TODO: Create new fragment function
             try createBezierPipelineState(library: library, device: device, view: view)
             try create3DPipelineStates(library: library, device: device, view: view)
         } catch {

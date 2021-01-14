@@ -44,7 +44,7 @@ class EGPrimitive: EGGraphicsNode {
                                         options: [])
     }
 
-    func updateVertexUniforms(_ sceneProps: EGSceneProps) {
+    func updateUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.transformationMatrix(sceneProps)
         vertexUniforms.modelMatrix = transformationMatrix
         vertexUniforms.viewMatrix = sceneProps.viewMatrix
@@ -68,7 +68,7 @@ class EGPrimitive: EGGraphicsNode {
               let vertexBuffer = vertexBuffer,
               let mesh = mesh else { return }
         
-        updateVertexUniforms(sceneProps)
+        updateUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index:  Int(BufferVertex.rawValue))

@@ -43,7 +43,7 @@ class EGPrimitive3D: EGPrimitive {
         guard let pipeline = pipelineStates.states[.primitive3D],
               let mtkMesh = mtkMesh else { return }
 
-        updateVertexUniforms(sceneProps)
+        updateUniforms(sceneProps)
         commandEncoder.setRenderPipelineState(pipeline)
 
         commandEncoder.setFragmentBytes(
