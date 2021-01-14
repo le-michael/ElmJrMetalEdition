@@ -71,11 +71,11 @@ class EGPrimitive: EGGraphicsNode {
         updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
-        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index:  Int(BufferVertex.rawValue))
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(&vertexUniforms,
                                       length: MemoryLayout<PrimitiveVertexUniforms>.stride,
-                                      index: 1)
+                                      index: Int(BufferVertexUniforms.rawValue))
         commandEncoder.drawIndexedPrimitives(type: .triangle,
                                              indexCount: mesh.indices.count,
                                              indexType: .uint16,

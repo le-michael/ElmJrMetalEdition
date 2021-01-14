@@ -77,12 +77,12 @@ class EGCurvedPolygon: EGGraphicsNode {
         updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
-        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: Int(BufferVertex.rawValue))
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &vertexUniforms,
             length: MemoryLayout<BezierVertexUniforms>.stride,
-            index: 1
+            index: Int(BufferVertexUniforms.rawValue)
         )
         commandEncoder.drawIndexedPrimitives(
             type: .triangle,

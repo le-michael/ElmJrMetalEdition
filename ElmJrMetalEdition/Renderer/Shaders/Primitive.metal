@@ -22,7 +22,7 @@ struct VertexOut {
 
 vertex VertexOut primitive_vertex_shader(
     const VertexIn vertexIn [[ stage_in ]],
-    constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(1) ]]
+    constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(BufferVertexUniforms) ]]
 ) {
     VertexOut vertexOut {
         .position = vertexUniforms.projectionMatrix * vertexUniforms.viewMatrix * vertexUniforms.modelMatrix * vertexIn.position,

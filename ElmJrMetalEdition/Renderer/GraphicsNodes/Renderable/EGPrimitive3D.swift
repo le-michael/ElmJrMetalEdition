@@ -49,19 +49,21 @@ class EGPrimitive3D: EGPrimitive {
         commandEncoder.setFragmentBytes(
             &fragmentUniforms,
             length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
-            index: 2
+            index: Int(BufferFragmentUniforms.rawValue)
         )
 
         commandEncoder.setFragmentBytes(
             sceneProps.lights,
             length: MemoryLayout<Light>.stride * sceneProps.lights.count,
-            index: 3
+            index: Int(BufferLights.rawValue)
         )
 
-        commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
-        commandEncoder.setVertexBytes(&vertexUniforms,
-                                      length: MemoryLayout<PrimitiveVertexUniforms>.stride,
-                                      index: 1)
+        commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: Int(BufferVertex.rawValue))
+        commandEncoder.setVertexBytes(
+            &vertexUniforms,
+            length: MemoryLayout<PrimitiveVertexUniforms>.stride,
+            index: Int(BufferVertexUniforms.rawValue)
+        )
 
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setCullMode(.front)
@@ -85,18 +87,17 @@ class EGModel: EGPrimitive3D {
             guard let assetURL = Bundle.main.url(forResource: name, withExtension: nil) else {
                 fatalError("Cannot find model '\(name)'")
             }
-            
+
             let asset = MDLAsset(
                 url: assetURL,
                 vertexDescriptor: EGVertexDescriptor.primitive,
                 bufferAllocator: allocator
             )
-            
+
             return asset.childObjects(of: MDLMesh.self).first as! MDLMesh
         })
     }
 }
-
 
 class EGSphere: EGModel {
     init() {
@@ -139,4 +140,3 @@ class EGRing: EGModel {
         super.init(modelName: "ring.obj")
     }
 }
-

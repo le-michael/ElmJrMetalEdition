@@ -25,7 +25,7 @@ struct VertexOut {
 
 vertex VertexOut primitive3d_vertex_shader(
     const VertexIn vertexIn [[ stage_in ]],
-    constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(1) ]]
+    constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(BufferVertexUniforms) ]]
 ) {
     VertexOut vertexOut {
         .position = vertexUniforms.projectionMatrix * vertexUniforms.viewMatrix * vertexUniforms.modelMatrix * vertexIn.position,
@@ -39,8 +39,8 @@ vertex VertexOut primitive3d_vertex_shader(
 
 fragment float4 primitive3d_fragment_shader(
     VertexOut vertexIn [[ stage_in ]],
-    constant PrimitiveFragmentUniforms &fragmentUniforms [[ buffer(2) ]],
-    constant Light *lights [[buffer(3)]]
+    constant PrimitiveFragmentUniforms &fragmentUniforms [[ buffer(BufferFragmentUniforms) ]],
+    constant Light *lights [[ buffer(BufferLights) ]]
 ) {
     if (fragmentUniforms.surfaceType == Lit) {
         // Directional

@@ -10,6 +10,13 @@
 #define Types_h
 
 #import <simd/simd.h>
+/* Shader Types */
+typedef enum {
+    BufferVertex = 0,
+    BufferVertexUniforms = 1,
+    BufferFragmentUniforms = 2,
+    BufferLights = 3
+} BufferIndices;
 
 /* Light Types */
 typedef enum {
