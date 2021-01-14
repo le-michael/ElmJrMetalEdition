@@ -76,32 +76,6 @@ class EGPrimitive3D: EGPrimitive {
                 indexBufferOffset: submesh.indexBuffer.offset
             )
         }
-
-        if drawOutline {
-            vertexUniforms.color = outlineColor
-            fragmentUniforms.surfaceType = Unlit
-
-            commandEncoder.setFragmentBytes(
-                &fragmentUniforms,
-                length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
-                index: 2
-            )
-            commandEncoder.setRenderPipelineState(pipeline)
-            commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
-            commandEncoder.setVertexBytes(&vertexUniforms,
-                                          length: MemoryLayout<PrimitiveVertexUniforms>.stride,
-                                          index: 1)
-            commandEncoder.setTriangleFillMode(.lines)
-            for submesh in mtkMesh.submeshes {
-                commandEncoder.drawIndexedPrimitives(
-                    type: .triangle,
-                    indexCount: submesh.indexCount,
-                    indexType: submesh.indexType,
-                    indexBuffer: submesh.indexBuffer.buffer,
-                    indexBufferOffset: submesh.indexBuffer.offset
-                )
-            }
-        }
     }
 }
 

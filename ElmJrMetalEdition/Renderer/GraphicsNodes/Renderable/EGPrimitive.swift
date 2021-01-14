@@ -14,8 +14,6 @@ class EGPrimitive: EGGraphicsNode {
     var indexBuffer: MTLBuffer?
     
     var triangleFillMode: MTLTriangleFillMode = .fill
-    var drawOutline: Bool = false
-    var outlineColor = simd_float4(0, 0, 0, 1)
     
     var vertexUniforms = PrimitiveVertexUniforms()
     var fragmentUniforms = PrimitiveFragmentUniforms()
@@ -83,22 +81,6 @@ class EGPrimitive: EGGraphicsNode {
                                              indexType: .uint16,
                                              indexBuffer: indexBuffer,
                                              indexBufferOffset: 0)
-        
-        if drawOutline {
-            vertexUniforms.color = outlineColor
-            
-            commandEncoder.setRenderPipelineState(pipeline)
-            commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-            commandEncoder.setTriangleFillMode(.lines)
-            commandEncoder.setVertexBytes(&vertexUniforms,
-                                          length: MemoryLayout<PrimitiveVertexUniforms>.stride,
-                                          index: 1)
-            commandEncoder.drawIndexedPrimitives(type: .triangle,
-                                                 indexCount: mesh.indices.count,
-                                                 indexType: .uint16,
-                                                 indexBuffer: indexBuffer,
-                                                 indexBufferOffset: 0)
-        }
     }
 }
 
