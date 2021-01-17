@@ -72,15 +72,30 @@ class EITypeInferencer {
     class Infer {
         var typeEnv: TypeEnv
         var counter: Int
+        var numberCounter : Int
+        var alphaCounter : Int
         
         init() {
             typeEnv = TypeEnv()
-            counter = -1
+            counter = 0
+            alphaCounter = 96
+            numberCounter = -1
         }
         
         func fresh() -> MonoType {
-            counter += 1
-            return MonoType.TVar("v" + String(counter))
+            alphaCounter += 1
+            if alphaCounter > 122 {
+                return .TVar("v" + String(counter))
+            }
+            else {
+                return .TVar(String(UnicodeScalar(alphaCounter)!))
+            }
+            
+        }
+        
+        func freshNumber() -> MonoType {
+            numberCounter += 1
+            return .TSuper("number", numberCounter)
         }
     }
     
@@ -97,6 +112,7 @@ class EITypeInferencer {
     enum MonoType: Equatable, CustomStringConvertible {
         case TVar(TVar)
         case TCon(String)
+        case TSuper(String, Int)
         indirect case TArr(MonoType, MonoType)
         
         static func => (left: MonoType, right: MonoType) -> MonoType {
@@ -109,6 +125,8 @@ class EITypeInferencer {
                 return v
             case .TCon(let con):
                 return con
+            case .TSuper(let sup, let inst):
+                return sup + (inst == 0 ? "" : String(inst))
             case .TArr(let t1, let t2):
                 switch t1 {
                 case .TArr:
@@ -127,16 +145,14 @@ class EITypeInferencer {
     let typeInt = MonoType.TCon("Int")
     let typeString = MonoType.TCon("String")
     let typeBool = MonoType.TCon("Bool")
-    
-    // Declaration of type constraints
-    let superNumber = MonoType.TVar("number")
-    
+        
     // The collection of type constraints
-    let superTypes: [MonoType] =
+    /* let superTypes: [MonoType] =
         [MonoType.TVar("number"),
          MonoType.TVar("appendable"),
          MonoType.TVar("comparable"),
          MonoType.TVar("compappend")]
+    */
     
     // polymorphic type schemes
     class Scheme: CustomStringConvertible {
@@ -172,6 +188,12 @@ class EITypeInferencer {
                 return substituted
             } else {
                 return MonoType.TVar(tyName)
+            }
+        case .TSuper(let supName, let inst):
+            if let substituted = s[supName + String(inst)] {
+                return substituted
+            } else {
+                return MonoType.TSuper(supName, inst)
             }
         case .TArr(let t1, let t2):
             return MonoType.TArr(apply(s, with: t1), apply(s, with: t2))
@@ -211,7 +233,7 @@ class EITypeInferencer {
         case .TCon:
             return []
         // TODO: Are type constraints ftvs?
-        case .TVar(let a) where a == "number":
+        case .TSuper:
             return []
         case .TVar(let a):
             return [a]
@@ -227,6 +249,14 @@ class EITypeInferencer {
     func ftvTyEnv() -> Set<TVar> {
         var ftvSet: Set<TVar> = []
         for sch in inferState.typeEnv.types.values {
+            ftvSet = ftvSet.union(ftv(with: sch))
+        }
+        return ftvSet
+    }
+    
+    func ftvTyEnv(with tyEnv : TypeEnv) -> Set<TVar> {
+        var ftvSet: Set<TVar> = []
+        for sch in tyEnv.types.values {
             ftvSet = ftvSet.union(ftv(with: sch))
         }
         return ftvSet
@@ -296,13 +326,19 @@ class EITypeInferencer {
         return Scheme(tyVars: tyVars, ty: t)
     }
 
+    func generalize(_ tyEnv : TypeEnv, _ t : MonoType) -> Scheme {
+        let tyVars = Array(ftv(with: t).subtracting(ftvTyEnv(with : tyEnv)))
+        return Scheme(tyVars: tyVars, ty: t)
+    }
+    
     func ops(_ op: EIAST.BinaryOp.BinaryOpType) -> MonoType {
         switch op {
         case EIAST.BinaryOp.BinaryOpType.add,
              EIAST.BinaryOp.BinaryOpType.subtract,
              EIAST.BinaryOp.BinaryOpType.multiply,
              EIAST.BinaryOp.BinaryOpType.divide:
-            return superNumber => (superNumber => superNumber)
+            let freshNum = inferState.freshNumber()
+            return freshNum => (freshNum => freshNum)
         case EIAST.BinaryOp.BinaryOpType.eq,
              EIAST.BinaryOp.BinaryOpType.ne,
              EIAST.BinaryOp.BinaryOpType.le,
@@ -318,8 +354,7 @@ class EITypeInferencer {
             // @Lucas I'm putting in a default case while I add new operators for now.
             // Feel free to remove this if you know a better way
             assert(false)
-            return MonoType.TArr(superNumber,
-                                 MonoType.TArr(superNumber, superNumber))
+            return .TVar("a")
         }
     }
     
@@ -344,7 +379,8 @@ class EITypeInferencer {
             let tv = inferState.fresh()
             return (tv, c1 + [(tv => tv, t1)])
         case _ as EIAST.Integer:
-            return (MonoType.TVar("number"), [])
+            let freshNum = inferState.freshNumber()
+            return (freshNum, [])
         case _ as EIAST.FloatingPoint:
             return (MonoType.TCon("Float"), [])
         case _ as EIAST.Boolean:
@@ -378,10 +414,12 @@ class EITypeInferencer {
     }
     
     func normalize(_ s: Scheme) throws -> Scheme {
+        var localInferState = Infer()
+        
         func fv(_ m: MonoType) -> [TVar] {
             switch m {
             // no free variables in type constraints
-            case .TVar(let a) where a == "number":
+            case .TSuper:
                 return []
             case .TVar(let a):
                 return [a]
@@ -392,19 +430,43 @@ class EITypeInferencer {
             }
         }
         
+        func superVars(_ m : MonoType) -> [TVar] {
+            switch m {
+            case .TSuper(let a, let n):
+                return [a + String(n)]
+            case .TArr(let a, let b):
+                return superVars(a) + superVars(b)
+            default:
+                return []
+            }
+        }
+        
         var freshVars: [MonoType] = []
         let fvs: [TVar] = Array(Set(fv(s.ty)))
         for _ in 0..<fvs.count {
-            freshVars.append(inferState.fresh())
+            freshVars.append(localInferState.fresh())
         }
-        let ord = zip(fvs, freshVars)
+        
+        // This has to be reworked to account for all type constraints
+        var freshNumVars: [MonoType] = []
+        let numVars: [TVar] = Array(Set(superVars(s.ty)))
+        for _ in 0..<numVars.count {
+            freshNumVars.append(localInferState.freshNumber())
+        }
+        
+        assert(fvs.count + freshNumVars.count ==
+                freshVars.count + freshNumVars.count)
+        let ord = zip(fvs + numVars, freshVars + freshNumVars)
         
         func normtype(_ m: MonoType) throws -> MonoType {
             switch m {
             // do NOT normalize type constraints
-            case .TVar(let a)
-                where a == "number":
-                return superNumber
+            case .TSuper(let a, let n):
+                if let x = Dictionary(uniqueKeysWithValues: ord)[a + String(n)] {
+                    return x
+                } else {
+                    throw TypeError.NotInScopeTyVar
+                }
             case .TVar(let a):
                 if let x = Dictionary(uniqueKeysWithValues: ord)[a] {
                     return x
@@ -450,22 +512,24 @@ class EITypeInferencer {
         switch (t1, t2) {
         case(let a, let b) where a == b:
             return nullSubst
+        // unify type constraints
+        case(.TSuper(let a, _), .TSuper(let b, _))
+            where a == b:
+            return nullSubst
         // Downcast Number supertype when encountering Floats
-        case(.TVar(let a), .TCon(let x))
+        case(.TSuper(let a, let inst), .TCon(let x))
             where a == "number" && x == "Float":
-            return try bind(a, t2)
-        case(.TCon(let x), .TVar(let a))
+            return try bind(a + String(inst), t2)
+        case(.TCon(let x), .TSuper(let a, let inst))
             where a == "number" && x == "Float":
-            return try bind(a, t1)
+            return try bind(a + String(inst), t1)
         case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
             let s1 = try unify(l1, l2)
             let s2 = try unify(apply(s1, with: r1), apply(s1, with: r2))
             return compose(s2, s1)
-        case(.TVar(let a), let t)
-            where !superTypes.contains(t1):
+        case(.TVar(let a), let t):
             return try bind(a, t)
-        case(let t, .TVar(let a))
-            where !superTypes.contains(t2):
+        case(let t, .TVar(let a)):
             return try bind(a, t)
         default:
             throw TypeError.UnificationFail(t1, t2)
@@ -473,9 +537,7 @@ class EITypeInferencer {
     }
         
     func bind(_ a: TVar, _ t: MonoType) throws -> Subst {
-        if superTypes.contains(t) {
-            return [a: t]
-        } else if t == MonoType.TVar(a) {
+        if t == MonoType.TVar(a) {
             return nullSubst
         } else if occursCheck(a, t) {
             throw TypeError.InfiniteType(a, t)

@@ -56,8 +56,10 @@ class EITypeInferencerTests: XCTestCase {
     func testFunctions() throws {
         try checkDeclrTy("addone x = x + 1", "number -> number")
         try checkDeclrTy("p x = x <= 2.2", "Float -> Bool")
-        try checkDeclrTy("id alongstring = alongstring", "v3 -> v3")
-        try checkDeclrTy("fix f = f (fix f)", "(v5 -> v5) -> v5")
-        try checkDeclrTy("ap f x = f x", "(v6 -> v5) -> v6 -> v5")
+        try checkDeclrTy("id alongstring = alongstring", "a -> a")
+        try checkDeclrTy("fix f = f (fix f)", "(a -> a) -> a")
+        try checkDeclrTy("ap f x = f x", "(a -> b) -> a -> b")
+        try checkDeclrTy("flip f a b = f b a", "(b -> a -> c) -> a -> b -> c")
+        try checkExprTy("fib n = if n == 0 then 0 else if n == 1 then 1 else fib (n - 1) + fib (n - 2)", "number1 -> number")
     }
 }
