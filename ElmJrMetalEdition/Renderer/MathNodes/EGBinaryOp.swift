@@ -8,21 +8,21 @@
 
 import Foundation
 
-enum EGBinaryOpType {
-    case add
-    case sub
-    case mul
-    case div
-    case max
-    case min
-}
-
 class EGBinaryOp: EGMathNode {
-    var type: EGBinaryOpType
+    enum BinaryOpType: String {
+        case add
+        case sub
+        case mul
+        case div
+        case max
+        case min
+    }
+
+    var type: BinaryOpType
     var leftChild: EGMathNode
     var rightChild: EGMathNode
 
-    init(type: EGBinaryOpType, leftChild: EGMathNode, rightChild: EGMathNode) {
+    init(type: BinaryOpType, leftChild: EGMathNode, rightChild: EGMathNode) {
         self.type = type
         self.leftChild = leftChild
         self.rightChild = rightChild
@@ -44,7 +44,7 @@ class EGBinaryOp: EGMathNode {
             return min(leftChild.evaluate(sceneProps), rightChild.evaluate(sceneProps))
         }
     }
-    
+
     func usesTime() -> Bool {
         return leftChild.usesTime() || rightChild.usesTime()
     }

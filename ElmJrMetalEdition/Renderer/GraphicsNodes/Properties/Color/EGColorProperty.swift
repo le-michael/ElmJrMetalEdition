@@ -9,16 +9,17 @@
 import simd
 
 class EGColorProperty {
-    var rEquation: EGMathNode
-    var gEquation: EGMathNode
-    var bEquation: EGMathNode
-    var aEquation: EGMathNode
+    var equations: (r: EGMathNode, g: EGMathNode, b: EGMathNode, a: EGMathNode)
 
     var isStatic = false
     var cachedColor = simd_float4(1, 1, 1, 1)
 
     func checkIfStatic() {
-        isStatic = !rEquation.usesTime() && !gEquation.usesTime() && !bEquation.usesTime() && !aEquation.usesTime()
+        isStatic = !equations.r.usesTime()
+            && !equations.g.usesTime()
+            && !equations.b.usesTime()
+            && !equations.a.usesTime()
+
         if isStatic {
             let sceneProps = EGSceneProps(
                 projectionMatrix: matrix_identity_float4x4,
@@ -26,37 +27,30 @@ class EGColorProperty {
                 time: 0
             )
 
-            let r = rEquation.evaluate(sceneProps)
-            let g = gEquation.evaluate(sceneProps)
-            let b = bEquation.evaluate(sceneProps)
-            let a = aEquation.evaluate(sceneProps)
+            let r = equations.r.evaluate(sceneProps)
+            let g = equations.g.evaluate(sceneProps)
+            let b = equations.b.evaluate(sceneProps)
+            let a = equations.a.evaluate(sceneProps)
 
             cachedColor = simd_float4(r, g, b, a)
         }
     }
 
     init() {
-        rEquation = EGConstant(1)
-        gEquation = EGConstant(1)
-        bEquation = EGConstant(1)
-        aEquation = EGConstant(1)
-        checkIfStatic()
+        equations = (
+            r: EGConstant(1),
+            g: EGConstant(1),
+            b: EGConstant(1),
+            a: EGConstant(1)
+        )
     }
 
-    func setColor(r: Float, g: Float, b: Float, a: Float) {
-        rEquation = EGConstant(r)
-        gEquation = EGConstant(g)
-        bEquation = EGConstant(b)
-        aEquation = EGConstant(a)
-        checkIfStatic()
+    func set(r: Float, g: Float, b: Float, a: Float) {
+        equations = (EGConstant(r), EGConstant(g), EGConstant(b), EGConstant(a))
     }
 
-    func setColor(r: EGMathNode, g: EGMathNode, b: EGMathNode, a: EGMathNode) {
-        rEquation = r
-        gEquation = g
-        bEquation = b
-        aEquation = a
-        checkIfStatic()
+    func set(r: EGMathNode, g: EGMathNode, b: EGMathNode, a: EGMathNode) {
+        equations = (r, g, b, a)
     }
 
     func evaluate(_ sceneProps: EGSceneProps) -> simd_float4 {
@@ -64,10 +58,10 @@ class EGColorProperty {
             return cachedColor
         }
 
-        let r = rEquation.evaluate(sceneProps)
-        let g = gEquation.evaluate(sceneProps)
-        let b = bEquation.evaluate(sceneProps)
-        let a = aEquation.evaluate(sceneProps)
+        let r = equations.r.evaluate(sceneProps)
+        let g = equations.g.evaluate(sceneProps)
+        let b = equations.b.evaluate(sceneProps)
+        let a = equations.a.evaluate(sceneProps)
 
         return simd_float4(r, g, b, a)
     }

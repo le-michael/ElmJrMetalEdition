@@ -11,10 +11,20 @@
 
 using namespace metal;
 
+struct BezierVertexIn {
+    vector_float4 position [[ attribute(0) ]];
+    float time [[ attribute(1) ]];
+};
+
+struct VertexOut {
+    vector_float4 position [[ position ]];
+    vector_float4 color;
+};
+
 vertex VertexOut bezier_vertex_shader(const BezierVertexIn vertexIn [[ stage_in ]],
-                               constant BezierVertexUniforms &vertexUniforms [[ buffer(1) ]]) {
+                               constant BezierVertexUniforms &vertexUniforms [[ buffer(BufferVertexUniforms) ]]) {
     VertexOut vertexOut;
-    
+
     float cx = 3.0 * (vertexUniforms.p1.x - vertexUniforms.p0.x);
     float bx = 3.0 * (vertexUniforms.p2.x - vertexUniforms.p1.x) - cx;
     float ax = vertexUniforms.p3.x - vertexUniforms.p0.x - cx - bx;

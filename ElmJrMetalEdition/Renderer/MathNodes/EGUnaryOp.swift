@@ -8,19 +8,19 @@
 
 import Foundation
 
-enum EGUnaryOpType {
-    case abs
-    case neg
-    case sin
-    case cos
-    case tan
-}
-
 class EGUnaryOp: EGMathNode {
-    let type: EGUnaryOpType
+    enum UnaryOpType: String {
+        case abs
+        case neg
+        case sin
+        case cos
+        case tan
+    }
+
+    let type: UnaryOpType
     var child: EGMathNode
 
-    init(type: EGUnaryOpType, child: EGMathNode) {
+    init(type: UnaryOpType, child: EGMathNode) {
         self.type = type
         self.child = child
     }
@@ -39,7 +39,7 @@ class EGUnaryOp: EGMathNode {
             return abs(child.evaluate(sceneProps))
         }
     }
-    
+
     func usesTime() -> Bool {
         return child.usesTime()
     }

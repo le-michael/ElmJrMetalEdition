@@ -12,9 +12,9 @@ extension Float {
     var degreesToRadians: Float {
         (self / 180) * Float.pi
     }
-    
+
     var radiansToDegrees: Float {
-        (self / Float.pi ) * 180
+        (self / Float.pi) * 180
     }
 }
 
@@ -62,8 +62,8 @@ extension matrix_float4x4 {
     init(rotationZ rad: Float) {
         self.init()
         columns = (
-            [cos(rad), -sin(rad), 0, 0],
-            [sin(rad), cos(rad), 0, 0],
+            [cos(rad), sin(rad), 0, 0],
+            [-sin(rad), cos(rad), 0, 0],
             [0, 0, 1, 0],
             [0, 0, 0, 1]
         )
@@ -88,5 +88,21 @@ extension matrix_float4x4 {
             [0, 0, z, -1],
             [0, 0, z * near, 0]
         )
+    }
+
+    var upperLeft: float3x3 {
+        return float3x3(
+            columns: (
+                columns.0.xyz,
+                columns.1.xyz,
+                columns.2.xyz
+            )
+        )
+    }
+}
+
+extension simd_float4 {
+    var xyz: simd_float3 {
+        simd_float3(x, y, z)
     }
 }
