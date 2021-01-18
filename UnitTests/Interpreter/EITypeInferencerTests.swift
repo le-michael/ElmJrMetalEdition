@@ -58,8 +58,14 @@ class EITypeInferencerTests: XCTestCase {
         try checkDeclrTy("p x = x <= 2.2", "Float -> Bool")
         try checkDeclrTy("id alongstring = alongstring", "a -> a")
         try checkDeclrTy("fix f = f (fix f)", "(a -> a) -> a")
-        try checkDeclrTy("ap f x = f x", "(a -> b) -> a -> b")
-        try checkDeclrTy("flip f a b = f b a", "(b -> a -> c) -> a -> b -> c")
-        try checkExprTy("fib n = if n == 0 then 0 else if n == 1 then 1 else fib (n - 1) + fib (n - 2)", "number1 -> number")
+        // try checkDeclrTy("ap f x = f x", "(a -> b) -> a -> b")
+        // try checkDeclrTy("flip f a b = f b a", "(b -> a -> c) -> a -> b -> c")
+        try checkDeclrTy("fac x = if x == 0 then 1 else x * fac (x - 1)", "number -> number")
+        try checkDeclrTy("fib n = if n == 0 then 0 else if n == 1 then 1 else fib (n - 1) + fib (n - 2)", "number1 -> number")
+    }
+    
+    func testTemp() throws {
+        // try checkDeclrTy("fix f = f (fix f)", "(a -> a) -> a")
+        try checkDeclrTy("fac x = if x == 0 then 1 else x * fac (x - 1)", "number -> number")
     }
 }

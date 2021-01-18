@@ -414,7 +414,7 @@ class EITypeInferencer {
     }
     
     func normalize(_ s: Scheme) throws -> Scheme {
-        var localInferState = Infer()
+        let localInferState = Infer()
         
         func fv(_ m: MonoType) -> [TVar] {
             switch m {
@@ -513,9 +513,9 @@ class EITypeInferencer {
         case(let a, let b) where a == b:
             return nullSubst
         // unify type constraints
-        case(.TSuper(let a, _), .TSuper(let b, _))
+        case(.TSuper(let a, let n), .TSuper(let b, _))
             where a == b:
-            return nullSubst
+            return try bind(a + String(n), t2)
         // Downcast Number supertype when encountering Floats
         case(.TSuper(let a, let inst), .TCon(let x))
             where a == "number" && x == "Float":
