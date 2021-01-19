@@ -179,6 +179,10 @@ class EITypeInferencer {
             }
         case .TArr(let t1, let t2):
             return MonoType.TArr(apply(s, with: t1), apply(s, with: t2))
+        case .CustomType(let tyName, let types):
+            return MonoType.CustomType(tyName, types.map{ apply(s, with: $0) })
+        case .TupleType(let t1, let t2, let t3):
+            return MonoType.TupleType(apply(s, with: t1), apply(s, with: t2), (t3 != nil ? apply(s, with: t3!) : nil))
         }
     }
     
