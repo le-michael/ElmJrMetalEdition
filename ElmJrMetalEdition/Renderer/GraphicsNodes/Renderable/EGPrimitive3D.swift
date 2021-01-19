@@ -12,6 +12,8 @@ class EGPrimitive3D: EGPrimitive {
     var mdlMeshFunction: (MTKMeshBufferAllocator) -> MDLMesh?
     var modelMesh: EGModelMesh?
 
+    var submeshColorMap = [Int: EGColorProperty]()
+
     var smoothIntensity: Float = 0
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
@@ -33,7 +35,7 @@ class EGPrimitive3D: EGPrimitive {
 
         do {
             let mtkMesh = try MTKMesh(mesh: mdlMesh, device: device)
-            modelMesh = EGModelMesh(mdlMesh: mdlMesh, mtkMesh: mtkMesh)
+            modelMesh = EGModelMesh(mdlMesh: mdlMesh, mtkMesh: mtkMesh, submeshColorMap: submeshColorMap)
         } catch {
             fatalError("Unable to create buffers for shape 3D: \(error.localizedDescription)")
         }
@@ -69,14 +71,12 @@ class EGPrimitive3D: EGPrimitive {
         commandEncoder.setCullMode(.front)
         for submesh in modelMesh.submeshes {
             let mtkSubmesh = submesh.mtkSubmesh
-
             fragmentUniforms.baseColor = submesh.color.evaluate(sceneProps)
             commandEncoder.setFragmentBytes(
                 &fragmentUniforms,
                 length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
                 index: Int(BufferFragmentUniforms.rawValue)
             )
-
             commandEncoder.drawIndexedPrimitives(
                 type: .triangle,
                 indexCount: mtkSubmesh.indexCount,

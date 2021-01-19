@@ -12,10 +12,19 @@ class EGModelMesh {
     var mtkMesh: MTKMesh
     var submeshes: [EGModelSubmesh]
 
-    init(mdlMesh: MDLMesh, mtkMesh: MTKMesh) {
+    init(mdlMesh: MDLMesh, mtkMesh: MTKMesh, submeshColorMap: [Int: EGColorProperty]?) {
         self.mtkMesh = mtkMesh
         submeshes = zip(mdlMesh.submeshes!, mtkMesh.submeshes).map { mesh in
             EGModelSubmesh(mdlSubmesh: mesh.0 as! MDLSubmesh, mtkSubmesh: mesh.1)
+        }
+
+        for (ind, submesh) in submeshes.enumerated() {
+            guard let submeshColorMap = submeshColorMap,
+                  let color = submeshColorMap[ind]
+            else {
+                continue
+            }
+            submesh.color = color
         }
     }
 }

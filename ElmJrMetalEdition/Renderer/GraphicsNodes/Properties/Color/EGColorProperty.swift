@@ -45,10 +45,14 @@ class EGColorProperty {
         )
     }
 
+    init(r: Float, g: Float, b: Float, a: Float) {
+        equations = (EGConstant(r), EGConstant(g), EGConstant(b), EGConstant(a))
+    }
+
     func set(r: Float, g: Float, b: Float, a: Float) {
         equations = (EGConstant(r), EGConstant(g), EGConstant(b), EGConstant(a))
     }
-    
+
     func set(color: simd_float3) {
         equations = (EGConstant(color.x), EGConstant(color.y), EGConstant(color.z), EGConstant(1))
     }
