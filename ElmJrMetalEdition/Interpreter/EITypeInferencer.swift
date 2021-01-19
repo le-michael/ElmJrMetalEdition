@@ -94,11 +94,12 @@ class EITypeInferencer {
         case TVar(TVar)
         case TCon(String)
         indirect case TArr(MonoType, MonoType)
-        
+        indirect case CustomType(String, [MonoType]) // Corresponds to "parameterized types"
+        indirect case TupleType(MonoType, MonoType, MonoType?) // Corresponds to 2 and 3 tuples
+                
         static func => (left : MonoType, right : MonoType) -> MonoType {
             return TArr(left, right)
         }
-        
         
         var description: String {
             switch self {
@@ -108,6 +109,10 @@ class EITypeInferencer {
                 return con
             case .TArr(let t1, let t2):
                 return "\(t1.description) -> \(t2.description)"
+            case .CustomType(let typeName, let typeParameters):
+                return "\(typeName) \(typeParameters.map{"\($0)"}.joined(separator: " "))"
+            case .TupleType(let t1, let t2, let t3):
+                return "(\(t1) \(t2)\(t3 != nil ? "\(t3!)" : "")"
             }
         }
     }
