@@ -9,36 +9,60 @@
 #ifndef Types_h
 #define Types_h
 
-#include <metal_stdlib>
+#import <simd/simd.h>
+/* Shader Types */
+typedef enum {
+    BufferVertex = 0,
+    BufferVertexUniforms = 1,
+    BufferFragmentUniforms = 2,
+    BufferLights = 3
+} BufferIndices;
 
-using namespace metal;
+/* Light Types */
+typedef enum {
+    Undefined = 0,
+    Directional = 1,
+    Ambient = 2
+} LightType;
 
+struct Light {
+    vector_float3 position;
+    vector_float3 color;
+    vector_float3 specularColor;
+    float intensity;
+    LightType type;
+};
+
+typedef enum {
+    Unlit = 0,
+    Lit = 1
+} SurfaceType;
+
+/* Primitive Types */
 struct PrimitiveVertexUniforms {
-    float4x4 modelViewMatrix;
-    float4 color;
+    matrix_float4x4 modelMatrix;
+    matrix_float4x4 projectionMatrix;
+    matrix_float4x4 viewMatrix;
+    matrix_float3x3 normalMatrix;
+    vector_float4 color;
 };
 
-struct VertexIn {
-    float4 position [[ attribute(0) ]];
+struct PrimitiveFragmentUniforms {
+    uint lightCount;
+    vector_float3 cameraPosition;
+    float materialShine;
+    vector_float3 materialSpecularColor;
+    SurfaceType surfaceType;
 };
 
+/* Bezier Types */
 struct BezierVertexUniforms {
-    float4x4 modelViewMatrix;
-    float4 color;
-    float2 p0;
-    float2 p1;
-    float2 p2;
-    float2 p3;
-};
-
-struct BezierVertexIn {
-    float4 position [[ attribute(0) ]];
-    float time [[ attribute(1) ]];
-};
-
-struct VertexOut {
-    float4 position [[ position ]];
-    float4 color;
+    matrix_float4x4 modelViewMatrix;
+    vector_float4 color;
+    vector_float2 p0;
+    vector_float2 p1;
+    vector_float2 p2;
+    vector_float2 p3;
 };
 
 #endif /* Types_h */

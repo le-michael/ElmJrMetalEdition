@@ -8,6 +8,7 @@
 
 import simd
 
+/*
 class EGVertexUniforms {
     struct Primitive {
         var modelViewMatrix = matrix_identity_float4x4
@@ -23,3 +24,4 @@ class EGVertexUniforms {
         var p3 = simd_float2(0, 0)
     }
 }
+*/
