@@ -16,6 +16,10 @@ class EILexer {
         self.characterIndex = 0
     }
     
+    func appendText(text: String) {
+        self.characters += Array(text)
+    }
+    
     enum LexerError: Error, Equatable {
         case UnexpectedCharacter(_ c: Character)
         case InvalidNumber

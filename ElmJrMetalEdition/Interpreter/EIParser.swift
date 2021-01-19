@@ -19,9 +19,16 @@ class EIParser {
         token = try! lexer.nextToken()
     }
     
-    init(text: String) {
+    init(text: String = "") {
         lexer = EILexer(text: text)
         token = try! lexer.nextToken()
+    }
+    
+    func appendText(text: String) throws {
+        lexer.appendText(text: text)
+        if token.type == .endOfFile {
+            token = try lexer.nextToken()
+        }
     }
 
     func isDone() -> Bool {

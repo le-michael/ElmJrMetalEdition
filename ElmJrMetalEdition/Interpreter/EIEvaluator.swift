@@ -9,7 +9,9 @@
 import Foundation
 
 class EIEvaluator {
+    var parser: EIParser
     var globals: [String: EINode]
+    
     
     enum EvaluatorError: Error {
         case DivisionByZero
@@ -24,6 +26,7 @@ class EIEvaluator {
     
     init() {
         globals = [String: EINode]()
+        parser = EIParser()
     }
     
     /**
@@ -32,13 +35,14 @@ class EIEvaluator {
      Declarations will be stored to the 'globals' dictionary.
      */
     func interpret(_ text: String) throws -> EINode {
-        let ast = try EIParser(text: text).parse()
+        try parser.appendText(text: text)
+        let ast = try parser.parse()
         let (result, _) = try evaluate(ast, globals)
         return result
     }
     
     func compile(_ text: String) throws -> EINode {
-        let parser = EIParser(text: text)
+        try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
             try evaluate(decl, globals)
