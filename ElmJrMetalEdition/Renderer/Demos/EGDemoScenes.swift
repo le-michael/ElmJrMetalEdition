@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import simd
+import MetalKit
 
 class EGDemoScenes {
     static func spinningFan() -> EGScene {
@@ -451,6 +451,78 @@ class EGDemoScenes {
         ring3.smoothIntensity = 1
         scene.add(ring3)
 
+        return scene
+    }
+    
+    static func models() -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 5, target: [0, -1, 0])
+        camera.rotation = [Float(-35).degreesToRadians, 0, 0]
+        scene.camera = camera
+        scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
+        
+        scene.lights.append(
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, 1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0.5, -1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(
+            EGLight.ambient(color: [0.4, 0.4, 0.4], intensity: 1)
+        )
+        
+        
+        let tree = EGModel(modelName: "tree_default.obj")
+        tree.transform.translate.set(x: -0.75, y: 1, z: -0.25)
+        scene.add(tree)
+        
+        let tent = EGModel(modelName: "tent_detailedOpen.obj")
+        tent.transform.translate.set(x: -0.15, y: 1, z: 0)
+        scene.add(tent)
+        
+        let logStack = EGModel(modelName: "log_stack.obj")
+        logStack.transform.translate.set(x: 0.45, y: 1, z: -0.5)
+        logStack.transform.rotate.set(x: 0, y: Float(45).degreesToRadians, z: 0)
+        scene.add(logStack)
+        
+        let redFlower = EGModel(modelName: "flower_purpleC.obj")
+        redFlower.transform.translate.set(x: 0.35, y: 1, z: 0.5)
+        scene.add(redFlower)
+        
+        let purpleFlower = EGModel(modelName: "flower_purpleC.obj")
+        purpleFlower.transform.translate.set(x: 0.65, y: 1, z: 0.5)
+        scene.add(purpleFlower)
+        
+        let yellowlower = EGModel(modelName: "flower_purpleC.obj")
+        yellowlower.transform.translate.set(x: 0.55, y: 1, z: 0.6)
+        scene.add(yellowlower)
+        
+        let campFireStones = EGModel(modelName: "campfire_stones.obj")
+        campFireStones.transform.translate.set(x: -0.25, y: 1, z: 0.65)
+        campFireStones.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(campFireStones)
+        
+        let campFireLogs = EGModel(modelName: "campfire_logs.obj")
+        campFireLogs.transform.translate.set(x: -0.25, y: 1, z: 0.65)
+        campFireLogs.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(campFireLogs)
+        
+        let cliffBlock1 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock1.transform.translate.set(x: -0.5, y: 0, z: -0.5)
+        scene.add(cliffBlock1)
+        
+        let cliffBlock2 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock2.transform.translate.set(x: -0.5, y: 0, z: 0.5)
+        scene.add(cliffBlock2)
+        
+        let cliffBlock3 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock3.transform.translate.set(x: 0.5, y: 0, z: -0.5)
+        scene.add(cliffBlock3)
+        
+        let cliffBlock4 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock4.transform.translate.set(x: 0.5, y: 0, z: 0.5)
+        scene.add(cliffBlock4)
+        
         return scene
     }
 }
