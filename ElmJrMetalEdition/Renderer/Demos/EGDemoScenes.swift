@@ -454,7 +454,7 @@ class EGDemoScenes {
         return scene
     }
     
-    static func models() -> EGScene {
+    static func campSite() -> EGScene {
         let scene = EGScene()
         let camera = EGArcballCamera(distance: 5, target: [0, -1, 0])
         camera.rotation = [Float(-35).degreesToRadians, 0, 0]
