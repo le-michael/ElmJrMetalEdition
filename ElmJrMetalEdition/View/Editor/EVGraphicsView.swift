@@ -27,7 +27,7 @@ class EVGraphicsView: UIView {
 
         mtkView.device = MTLCreateSystemDefaultDevice()
 
-        let scene = EGDemoScenes.monkeys()
+        let scene = EGDemoScenes.campSite()
         renderer = EGRenderer(view: mtkView, scene: scene)
         mtkView.delegate = renderer
 
