@@ -16,12 +16,20 @@ class EIParser {
     var token: EIToken
     var types: [String:MonoType]
     
-    func advance() {
-        token = try! lexer.nextToken()
-    }
-    
+    let builtinTypes = [
+        "Int": MonoType.TCon("Int"),
+        "Float": MonoType.TCon("Float"),
+        "List": MonoType.CustomType("List", [MonoType.TVar("a")])
+    ]
+        
     init(text: String = "") {
         lexer = EILexer(text: text)
+        token = try! lexer.nextToken()
+        // builtins
+        types = builtinTypes
+    }
+    
+    func advance() {
         token = try! lexer.nextToken()
     }
     
@@ -60,6 +68,7 @@ class EIParser {
         case MissingRightParantheses
         case UnexpectedToken
         case NotImplemented
+        case TypeIsNotKnown
         case MaxTupleSizeIsThree
     }
     
@@ -67,6 +76,7 @@ class EIParser {
         assert(token.type == .TYPE)
         advance()
         assert(token.type == .identifier)
+        assert(tokenIsCapitalizedIdentifier())
         let name = token.raw
         advance()
         var typeVars = [String]()
@@ -130,11 +140,15 @@ class EIParser {
                     default:
                         return t!
                     }
+                } else {
+                    throw ParserError.TypeIsNotKnown
                 }
             } else {
                 // token is a type var
                 if typeVars.contains(token.raw) {
-                    return MonoType.TVar(token.raw)
+                    let result = MonoType.TVar(token.raw)
+                    advance()
+                    return result
                 }
                 throw ParserError.UnexpectedToken
             }
@@ -145,10 +159,14 @@ class EIParser {
             if token.type == .rightParan {
                 return t1
             }
+            assert(token.type == .comma)
+            advance()
             let t2 = try type(typeVars: typeVars, bounded: true)
             if token.type == .rightParan {
                 return MonoType.TupleType(t1, t2, nil)
             }
+            assert(token.type == .comma)
+            advance()
             let t3 = try type(typeVars: typeVars, bounded: true)
             if token.type == .rightParan {
                 return MonoType.TupleType(t1, t2, t3)
@@ -157,7 +175,6 @@ class EIParser {
         default:
             throw ParserError.NotImplemented
         }
-        throw ParserError.NotImplemented
     }
     
     func declaration() throws -> EIAST.Declaration {

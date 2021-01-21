@@ -68,4 +68,18 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("if 1 then 2 else if 3 then 4 else if 5 then 6 else 7",
                                "if 1 then 2 else if 3 then 4 else if 5 then 6 else 7")
     }
+    
+    func testTypes() throws {
+        try checkASTDeclaration("type T = A Int", "type T = A Int")
+        try checkASTDeclaration("type T = A Int Int", "type T = A Int Int")
+        try checkASTDeclaration("type A = AB | AC", "type A = AB | AC")
+        try checkASTDeclaration("type B = Ba | Bb Int Float", "type B = Ba | Bb Int Float")
+        try checkASTDeclaration("type Maybe a = Just a | None", "type Maybe a = Just a | None")
+        try checkASTDeclaration("type C a = C a Int | Empty", "type C a = C a Int | Empty")
+        try checkASTDeclaration("type E a b = Foo a b", "type E a b = Foo a b")
+        try checkASTDeclaration("type F a = Cat (List a) Int", "type F a = Cat (List a) Int")
+        try checkASTDeclaration("type T = TA (Int, Int) | TB (List Int, Float) | TC (Int, Int, Int)",
+                                "type T = TA (Int, Int) | TB ((List Int), Float) | TC (Int, Int, Int)")
+        try checkASTDeclaration("type T = TA ((Int,(Int,Int)),Int)", "type T = TA ((Int, (Int, Int)), Int)")
+    }
 }

@@ -36,9 +36,13 @@ enum MonoType: Equatable, CustomStringConvertible {
         case .TArr(let t1, let t2):
             return "\(t1.description) -> \(t2.description)"
         case .CustomType(let typeName, let typeParameters):
-            return "\(typeName) \(typeParameters.map{"\($0)"}.joined(separator: " "))"
+            if typeParameters.count == 0 {
+                return "\(typeName)"
+            } else {
+                return "(\(typeName) \(typeParameters.map{"\($0)"}.joined(separator: " ")))"
+            }
         case .TupleType(let t1, let t2, let t3):
-            return "(\(t1) \(t2)\(t3 != nil ? "\(t3!)" : "")"
+            return "(\(t1), \(t2)\(t3 != nil ? ", \(t3!)" : ""))"
         }
     }
 }
@@ -210,7 +214,7 @@ class EIAST {
             self.typeParameters = typeParameters
         }
         var description: String {
-            return "\(constructorName) \(typeParameters.map{"\($0)"}.joined(separator: " "))"
+            return "\(constructorName)\(typeParameters.count > 0 ? " " :"")\(typeParameters.map{"\($0)"}.joined(separator: " "))"
         }
     }
 
@@ -224,7 +228,9 @@ class EIAST {
             self.constructors = constructors
         }
         var description: String {
-            return "type \(typeName) \(typeVars.joined(separator: " ")) = \(constructors.map{"\($0)"}.joined(separator: " | "))"
+            let beforeEqual = "type \(typeName) \(typeVars.joined(separator: " "))\(typeVars.count > 0 ? " " :"")"
+            let afterEqual = " \(constructors.map{"\($0)"}.joined(separator: " | "))"
+            return "\(beforeEqual)=\(afterEqual)"
         }
     }
     
