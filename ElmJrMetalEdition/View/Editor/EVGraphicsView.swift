@@ -26,9 +26,8 @@ class EVGraphicsView: UIView {
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
 
         mtkView.device = MTLCreateSystemDefaultDevice()
-        mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
 
-        let scene = EGDemoScenes.monkeys()
+        let scene = EGDemoScenes.campSite()
         renderer = EGRenderer(view: mtkView, scene: scene)
         mtkView.delegate = renderer
 

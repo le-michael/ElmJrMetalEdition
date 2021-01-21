@@ -35,6 +35,8 @@ class EGRenderer: NSObject {
         scene.fps = Float(view.preferredFramesPerSecond)
         scene.createBuffers(device: device)
         
+        view.clearColor = scene.viewClearColor
+        
         pipelineStates = EGPipelineState(device: device, view: view)
         
         super.init()

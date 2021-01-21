@@ -29,7 +29,6 @@ vertex VertexOut primitive3d_vertex_shader(
 ) {
     VertexOut vertexOut {
         .position = vertexUniforms.projectionMatrix * vertexUniforms.viewMatrix * vertexUniforms.modelMatrix * vertexIn.position,
-        .color = vertexUniforms.color,
         .worldPosition = (vertexUniforms.modelMatrix * vertexIn.position).xyz,
         .worldNormal =  vertexUniforms.normalMatrix * vertexIn.normal
     };
@@ -44,7 +43,7 @@ fragment float4 primitive3d_fragment_shader(
 ) {
     if (fragmentUniforms.surfaceType == Lit) {
         // Directional
-        float3 baseColor = vertexIn.color.rgb;
+        float3 baseColor = fragmentUniforms.baseColor.rgb;
         float3 diffuseColor = 0;
         
         // Specular

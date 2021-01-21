@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thomas Armena. All rights reserved.
 //
 
-import simd
+import MetalKit
 
 class EGDemoScenes {
     static func spinningFan() -> EGScene {
@@ -248,7 +248,7 @@ class EGDemoScenes {
                 )
             )
         )
-        
+
         scene.lights.append(
             EGLight.directional(color: [1, 1, 1], position: [0, 0, 1], intensity: 0.2, specularColor: [0.6, 0.6, 0.6])
         )
@@ -258,7 +258,7 @@ class EGDemoScenes {
         scene.lights.append(
             EGLight.ambient(color: [1, 1, 1], intensity: 0.4)
         )
-        
+
         var pointCords: [simd_float3] = []
 
         let layers = 25
@@ -400,20 +400,20 @@ class EGDemoScenes {
         scene.camera = camera
 
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, 0, 1], intensity: 1, specularColor: [0.6, 0.6, 0.6])
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, 1], intensity: 1, specularColor: [0.2, 0.2, 0.2])
         )
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, 0, -1], intensity: 0.7, specularColor: [0.6, 0.6, 0.6])
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, -1], intensity: 0.7, specularColor: [0.2, 0.2, 0.2])
         )
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, 1, 0], intensity: 0.3, specularColor: [0.6, 0.6, 0.6])
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 1, 0], intensity: 0.3, specularColor: [0.2, 0.2, 0.2])
         )
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, -1, 0], intensity: 0.3, specularColor: [0.6, 0.6, 0.6])
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, -1, 0], intensity: 0.3, specularColor: [0.2, 0.2, 0.2])
         )
 
         let monkey = EGMonkey()
-        monkey.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
+        monkey.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         monkey.smoothIntensity = 0.5
         scene.add(monkey)
 
@@ -421,25 +421,25 @@ class EGDemoScenes {
         ring.transform.translate.set(x: 0, y: 1.25, z: 0)
         ring.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
-        ring.color.set(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
+        ring.submeshColorMap[0] = EGColorProperty(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
         ring.smoothIntensity = 0.5
         scene.add(ring)
 
         let monkey2 = EGMonkey()
         monkey2.transform.translate.set(x: -3, y: 0, z: 0)
-        monkey2.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
+        monkey2.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(monkey2)
 
         let ring2 = EGRing()
         ring2.transform.translate.set(x: -3, y: 1.25, z: 0)
         ring2.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring2.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
-        ring2.color.set(r: 212/255, g: 175/255, b: 55/255, a: 1)
+        ring2.submeshColorMap[0] = EGColorProperty(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
         scene.add(ring2)
 
         let monkey3 = EGMonkey()
         monkey3.transform.translate.set(x: 3, y: 0, z: 0)
-        monkey3.color.set(r: 150/255, g: 75/255, b: 0, a: 1)
+        monkey3.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         monkey3.smoothIntensity = 1
         scene.add(monkey3)
 
@@ -447,9 +447,80 @@ class EGDemoScenes {
         ring3.transform.translate.set(x: 3, y: 1.25, z: 0)
         ring3.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring3.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
-        ring3.color.set(r: 212/255, g: 175/255, b: 55/255, a: 1)
+        ring3.submeshColorMap[0] = EGColorProperty(r: 212/255, g: 175/255, b: 55/255, a: 0.1)
         ring3.smoothIntensity = 1
         scene.add(ring3)
+
+        return scene
+    }
+
+    static func campSite() -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 5, target: [0, -1, 0])
+        camera.rotation = [Float(-35).degreesToRadians, 0, 0]
+        scene.camera = camera
+        scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
+
+        scene.lights.append(
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, 1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0.5, -1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(
+            EGLight.ambient(color: [0.4, 0.4, 0.4], intensity: 1)
+        )
+
+        let tree = EGModel(modelName: "tree_default.obj")
+        tree.transform.translate.set(x: -0.75, y: 1, z: -0.25)
+        scene.add(tree)
+
+        let tent = EGModel(modelName: "tent_detailedOpen.obj")
+        tent.transform.translate.set(x: -0.15, y: 1, z: 0)
+        scene.add(tent)
+
+        let logStack = EGModel(modelName: "log_stack.obj")
+        logStack.transform.translate.set(x: 0.45, y: 1, z: -0.5)
+        logStack.transform.rotate.set(x: 0, y: Float(45).degreesToRadians, z: 0)
+        scene.add(logStack)
+
+        let redFlower = EGModel(modelName: "flower_purpleC.obj")
+        redFlower.transform.translate.set(x: 0.35, y: 1, z: 0.5)
+        scene.add(redFlower)
+
+        let purpleFlower = EGModel(modelName: "flower_purpleC.obj")
+        purpleFlower.transform.translate.set(x: 0.65, y: 1, z: 0.5)
+        scene.add(purpleFlower)
+
+        let yellowlower = EGModel(modelName: "flower_purpleC.obj")
+        yellowlower.transform.translate.set(x: 0.55, y: 1, z: 0.6)
+        scene.add(yellowlower)
+
+        let campFireStones = EGModel(modelName: "campfire_stones.obj")
+        campFireStones.transform.translate.set(x: -0.25, y: 1, z: 0.65)
+        campFireStones.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(campFireStones)
+
+        let campFireLogs = EGModel(modelName: "campfire_logs.obj")
+        campFireLogs.transform.translate.set(x: -0.25, y: 1, z: 0.65)
+        campFireLogs.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(campFireLogs)
+
+        let cliffBlock1 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock1.transform.translate.set(x: -0.5, y: 0, z: -0.5)
+        scene.add(cliffBlock1)
+
+        let cliffBlock2 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock2.transform.translate.set(x: -0.5, y: 0, z: 0.5)
+        scene.add(cliffBlock2)
+
+        let cliffBlock3 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock3.transform.translate.set(x: 0.5, y: 0, z: -0.5)
+        scene.add(cliffBlock3)
+
+        let cliffBlock4 = EGModel(modelName: "cliff_block_rock.obj")
+        cliffBlock4.transform.translate.set(x: 0.5, y: 0, z: 0.5)
+        scene.add(cliffBlock4)
 
         return scene
     }

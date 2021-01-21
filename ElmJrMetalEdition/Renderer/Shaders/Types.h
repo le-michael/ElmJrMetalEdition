@@ -44,15 +44,15 @@ struct PrimitiveVertexUniforms {
     matrix_float4x4 projectionMatrix;
     matrix_float4x4 viewMatrix;
     matrix_float3x3 normalMatrix;
-    vector_float4 color;
 };
 
 struct PrimitiveFragmentUniforms {
+    SurfaceType surfaceType;
     uint lightCount;
     vector_float3 cameraPosition;
+    vector_float4 baseColor;
     float materialShine;
     vector_float3 materialSpecularColor;
-    SurfaceType surfaceType;
 };
 
 /* Bezier Types */

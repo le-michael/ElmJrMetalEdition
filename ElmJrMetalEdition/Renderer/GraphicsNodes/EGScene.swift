@@ -16,6 +16,8 @@ class EGScene: EGGraphicsNode {
     var camera = EGCamera()
     var lights = [Light]()
 
+    var viewClearColor = MTLClearColorMake(0, 0, 0, 1)
+    
     override init() {
         super.init()
     }
