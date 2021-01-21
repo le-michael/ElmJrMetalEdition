@@ -8,6 +8,41 @@
 
 import Foundation
 
+// Alias variables and type variables to strings
+typealias Var = String
+typealias TVar = String
+
+// monomorphic types
+enum MonoType: Equatable, CustomStringConvertible {
+    case TVar(TVar)
+    case TCon(String)
+    case TSuper(String, Int)
+    indirect case TArr(MonoType, MonoType)
+    indirect case CustomType(String, [MonoType]) // Corresponds to "parameterized types"
+    indirect case TupleType(MonoType, MonoType, MonoType?) // Corresponds to 2 and 3 tuples
+            
+    static func => (left : MonoType, right : MonoType) -> MonoType {
+        return TArr(left, right)
+    }
+    
+    var description: String {
+        switch self {
+        case .TVar(let v):
+            return v
+        case .TCon(let con):
+            return con
+        case .TSuper(let sup, let inst):
+            return sup + (inst == 0 ? "" : String(inst))
+        case .TArr(let t1, let t2):
+            return "\(t1.description) -> \(t2.description)"
+        case .CustomType(let typeName, let typeParameters):
+            return "\(typeName) \(typeParameters.map{"\($0)"}.joined(separator: " "))"
+        case .TupleType(let t1, let t2, let t3):
+            return "(\(t1) \(t2)\(t3 != nil ? "\(t3!)" : "")"
+        }
+    }
+}
+
 class EIAST {
     class BinaryOp: EINode {
         let leftOperand: EINode
@@ -167,66 +202,31 @@ class EIAST {
         }
     }
     
-    class TypeName : EINode {
-        let name : String
-        init(_ name : String) {
-            self.name = name
-        }
-        var description: String {
-            return name
-        }
-    }
-    
-    class CustomTypeDefinition: EINode {
-        let name: TypeName
-        let typeParameters: [String]
-        let typeConstructors: [String:Function]
-        
-        init(name: String, typeParameters: [String], typeConstructors:[String:Function]) {
-            self.name = TypeName(name)
+    class ConstructorDefinition : EINode {
+        let constructorName : String
+        let typeParameters : [MonoType]
+        init(constructorName: String, typeParameters: [MonoType]) {
+            self.constructorName = constructorName
             self.typeParameters = typeParameters
-            self.typeConstructors = typeConstructors
         }
-        
         var description: String {
-            var typeParametersStr = ""
-            for param in typeParameters {
-                typeParametersStr += param
-            }
-            var typeConstructorStr = ""
-            var first = true
-            for (constructorName,constructorFunction) in typeConstructors {
-                if !first {
-                    typeConstructorStr += " | "
-                }
-                typeConstructorStr += "\(constructorName) \(constructorFunction)"
-                first = false
-            }
-            return "type \(name) \(typeParametersStr) = \(typeConstructorStr)"
+            return "\(constructorName) \(typeParameters.map{"\($0)"}.joined(separator: " "))"
+        }
+    }
+
+    class TypeDefinition : EINode {
+        let typeName : String
+        let typeVars : [String]
+        let constructors : [ConstructorDefinition]
+        init(typeName: String, typeVars: [String], constructors: [ConstructorDefinition]) {
+            self.typeName = typeName
+            self.typeVars = typeVars
+            self.constructors = constructors
+        }
+        var description: String {
+            return "type \(typeName) \(typeVars.joined(separator: " ")) = \(constructors.map{"\($0)"}.joined(separator: " | "))"
         }
     }
     
-    class CustomTypeInstance: EINode {
-        let type: TypeName
-        let arguments: [EINode]
-        
-        init(type: TypeName, arguments: [EINode]) {
-            self.type = type
-            self.arguments = arguments
-        }
-        
-        var description: String {
-            var argStr = ""
-            var first = true
-            for arg in arguments {
-                if !first {
-                    argStr += " "
-                }
-                argStr += "\(arg)"
-                first = false
-            }
-            return"(\(type) \(argStr)"
-        }
-    }
     
 }
