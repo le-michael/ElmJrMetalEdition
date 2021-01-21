@@ -199,6 +199,33 @@ class EIEvaluator {
             }
             globals[decl.name] = body
             return (EIAST.Declaration(name: decl.name, body: body), true)
+        case let typeDef as EIAST.TypeDefinition:
+            for constructor in typeDef.constructors {
+                let name = constructor.constructorName
+                let varname = "_COMPILER_CONSTRUCTOR_INTERNAL"
+                var vars = [EIAST.Variable]()
+                for i in 0..<constructor.typeParameters.count {
+                    vars.append(EIAST.Variable(name: "\(varname)\(i)"))
+                }
+                var node : EINode = EIAST.ConstructorInstance(constructorName: name, parameters: vars)
+                for element in vars.reversed() {
+                    node = EIAST.Function(parameter: element.name, body: node)
+                }
+                globals[name] = node
+            }
+            return (typeDef, true)
+        case _ as EIAST.ConstructorDefinition:
+            // This should never run
+            throw EvaluatorError.NotImplemented
+        case let inst as EIAST.ConstructorInstance:
+            var newParameters = [EINode]()
+            var evaled = true
+            for parameter in inst.parameters {
+                let (param, paramEvaled) = try evaluate(parameter, scope)
+                evaled = evaled && paramEvaled
+                newParameters.append(param)
+            }
+            return (EIAST.ConstructorInstance(constructorName: inst.constructorName, parameters: newParameters), evaled)
         case let function as EIAST.Function:
             var newScope = scope
             newScope[function.parameter] = EIAST.NoValue()

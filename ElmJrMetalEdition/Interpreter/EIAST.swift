@@ -234,5 +234,21 @@ class EIAST {
         }
     }
     
+    class ConstructorInstance : EINode {
+        let constructorName: String
+        let parameters: [EINode]
+        init(constructorName: String, parameters:[EINode]) {
+            self.constructorName = constructorName
+            self.parameters = parameters
+        }
+        var description: String {
+            if parameters.count == 0 {
+                return constructorName
+            } else {
+                return "(\(constructorName) \(parameters.map{"\($0)"}.joined(separator: " ")))"
+            }
+        }
+    }
+    
     
 }
