@@ -226,6 +226,25 @@ class EIEvaluator {
                 newParameters.append(param)
             }
             return (EIAST.ConstructorInstance(constructorName: inst.constructorName, parameters: newParameters), evaled)
+        case let tuple as EIAST.Tuple:
+            let (val1, val1Evaled) = try evaluate(tuple.v1, scope)
+            let (val2, val2Evaled) = try evaluate(tuple.v2, scope)
+            var evaled = val1Evaled && val2Evaled
+            if tuple.v3 != nil {
+                let (val3, val3Evaled) = try evaluate(tuple.v3!, scope)
+                evaled = evaled && val3Evaled
+                return (EIAST.Tuple(val1, val2, val3), evaled)
+            }
+            return (EIAST.Tuple(val1, val2, nil), evaled)
+        case let list as EIAST.List:
+            var items = [EINode]()
+            var evaled = true
+            for item in list.items {
+                let (newItem, itemEvaled) = try evaluate(item, scope)
+                evaled = evaled && itemEvaled
+                items.append(newItem)
+            }
+            return (EIAST.List(items), evaled)
         case let function as EIAST.Function:
             var newScope = scope
             newScope[function.parameter] = EIAST.NoValue()
