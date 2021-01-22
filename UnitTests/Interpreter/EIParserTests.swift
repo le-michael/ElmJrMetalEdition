@@ -83,4 +83,17 @@ class EIParserTests: XCTestCase {
         try checkASTDeclaration("type T = TA ((Int,(Int,Int)),Int)", "type T = TA ((Int, (Int, Int)), Int)")
         try checkASTDeclaration("type T = Int | T T", "type T = Int | T T")
     }
+    
+    func testTuple() throws {
+        try checkASTExpression("(1,2)", "(1, 2)")
+        try checkASTExpression("(1,(3,4))", "(1, (3, 4))")
+        try checkASTExpression("((True,False),(5,6,7))", "((True, False), (5, 6, 7))")
+    }
+    
+    func testList() throws {
+        try checkASTExpression("[]", "[]")
+        try checkASTExpression("[1]", "[1]")
+        try checkASTExpression("[True,False]", "[True, False]")
+        try checkASTExpression("[1,2,3,4,5,6]", "[1, 2, 3, 4, 5, 6]")
+    }
 }
