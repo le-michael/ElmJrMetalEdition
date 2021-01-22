@@ -250,5 +250,31 @@ class EIAST {
         }
     }
     
+    class Tuple : EINode {
+        let v1 : EINode
+        let v2 : EINode
+        let v3 : EINode?
+        
+        init(v1: EINode, v2: EINode, v3: EINode?) {
+            self.v1 = v1
+            self.v2 = v2
+            self.v3 = v3
+        }
+        
+        var description: String {
+            return "(\(v1), \(v2)\(v3 != nil ? ", \(v3!)" : ""))"
+        }
+    }
     
+    class List : EINode {
+        let items : [EINode]
+        
+        init(items: [EINode]) {
+            self.items = items
+        }
+        
+        var description: String {
+            return "[\(items.map{"\($0)"}.joined(separator: ", "))]"
+        }
+    }
 }
