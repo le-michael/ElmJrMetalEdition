@@ -110,4 +110,13 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["f = \\x y -> x + y"], ["f x y = x + y"])
         try checkInterpret(["(\\x y -> x + y) 1 2"], ["3"])
     }
+    
+    func testCustomTypes() throws {
+        try checkInterpret(["type T = A | B Int | C Int Float","(A)","(B 5)"],
+                           ["type T = A | B Int | C Int Float","(A)","(B 5)"])
+        try checkCompile("type T = A | B Int | C Int Float \n view = (C 5 6.7)", "(C 5 6.7)")
+        try checkCompile("type Maybe a = Just a | Nothing \n view = Just 42", "(Just 42)")
+        try checkCompile("type Tree = Node Tree Int Tree | Leaf Int | Empty \n view = Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5))",
+                         "(Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5)))")
+    }
 }

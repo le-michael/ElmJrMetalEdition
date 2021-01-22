@@ -50,7 +50,7 @@ class EIParser {
         if token.type == .identifier || token.type == .TYPE {
             return try parseDeclaration()
         }
-        return try additiveExpression()
+        return try parseExpression()
     }
     
     func parseExpression() throws -> EINode {
@@ -353,8 +353,7 @@ class EIParser {
             advance()
             return EIAST.Boolean(false)
         default:
-            // we don't support custom types yet
-            throw ParserError.NotImplemented
+            return try variable()
         }
     }
     
