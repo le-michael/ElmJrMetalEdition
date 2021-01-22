@@ -119,4 +119,18 @@ class EIEvaluatorTests: XCTestCase {
         try checkCompile("type Tree = Node Tree Int Tree | Leaf Int | Empty \n view = Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5))",
                          "(Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5)))")
     }
+    
+    func testTuples() throws {
+        try checkInterpret(["(1,2)"],["(1,2)"])
+        try checkInterpret(["(1*2,3+6)"],["(2,9)"])
+        try checkInterpret(["(True,1+1,False)"],["(True,2,False)"])
+    }
+    
+    func testLists() throws {
+        try checkInterpret(["[1,2]"],["[1,2]"])
+        try checkInterpret(["[1*2,3+6]"],["[2,9]"])
+        try checkInterpret(["[True,1+1,False]"],["[True,2,False]"])
+        try checkInterpret(["[1,2+2,3*3*3,4+4*4]"],["[1,4,27,20]"])
+    }
+    
 }
