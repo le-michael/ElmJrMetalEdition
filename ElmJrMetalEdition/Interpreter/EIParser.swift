@@ -295,11 +295,34 @@ class EIParser {
         switch token.type {
         case .leftParan:
             advance()
-            result = try andableExpression()
+            let v1 = try andableExpression()
+            if token.type == .comma {
+                advance()
+                let v2 = try andableExpression()
+                if token.type == .comma {
+                    advance()
+                    let v3 = try andableExpression()
+                    result = EIAST.Tuple(v1,v2,v3)
+                } else {
+                    result = EIAST.Tuple(v1,v2,nil)
+                }
+            } else {
+                result = v1
+            }
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
             advance()
+        case .leftSquare:
+            advance()
+            var items = [EINode]()
+            while token.type != .rightSquare {
+                let expr = try andableExpression()
+                items.append(expr)
+                if token.type == .comma { advance() }
+            }
+            advance()
+            result = EIAST.List(items)
         case .identifier:
             if tokenIsCapitalizedIdentifier() {
                 result = try typeExpression()

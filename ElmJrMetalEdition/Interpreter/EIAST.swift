@@ -255,7 +255,7 @@ class EIAST {
         let v2 : EINode
         let v3 : EINode?
         
-        init(v1: EINode, v2: EINode, v3: EINode?) {
+        init(_ v1: EINode, _ v2: EINode, _ v3: EINode?) {
             self.v1 = v1
             self.v2 = v2
             self.v3 = v3
@@ -269,7 +269,7 @@ class EIAST {
     class List : EINode {
         let items : [EINode]
         
-        init(items: [EINode]) {
+        init(_ items: [EINode]) {
             self.items = items
         }
         
