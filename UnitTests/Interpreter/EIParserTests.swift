@@ -81,5 +81,6 @@ class EIParserTests: XCTestCase {
         try checkASTDeclaration("type T = TA (Int, Int) | TB (List Int, Float) | TC (Int, Int, Int)",
                                 "type T = TA (Int, Int) | TB ((List Int), Float) | TC (Int, Int, Int)")
         try checkASTDeclaration("type T = TA ((Int,(Int,Int)),Int)", "type T = TA ((Int, (Int, Int)), Int)")
+        try checkASTDeclaration("type T = Int | T T", "type T = Int | T T")
     }
 }
