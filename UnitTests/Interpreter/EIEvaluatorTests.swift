@@ -118,6 +118,7 @@ class EIEvaluatorTests: XCTestCase {
         try checkCompile("type Maybe a = Just a | Nothing \n view = Just 42", "(Just 42)")
         try checkCompile("type Tree = Node Tree Int Tree | Leaf Int | Empty \n view = Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5))",
                          "(Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5)))")
+        try checkCompile("f x = x + 1 \n type T = A (Int -> Int) \n view = A f","(A (\\x -> (x+1)))")
     }
     
     func testTuples() throws {
