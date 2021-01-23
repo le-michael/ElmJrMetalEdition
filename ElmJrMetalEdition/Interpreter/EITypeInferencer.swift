@@ -39,9 +39,7 @@ class EITypeInferencer {
         }
     }
  
-    // Alias variables and type variables to strings
-    typealias Var = String
-    typealias TVar = String
+    
     
     // Stores type information of EINodes
     class TypeEnv {
@@ -108,36 +106,6 @@ class EITypeInferencer {
         case UnimplementedError(EINode)
     }
     
-    // monomorphic types
-    enum MonoType: Equatable, CustomStringConvertible {
-        case TVar(TVar)
-        case TCon(String)
-        case TSuper(String, Int)
-        indirect case TArr(MonoType, MonoType)
-        
-        static func => (left: MonoType, right: MonoType) -> MonoType {
-            return TArr(left, right)
-        }
-        
-        var description: String {
-            switch self {
-            case .TVar(let v):
-                return v
-            case .TCon(let con):
-                return con
-            case .TSuper(let sup, let inst):
-                return sup + (inst == 0 ? "" : String(inst))
-            case .TArr(let t1, let t2):
-                switch t1 {
-                case .TArr:
-                    return "(\(t1.description)) -> \(t2.description)"
-                default:
-                    return "\(t1.description) -> \(t2.description)"
-                }
-            }
-        }
-    }
-    
     typealias Constraint = (MonoType, MonoType)
     
     // Declarations of built-in types that correspond to literals
@@ -197,6 +165,10 @@ class EITypeInferencer {
             }
         case .TArr(let t1, let t2):
             return MonoType.TArr(apply(s, with: t1), apply(s, with: t2))
+        case .CustomType(let tyName, let types):
+            return MonoType.CustomType(tyName, types.map{ apply(s, with: $0) })
+        case .TupleType(let t1, let t2, let t3):
+            return MonoType.TupleType(apply(s, with: t1), apply(s, with: t2), (t3 != nil ? apply(s, with: t3!) : nil))
         }
     }
     
@@ -239,6 +211,14 @@ class EITypeInferencer {
             return [a]
         case .TArr(let t1, let t2):
             return ftv(with: t1).union(ftv(with: t2))
+        case .CustomType( _, let tys):
+            return Set(tys.flatMap(ftv))
+        case .TupleType(let a, let b, let c):
+            if let unC = c {
+                return Set([a,b,unC].flatMap(ftv))
+            } else {
+                return Set([a,b].flatMap(ftv))
+            }
         }
     }
     
@@ -427,6 +407,14 @@ class EITypeInferencer {
                 return []
             case .TArr(let a, let b):
                 return fv(a) + fv(b)
+            case .CustomType(_, let tys):
+                return tys.flatMap(fv)
+            case .TupleType(let a, let b, let c):
+                if let unC = c {
+                    return [a,b,unC].flatMap(fv)
+                } else {
+                    return [a,b].flatMap(fv)
+                }
             }
         }
         
@@ -477,6 +465,14 @@ class EITypeInferencer {
                 return .TCon(a)
             case .TArr(let a, let b):
                 return .TArr(try normtype(a), try normtype(b))
+            case .CustomType(let name, let tys):
+                return .CustomType(name, try tys.map(normtype))
+            case .TupleType(let a, let b, let c):
+                if let unC = c {
+                    return .TupleType(try normtype(a), try normtype(b), try normtype(unC))
+                } else {
+                    return .TupleType(try normtype(a), try normtype(b), nil)
+                }
             }
         }
         

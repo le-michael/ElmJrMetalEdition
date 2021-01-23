@@ -153,6 +153,7 @@
 		D9BDF53A25A10F24008E6D2C /* EVTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF53925A10F24008E6D2C /* EVTheme.swift */; };
 		D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54725A2B856008E6D2C /* EVProject.swift */; };
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
+		DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB397E6D25BBC29500DA92B9 /* bigtest1.elm */; };
 		DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C52FF25AC04E900DC1903 /* EIAST.swift */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
 		FE42166C256C8C41008622FB /* EIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* EIToken.swift */; };
@@ -322,6 +323,7 @@
 		D9BDF53925A10F24008E6D2C /* EVTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVTheme.swift; sourceTree = "<group>"; };
 		D9BDF54725A2B856008E6D2C /* EVProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProject.swift; sourceTree = "<group>"; };
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
+		DB397E6D25BBC29500DA92B9 /* bigtest1.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bigtest1.elm; sourceTree = "<group>"; };
 		DB7C52FF25AC04E900DC1903 /* EIAST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAST.swift; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
 		FE42166B256C8C41008622FB /* EIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIToken.swift; sourceTree = "<group>"; };
@@ -763,9 +765,18 @@
 			path = DemoWorkspaces;
 			sourceTree = "<group>";
 		};
+		DB397E6C25BBC21E00DA92B9 /* LargestTestcases */ = {
+			isa = PBXGroup;
+			children = (
+				DB397E6D25BBC29500DA92B9 /* bigtest1.elm */,
+			);
+			path = LargestTestcases;
+			sourceTree = "<group>";
+		};
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
+				DB397E6C25BBC21E00DA92B9 /* LargestTestcases */,
 				FE59C9DD256CADC00098042C /* EITokenTests.swift */,
 				FEFA37E8256F41D600797CD2 /* EILexerTests.swift */,
 				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
@@ -862,6 +873,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

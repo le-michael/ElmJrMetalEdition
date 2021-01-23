@@ -28,8 +28,9 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func checkCompile(_ toCompile: String, _ toOutput: String) throws {
-        let view = try EIEvaluator().compile(toCompile)
-        XCTAssertEqual("\(view)", toOutput)
+        let evaluator = EIEvaluator()
+        try evaluator.compile(toCompile)
+        XCTAssertEqual("\(evaluator.globals["view"]!)", toOutput)
     }
     
     func testLiteral() throws {
@@ -110,4 +111,43 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["f = \\x y -> x + y"], ["f x y = x + y"])
         try checkInterpret(["(\\x y -> x + y) 1 2"], ["3"])
     }
+    
+    func testCustomTypes() throws {
+        try checkInterpret(["type T = A | B Int | C Int Float","(A)","(B 5)"],
+                           ["type T = A | B Int | C Int Float","(A)","(B 5)"])
+        try checkCompile("type T = A | B Int | C Int Float \n view = (C 5 6.7)", "(C 5 6.7)")
+        try checkCompile("type Maybe a = Just a | Nothing \n view = Just 42", "(Just 42)")
+        try checkCompile("type Tree = Node Tree Int Tree | Leaf Int | Empty \n view = Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5))",
+                         "(Node (Leaf 1) 2 (Node (Leaf 3) 4 (Leaf 5)))")
+        try checkCompile("f x = x + 1 \n type T = A (Int -> Int) \n view = A f","(A (\\x -> (x+1)))")
+    }
+    
+    func testTuples() throws {
+        try checkInterpret(["(1,2)"],["(1,2)"])
+        try checkInterpret(["(1*2,3+6)"],["(2,9)"])
+        try checkInterpret(["(True,1+1,False)"],["(True,2,False)"])
+    }
+    
+    func testLists() throws {
+        try checkInterpret(["[1,2]"],["[1,2]"])
+        try checkInterpret(["[1*2,3+6]"],["[2,9]"])
+        try checkInterpret(["[True,1+1,False]"],["[True,2,False]"])
+        try checkInterpret(["[1,2+2,3*3*3,4+4*4]"],["[1,4,27,20]"])
+    }
+    
+    func testFuncAnnotation() throws {
+        try checkInterpret(["f : Int -> Int \n f x = x + 1", "(f 1)"], ["f x = (x+1)", "2"])
+        try checkInterpret(["f : number -> number \n f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
+    }
+    
+    func testElmBase() throws {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
+        let data : Data = Data(referencing: try NSData(contentsOfFile: path))
+        let text = String(data: data, encoding: .utf8)
+        
+        
+        
+    }
+    
 }

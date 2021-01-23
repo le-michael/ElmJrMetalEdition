@@ -14,14 +14,30 @@ protocol EILiteral: EINode {}
 class EIParser {
     let lexer: EILexer
     var token: EIToken
+    var types: [String:MonoType]
+    
+    let builtinTypes = [
+        "Int": MonoType.TCon("Int"),
+        "Float": MonoType.TCon("Float"),
+        "List": MonoType.CustomType("List", [MonoType.TVar("a")])
+    ]
+        
+    init(text: String = "") {
+        lexer = EILexer(text: text)
+        token = try! lexer.nextToken()
+        // builtins
+        types = builtinTypes
+    }
     
     func advance() {
         token = try! lexer.nextToken()
     }
     
-    init(text: String) {
-        lexer = EILexer(text: text)
-        token = try! lexer.nextToken()
+    func appendText(text: String) throws {
+        lexer.appendText(text: text)
+        if token.type == .endOfFile {
+            token = try lexer.nextToken()
+        }
     }
 
     func isDone() -> Bool {
@@ -31,17 +47,20 @@ class EIParser {
     func parse() throws -> EINode {
         // TODO: This check is incorrect. An expression can also start with an identifier.
         // generic parsing logic for the REPL that can parse declarations AND expressions
-        if token.type == .identifier {
-            return try declaration()
+        if token.type == .identifier || token.type == .TYPE {
+            return try parseDeclaration()
         }
-        return try additiveExpression()
+        return try parseExpression()
     }
     
     func parseExpression() throws -> EINode {
         return try andableExpression()
     }
     
-    func parseDeclaration() throws -> EIAST.Declaration {
+    func parseDeclaration() throws -> EINode {
+        if token.type == .TYPE {
+            return try typeDeclaration()
+        }
         return try declaration()
     }
     
@@ -49,12 +68,146 @@ class EIParser {
         case MissingRightParantheses
         case UnexpectedToken
         case NotImplemented
+        case TypeIsNotKnown
+        case MaxTupleSizeIsThree
+    }
+    
+    func typeDeclaration() throws -> EINode {
+        assert(token.type == .TYPE)
+        advance()
+        assert(token.type == .identifier)
+        assert(tokenIsCapitalizedIdentifier())
+        let name = token.raw
+        advance()
+        var typeVars = [String]()
+        while token.type == .identifier {
+            typeVars.append(token.raw)
+            advance()
+        }
+        // we immediately put type name in type lookup
+        // because we might have a recursive type
+        types[name] = MonoType.CustomType(name, typeVars.map{MonoType.TVar($0)})
+        assert(token.type == .equal)
+        advance()
+        var typeConstructors = [EIAST.ConstructorDefinition]()
+        while(true) {
+            typeConstructors.append(try typeConstructor(typeVars: typeVars))
+            while token.type == .newline {
+                advance()
+            }
+            if token.type != .bar {
+                break
+            }
+            advance()
+        }
+        return EIAST.TypeDefinition(typeName: name, typeVars: typeVars, constructors: typeConstructors)
+    }
+    
+    func typeConstructor(typeVars: [String]) throws -> EIAST.ConstructorDefinition {
+        assert(token.type == .identifier)
+        assert(tokenIsCapitalizedIdentifier())
+        let name = token.raw
+        advance()
+        var typeParameters = [MonoType]()
+        while token.type != .newline && token.type != .bar && token.type != .endOfFile {
+            typeParameters.append(try type(typeVars: typeVars))
+        }
+        return EIAST.ConstructorDefinition(constructorName: name, typeParameters: typeParameters)
+    }
+    
+    /*
+     For parsing a type. 'bounded' here means that we are allowed to use parametric types and the -> operator.
+     */
+    func type(typeVars: [String] = [String](), bounded: Bool = false, annotation: Bool = false) throws -> MonoType {
+        var result: MonoType
+        switch token.type {
+        case .identifier:
+            if tokenIsCapitalizedIdentifier() {
+                if types[token.raw] != nil {
+                    // must have no arguments
+                    let t = types[token.raw]
+                    advance()
+                    switch t {
+                    case .CustomType(let name, let parameterVars):
+                        if !bounded {
+                            // TODO: replace this with a proper error
+                            assert(parameterVars.count == 0)
+                        }
+                        var parameters = [MonoType]()
+                        for _ in 0..<parameterVars.count {
+                            parameters.append(try type(typeVars: typeVars, annotation: annotation))
+                        }
+                        result =  MonoType.CustomType(name, parameters)
+                    default:
+                        result = t!
+                    }
+                } else {
+                    throw ParserError.TypeIsNotKnown
+                }
+            } else {
+                // "number" support hardcoded, I assume we might generalize this later
+                if annotation && token.raw == "number" {
+                    result = MonoType.TSuper("number", 0)
+                    advance()
+                }
+                else if typeVars.contains(token.raw) {
+                    result = MonoType.TVar(token.raw)
+                    advance()
+                } else {
+                    throw ParserError.UnexpectedToken
+                }
+            }
+        case .leftParan:
+            advance()
+            let t1 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
+            if token.type == .rightParan {
+                result = t1
+                assert(token.type == .rightParan); advance()
+                break
+            }
+            assert(token.type == .comma)
+            advance()
+            let t2 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
+            if token.type == .rightParan {
+                result = MonoType.TupleType(t1, t2, nil)
+                assert(token.type == .rightParan); advance()
+                break
+            }
+            assert(token.type == .comma)
+            advance()
+            let t3 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
+            if token.type == .rightParan {
+                result = MonoType.TupleType(t1, t2, t3)
+                assert(token.type == .rightParan); advance()
+                break
+            }
+            throw ParserError.MaxTupleSizeIsThree
+        default:
+            throw ParserError.NotImplemented
+        }
+        if bounded && token.type == .arrow {
+            advance()
+            result = result => (try type(typeVars: typeVars, bounded:true, annotation: annotation))
+        }
+        return result
     }
     
     func declaration() throws -> EIAST.Declaration {
         assert(token.type == .identifier)
         let name = token.raw
         advance()
+        if token.type == .colon {
+            // we have a type annotation!
+            advance()
+            // TODO: Currently I don't use the annoation, but I assume we'll want
+            // to use it for type annotation.
+            let _ = try type(bounded: true, annotation: true)
+            while token.type == .newline { advance() }
+            assert(token.type == .identifier)
+            assert(token.raw == name)
+            advance()
+        }
+        
         // for now we assume parameters are strings rather than patterns
         var parameters = [String]()
         while token.type == .identifier {
@@ -169,13 +322,36 @@ class EIParser {
         switch token.type {
         case .leftParan:
             advance()
-            result = try andableExpression()
+            let v1 = try andableExpression()
+            if token.type == .comma {
+                advance()
+                let v2 = try andableExpression()
+                if token.type == .comma {
+                    advance()
+                    let v3 = try andableExpression()
+                    result = EIAST.Tuple(v1,v2,v3)
+                } else {
+                    result = EIAST.Tuple(v1,v2,nil)
+                }
+            } else {
+                result = v1
+            }
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
             advance()
+        case .leftSquare:
+            advance()
+            var items = [EINode]()
+            while token.type != .rightSquare {
+                let expr = try andableExpression()
+                items.append(expr)
+                if token.type == .comma { advance() }
+            }
+            advance()
+            result = EIAST.List(items)
         case .identifier:
-            if tokenIsType() {
+            if tokenIsCapitalizedIdentifier() {
                 result = try typeExpression()
             } else {
                 result = try variable()
@@ -227,12 +403,11 @@ class EIParser {
             advance()
             return EIAST.Boolean(false)
         default:
-            // we don't support custom types yet
-            throw ParserError.NotImplemented
+            return try variable()
         }
     }
     
-    func tokenIsType() -> Bool {
+    func tokenIsCapitalizedIdentifier() -> Bool {
         if token.type != .identifier { return false }
         assert(token.raw.count >= 1)
         let first = token.raw.first

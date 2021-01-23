@@ -8,6 +8,62 @@
 
 import Foundation
 
+// Alias variables and type variables to strings
+typealias Var = String
+typealias TVar = String
+
+// monomorphic types
+enum MonoType: Equatable, CustomStringConvertible {
+    case TVar(TVar)
+    case TCon(String)
+    case TSuper(String, Int)
+    indirect case TArr(MonoType, MonoType)
+    indirect case CustomType(String, [MonoType]) // Corresponds to "parameterized types"
+    indirect case TupleType(MonoType, MonoType, MonoType?) // Corresponds to 2 and 3 tuples
+            
+    static func => (left : MonoType, right : MonoType) -> MonoType {
+        return TArr(left, right)
+    }
+    
+    // like description but wraps with () if needed
+    func wrappedDescription() -> String {
+        let raw = "\(self)"
+        switch self {
+        case .CustomType(_, let params):
+            if params.count == 0 {
+                return raw
+            } else {
+                return "(\(raw))"
+            }
+        case .TArr(_, _):
+            return "(\(raw))"
+        default:
+            return raw
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .TVar(let v):
+            return v
+        case .TCon(let con):
+            return con
+        case .TSuper(let sup, let inst):
+            return sup + (inst == 0 ? "" : String(inst))
+        case .TArr(let t1, let t2):
+            return "\(t1.description) -> \(t2.description)"
+        case .CustomType(let typeName, let typeParameters):
+            if typeParameters.count == 0 {
+                return "\(typeName)"
+            } else {
+                return "\(typeName) \(typeParameters.map{"\($0.wrappedDescription())"}.joined(separator: " "))"
+            }
+        case .TupleType(let t1, let t2, let t3):
+            return "(\(t1), \(t2)\(t3 != nil ? ", \(t3!)" : ""))"
+        }
+    }
+}
+
 class EIAST {
     class BinaryOp: EINode {
         let leftOperand: EINode
@@ -164,6 +220,78 @@ class EIAST {
         
         var description: String {
             return "\(name) = \(body)"
+        }
+    }
+    
+    class ConstructorDefinition : EINode {
+        let constructorName : String
+        let typeParameters : [MonoType]
+        init(constructorName: String, typeParameters: [MonoType]) {
+            self.constructorName = constructorName
+            self.typeParameters = typeParameters
+        }
+        var description: String {
+            return "\(constructorName)\(typeParameters.count > 0 ? " " :"")\(typeParameters.map{"\($0.wrappedDescription())"}.joined(separator: " "))"
+        }
+    }
+
+    class TypeDefinition : EINode {
+        let typeName : String
+        let typeVars : [String]
+        let constructors : [ConstructorDefinition]
+        init(typeName: String, typeVars: [String], constructors: [ConstructorDefinition]) {
+            self.typeName = typeName
+            self.typeVars = typeVars
+            self.constructors = constructors
+        }
+        var description: String {
+            let beforeEqual = "type \(typeName) \(typeVars.joined(separator: " "))\(typeVars.count > 0 ? " " :"")"
+            let afterEqual = " \(constructors.map{"\($0)"}.joined(separator: " | "))"
+            return "\(beforeEqual)=\(afterEqual)"
+        }
+    }
+    
+    class ConstructorInstance : EINode {
+        let constructorName: String
+        let parameters: [EINode]
+        init(constructorName: String, parameters:[EINode]) {
+            self.constructorName = constructorName
+            self.parameters = parameters
+        }
+        var description: String {
+            if parameters.count == 0 {
+                return constructorName
+            } else {
+                return "(\(constructorName) \(parameters.map{"\($0)"}.joined(separator: " ")))"
+            }
+        }
+    }
+    
+    class Tuple : EINode {
+        let v1 : EINode
+        let v2 : EINode
+        let v3 : EINode?
+        
+        init(_ v1: EINode, _ v2: EINode, _ v3: EINode?) {
+            self.v1 = v1
+            self.v2 = v2
+            self.v3 = v3
+        }
+        
+        var description: String {
+            return "(\(v1), \(v2)\(v3 != nil ? ", \(v3!)" : ""))"
+        }
+    }
+    
+    class List : EINode {
+        let items : [EINode]
+        
+        init(_ items: [EINode]) {
+            self.items = items
+        }
+        
+        var description: String {
+            return "[\(items.map{"\($0)"}.joined(separator: ", "))]"
         }
     }
 }

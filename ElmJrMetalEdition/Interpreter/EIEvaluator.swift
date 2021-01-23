@@ -9,7 +9,9 @@
 import Foundation
 
 class EIEvaluator {
+    var parser: EIParser
     var globals: [String: EINode]
+    
     
     enum EvaluatorError: Error {
         case DivisionByZero
@@ -24,6 +26,7 @@ class EIEvaluator {
     
     init() {
         globals = [String: EINode]()
+        parser = EIParser()
     }
     
     /**
@@ -32,23 +35,17 @@ class EIEvaluator {
      Declarations will be stored to the 'globals' dictionary.
      */
     func interpret(_ text: String) throws -> EINode {
-        let ast = try EIParser(text: text).parse()
+        try parser.appendText(text: text)
+        let ast = try parser.parse()
         let (result, _) = try evaluate(ast, globals)
         return result
     }
     
-    func compile(_ text: String) throws -> EINode {
-        let parser = EIParser(text: text)
+    func compile(_ text: String) throws {
+        try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
             try evaluate(decl, globals)
-        }
-        // For now we will return the final value of the view variable
-        if let view = globals["view"] {
-            let (result, _) = try evaluate(view, globals)
-            return result
-        } else {
-            throw EvaluatorError.NotImplemented
         }
     }
     
@@ -195,6 +192,52 @@ class EIEvaluator {
             }
             globals[decl.name] = body
             return (EIAST.Declaration(name: decl.name, body: body), true)
+        case let typeDef as EIAST.TypeDefinition:
+            for constructor in typeDef.constructors {
+                let name = constructor.constructorName
+                let varname = "_COMPILER_CONSTRUCTOR_INTERNAL"
+                var vars = [EIAST.Variable]()
+                for i in 0..<constructor.typeParameters.count {
+                    vars.append(EIAST.Variable(name: "\(varname)\(i)"))
+                }
+                var node : EINode = EIAST.ConstructorInstance(constructorName: name, parameters: vars)
+                for element in vars.reversed() {
+                    node = EIAST.Function(parameter: element.name, body: node)
+                }
+                globals[name] = node
+            }
+            return (typeDef, true)
+        case _ as EIAST.ConstructorDefinition:
+            // This should never run
+            throw EvaluatorError.NotImplemented
+        case let inst as EIAST.ConstructorInstance:
+            var newParameters = [EINode]()
+            var evaled = true
+            for parameter in inst.parameters {
+                let (param, paramEvaled) = try evaluate(parameter, scope)
+                evaled = evaled && paramEvaled
+                newParameters.append(param)
+            }
+            return (EIAST.ConstructorInstance(constructorName: inst.constructorName, parameters: newParameters), evaled)
+        case let tuple as EIAST.Tuple:
+            let (val1, val1Evaled) = try evaluate(tuple.v1, scope)
+            let (val2, val2Evaled) = try evaluate(tuple.v2, scope)
+            var evaled = val1Evaled && val2Evaled
+            if tuple.v3 != nil {
+                let (val3, val3Evaled) = try evaluate(tuple.v3!, scope)
+                evaled = evaled && val3Evaled
+                return (EIAST.Tuple(val1, val2, val3), evaled)
+            }
+            return (EIAST.Tuple(val1, val2, nil), evaled)
+        case let list as EIAST.List:
+            var items = [EINode]()
+            var evaled = true
+            for item in list.items {
+                let (newItem, itemEvaled) = try evaluate(item, scope)
+                evaled = evaled && itemEvaled
+                items.append(newItem)
+            }
+            return (EIAST.List(items), evaled)
         case let function as EIAST.Function:
             var newScope = scope
             newScope[function.parameter] = EIAST.NoValue()
