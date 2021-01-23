@@ -25,6 +25,23 @@ enum MonoType: Equatable, CustomStringConvertible {
         return TArr(left, right)
     }
     
+    // like description but wraps with () if needed
+    func wrappedDescription() -> String {
+        let raw = "\(self)"
+        switch self {
+        case .CustomType(_, let params):
+            if params.count == 0 {
+                return raw
+            } else {
+                return "(\(raw))"
+            }
+        case .TArr(_, _):
+            return "(\(raw))"
+        default:
+            return raw
+        }
+    }
+    
     var description: String {
         switch self {
         case .TVar(let v):
@@ -39,7 +56,7 @@ enum MonoType: Equatable, CustomStringConvertible {
             if typeParameters.count == 0 {
                 return "\(typeName)"
             } else {
-                return "(\(typeName) \(typeParameters.map{"\($0)"}.joined(separator: " ")))"
+                return "\(typeName) \(typeParameters.map{"\($0.wrappedDescription())"}.joined(separator: " "))"
             }
         case .TupleType(let t1, let t2, let t3):
             return "(\(t1), \(t2)\(t3 != nil ? ", \(t3!)" : ""))"
@@ -214,7 +231,7 @@ class EIAST {
             self.typeParameters = typeParameters
         }
         var description: String {
-            return "\(constructorName)\(typeParameters.count > 0 ? " " :"")\(typeParameters.map{"\($0)"}.joined(separator: " "))"
+            return "\(constructorName)\(typeParameters.count > 0 ? " " :"")\(typeParameters.map{"\($0.wrappedDescription())"}.joined(separator: " "))"
         }
     }
 

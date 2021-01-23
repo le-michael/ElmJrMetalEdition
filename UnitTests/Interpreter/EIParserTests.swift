@@ -79,9 +79,12 @@ class EIParserTests: XCTestCase {
         try checkASTDeclaration("type E a b = Foo a b", "type E a b = Foo a b")
         try checkASTDeclaration("type F a = Cat (List a) Int", "type F a = Cat (List a) Int")
         try checkASTDeclaration("type T = TA (Int, Int) | TB (List Int, Float) | TC (Int, Int, Int)",
-                                "type T = TA (Int, Int) | TB ((List Int), Float) | TC (Int, Int, Int)")
+                                "type T = TA (Int, Int) | TB (List Int, Float) | TC (Int, Int, Int)")
         try checkASTDeclaration("type T = TA ((Int,(Int,Int)),Int)", "type T = TA ((Int, (Int, Int)), Int)")
-        try checkASTDeclaration("type T = Int | T T", "type T = Int | T T")
+        try checkASTDeclaration("type T = A Int | B T T", "type T = A Int | B T T")
+        try checkASTDeclaration("type T = A (Int -> Float)", "type T = A (Int -> Float)")
+        try checkASTDeclaration("type T = A (Int -> Int -> Int) | B (List Int -> Float) Int",
+                                "type T = A (Int -> Int -> Int) | B (List Int -> Float) Int")
     }
     
     func testTuple() throws {

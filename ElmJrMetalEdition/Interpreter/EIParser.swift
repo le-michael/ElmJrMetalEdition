@@ -116,9 +116,10 @@ class EIParser {
     }
     
     /*
-     For parsing a type. 'bounded' here means that we are parsing a section immediately surrounded by parantheses or commas.
+     For parsing a type. 'bounded' here means that we are allowed to use parametric types and the -> operator.
      */
     func type(typeVars: [String], bounded: Bool = false) throws -> MonoType {
+        var result: MonoType
         switch token.type {
         case .identifier:
             if tokenIsCapitalizedIdentifier() {
@@ -136,9 +137,9 @@ class EIParser {
                         for _ in 0..<parameterVars.count {
                             parameters.append(try type(typeVars: typeVars))
                         }
-                        return MonoType.CustomType(name, parameters)
+                        result =  MonoType.CustomType(name, parameters)
                     default:
-                        return t!
+                        result = t!
                     }
                 } else {
                     throw ParserError.TypeIsNotKnown
@@ -146,35 +147,45 @@ class EIParser {
             } else {
                 // token is a type var
                 if typeVars.contains(token.raw) {
-                    let result = MonoType.TVar(token.raw)
+                    result = MonoType.TVar(token.raw)
                     advance()
-                    return result
+                } else {
+                    throw ParserError.UnexpectedToken
                 }
-                throw ParserError.UnexpectedToken
             }
         case .leftParan:
             advance()
-            defer { assert(token.type == .rightParan); advance() } // for right parantheses
             let t1 = try type(typeVars: typeVars, bounded: true)
             if token.type == .rightParan {
-                return t1
+                result = t1
+                assert(token.type == .rightParan); advance()
+                break
             }
             assert(token.type == .comma)
             advance()
             let t2 = try type(typeVars: typeVars, bounded: true)
             if token.type == .rightParan {
-                return MonoType.TupleType(t1, t2, nil)
+                result = MonoType.TupleType(t1, t2, nil)
+                assert(token.type == .rightParan); advance()
+                break
             }
             assert(token.type == .comma)
             advance()
             let t3 = try type(typeVars: typeVars, bounded: true)
             if token.type == .rightParan {
-                return MonoType.TupleType(t1, t2, t3)
+                result = MonoType.TupleType(t1, t2, t3)
+                assert(token.type == .rightParan); advance()
+                break
             }
             throw ParserError.MaxTupleSizeIsThree
         default:
             throw ParserError.NotImplemented
         }
+        if bounded && token.type == .arrow {
+            advance()
+            result = result => (try type(typeVars: typeVars, bounded:true))
+        }
+        return result
     }
     
     func declaration() throws -> EIAST.Declaration {
