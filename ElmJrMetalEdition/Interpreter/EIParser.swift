@@ -118,7 +118,7 @@ class EIParser {
     /*
      For parsing a type. 'bounded' here means that we are allowed to use parametric types and the -> operator.
      */
-    func type(typeVars: [String], bounded: Bool = false) throws -> MonoType {
+    func type(typeVars: [String] = [String](), bounded: Bool = false, annotation: Bool = false) throws -> MonoType {
         var result: MonoType
         switch token.type {
         case .identifier:
@@ -135,7 +135,7 @@ class EIParser {
                         }
                         var parameters = [MonoType]()
                         for _ in 0..<parameterVars.count {
-                            parameters.append(try type(typeVars: typeVars))
+                            parameters.append(try type(typeVars: typeVars, annotation: annotation))
                         }
                         result =  MonoType.CustomType(name, parameters)
                     default:
@@ -145,8 +145,12 @@ class EIParser {
                     throw ParserError.TypeIsNotKnown
                 }
             } else {
-                // token is a type var
-                if typeVars.contains(token.raw) {
+                // "number" support hardcoded, I assume we might generalize this later
+                if annotation && token.raw == "number" {
+                    result = MonoType.TSuper("number", 0)
+                    advance()
+                }
+                else if typeVars.contains(token.raw) {
                     result = MonoType.TVar(token.raw)
                     advance()
                 } else {
@@ -155,7 +159,7 @@ class EIParser {
             }
         case .leftParan:
             advance()
-            let t1 = try type(typeVars: typeVars, bounded: true)
+            let t1 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = t1
                 assert(token.type == .rightParan); advance()
@@ -163,7 +167,7 @@ class EIParser {
             }
             assert(token.type == .comma)
             advance()
-            let t2 = try type(typeVars: typeVars, bounded: true)
+            let t2 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, nil)
                 assert(token.type == .rightParan); advance()
@@ -171,7 +175,7 @@ class EIParser {
             }
             assert(token.type == .comma)
             advance()
-            let t3 = try type(typeVars: typeVars, bounded: true)
+            let t3 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, t3)
                 assert(token.type == .rightParan); advance()
@@ -183,7 +187,7 @@ class EIParser {
         }
         if bounded && token.type == .arrow {
             advance()
-            result = result => (try type(typeVars: typeVars, bounded:true))
+            result = result => (try type(typeVars: typeVars, bounded:true, annotation: annotation))
         }
         return result
     }
@@ -192,6 +196,16 @@ class EIParser {
         assert(token.type == .identifier)
         let name = token.raw
         advance()
+        if token.type == .colon {
+            // we have a type annotation!
+            // TODO: Currently I don't use the annoation, but I assume we'll want
+            // to use it for type annotation.
+            let _ = try type(annotation: true)
+            assert(token.type == .identifier)
+            assert(token.raw == name)
+            advance()
+        }
+        
         // for now we assume parameters are strings rather than patterns
         var parameters = [String]()
         while token.type == .identifier {
