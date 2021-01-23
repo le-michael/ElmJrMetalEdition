@@ -198,9 +198,11 @@ class EIParser {
         advance()
         if token.type == .colon {
             // we have a type annotation!
+            advance()
             // TODO: Currently I don't use the annoation, but I assume we'll want
             // to use it for type annotation.
-            let _ = try type(annotation: true)
+            let _ = try type(bounded: true, annotation: true)
+            while token.type == .newline { advance() }
             assert(token.type == .identifier)
             assert(token.raw == name)
             advance()

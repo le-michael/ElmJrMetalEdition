@@ -134,4 +134,9 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["[1,2+2,3*3*3,4+4*4]"],["[1,4,27,20]"])
     }
     
+    func testFuncAnnotation() throws {
+        try checkInterpret(["f : Int -> Int \n f x = x + 1", "(f 1)"], ["f x = (x+1)", "2"])
+        try checkInterpret(["f : number -> number \n f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
+    }
+    
 }

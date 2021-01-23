@@ -99,4 +99,10 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("[True,False]", "[True, False]")
         try checkASTExpression("[1,2,3,4,5,6]", "[1, 2, 3, 4, 5, 6]")
     }
+    
+    func testFuncAnnotation() throws {
+        try checkASTDeclaration("f : Int -> Int \n f x = x + 1", "f = (\\x -> (x+1))")
+        try checkASTDeclaration("f : Int -> List Int \n f x = [x]", "f = (\\x -> [x])")
+        try checkASTDeclaration("f : number -> List number \n f x = [x]", "f = (\\x -> [x])")
+    }
 }
