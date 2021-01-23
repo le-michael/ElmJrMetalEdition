@@ -41,18 +41,11 @@ class EIEvaluator {
         return result
     }
     
-    func compile(_ text: String) throws -> EINode {
+    func compile(_ text: String) throws {
         try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
             try evaluate(decl, globals)
-        }
-        // For now we will return the final value of the view variable
-        if let view = globals["view"] {
-            let (result, _) = try evaluate(view, globals)
-            return result
-        } else {
-            throw EvaluatorError.NotImplemented
         }
     }
     

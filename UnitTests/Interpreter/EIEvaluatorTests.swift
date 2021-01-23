@@ -28,8 +28,9 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func checkCompile(_ toCompile: String, _ toOutput: String) throws {
-        let view = try EIEvaluator().compile(toCompile)
-        XCTAssertEqual("\(view)", toOutput)
+        let evaluator = EIEvaluator()
+        try evaluator.compile(toCompile)
+        XCTAssertEqual("\(evaluator.globals["view"]!)", toOutput)
     }
     
     func testLiteral() throws {
@@ -137,6 +138,16 @@ class EIEvaluatorTests: XCTestCase {
     func testFuncAnnotation() throws {
         try checkInterpret(["f : Int -> Int \n f x = x + 1", "(f 1)"], ["f x = (x+1)", "2"])
         try checkInterpret(["f : number -> number \n f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
+    }
+    
+    func testElmBase() throws {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
+        let data : Data = Data(referencing: try NSData(contentsOfFile: path))
+        let text = String(data: data, encoding: .utf8)
+        
+        
+        
     }
     
 }

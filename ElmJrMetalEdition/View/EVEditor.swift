@@ -75,8 +75,8 @@ class EVEditor {
         print("evaluation: ------")
         let evaluator = EIEvaluator()
         do {
-            let viewNode = try evaluator.compile(project.sourceCode)
-            print(viewNode)
+            try evaluator.compile(project.sourceCode)
+            print(evaluator.globals["view"]!)
         } catch {
             print("Error evaluating program: \(error)")
         }
