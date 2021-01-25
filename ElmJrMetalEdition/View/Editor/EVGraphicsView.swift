@@ -27,8 +27,8 @@ class EVGraphicsView: UIView {
 
         mtkView.device = MTLCreateSystemDefaultDevice()
 
-        let scene = EGDemoScenes.campSite()
-        renderer = EGRenderer(view: mtkView, scene: scene)
+        renderer = EGRenderer(view: mtkView, scene: EGDemoScenes.monkeys())
+        renderer.use(scene: EGDemoScenes.campSite())
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
