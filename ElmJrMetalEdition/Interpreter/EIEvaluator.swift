@@ -255,7 +255,7 @@ class EIEvaluator {
                 throw EvaluatorError.TypeIsNotAFunction
             }
             let body = substitute(function!.body, function!.parameter, argument)
-            let (result, resultEvaled) = try evaluate(body, globals)
+            let (result, resultEvaled) = try evaluate(body, scope)
             return (result, argumentEvaled && resultEvaled)
         case let ifElse as EIAST.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
