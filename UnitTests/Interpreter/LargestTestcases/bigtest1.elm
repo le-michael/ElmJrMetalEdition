@@ -1,15 +1,7 @@
 {-
-A more prudent import list will be done at a later stage,
-when the compiler supports it
-
-We should be hiding the following things from being imported:
-- Stencil
-- Color
-- Camera (to be replaced with smart constructors)
-- Scene
-- Shape
-- ssc, ssa, clamp (to be replaced with the Core implementation)
--}
+type Maybe a
+    = Just a
+    | Nothing
 
 -- Primitive type representing the shape to be drawn. All in 3D space
 type Stencil
@@ -28,24 +20,21 @@ type Transform
 type Color
     = RGBA Float Float Float Float
 
-
 type Camera
     = Camera Transform
-    | ArcballCamera
-      Float -- distance
-      ( Float, Float, Float ) -- target
-      Float -- maxDistance
-      Float -- minDistance
-
+      | ArcballCamera Float ( Float, Float, Float ) Float Float
+      
+type Shape
+    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
+    | ApTransform Transform Shape -- Apply a transform to an already defined shape
+    | Group (List Shape)
 
 type Scene
     = Scene Camera (List Shape)
     | SceneWithTime Camera (Float -> List Shape)
 
-type Shape
-    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
-    | ApTransform Transform Shape -- Apply a transform to an already defined shape
-    | Group (List Shape)
+defaultCamera : Camera
+defaultCamera = Camera (Translate (0, 0, 0))
 
 -- The default scene initializer
 view : List Shape -> Scene
@@ -64,27 +53,10 @@ viewWithTime shapes = SceneWithTime defaultCamera shapes
 viewWithTimeAndCamera : Camera -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera shapes = SceneWithTime camera shapes
 
-defaultCamera : Camera
-defaultCamera = Camera (Translate (0, 0, 0))
-
 filled : Color -> Stencil -> Shape
 filled color stencil =
     Inked (Just color) stencil
-
-rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssc r) (ssc g) (ssc b) 1
-
-rgba : Float -> Float -> Float -> Float -> Color
-rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
-
-ssc : number -> number
-ssc n =
-    clamp 0 255 n
-
-ssa : Float -> Float
-ssa n =
-    clamp 0 1 n
-
+-}
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
 clamp : number -> number -> number -> number
@@ -95,6 +67,20 @@ clamp low high number =
         high
     else
         number
+
+ssc : number -> number
+ssc n =
+    clamp 0 255 n
+
+ssa : Float -> Float
+ssa n =
+    clamp 0 1 n
+
+rgb : Float -> Float -> Float -> Color
+rgb r g b = RGBA (ssc r) (ssc g) (ssc b) 1
+
+rgba : Float -> Float -> Float -> Float -> Color
+rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
 
 -- Default available colors
 

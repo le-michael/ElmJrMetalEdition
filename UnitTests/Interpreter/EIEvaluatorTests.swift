@@ -145,7 +145,8 @@ class EIEvaluatorTests: XCTestCase {
         let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
         let data : Data = Data(referencing: try NSData(contentsOfFile: path))
         let text = String(data: data, encoding: .utf8)
-        
+        let evaluator = EIEvaluator()
+        try evaluator.compile(text!)
         
         
     }

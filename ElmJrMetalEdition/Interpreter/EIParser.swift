@@ -58,6 +58,7 @@ class EIParser {
     }
     
     func parseDeclaration() throws -> EINode {
+        eatNewlines()
         if token.type == .TYPE {
             return try typeDeclaration()
         }
@@ -70,6 +71,12 @@ class EIParser {
         case NotImplemented
         case TypeIsNotKnown
         case MaxTupleSizeIsThree
+    }
+    
+    func eatNewlines() {
+        while token.type == .newline {
+            advance()
+        }
     }
     
     func typeDeclaration() throws -> EINode {
@@ -87,8 +94,10 @@ class EIParser {
         // we immediately put type name in type lookup
         // because we might have a recursive type
         types[name] = MonoType.CustomType(name, typeVars.map{MonoType.TVar($0)})
+        eatNewlines()
         assert(token.type == .equal)
         advance()
+        eatNewlines()
         var typeConstructors = [EIAST.ConstructorDefinition]()
         while(true) {
             typeConstructors.append(try typeConstructor(typeVars: typeVars))
@@ -214,8 +223,10 @@ class EIParser {
             parameters.append(token.raw)
             advance()
         }
+        eatNewlines()
         assert(token.type == .equal)
         advance()
+        eatNewlines()
         var node = try andableExpression()
         for parameter in parameters.reversed() {
             node = EIAST.Function(parameter: parameter, body: node)
@@ -304,12 +315,12 @@ class EIParser {
     }
     
     func funcativeExpression() throws -> EINode {
-        while token.type == .newline { advance() }
+        eatNewlines()
         var result = try unaryExpression()
         while tokenCouldStartExpression() {
             result = EIAST.FunctionApplication(function: result, argument: try unaryExpression())
         }
-        while token.type == .newline { advance() }
+        //while token.type == .newline { advance() }
         return result
     }
 
@@ -421,9 +432,11 @@ class EIParser {
         while token.type == .IF {
             advance()
             try conditions.append(andableExpression())
+            eatNewlines()
             assert(token.type == .THEN)
             advance()
             try branches.append(andableExpression())
+            eatNewlines()
             assert(token.type == .ELSE)
             advance()
         }
