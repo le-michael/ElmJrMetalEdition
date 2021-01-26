@@ -593,4 +593,13 @@ class EITypeInferencer {
         var cs2 = apply(su1, with: cs)
         return try solver(compose(su1, su), &cs2)
     }
+    
+    func isUnifiable(_ t1 : MonoType, _ t2 : MonoType) -> Bool {
+        do {
+            try unify(t1, t2)
+            return true
+        } catch {
+            return false
+        }
+    }
 }
