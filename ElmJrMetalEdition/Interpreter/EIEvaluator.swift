@@ -284,4 +284,55 @@ class EIEvaluator {
             throw EvaluatorError.NotImplemented
         }
     }
+    
+    func subsitute(_ node: EINode, _ variable: String, _ value: EINode) -> EINode {
+        switch node {
+        case let literal as EILiteral:
+            return literal
+        case let unOp as EIAST.UnaryOp:
+            let operand = subsitute(unOp.operand , variable, value)
+            return EIAST.UnaryOp(operand: operand, type: unOp.type)
+        case let binOp as EIAST.BinaryOp:
+            let left = subsitute(binOp.leftOperand, variable, value)
+            let right = subsitute(binOp.rightOperand, variable, value)
+            return EIAST.BinaryOp(left, right, binOp.type)
+        case let vari as EIAST.Variable:
+            if vari.name == variable { return value }
+            return vari
+        case let decl as EIAST.Declaration:
+            return EIAST.Declaration(name: decl.name, body: subsitute(decl.body, variable, value))
+        case let typeDef as EIAST.TypeDefinition:
+            return EIAST.TypeDefinition(
+                typeName: typeDef.typeName, typeVars: typeDef.typeVars,
+                constructors: typeDef.constructors.map{
+                    subsitute($0, variable, value) as! EIAST.ConstructorDefinition
+                })
+        case let constDef as EIAST.ConstructorDefinition:
+            return EIAST.ConstructorDefinition(constructorName: constDef.constructorName,
+                                               typeParameters: constDef.typeParameters)
+        case let inst as EIAST.ConstructorInstance:
+            return EIAST.ConstructorInstance(constructorName: inst.constructorName,
+                                             parameters: inst.parameters.map{ subsitute($0, variable, value) })
+        case let tuple as EIAST.Tuple:
+            return EIAST.Tuple(subsitute(tuple.v1, variable, value),
+                               subsitute(tuple.v2, variable, value),
+                               tuple.v3 != nil ? subsitute(tuple.v3!, variable, value) : nil)
+        case let list as EIAST.List:
+            return EIAST.List(list.items.map{ subsitute($0, variable, value) })
+        case let function as EIAST.Function:
+            return EIAST.Function(parameter: function.parameter, body: subsitute(function.body, variable, value))
+        case let funcApp as EIAST.FunctionApplication:
+            return EIAST.FunctionApplication(function: subsitute(funcApp.function, variable, value),
+                                             argument: subsitute(funcApp.argument, variable, value))
+        case let ifElse as EIAST.IfElse:
+            return EIAST.IfElse(conditions: ifElse.conditions.map{subsitute($0, variable, value)},
+                                branches: ifElse.branches.map{subsitute($0, variable, value)})
+        case _ as EIAST.NoValue:
+            return EIAST.NoValue()
+        default:
+            // This will never run
+            assert(false);
+            return EIAST.NoValue()
+        }
+    }
 }
