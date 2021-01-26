@@ -149,8 +149,6 @@ class EIEvaluatorTests: XCTestCase {
         let text = String(data: data, encoding: .utf8)
         let evaluator = EIEvaluator()
         try evaluator.compile(text!)
-                
-        
     }
     
 }

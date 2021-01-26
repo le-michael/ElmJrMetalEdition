@@ -58,6 +58,7 @@ class EIParser {
     }
     
     func parseDeclaration() throws -> EINode {
+        defer { eatNewlines() }
         eatNewlines()
         if token.type == .TYPE {
             return try typeDeclaration()

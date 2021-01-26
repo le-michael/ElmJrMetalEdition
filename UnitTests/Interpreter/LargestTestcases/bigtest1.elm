@@ -1,4 +1,3 @@
-{-
 type Maybe a
     = Just a
     | Nothing
@@ -56,7 +55,7 @@ viewWithTimeAndCamera camera shapes = SceneWithTime camera shapes
 filled : Color -> Stencil -> Shape
 filled color stencil =
     Inked (Just color) stencil
--}
+
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
 clamp : number -> number -> number -> number
