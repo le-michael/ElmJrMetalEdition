@@ -31,7 +31,6 @@ class EIParser {
     
     func advance() {
         token = try! lexer.nextToken()
-        //print("\(token)")
     }
     
     func appendText(text: String) throws {
