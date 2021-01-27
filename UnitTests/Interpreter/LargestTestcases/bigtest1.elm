@@ -333,5 +333,5 @@ scaleY s shape =
 
 -- actual example (this is what the user sees)
 -- note this is less pretty than it should be because I do not support |> <| yet
-myShape = 1
+myShape = move 50 50 (filled red (triangle 50))
 myScene = view [myShape]
