@@ -1,8 +1,11 @@
+-- Modified Maybe.elm
 type Maybe a
     = Just a
     | Nothing
 
--- Primitive type representing the shape to be drawn. All in 3D space
+
+
+-- Modified Base.elm
 type Stencil
     = Sphere Float
     | Cuboid Float Float Float
@@ -292,3 +295,43 @@ blank : Color
 blank =
     RGBA 0 0 0 0
 
+-- Modified API2D.elm
+ngon : Int -> Float -> Stencil
+ngon n r =
+    Polygon n r
+
+triangle = ngon 3
+
+circle : Float -> Stencil
+circle r = Sphere r
+
+group : List Shape -> Shape
+group shapes = Group shapes
+
+-- Pattern matching used with let statement here
+move : Float -> Float -> Shape -> Shape
+move xt yt shape =
+    ApTransform (Translate (xt, yt, 1)) shape
+
+-- Is the rotation in degrees or radians
+-- The original API does it in radians
+rotate : Float -> Shape -> Shape
+rotate theta shape =
+    ApTransform (Rotate2D theta) shape
+
+scale : Float -> Shape -> Shape
+scale s shape =
+    ApTransform (Scale s s 1) shape
+
+scaleX : Float -> Shape -> Shape
+scaleX s shape =
+    ApTransform (Scale s 1 1) shape
+
+scaleY : Float -> Shape -> Shape
+scaleY s shape =
+    ApTransform (Scale 1 s 1) shape
+
+-- actual example (this is what the user sees)
+-- note this is less pretty than it should be because I do not support |> <| yet
+myShape = 1
+myScene = view [myShape]

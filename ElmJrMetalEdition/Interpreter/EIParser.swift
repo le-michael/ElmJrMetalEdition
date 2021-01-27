@@ -31,6 +31,7 @@ class EIParser {
     
     func advance() {
         token = try! lexer.nextToken()
+        //print("\(token)")
     }
     
     func appendText(text: String) throws {
@@ -326,7 +327,7 @@ class EIParser {
     }
 
     func tokenCouldStartExpression() -> Bool {
-        return token.type == .leftParan || token.type == .identifier || token.type == .number || token.type == .string
+        return token.type == .leftParan || token.type == .leftSquare || token.type == .identifier || token.type == .number || token.type == .string
     }
 
     func unaryExpression() throws -> EINode {

@@ -45,6 +45,7 @@ class EIEvaluator {
         try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
+            print("\(decl)")
             try evaluate(decl, globals)
         }
     }
@@ -188,6 +189,7 @@ class EIEvaluator {
             let (body, bodyEvaled) = try evaluate(decl.body, newScope)
             assert(bodyEvaled == true)
             if globals[decl.name] != nil {
+                print(decl.name) // print statement debugging b/c swift sucks
                 throw EvaluatorError.VariableShadowing
             }
             globals[decl.name] = body
