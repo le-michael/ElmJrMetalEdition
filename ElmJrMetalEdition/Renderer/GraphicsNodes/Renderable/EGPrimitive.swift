@@ -51,9 +51,7 @@ class EGPrimitive: EGGraphicsNode {
         vertexUniforms.projectionMatrix = sceneProps.projectionMatrix
         vertexUniforms.normalMatrix = transformationMatrix.upperLeft
         
-        let colorValue = color.evaluate(sceneProps)
-        vertexUniforms.color = colorValue
-        
+        fragmentUniforms.baseColor = color.evaluate(sceneProps)
         fragmentUniforms.surfaceType = surfaceType
         fragmentUniforms.lightCount = UInt32(sceneProps.lights.count)
         fragmentUniforms.cameraPosition = sceneProps.cameraPosition
@@ -71,8 +69,13 @@ class EGPrimitive: EGGraphicsNode {
         updateUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
-        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index:  Int(BufferVertex.rawValue))
+        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: Int(BufferVertex.rawValue))
         commandEncoder.setTriangleFillMode(triangleFillMode)
+        commandEncoder.setFragmentBytes(
+            &fragmentUniforms,
+            length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
+            index: Int(BufferFragmentUniforms.rawValue)
+        )
         commandEncoder.setVertexBytes(&vertexUniforms,
                                       length: MemoryLayout<PrimitiveVertexUniforms>.stride,
                                       index: Int(BufferVertexUniforms.rawValue))

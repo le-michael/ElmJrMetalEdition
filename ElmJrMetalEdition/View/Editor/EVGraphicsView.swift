@@ -26,10 +26,9 @@ class EVGraphicsView: UIView {
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
 
         mtkView.device = MTLCreateSystemDefaultDevice()
-        mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
 
-        let scene = EGDemoScenes.monkeys()
-        renderer = EGRenderer(view: mtkView, scene: scene)
+        renderer = EGRenderer(view: mtkView, scene: EGDemoScenes.monkeys())
+        renderer.use(scene: EGDemoScenes.campSite())
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))

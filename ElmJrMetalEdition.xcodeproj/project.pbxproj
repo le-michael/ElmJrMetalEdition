@@ -58,6 +58,35 @@
 		10C3739C25AF795D0011DF97 /* EGLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3739B25AF795D0011DF97 /* EGLight.swift */; };
 		10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
+		10EF452625B6138700C037AB /* bed.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452425B6138700C037AB /* bed.obj */; };
+		10EF452725B6138700C037AB /* bed.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452525B6138700C037AB /* bed.mtl */; };
+		10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EF452A25B650E500C037AB /* EGModelMesh.swift */; };
+		10EF453225B6605600C037AB /* cliff_block_rock.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453025B6605600C037AB /* cliff_block_rock.obj */; };
+		10EF453325B6605600C037AB /* cliff_block_rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453125B6605600C037AB /* cliff_block_rock.mtl */; };
+		10EF453825B6609900C037AB /* stone_smallE.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453625B6609900C037AB /* stone_smallE.mtl */; };
+		10EF453925B6609900C037AB /* stone_smallE.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453725B6609900C037AB /* stone_smallE.obj */; };
+		10EF453E25B660C200C037AB /* tree_blocks.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453C25B660C100C037AB /* tree_blocks.obj */; };
+		10EF453F25B660C200C037AB /* tree_blocks.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453D25B660C200C037AB /* tree_blocks.mtl */; };
+		10EF454425B660D900C037AB /* tree_default.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454225B660D900C037AB /* tree_default.mtl */; };
+		10EF454525B660D900C037AB /* tree_default.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454325B660D900C037AB /* tree_default.obj */; };
+		10EF454A25B6614300C037AB /* log_stack.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454825B6614200C037AB /* log_stack.mtl */; };
+		10EF454B25B6614300C037AB /* log_stack.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454925B6614300C037AB /* log_stack.obj */; };
+		10EF455025B6687C00C037AB /* tent_detailedOpen.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */; };
+		10EF455125B6687C00C037AB /* tent_detailedOpen.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */; };
+		10EF455625B66CB100C037AB /* campfire_bricks.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455425B66CB100C037AB /* campfire_bricks.obj */; };
+		10EF455725B66CB100C037AB /* campfire_bricks.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455525B66CB100C037AB /* campfire_bricks.mtl */; };
+		10EF455C25B66CDD00C037AB /* campfire_logs.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455A25B66CDD00C037AB /* campfire_logs.mtl */; };
+		10EF455D25B66CDD00C037AB /* campfire_logs.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455B25B66CDD00C037AB /* campfire_logs.obj */; };
+		10EF456225B66CEE00C037AB /* campfire_stones.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456025B66CED00C037AB /* campfire_stones.obj */; };
+		10EF456325B66CEE00C037AB /* campfire_stones.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456125B66CED00C037AB /* campfire_stones.mtl */; };
+		10EF456825B66D8900C037AB /* flower_redC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456625B66D8900C037AB /* flower_redC.mtl */; };
+		10EF456925B66D8900C037AB /* flower_redC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456725B66D8900C037AB /* flower_redC.obj */; };
+		10EF456E25B66D9500C037AB /* flower_purpleC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456C25B66D9500C037AB /* flower_purpleC.mtl */; };
+		10EF456F25B66D9500C037AB /* flower_purpleC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456D25B66D9500C037AB /* flower_purpleC.obj */; };
+		10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457225B66DA000C037AB /* flower_yellowC.mtl */; };
+		10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457325B66DA000C037AB /* flower_yellowC.obj */; };
+		10EF457A25B66F7B00C037AB /* ground_pathOpen.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457825B66F7A00C037AB /* ground_pathOpen.obj */; };
+		10EF457B25B66F7B00C037AB /* ground_pathOpen.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */; };
 		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
 		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
 		7C1856AF259E8C6200546CD3 /* Char.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AE259E8C6200546CD3 /* Char.swift */; };
@@ -198,6 +227,35 @@
 		10C3739B25AF795D0011DF97 /* EGLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLight.swift; sourceTree = "<group>"; };
 		10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexDescriptor.swift; sourceTree = "<group>"; };
 		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
+		10EF452425B6138700C037AB /* bed.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.obj; sourceTree = "<group>"; };
+		10EF452525B6138700C037AB /* bed.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.mtl; sourceTree = "<group>"; };
+		10EF452A25B650E500C037AB /* EGModelMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGModelMesh.swift; sourceTree = "<group>"; };
+		10EF453025B6605600C037AB /* cliff_block_rock.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cliff_block_rock.obj; sourceTree = "<group>"; };
+		10EF453125B6605600C037AB /* cliff_block_rock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cliff_block_rock.mtl; sourceTree = "<group>"; };
+		10EF453625B6609900C037AB /* stone_smallE.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stone_smallE.mtl; sourceTree = "<group>"; };
+		10EF453725B6609900C037AB /* stone_smallE.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stone_smallE.obj; sourceTree = "<group>"; };
+		10EF453C25B660C100C037AB /* tree_blocks.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_blocks.obj; sourceTree = "<group>"; };
+		10EF453D25B660C200C037AB /* tree_blocks.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_blocks.mtl; sourceTree = "<group>"; };
+		10EF454225B660D900C037AB /* tree_default.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_default.mtl; sourceTree = "<group>"; };
+		10EF454325B660D900C037AB /* tree_default.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_default.obj; sourceTree = "<group>"; };
+		10EF454825B6614200C037AB /* log_stack.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_stack.mtl; sourceTree = "<group>"; };
+		10EF454925B6614300C037AB /* log_stack.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_stack.obj; sourceTree = "<group>"; };
+		10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tent_detailedOpen.obj; sourceTree = "<group>"; };
+		10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tent_detailedOpen.mtl; sourceTree = "<group>"; };
+		10EF455425B66CB100C037AB /* campfire_bricks.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_bricks.obj; sourceTree = "<group>"; };
+		10EF455525B66CB100C037AB /* campfire_bricks.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_bricks.mtl; sourceTree = "<group>"; };
+		10EF455A25B66CDD00C037AB /* campfire_logs.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_logs.mtl; sourceTree = "<group>"; };
+		10EF455B25B66CDD00C037AB /* campfire_logs.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_logs.obj; sourceTree = "<group>"; };
+		10EF456025B66CED00C037AB /* campfire_stones.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_stones.obj; sourceTree = "<group>"; };
+		10EF456125B66CED00C037AB /* campfire_stones.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_stones.mtl; sourceTree = "<group>"; };
+		10EF456625B66D8900C037AB /* flower_redC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_redC.mtl; sourceTree = "<group>"; };
+		10EF456725B66D8900C037AB /* flower_redC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_redC.obj; sourceTree = "<group>"; };
+		10EF456C25B66D9500C037AB /* flower_purpleC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_purpleC.mtl; sourceTree = "<group>"; };
+		10EF456D25B66D9500C037AB /* flower_purpleC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_purpleC.obj; sourceTree = "<group>"; };
+		10EF457225B66DA000C037AB /* flower_yellowC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_yellowC.mtl; sourceTree = "<group>"; };
+		10EF457325B66DA000C037AB /* flower_yellowC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_yellowC.obj; sourceTree = "<group>"; };
+		10EF457825B66F7A00C037AB /* ground_pathOpen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.obj; sourceTree = "<group>"; };
+		10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.mtl; sourceTree = "<group>"; };
 		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
 		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
@@ -359,6 +417,7 @@
 			children = (
 				105CCEF525769166006A6634 /* EGMesh.swift */,
 				105CCEF9257691CE006A6634 /* EGBezierMesh.swift */,
+				10EF452A25B650E500C037AB /* EGModelMesh.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -443,6 +502,7 @@
 		10C373B725AFACD30011DF97 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				10EF42A525B60FA400C037AB /* KennyNatureKit2.1 */,
 				104792E325AFD8B700269311 /* capsule.mtl */,
 				104792DF25AFD8B700269311 /* capsule.obj */,
 				104792DB25AFD8B600269311 /* cube.mtl */,
@@ -467,6 +527,41 @@
 				1098B33825A02F2200BD7AD1 /* EGPrimitive3D.swift */,
 			);
 			path = Renderable;
+			sourceTree = "<group>";
+		};
+		10EF42A525B60FA400C037AB /* KennyNatureKit2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */,
+				10EF457825B66F7A00C037AB /* ground_pathOpen.obj */,
+				10EF457225B66DA000C037AB /* flower_yellowC.mtl */,
+				10EF457325B66DA000C037AB /* flower_yellowC.obj */,
+				10EF456C25B66D9500C037AB /* flower_purpleC.mtl */,
+				10EF456D25B66D9500C037AB /* flower_purpleC.obj */,
+				10EF456625B66D8900C037AB /* flower_redC.mtl */,
+				10EF456725B66D8900C037AB /* flower_redC.obj */,
+				10EF456125B66CED00C037AB /* campfire_stones.mtl */,
+				10EF456025B66CED00C037AB /* campfire_stones.obj */,
+				10EF455A25B66CDD00C037AB /* campfire_logs.mtl */,
+				10EF455B25B66CDD00C037AB /* campfire_logs.obj */,
+				10EF455525B66CB100C037AB /* campfire_bricks.mtl */,
+				10EF455425B66CB100C037AB /* campfire_bricks.obj */,
+				10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */,
+				10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */,
+				10EF454825B6614200C037AB /* log_stack.mtl */,
+				10EF454925B6614300C037AB /* log_stack.obj */,
+				10EF454225B660D900C037AB /* tree_default.mtl */,
+				10EF454325B660D900C037AB /* tree_default.obj */,
+				10EF453D25B660C200C037AB /* tree_blocks.mtl */,
+				10EF453C25B660C100C037AB /* tree_blocks.obj */,
+				10EF453625B6609900C037AB /* stone_smallE.mtl */,
+				10EF453725B6609900C037AB /* stone_smallE.obj */,
+				10EF453125B6605600C037AB /* cliff_block_rock.mtl */,
+				10EF453025B6605600C037AB /* cliff_block_rock.obj */,
+				10EF452525B6138700C037AB /* bed.mtl */,
+				10EF452425B6138700C037AB /* bed.obj */,
+			);
+			path = KennyNatureKit2.1;
 			sourceTree = "<group>";
 		};
 		7C1A44A825721C8200C3017B /* ElmLibrary */ = {
@@ -789,6 +884,8 @@
 				7C1A44EE2575C20900C3017B /* List.elm in Resources */,
 				7C1A44EA2575C20900C3017B /* Process.server.js in Resources */,
 				7C1A44E42575C20900C3017B /* Char.js in Resources */,
+				10EF457A25B66F7B00C037AB /* ground_pathOpen.obj in Resources */,
+				10EF452625B6138700C037AB /* bed.obj in Resources */,
 				104792EF25AFD8B700269311 /* capsule.mtl in Resources */,
 				7C8184E025A7C39500A7F349 /* API2D.elm in Resources */,
 				104792EE25AFD8B700269311 /* monkey.mtl in Resources */,
@@ -797,38 +894,64 @@
 				7C1A44DB2575C20900C3017B /* Array.elm in Resources */,
 				104792EC25AFD8B700269311 /* monkey.obj in Resources */,
 				104792E925AFD8B700269311 /* cube.obj in Resources */,
+				10EF456925B66D8900C037AB /* flower_redC.obj in Resources */,
+				10EF455725B66CB100C037AB /* campfire_bricks.mtl in Resources */,
 				7C1A44F52575C20900C3017B /* Set.elm in Resources */,
 				7C1A44F22575C20900C3017B /* Platform.elm in Resources */,
+				10EF453225B6605600C037AB /* cliff_block_rock.obj in Resources */,
 				7C8184E725A7FA2200A7F349 /* Base.elm in Resources */,
+				10EF456825B66D8900C037AB /* flower_redC.mtl in Resources */,
+				10EF455D25B66CDD00C037AB /* campfire_logs.obj in Resources */,
 				7C1A44E22575C20900C3017B /* Basics.js in Resources */,
+				10EF453825B6609900C037AB /* stone_smallE.mtl in Resources */,
 				D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */,
 				7C1A44F82575C20900C3017B /* Tuple.elm in Resources */,
+				10EF457B25B66F7B00C037AB /* ground_pathOpen.mtl in Resources */,
+				10EF456E25B66D9500C037AB /* flower_purpleC.mtl in Resources */,
+				10EF453325B6605600C037AB /* cliff_block_rock.mtl in Resources */,
+				10EF456F25B66D9500C037AB /* flower_purpleC.obj in Resources */,
 				104792ED25AFD8B700269311 /* ring.mtl in Resources */,
 				7C1A44DE2575C20900C3017B /* Char.elm in Resources */,
+				10EF453E25B660C200C037AB /* tree_blocks.obj in Resources */,
 				7C1A44F32575C20900C3017B /* Process.elm in Resources */,
+				10EF455025B6687C00C037AB /* tent_detailedOpen.obj in Resources */,
+				10EF452725B6138700C037AB /* bed.mtl in Resources */,
 				7C1A44E92575C20900C3017B /* Process.js in Resources */,
+				10EF454425B660D900C037AB /* tree_default.mtl in Resources */,
 				104792F025AFD8B700269311 /* cylinder.obj in Resources */,
+				10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */,
 				7C1A44F12575C20900C3017B /* Sub.elm in Resources */,
 				7C1A44F62575C20900C3017B /* String.elm in Resources */,
 				D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */,
 				7C1A44E82575C20900C3017B /* Platform.js in Resources */,
+				10EF453925B6609900C037AB /* stone_smallE.obj in Resources */,
 				7C1A44DC2575C20900C3017B /* Basics.elm in Resources */,
 				7C1A44DF2575C20900C3017B /* Debug.elm in Resources */,
 				7C1A44EF2575C20900C3017B /* Maybe.elm in Resources */,
+				10EF455C25B66CDD00C037AB /* campfire_logs.mtl in Resources */,
 				7C1A44F42575C20900C3017B /* Result.elm in Resources */,
 				7C1A44E32575C20900C3017B /* Bitwise.js in Resources */,
 				7C1A44F72575C20900C3017B /* Task.elm in Resources */,
+				10EF456225B66CEE00C037AB /* campfire_stones.obj in Resources */,
 				7C1A44F02575C20900C3017B /* Cmd.elm in Resources */,
+				10EF454525B660D900C037AB /* tree_default.obj in Resources */,
+				10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */,
 				104792E725AFD8B700269311 /* cube.mtl in Resources */,
 				104792F125AFD8B700269311 /* sphere.mtl in Resources */,
 				104792E825AFD8B700269311 /* cylinder.mtl in Resources */,
+				10EF454B25B6614300C037AB /* log_stack.obj in Resources */,
 				7C1A44E72575C20900C3017B /* List.js in Resources */,
 				7C1A44B32573637400C3017B /* Fix.elm in Resources */,
 				7C1A44E02575C20900C3017B /* Dict.elm in Resources */,
 				7C1A44E12575C20900C3017B /* JsArray.elm in Resources */,
+				10EF455625B66CB100C037AB /* campfire_bricks.obj in Resources */,
+				10EF456325B66CEE00C037AB /* campfire_stones.mtl in Resources */,
+				10EF453F25B660C200C037AB /* tree_blocks.mtl in Resources */,
 				7C1A44DD2575C20900C3017B /* Bitwise.elm in Resources */,
 				104792E625AFD8B700269311 /* sphere.obj in Resources */,
 				7C1A44EC2575C20900C3017B /* String.js in Resources */,
+				10EF454A25B6614300C037AB /* log_stack.mtl in Resources */,
+				10EF455125B6687C00C037AB /* tent_detailedOpen.mtl in Resources */,
 				7C1A44EB2575C20900C3017B /* Scheduler.js in Resources */,
 				7C1A44ED2575C20900C3017B /* Utils.js in Resources */,
 				7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */,
@@ -916,6 +1039,7 @@
 				D98A8C7925A0377900FA3539 /* EVToolBarView.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */,
+				10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
 				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,
 				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,

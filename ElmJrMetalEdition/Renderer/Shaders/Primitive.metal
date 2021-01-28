@@ -25,13 +25,18 @@ vertex VertexOut primitive_vertex_shader(
     constant PrimitiveVertexUniforms &vertexUniforms [[ buffer(BufferVertexUniforms) ]]
 ) {
     VertexOut vertexOut {
-        .position = vertexUniforms.projectionMatrix * vertexUniforms.viewMatrix * vertexUniforms.modelMatrix * vertexIn.position,
-        .color = vertexUniforms.color,
+        .position = vertexUniforms.projectionMatrix
+            * vertexUniforms.viewMatrix
+            * vertexUniforms.modelMatrix
+            * vertexIn.position,
     };
     
     return vertexOut;
 }
 
-fragment float4 primitive_fragment_shader(VertexOut vertexIn [[ stage_in ]]) {
-    return float4(vertexIn.color);
+fragment float4 primitive_fragment_shader(
+    VertexOut vertexIn [[ stage_in ]],
+    constant PrimitiveFragmentUniforms &fragmentUniforms [[buffer(BufferFragmentUniforms)]]
+) {
+    return float4(fragmentUniforms.baseColor);
 }

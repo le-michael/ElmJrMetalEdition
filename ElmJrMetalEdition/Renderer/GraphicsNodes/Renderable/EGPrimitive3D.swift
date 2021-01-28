@@ -9,15 +9,18 @@
 import MetalKit
 
 class EGPrimitive3D: EGPrimitive {
-    var mtkMesh: MTKMesh?
     var mdlMeshFunction: (MTKMeshBufferAllocator) -> MDLMesh?
+    var modelMesh: EGModelMesh?
+
+    var submeshColorMap = [Int: EGColorProperty]()
+
     var smoothIntensity: Float = 0
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
         super.init()
         surfaceType = Lit
-        fragmentUniforms.materialShine = 32
+        fragmentUniforms.materialShine = 1
         fragmentUniforms.materialSpecularColor = [0.6, 0.6, 0.6]
     }
 
@@ -31,7 +34,8 @@ class EGPrimitive3D: EGPrimitive {
         color.checkIfStatic()
 
         do {
-            mtkMesh = try MTKMesh(mesh: mdlMesh, device: device)
+            let mtkMesh = try MTKMesh(mesh: mdlMesh, device: device)
+            modelMesh = EGModelMesh(mdlMesh: mdlMesh, mtkMesh: mtkMesh, submeshColorMap: submeshColorMap)
         } catch {
             fatalError("Unable to create buffers for shape 3D: \(error.localizedDescription)")
         }
@@ -42,24 +46,21 @@ class EGPrimitive3D: EGPrimitive {
                        sceneProps: EGSceneProps)
     {
         guard let pipeline = pipelineStates.states[.primitive3D],
-              let mtkMesh = mtkMesh else { return }
+              let modelMesh = modelMesh else { return }
 
         updateUniforms(sceneProps)
         commandEncoder.setRenderPipelineState(pipeline)
-
-        commandEncoder.setFragmentBytes(
-            &fragmentUniforms,
-            length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
-            index: Int(BufferFragmentUniforms.rawValue)
-        )
 
         commandEncoder.setFragmentBytes(
             sceneProps.lights,
             length: MemoryLayout<Light>.stride * sceneProps.lights.count,
             index: Int(BufferLights.rawValue)
         )
-
-        commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: Int(BufferVertex.rawValue))
+        commandEncoder.setVertexBuffer(
+            modelMesh.mtkMesh.vertexBuffers[0].buffer,
+            offset: 0,
+            index: Int(BufferVertex.rawValue)
+        )
         commandEncoder.setVertexBytes(
             &vertexUniforms,
             length: MemoryLayout<PrimitiveVertexUniforms>.stride,
@@ -68,13 +69,20 @@ class EGPrimitive3D: EGPrimitive {
 
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setCullMode(.front)
-        for submesh in mtkMesh.submeshes {
+        for submesh in modelMesh.submeshes {
+            let mtkSubmesh = submesh.mtkSubmesh
+            fragmentUniforms.baseColor = submesh.color.evaluate(sceneProps)
+            commandEncoder.setFragmentBytes(
+                &fragmentUniforms,
+                length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
+                index: Int(BufferFragmentUniforms.rawValue)
+            )
             commandEncoder.drawIndexedPrimitives(
                 type: .triangle,
-                indexCount: submesh.indexCount,
-                indexType: submesh.indexType,
-                indexBuffer: submesh.indexBuffer.buffer,
-                indexBufferOffset: submesh.indexBuffer.offset
+                indexCount: mtkSubmesh.indexCount,
+                indexType: mtkSubmesh.indexType,
+                indexBuffer: mtkSubmesh.indexBuffer.buffer,
+                indexBufferOffset: mtkSubmesh.indexBuffer.offset
             )
         }
     }
@@ -82,6 +90,7 @@ class EGPrimitive3D: EGPrimitive {
 
 class EGModel: EGPrimitive3D {
     var name: String
+
     init(modelName name: String) {
         self.name = name
         super.init(mdlMeshFunction: { allocator in
