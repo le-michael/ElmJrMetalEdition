@@ -76,6 +76,8 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func testPassingFunction() throws {
+        // TODO: This works but it is possible to construct a case where variable shadowing
+        // when passing functions gives us incorrect behavior.
         try checkInterpret(["f g x = (g x) + (g x)", "h x = 3*x", "(f h 5)"],
                            ["f g x = ((g x)+(g x))", "h x = (3*x)", "30"])
     }
@@ -145,9 +147,9 @@ class EIEvaluatorTests: XCTestCase {
         let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
         let data : Data = Data(referencing: try NSData(contentsOfFile: path))
         let text = String(data: data, encoding: .utf8)
-        
-        
-        
+        let evaluator = EIEvaluator()
+        try evaluator.compile(text!)
+        print("\(evaluator.globals["myScene"]!)")
     }
     
 }

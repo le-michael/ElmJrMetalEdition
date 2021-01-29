@@ -1,17 +1,11 @@
-{-
-A more prudent import list will be done at a later stage,
-when the compiler supports it
+-- Modified Maybe.elm
+type Maybe a
+    = Just a
+    | Nothing
 
-We should be hiding the following things from being imported:
-- Stencil
-- Color
-- Camera (to be replaced with smart constructors)
-- Scene
-- Shape
-- ssc, ssa, clamp (to be replaced with the Core implementation)
--}
 
--- Primitive type representing the shape to be drawn. All in 3D space
+
+-- Modified Base.elm
 type Stencil
     = Sphere Float
     | Cuboid Float Float Float
@@ -28,24 +22,21 @@ type Transform
 type Color
     = RGBA Float Float Float Float
 
-
 type Camera
     = Camera Transform
-    | ArcballCamera
-      Float -- distance
-      ( Float, Float, Float ) -- target
-      Float -- maxDistance
-      Float -- minDistance
-
+      | ArcballCamera Float ( Float, Float, Float ) Float Float
+      
+type Shape
+    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
+    | ApTransform Transform Shape -- Apply a transform to an already defined shape
+    | Group (List Shape)
 
 type Scene
     = Scene Camera (List Shape)
     | SceneWithTime Camera (Float -> List Shape)
 
-type Shape
-    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
-    | ApTransform Transform Shape -- Apply a transform to an already defined shape
-    | Group (List Shape)
+defaultCamera : Camera
+defaultCamera = Camera (Translate (0, 0, 0))
 
 -- The default scene initializer
 view : List Shape -> Scene
@@ -64,26 +55,9 @@ viewWithTime shapes = SceneWithTime defaultCamera shapes
 viewWithTimeAndCamera : Camera -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera shapes = SceneWithTime camera shapes
 
-defaultCamera : Camera
-defaultCamera = Camera (Translate (0, 0, 0))
-
 filled : Color -> Stencil -> Shape
 filled color stencil =
     Inked (Just color) stencil
-
-rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssc r) (ssc g) (ssc b) 1
-
-rgba : Float -> Float -> Float -> Float -> Color
-rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
-
-ssc : number -> number
-ssc n =
-    clamp 0 255 n
-
-ssa : Float -> Float
-ssa n =
-    clamp 0 1 n
 
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
@@ -95,6 +69,20 @@ clamp low high number =
         high
     else
         number
+
+ssc : number -> number
+ssc n =
+    clamp 0 255 n
+
+ssa : Float -> Float
+ssa n =
+    clamp 0 1 n
+
+rgb : Float -> Float -> Float -> Color
+rgb r g b = RGBA (ssc r) (ssc g) (ssc b) 1
+
+rgba : Float -> Float -> Float -> Float -> Color
+rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
 
 -- Default available colors
 
@@ -307,3 +295,43 @@ blank : Color
 blank =
     RGBA 0 0 0 0
 
+-- Modified API2D.elm
+ngon : Int -> Float -> Stencil
+ngon n r =
+    Polygon n r
+
+triangle = ngon 3
+
+circle : Float -> Stencil
+circle r = Sphere r
+
+group : List Shape -> Shape
+group shapes = Group shapes
+
+-- Pattern matching used with let statement here
+move : Float -> Float -> Shape -> Shape
+move xt yt shape =
+    ApTransform (Translate (xt, yt, 1)) shape
+
+-- Is the rotation in degrees or radians
+-- The original API does it in radians
+rotate : Float -> Shape -> Shape
+rotate theta shape =
+    ApTransform (Rotate2D theta) shape
+
+scale : Float -> Shape -> Shape
+scale s shape =
+    ApTransform (Scale s s 1) shape
+
+scaleX : Float -> Shape -> Shape
+scaleX s shape =
+    ApTransform (Scale s 1 1) shape
+
+scaleY : Float -> Shape -> Shape
+scaleY s shape =
+    ApTransform (Scale 1 s 1) shape
+
+-- actual example (this is what the user sees)
+-- note this is less pretty than it should be because I do not support |> <| yet
+myShape = move 50 50 (filled red (triangle 50))
+myScene = view [myShape]

@@ -254,10 +254,9 @@ class EIEvaluator {
             if function == nil {
                 throw EvaluatorError.TypeIsNotAFunction
             }
-            var newScope = globals
-            newScope[function!.parameter] = (argumentEvaled ? argument : EIAST.NoValue())
-            let (result, _) = try evaluate(function!.body, newScope)
-            return (result, argumentEvaled)
+            let body = substitute(function!.body, function!.parameter, argument)
+            let (result, resultEvaled) = try evaluate(body, scope)
+            return (result, argumentEvaled && resultEvaled)
         case let ifElse as EIAST.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
             for i in 0 ..< ifElse.conditions.count {
@@ -282,6 +281,57 @@ class EIEvaluator {
             return (elseBranch, true)
         default:
             throw EvaluatorError.NotImplemented
+        }
+    }
+    
+    func substitute(_ node: EINode, _ variable: String, _ value: EINode) -> EINode {
+        switch node {
+        case let literal as EILiteral:
+            return literal
+        case let unOp as EIAST.UnaryOp:
+            let operand = substitute(unOp.operand , variable, value)
+            return EIAST.UnaryOp(operand: operand, type: unOp.type)
+        case let binOp as EIAST.BinaryOp:
+            let left = substitute(binOp.leftOperand, variable, value)
+            let right = substitute(binOp.rightOperand, variable, value)
+            return EIAST.BinaryOp(left, right, binOp.type)
+        case let vari as EIAST.Variable:
+            if vari.name == variable { return value }
+            return vari
+        case let decl as EIAST.Declaration:
+            return EIAST.Declaration(name: decl.name, body: substitute(decl.body, variable, value))
+        case let typeDef as EIAST.TypeDefinition:
+            return EIAST.TypeDefinition(
+                typeName: typeDef.typeName, typeVars: typeDef.typeVars,
+                constructors: typeDef.constructors.map{
+                    substitute($0, variable, value) as! EIAST.ConstructorDefinition
+                })
+        case let constDef as EIAST.ConstructorDefinition:
+            return EIAST.ConstructorDefinition(constructorName: constDef.constructorName,
+                                               typeParameters: constDef.typeParameters)
+        case let inst as EIAST.ConstructorInstance:
+            return EIAST.ConstructorInstance(constructorName: inst.constructorName,
+                                             parameters: inst.parameters.map{ substitute($0, variable, value) })
+        case let tuple as EIAST.Tuple:
+            return EIAST.Tuple(substitute(tuple.v1, variable, value),
+                               substitute(tuple.v2, variable, value),
+                               tuple.v3 != nil ? substitute(tuple.v3!, variable, value) : nil)
+        case let list as EIAST.List:
+            return EIAST.List(list.items.map{ substitute($0, variable, value) })
+        case let function as EIAST.Function:
+            return EIAST.Function(parameter: function.parameter, body: substitute(function.body, variable, value))
+        case let funcApp as EIAST.FunctionApplication:
+            return EIAST.FunctionApplication(function: substitute(funcApp.function, variable, value),
+                                             argument: substitute(funcApp.argument, variable, value))
+        case let ifElse as EIAST.IfElse:
+            return EIAST.IfElse(conditions: ifElse.conditions.map{substitute($0, variable, value)},
+                                branches: ifElse.branches.map{substitute($0, variable, value)})
+        case _ as EIAST.NoValue:
+            return EIAST.NoValue()
+        default:
+            // This will never run
+            assert(false);
+            return EIAST.NoValue()
         }
     }
 }
