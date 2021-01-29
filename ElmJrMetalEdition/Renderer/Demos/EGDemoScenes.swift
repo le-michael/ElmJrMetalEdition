@@ -524,4 +524,101 @@ class EGDemoScenes {
 
         return scene
     }
+
+    static func snowman() -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 5, target: [0, -1, 0])
+        camera.rotation = [Float(-35).degreesToRadians, 0, 0]
+        scene.camera = camera
+        scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
+
+        scene.lights.append(
+            EGLight.directional(color: [0.6, 0.6, 0.6], position: [1, 2, 2], intensity: 0, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(EGLight.ambient(color: [1 , 1, 1], intensity: 0.5))
+        
+        let top = EGSphere()
+        top.smoothIntensity = 0.5
+        top.transform.translate.set(x: 0, y: 2.25, z: 0)
+        top.transform.scale.set(x: 0.5, y: 0.5, z: 0.5)
+        scene.add(top)
+
+        let middle = EGSphere()
+        middle.smoothIntensity = 0.5
+        middle.transform.translate.set(x: 0, y: 1.25, z: 0)
+        middle.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(middle)
+
+        let bottom = EGSphere()
+        bottom.smoothIntensity = 0.5
+        bottom.transform.scale.set(x: 1, y: 1, z: 1)
+        scene.add(bottom)
+
+        let eyeLeft = EGSphere()
+        eyeLeft.transform.scale.set(x: 0.075, y: 0.075, z: 0.075)
+        eyeLeft.transform.translate.set(x: -0.30, y: 2.25, z: 0.45)
+        eyeLeft.submeshColorMap[0] = EGColorProperty(r: 0, g: 0, b: 0, a: 1)
+        scene.add(eyeLeft)
+
+        let eyeRight = EGSphere()
+        eyeRight.transform.scale.set(x: 0.075, y: 0.075, z: 0.075)
+        eyeRight.transform.translate.set(x: 0.30, y: 2.25, z: 0.45)
+        eyeRight.submeshColorMap[0] = EGColorProperty(r: 0, g: 0, b: 0, a: 1)
+        scene.add(eyeRight)
+
+        let nose = EGCapsule()
+        nose.transform.rotate.set(x: Float(90).degreesToRadians, y: 0, z: 0)
+        nose.transform.scale.set(x: 0.1, y: 0.1, z: 0.1)
+        nose.transform.translate.set(x: 0, y: 2.15, z: 0.5)
+        nose.smoothIntensity = 1
+        nose.submeshColorMap[0] = EGColorProperty(r: 252/255, g: 174/255, b: 101/255, a: 1)
+        scene.add(nose)
+
+        let hatRim = EGCylinder()
+        hatRim.transform.scale.set(x: 0.35, y: 0.02, z: 0.35)
+        hatRim.transform.translate.set(x: 0, y: 2.70, z: 0)
+        hatRim.smoothIntensity = 0.5
+        hatRim.submeshColorMap[0] = EGColorProperty(r: 0.1, g: 0.1, b: 0.1, a: 1)
+        scene.add(hatRim)
+
+        let hatTop = EGCylinder()
+        hatTop.transform.scale.set(x: 0.25, y: 0.2, z: 0.25)
+        hatTop.transform.translate.set(x: 0, y: 2.90, z: 0)
+        hatTop.smoothIntensity = 0.5
+        hatTop.submeshColorMap[0] = EGColorProperty(r: 0.1, g: 0.1, b: 0.1, a: 1)
+        scene.add(hatTop)
+
+        let wave = EGBinaryOp(
+            type: .add,
+            leftChild: EGConstant(Float(45).radiansToDegrees - Float(15).radiansToDegrees),
+            rightChild: EGBinaryOp(
+                type: .mul,
+                leftChild: EGConstant(Float(15).degreesToRadians),
+                rightChild: EGUnaryOp(
+                    type: .sin,
+                    child: EGBinaryOp(
+                        type: .mul,
+                        leftChild: EGTime(),
+                        rightChild: EGConstant(8)
+                    )
+                )
+            )
+        )
+
+        let leftArm = EGCylinder()
+        leftArm.transform.scale.set(x: 0.05, y: 0.8, z: 0.05)
+        leftArm.transform.translate.set(x: -0.55, y: 1.65, z: 0)
+        leftArm.transform.rotate.set(x: EGConstant(0), y: EGConstant(0), z: wave)
+        leftArm.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
+        scene.add(leftArm)
+
+        let rightArm = EGCylinder()
+        rightArm.transform.scale.set(x: 0.05, y: 0.8, z: 0.05)
+        rightArm.transform.translate.set(x: 0.67, y: 1.30, z: 0)
+        rightArm.transform.rotate.set(x: 0, y: 0, z: Float(35).degreesToRadians)
+        rightArm.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
+        scene.add(rightArm)
+
+        return scene
+    }
 }
