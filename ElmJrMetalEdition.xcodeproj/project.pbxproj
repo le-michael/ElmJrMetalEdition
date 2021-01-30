@@ -95,7 +95,6 @@
 		7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B225A123CC00546CD3 /* SwiftArray.swift */; };
 		7C1856B725A142D900546CD3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B625A142D900546CD3 /* List.swift */; };
 		7C1856C025A14F8000546CD3 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1856BF25A14F8000546CD3 /* Swiftz */; };
-		7C1A44B32573637400C3017B /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44B22573637400C3017B /* Fix.elm */; };
 		7C1A44DB2575C20900C3017B /* Array.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BA2575C20900C3017B /* Array.elm */; };
 		7C1A44DC2575C20900C3017B /* Basics.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BB2575C20900C3017B /* Basics.elm */; };
 		7C1A44DD2575C20900C3017B /* Bitwise.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BC2575C20900C3017B /* Bitwise.elm */; };
@@ -134,6 +133,8 @@
 		7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E625A7FA2200A7F349 /* API3D.elm */; };
 		7C81852A25ACD3FC00A7F349 /* elm.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851B25ACD3FC00A7F349 /* elm.json */; };
 		7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851D25ACD3FC00A7F349 /* Example2D.elm */; };
+		7C81856A25C4D87D00A7F349 /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856825C4D87D00A7F349 /* Fix.elm */; };
+		7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856E25C5009B00A7F349 /* ThreeDee.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
@@ -265,7 +266,6 @@
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
 		7C1856B225A123CC00546CD3 /* SwiftArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftArray.swift; sourceTree = "<group>"; };
 		7C1856B625A142D900546CD3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		7C1A44B22573637400C3017B /* Fix.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
 		7C1A44BA2575C20900C3017B /* Array.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Array.elm; sourceTree = "<group>"; };
 		7C1A44BB2575C20900C3017B /* Basics.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Basics.elm; sourceTree = "<group>"; };
 		7C1A44BC2575C20900C3017B /* Bitwise.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bitwise.elm; sourceTree = "<group>"; };
@@ -304,6 +304,8 @@
 		7C8184E625A7FA2200A7F349 /* API3D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API3D.elm; sourceTree = "<group>"; };
 		7C81851B25ACD3FC00A7F349 /* elm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elm.json; sourceTree = "<group>"; };
 		7C81851D25ACD3FC00A7F349 /* Example2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Example2D.elm; sourceTree = "<group>"; };
+		7C81856825C4D87D00A7F349 /* Fix.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
+		7C81856E25C5009B00A7F349 /* ThreeDee.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreeDee.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
@@ -430,7 +432,7 @@
 		1072E3E22564C3BF00D390FE /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44B12573635C00C3017B /* ElmCodeExamples */,
+				7C81856725C4D87D00A7F349 /* ElmCodeExamples */,
 				7C1A44A825721C8200C3017B /* ElmLibrary */,
 				FE42166B256C8C41008622FB /* EIToken.swift */,
 				1072E3E32564C41000D390FE /* EILexer.swift */,
@@ -599,14 +601,6 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
-		7C1A44B12573635C00C3017B /* ElmCodeExamples */ = {
-			isa = PBXGroup;
-			children = (
-				7C1A44B22573637400C3017B /* Fix.elm */,
-			);
-			path = ElmCodeExamples;
-			sourceTree = "<group>";
-		};
 		7C1A44B92575C20900C3017B /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -685,9 +679,18 @@
 		7C81851C25ACD3FC00A7F349 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				7C81856E25C5009B00A7F349 /* ThreeDee.elm */,
 				7C81851D25ACD3FC00A7F349 /* Example2D.elm */,
 			);
 			path = Examples;
+			sourceTree = "<group>";
+		};
+		7C81856725C4D87D00A7F349 /* ElmCodeExamples */ = {
+			isa = PBXGroup;
+			children = (
+				7C81856825C4D87D00A7F349 /* Fix.elm */,
+			);
+			path = ElmCodeExamples;
 			sourceTree = "<group>";
 		};
 		D95DF1E3251BDD1900F9457F = {
@@ -926,6 +929,7 @@
 				10EF454425B660D900C037AB /* tree_default.mtl in Resources */,
 				104792F025AFD8B700269311 /* cylinder.obj in Resources */,
 				10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */,
+				7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */,
 				7C1A44F12575C20900C3017B /* Sub.elm in Resources */,
 				7C1A44F62575C20900C3017B /* String.elm in Resources */,
 				D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */,
@@ -941,13 +945,13 @@
 				10EF456225B66CEE00C037AB /* campfire_stones.obj in Resources */,
 				7C1A44F02575C20900C3017B /* Cmd.elm in Resources */,
 				10EF454525B660D900C037AB /* tree_default.obj in Resources */,
+				7C81856A25C4D87D00A7F349 /* Fix.elm in Resources */,
 				10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */,
 				104792E725AFD8B700269311 /* cube.mtl in Resources */,
 				104792F125AFD8B700269311 /* sphere.mtl in Resources */,
 				104792E825AFD8B700269311 /* cylinder.mtl in Resources */,
 				10EF454B25B6614300C037AB /* log_stack.obj in Resources */,
 				7C1A44E72575C20900C3017B /* List.js in Resources */,
-				7C1A44B32573637400C3017B /* Fix.elm in Resources */,
 				7C1A44E02575C20900C3017B /* Dict.elm in Resources */,
 				7C1A44E12575C20900C3017B /* JsArray.elm in Resources */,
 				10EF455625B66CB100C037AB /* campfire_bricks.obj in Resources */,

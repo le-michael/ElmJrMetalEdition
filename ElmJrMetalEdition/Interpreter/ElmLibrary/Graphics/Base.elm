@@ -15,34 +15,42 @@ We should be hiding the following things from being imported:
 
 -- Primitive type representing the shape to be drawn. All in 3D space
 type Stencil
-    = Sphere Float
-    | Cuboid Float Float Float
-    | Polygon Int Float
-    | Cone Float Float
-    | Cylinder Float Float
+    = Sphere
+    | Cube
+    | Polygon Int
+    | Cone
+    | Cylinder
+    | Capsule
 
 type Transform
     = Translate ( Float, Float, Float)
     | Rotate2D Float
-    | Rotate3D Float Float Float
-    | Scale Float Float Float
+    | Rotate3D (Float, Float, Float)
+    | Scale (Float, Float, Float)
 
 type Color
-    = RGBA Float Float Float Float
+    = RGB Float Float Float
+    | RGBA Float Float Float Float
 
+type Light
+    = DirectionalLight 
+      Color -- light colour
+      (Float, Float, Float) -- position/direction of vector
+      Color -- specular colour
+    | AmbientLight Color Float -- float between 0 and 1
 
 type Camera
     = Camera Transform
     | ArcballCamera
       Float -- distance
       ( Float, Float, Float ) -- target
-      Float -- maxDistance
-      Float -- minDistance
+      (Maybe Color) -- sceneColor, Nothing is default
+      (Maybe (Float, Float, Float)) -- rotation, Nothing is default
 
 
 type Scene
-    = Scene Camera (List Shape)
-    | SceneWithTime Camera (Float -> List Shape)
+    = Scene Camera (List Light) (List Shape)
+    | SceneWithTime Camera (List Light) (Float -> List Shape)
 
 type Shape
     = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
@@ -50,31 +58,31 @@ type Shape
     | Group (List Shape)
 
 -- The default scene initializer
-view : List Shape -> Scene
-view shapes = Scene defaultCamera shapes
+view : List Light -> List Shape -> Scene
+view lights shapes = Scene defaultCamera lights shapes
 
 -- If the camera is to be used, this function should be called instead
 -- Only direct manipulation to the Camera constructor is supported for now
-viewWithCamera : Camera -> List Shape -> Scene
-viewWithCamera camera shapes = Scene camera shapes
+viewWithCamera : Camera -> List Light -> List Shape -> Scene
+viewWithCamera camera lights shapes = Scene camera lights shapes
 
 -- Creating a scene with a time property requires this initializer
 -- The time is passed in as an argument to the scene
-viewWithTime : (Float -> List Shape) -> Scene
-viewWithTime shapes = SceneWithTime defaultCamera shapes
+viewWithTime : List Light -> (Float -> List Shape) -> Scene
+viewWithTime lights shapes = SceneWithTime defaultCamera lights shapes
 
-viewWithTimeAndCamera : Camera -> (Float -> List Shape) -> Scene
-viewWithTimeAndCamera camera shapes = SceneWithTime camera shapes
+viewWithTimeAndCamera : Camera -> List Light -> (Float -> List Shape) -> Scene
+viewWithTimeAndCamera camera lights shapes = SceneWithTime camera lights shapes
 
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, 0))
 
-filled : Color -> Stencil -> Shape
-filled color stencil =
-    Inked (Just color) stencil
+color : Color -> Stencil -> Shape
+color c stencil =
+    Inked (Just c) stencil
 
 rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssc r) (ssc g) (ssc b) 1
+rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
 
 rgba : Float -> Float -> Float -> Float -> Color
 rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
