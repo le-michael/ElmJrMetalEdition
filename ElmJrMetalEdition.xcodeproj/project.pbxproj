@@ -156,7 +156,6 @@
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
 		DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB397E6D25BBC29500DA92B9 /* bigtest1.elm */; };
 		DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C52FF25AC04E900DC1903 /* EIAST.swift */; };
-		DB93079425C5FC70008F5E35 /* ThreeDeeTest.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB93079325C5FC70008F5E35 /* ThreeDeeTest.elm */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
 		FE42166C256C8C41008622FB /* EIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* EIToken.swift */; };
 		FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* EITokenTests.swift */; };
@@ -328,7 +327,6 @@
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
 		DB397E6D25BBC29500DA92B9 /* bigtest1.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bigtest1.elm; sourceTree = "<group>"; };
 		DB7C52FF25AC04E900DC1903 /* EIAST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAST.swift; sourceTree = "<group>"; };
-		DB93079325C5FC70008F5E35 /* ThreeDeeTest.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = ThreeDeeTest.elm; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
 		FE42166B256C8C41008622FB /* EIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIToken.swift; sourceTree = "<group>"; };
 		FE59C9DD256CADC00098042C /* EITokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITokenTests.swift; sourceTree = "<group>"; };
@@ -774,7 +772,6 @@
 			isa = PBXGroup;
 			children = (
 				DB397E6D25BBC29500DA92B9 /* bigtest1.elm */,
-				DB93079325C5FC70008F5E35 /* ThreeDeeTest.elm */,
 			);
 			path = LargestTestcases;
 			sourceTree = "<group>";
@@ -879,7 +876,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB93079425C5FC70008F5E35 /* ThreeDeeTest.elm in Resources */,
 				DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

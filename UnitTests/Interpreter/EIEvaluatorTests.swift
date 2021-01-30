@@ -142,21 +142,30 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["f : number -> number \n f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
     }
     
-    
-    func getElmFile(filename: String) throws -> String {
-        let bundle = Bundle(for: type(of: self))
+    func getElmFile(_ filename: String) throws -> String {
+        //let bundle = Bundle(for: type(of: self))
+        let bundle = Bundle.main
         let path = bundle.path(forResource: filename, ofType: "elm")!
         let data : Data = Data(referencing: try NSData(contentsOfFile: path))
         return String(data: data, encoding: .utf8)!
     }
     
-    func getBaseElm() throws {
-        //var text = 
-        
+    func run3DTest(_ filename: String) throws {
+        let base = try getElmFile("Base")
+        let api3D = try getElmFile("API3D")
+        let test = try getElmFile(filename)
+        let code = "\(base)\n\(api3D)\n\(test)"
+        let evaluator = EIEvaluator()
+        try evaluator.compile(code)
+        print("\(evaluator.globals["scene"]!)")
     }
     
+    func testThreeDee() throws {
+        try run3DTest("ThreeDee")
+    }
+    
+    /*
     func testElmBase() throws {
-        /*
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
         let data : Data = Data(referencing: try NSData(contentsOfFile: path))
@@ -164,11 +173,6 @@ class EIEvaluatorTests: XCTestCase {
         let evaluator = EIEvaluator()
         try evaluator.compile(text!)
         print("\(evaluator.globals["myScene"]!)")
-         */
     }
-    
-    func testThreeDee() throws {
-        
-    }
-    
+    */
 }
