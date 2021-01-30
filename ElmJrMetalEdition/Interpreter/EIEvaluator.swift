@@ -45,6 +45,7 @@ class EIEvaluator {
         try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
+            print("\(decl)")
             try evaluate(decl, globals)
         }
     }

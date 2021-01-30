@@ -60,12 +60,11 @@ class EIParser {
     func parseDeclaration() throws -> EINode {
         defer { eatNewlines() }
         eatNewlines()
-        // for now we ignore module/imports
-        while token.type == .MODULE || token.type == .IMPORT {
-            while token.type != .newline {
-                advance()
-            }
-            eatNewlines()
+        if token.type == .MODULE {
+            return try moduleDeclaration()
+        }
+        if token.type == .IMPORT {
+            return try importDeclaration()
         }
         if token.type == .TYPE {
             return try typeDeclaration()
@@ -86,6 +85,41 @@ class EIParser {
             advance()
         }
     }
+    
+    func moduleDeclaration() throws -> EINode {
+        // TODO: Implement module/import system
+        assert(token.type == .MODULE)
+        advance()
+        assert(token.type == .identifier)
+        advance()
+        assert(token.type == .EXPOSING)
+        advance()
+        assert(token.type == .leftParan)
+        while token.type != .rightParan {
+            advance()
+        }
+        advance()
+        return EIAST.NoValue()
+    }
+    
+    func importDeclaration() throws -> EINode {
+        // TODO: Implement module/import system
+        assert(token.type == .IMPORT)
+        advance()
+        assert(token.type == .identifier)
+        advance()
+        assert(token.type == .EXPOSING)
+        advance()
+        assert(token.type == .leftParan)
+        while token.type != .rightParan {
+            advance()
+        }
+        advance()
+        return EIAST.NoValue()
+    }
+    
+    
+    
     
     func typeDeclaration() throws -> EINode {
         assert(token.type == .TYPE)

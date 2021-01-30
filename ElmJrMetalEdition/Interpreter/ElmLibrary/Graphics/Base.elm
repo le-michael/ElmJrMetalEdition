@@ -32,13 +32,20 @@ type Color
     = RGB Float Float Float
     | RGBA Float Float Float Float
 
+{- Can add this back in when parsing is better at handling whitespace
 type Light
     = DirectionalLight 
       Color -- light colour
       (Float, Float, Float) -- position/direction of vector
       Color -- specular colour
     | AmbientLight Color Float -- float between 0 and 1
+-}
+type Light
+    = DirectionalLight Color (Float, Float, Float) Color
+    | AmbientLight Color Float
 
+
+{- Can add this back in when parsing is better at handling whitespace
 type Camera
     = Camera Transform
     | ArcballCamera
@@ -46,7 +53,10 @@ type Camera
       ( Float, Float, Float ) -- target
       (Maybe Color) -- sceneColor, Nothing is default
       (Maybe (Float, Float, Float)) -- rotation, Nothing is default
-
+-}
+type Camera
+    = Camera Transform
+    | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Scene
     = Scene Camera (List Light) (List Shape)
