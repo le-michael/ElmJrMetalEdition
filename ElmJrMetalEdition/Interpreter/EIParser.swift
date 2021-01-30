@@ -95,10 +95,7 @@ class EIParser {
         assert(token.type == .EXPOSING)
         advance()
         assert(token.type == .leftParan)
-        while token.type != .rightParan {
-            advance()
-        }
-        advance()
+        ignore()
         return EIAST.NoValue()
     }
     
@@ -111,11 +108,23 @@ class EIParser {
         assert(token.type == .EXPOSING)
         advance()
         assert(token.type == .leftParan)
+        ignore()
+        return EIAST.NoValue()
+    }
+    
+    func ignore() {
+        // TODO: This code will eventually be removed
+        // Currently I have it so I can ignore Module/Import stuff.
+        assert(token.type == .leftParan)
+        advance()
         while token.type != .rightParan {
-            advance()
+            if token.type == .leftParan {
+                ignore()
+            } else {
+                advance()
+            }
         }
         advance()
-        return EIAST.NoValue()
     }
     
     

@@ -40,7 +40,7 @@ type Maybe a
     = Just a
     | Nothing
 
-
+{- Most of this file is commented out. Because we do not currently support case statements.
 {-| Provide a default value, turning an optional value into a normal
 value.  This comes in handy when paired with functions like
 [`Dict.get`](Dict#get) which gives back a `Maybe`.
@@ -251,3 +251,5 @@ destruct default func maybe =
 
     Nothing ->
       default
+
+-}
