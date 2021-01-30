@@ -15,7 +15,7 @@ struct EIToken {
     enum TokenType {
         case leftParan, rightParan, plus, plusplus, minus, asterisk, caret, backSlash, forwardSlash, singlequote, doublequote, endOfFile, equal, equalequal, notequal, greaterthan, lessthan, greaterequal, lessequal, colon, coloncolon, arrow, leftCurly, rightCurly, leftSquare, rightSquare, leftFuncApp, rightFuncApp, dot, comma, bar, barbar, ampersandampersand, not
         case string, char
-        case IF, THEN, ELSE, CASE, OF, LET, IN, TYPE, ALIAS
+        case IF, THEN, ELSE, CASE, OF, LET, IN, TYPE, ALIAS, MODULE, IMPORT, EXPOSING
         case identifier
         case number
         case newline
@@ -67,5 +67,8 @@ struct EIToken {
         "in":.IN,
         "type":.TYPE,
         "alias":.ALIAS,
+        "module":.MODULE,
+        "import":.IMPORT,
+        "exposing":.EXPOSING
     ]
 }
