@@ -23,24 +23,24 @@ import Base exposing (..)
 
 -}
 
-ngon : Int -> Float -> Stencil
-ngon n r =
-    Polygon n r
+ngon : Int -> Stencil
+ngon n =
+    Polygon n
 
-sphere : Float -> Stencil
-sphere r = Sphere r
+sphere : Stencil
+sphere = Sphere
 
-cube : Float -> Stencil
-cube l = Cuboid l l l
+cube : Stencil
+cube = Cube
 
-cuboid : Float -> Float -> Float -> Stencil
-cuboid l w h = Cuboid l w h
+cone : Stencil
+cone = Cone
 
-cone : Float -> Float -> Stencil
-cone r h = Cone r h
+cylinder : Stencil
+cylinder = Cylinder
 
-cylinder : Float -> Float -> Stencil
-cylinder r h = Cylinder r h
+capsule : Stencil
+capsule = Capsule
 
 move : ( Float, Float, Float ) -> Shape -> Shape
 move disp shape =
@@ -48,31 +48,17 @@ move disp shape =
 
 -- Is the rotation in degrees or radians
 -- The original API does it in radians
-rotate : Float -> Float -> Float -> Shape -> Shape
-rotate rx ry rz shape =
-    ApTransform (Rotate3D rx ry rz) shape
+rotate : (Float, Float, Float) -> Shape -> Shape
+rotate r shape =
+    ApTransform (Rotate3D r) shape
 
-rotateX : Float -> Shape -> Shape
-rotateX rx shape = rotate rx 1 1 shape
+rotateAll : Float -> Shape -> Shape
+rotateAll r shape = rotate (r, r, r) shape
 
-rotateY : Float -> Shape -> Shape
-rotateY ry shape = rotate 1 ry 1 shape
-
-rotateZ : Float -> Shape -> Shape
-rotateZ rz shape = rotate 1 1 rz shape
-
-scale : Float -> Shape -> Shape
+scale : (Float, Float, Float) -> Shape -> Shape
 scale s shape =
-    ApTransform (Scale s s s) shape
+    ApTransform (Scale s) shape
 
-scaleX : Float -> Shape -> Shape
-scaleX s shape =
-    ApTransform (Scale s 1 1) shape
-
-scaleY : Float -> Shape -> Shape
-scaleY s shape =
-    ApTransform (Scale 1 s 1) shape
-
-scaleZ : Float -> Shape -> Shape
-scaleZ s shape =
-    ApTransform (Scale 1 1 s) shape
+scaleAll : Float -> Shape -> Shape
+scaleAll s shape =
+    scale (s, s, s) shape
