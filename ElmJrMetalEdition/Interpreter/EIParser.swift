@@ -60,6 +60,13 @@ class EIParser {
     func parseDeclaration() throws -> EINode {
         defer { eatNewlines() }
         eatNewlines()
+        // for now we ignore module/imports
+        while token.type == .MODULE || token.type == .IMPORT {
+            while token.type != .newline {
+                advance()
+            }
+            eatNewlines()
+        }
         if token.type == .TYPE {
             return try typeDeclaration()
         }

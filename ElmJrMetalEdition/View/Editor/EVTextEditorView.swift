@@ -148,6 +148,9 @@ func getTokenTypeColor(_ tokenType: EIToken.TokenType) -> UIColor? {
     case .bar:          return EVTheme.Colors.symbol
     case .string:       return EVTheme.Colors.string
     case .char:         return EVTheme.Colors.string
+    case .identifier:   return EVTheme.Colors.identifier
+    case .number:       return EVTheme.Colors.number
+    case .newline:      return EVTheme.Colors.symbol
     case .IF:           return EVTheme.Colors.reserved
     case .THEN:         return EVTheme.Colors.reserved
     case .ELSE:         return EVTheme.Colors.reserved
@@ -157,8 +160,8 @@ func getTokenTypeColor(_ tokenType: EIToken.TokenType) -> UIColor? {
     case .IN:           return EVTheme.Colors.reserved
     case .TYPE:         return EVTheme.Colors.reserved
     case .ALIAS:        return EVTheme.Colors.reserved
-    case .identifier:   return EVTheme.Colors.identifier
-    case .number:       return EVTheme.Colors.number
-    case .newline:      return EVTheme.Colors.symbol
+    case .MODULE:       return EVTheme.Colors.reserved
+    case .IMPORT:       return EVTheme.Colors.reserved
+    case .EXPOSING:     return EVTheme.Colors.reserved
     }
 }

@@ -142,7 +142,21 @@ class EIEvaluatorTests: XCTestCase {
         try checkInterpret(["f : number -> number \n f x = x + 1", "(f(f(f 1)))"], ["f x = (x+1)", "4"])
     }
     
+    
+    func getElmFile(filename: String) throws -> String {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: filename, ofType: "elm")!
+        let data : Data = Data(referencing: try NSData(contentsOfFile: path))
+        return String(data: data, encoding: .utf8)!
+    }
+    
+    func getBaseElm() throws {
+        //var text = 
+        
+    }
+    
     func testElmBase() throws {
+        /*
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "bigtest1", ofType: "elm")!
         let data : Data = Data(referencing: try NSData(contentsOfFile: path))
@@ -150,6 +164,11 @@ class EIEvaluatorTests: XCTestCase {
         let evaluator = EIEvaluator()
         try evaluator.compile(text!)
         print("\(evaluator.globals["myScene"]!)")
+         */
+    }
+    
+    func testThreeDee() throws {
+        
     }
     
 }
