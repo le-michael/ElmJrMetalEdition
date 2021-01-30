@@ -131,9 +131,8 @@
 		7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E625A7FA2200A7F349 /* API3D.elm */; };
 		7C81852A25ACD3FC00A7F349 /* elm.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851B25ACD3FC00A7F349 /* elm.json */; };
 		7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851D25ACD3FC00A7F349 /* Example2D.elm */; };
-		7C81855B25C4CC3D00A7F349 /* ThreeDee.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81855A25C4CC3D00A7F349 /* ThreeDee.elm */; };
 		7C81856A25C4D87D00A7F349 /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856825C4D87D00A7F349 /* Fix.elm */; };
-		7C81856B25C4D87D00A7F349 /* ThreeDee.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856925C4D87D00A7F349 /* ThreeDee.elm */; };
+		7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856E25C5009B00A7F349 /* ThreeDee.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
@@ -301,9 +300,8 @@
 		7C8184E625A7FA2200A7F349 /* API3D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API3D.elm; sourceTree = "<group>"; };
 		7C81851B25ACD3FC00A7F349 /* elm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elm.json; sourceTree = "<group>"; };
 		7C81851D25ACD3FC00A7F349 /* Example2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Example2D.elm; sourceTree = "<group>"; };
-		7C81855A25C4CC3D00A7F349 /* ThreeDee.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ThreeDee.elm; path = ElmCodeExamples/ThreeDee.elm; sourceTree = "<group>"; };
 		7C81856825C4D87D00A7F349 /* Fix.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
-		7C81856925C4D87D00A7F349 /* ThreeDee.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreeDee.elm; sourceTree = "<group>"; };
+		7C81856E25C5009B00A7F349 /* ThreeDee.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreeDee.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
@@ -436,7 +434,6 @@
 				1072E3E92564C43B00D390FE /* EIParser.swift */,
 				DB7C52FF25AC04E900DC1903 /* EIAST.swift */,
 				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
-				7C81855A25C4CC3D00A7F349 /* ThreeDee.elm */,
 				7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */,
 			);
 			path = Interpreter;
@@ -676,6 +673,7 @@
 		7C81851C25ACD3FC00A7F349 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				7C81856E25C5009B00A7F349 /* ThreeDee.elm */,
 				7C81851D25ACD3FC00A7F349 /* Example2D.elm */,
 			);
 			path = Examples;
@@ -685,7 +683,6 @@
 			isa = PBXGroup;
 			children = (
 				7C81856825C4D87D00A7F349 /* Fix.elm */,
-				7C81856925C4D87D00A7F349 /* ThreeDee.elm */,
 			);
 			path = ElmCodeExamples;
 			sourceTree = "<group>";
@@ -917,7 +914,6 @@
 				10EF453325B6605600C037AB /* cliff_block_rock.mtl in Resources */,
 				10EF456F25B66D9500C037AB /* flower_purpleC.obj in Resources */,
 				104792ED25AFD8B700269311 /* ring.mtl in Resources */,
-				7C81856B25C4D87D00A7F349 /* ThreeDee.elm in Resources */,
 				7C1A44DE2575C20900C3017B /* Char.elm in Resources */,
 				10EF453E25B660C200C037AB /* tree_blocks.obj in Resources */,
 				7C1A44F32575C20900C3017B /* Process.elm in Resources */,
@@ -927,7 +923,7 @@
 				10EF454425B660D900C037AB /* tree_default.mtl in Resources */,
 				104792F025AFD8B700269311 /* cylinder.obj in Resources */,
 				10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */,
-				7C81855B25C4CC3D00A7F349 /* ThreeDee.elm in Resources */,
+				7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */,
 				7C1A44F12575C20900C3017B /* Sub.elm in Resources */,
 				7C1A44F62575C20900C3017B /* String.elm in Resources */,
 				D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */,
