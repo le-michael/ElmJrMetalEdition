@@ -280,6 +280,8 @@ class EIEvaluator {
             let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
             if !elseBranchEvaled { return (node, false) }
             return (elseBranch, true)
+        case _ as EIAST.NoValue:
+            return (EIAST.NoValue(), false)
         default:
             throw EvaluatorError.NotImplemented
         }
