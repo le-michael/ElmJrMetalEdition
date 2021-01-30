@@ -114,7 +114,7 @@ class EIEvaluator {
                     result = EIAST.Integer(leftInt.value * rightInt.value)
                 case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
-                    result = EIAST.Integer(leftInt.value / rightInt.value)
+                    result = EIAST.FloatingPoint(Float(leftInt.value) / Float(rightInt.value))
                 case .eq:
                     result = EIAST.Boolean(leftInt.value == rightInt.value)
                 case .ne:
