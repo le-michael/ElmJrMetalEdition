@@ -151,12 +151,12 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func run3DTest(_ filename: String) throws {
-        //let toLoad = ["Maybe","Base","API3D"]
-        let toLoad = ["Maybe","Base","API3D",filename]
+        //let toLoad = ["Maybe","Builtin","Base","API3D"]
+        let toLoad = ["Maybe","Builtin","Base","API3D",filename]
         let code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
         let evaluator = EIEvaluator()
         try evaluator.compile(code)
-        //print("\(evaluator.globals["scene"]!)")
+        print("\(evaluator.globals["scene"]!)")
     }
     
     func testThreeDee() throws {

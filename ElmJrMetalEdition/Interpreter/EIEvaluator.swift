@@ -76,6 +76,11 @@ class EIEvaluator {
             var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
             var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
             if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
+            // TODO: Make this more general
+            if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
+                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
+                return (result, false)
+            }
             // handle case where both operands are booleans
             if let leftBool = left as? EIAST.Boolean,
                let rightBool = right as? EIAST.Boolean
