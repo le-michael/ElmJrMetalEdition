@@ -54,7 +54,7 @@ class EIParser {
     }
     
     func parseExpression() throws -> EINode {
-        return try andableExpression()
+        return try funcAppableExpression()
     }
     
     func parseDeclaration() throws -> EINode {
@@ -228,11 +228,30 @@ class EIParser {
         assert(token.type == .equal)
         advance()
         eatNewlines()
-        var node = try andableExpression()
+        var node = try funcAppableExpression()
         for parameter in parameters.reversed() {
             node = EIAST.Function(parameter: parameter, body: node)
         }
         return EIAST.Declaration(name: name, body: node)
+    }
+    
+    func funcAppableExpression() throws -> EINode {
+        var result = try andableExpression()
+        eatNewlines()
+        while true {
+            switch token.type {
+            case .rightFuncApp:
+                advance()
+                result = EIAST.FunctionApplication(function: try andableExpression(), argument: result)
+                eatNewlines()
+            case .leftFuncApp:
+                advance()
+                result = EIAST.FunctionApplication(function: result, argument: try andableExpression())
+                eatNewlines()
+            default:
+                return result
+            }
+        }
     }
     
     func andableExpression() throws -> EINode {
@@ -334,13 +353,13 @@ class EIParser {
         switch token.type {
         case .leftParan:
             advance()
-            let v1 = try andableExpression()
+            let v1 = try funcAppableExpression()
             if token.type == .comma {
                 advance()
-                let v2 = try andableExpression()
+                let v2 = try funcAppableExpression()
                 if token.type == .comma {
                     advance()
-                    let v3 = try andableExpression()
+                    let v3 = try funcAppableExpression()
                     result = EIAST.Tuple(v1,v2,v3)
                 } else {
                     result = EIAST.Tuple(v1,v2,nil)
@@ -356,7 +375,7 @@ class EIParser {
             advance()
             var items = [EINode]()
             while token.type != .rightSquare {
-                let expr = try andableExpression()
+                let expr = try funcAppableExpression()
                 items.append(expr)
                 if token.type == .comma { advance() }
             }
@@ -392,7 +411,7 @@ class EIParser {
         }
         assert(token.type == .arrow)
         advance()
-        var node = try andableExpression()
+        var node = try funcAppableExpression()
         for parameter in parameters.reversed() {
             node = EIAST.Function(parameter: parameter, body: node)
         }
@@ -432,16 +451,16 @@ class EIParser {
         var branches = [EINode]()
         while token.type == .IF {
             advance()
-            try conditions.append(andableExpression())
+            try conditions.append(funcAppableExpression())
             eatNewlines()
             assert(token.type == .THEN)
             advance()
-            try branches.append(andableExpression())
+            try branches.append(funcAppableExpression())
             eatNewlines()
             assert(token.type == .ELSE)
             advance()
         }
-        try branches.append(andableExpression())
+        try branches.append(funcAppableExpression())
         return EIAST.IfElse(conditions: conditions, branches: branches)
     }
     
