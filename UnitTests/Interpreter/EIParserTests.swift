@@ -20,6 +20,12 @@ class EIParserTests: XCTestCase {
         XCTAssertEqual("\(ast)", toOutput)
     }
     
+    func checkASTEquivalentExpression(_ toParse1: String, _ toParse2: String) throws {
+        let ast1 = try EIParser(text: toParse1).parseExpression()
+        let ast2 = try EIParser(text: toParse2).parseExpression()
+        XCTAssertEqual("\(ast1)", "\(ast2)")
+    }
+    
     func testIdentifier() throws {
         try checkASTExpression("foo", "foo")
         try checkASTExpression("(bar)", "bar")
@@ -104,5 +110,18 @@ class EIParserTests: XCTestCase {
         try checkASTDeclaration("f : Int -> Int \n f x = x + 1", "f = (\\x -> (x+1))")
         try checkASTDeclaration("f : Int -> List Int \n f x = [x]", "f = (\\x -> [x])")
         try checkASTDeclaration("f : number -> List number \n f x = [x]", "f = (\\x -> [x])")
+    }
+    
+    func testFancyFunctionApplication() throws {
+        try checkASTEquivalentExpression("f 1 2", "2 |> f 1")
+        try checkASTEquivalentExpression("f 1 2 3", "(3 |> (2 |> f 1))")
+        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+                                         "sphere |> color (rgb 1 1 1) |> move (0, 2.25, 0)")
+        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+                                         "sphere \n |> color (rgb 1 1 1) \n |> move (0, 2.25, 0)")
+        try checkASTEquivalentExpression("f 1 2", "f 1 <| 2")
+        try checkASTEquivalentExpression("f 1 2 3", "f 1 <| 2 <| 3")
+        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+                                         "move (0, 2.25, 0) <| (color (rgb 1 1 1) <| sphere)")
     }
 }
