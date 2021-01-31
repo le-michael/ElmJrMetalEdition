@@ -91,7 +91,6 @@ viewWithTimeAndCamera camera lights shapes = SceneWithTime camera lights shapes
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, -10))
 
->>>>>>> master
 color : Color -> Stencil -> Shape
 color c stencil =
     Inked (Just c) stencil
