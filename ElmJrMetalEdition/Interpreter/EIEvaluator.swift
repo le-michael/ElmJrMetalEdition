@@ -45,6 +45,7 @@ class EIEvaluator {
         try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
+            print("\(decl)")
             try evaluate(decl, globals)
         }
     }
@@ -75,6 +76,11 @@ class EIEvaluator {
             var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
             var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
             if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
+            // TODO: Make this more general
+            if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
+                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
+                return (result, false)
+            }
             // handle case where both operands are booleans
             if let leftBool = left as? EIAST.Boolean,
                let rightBool = right as? EIAST.Boolean
@@ -108,7 +114,7 @@ class EIEvaluator {
                     result = EIAST.Integer(leftInt.value * rightInt.value)
                 case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
-                    result = EIAST.Integer(leftInt.value / rightInt.value)
+                    result = EIAST.FloatingPoint(Float(leftInt.value) / Float(rightInt.value))
                 case .eq:
                     result = EIAST.Boolean(leftInt.value == rightInt.value)
                 case .ne:
@@ -279,6 +285,8 @@ class EIEvaluator {
             let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
             if !elseBranchEvaled { return (node, false) }
             return (elseBranch, true)
+        case _ as EIAST.NoValue:
+            return (EIAST.NoValue(), false)
         default:
             throw EvaluatorError.NotImplemented
         }
@@ -334,4 +342,8 @@ class EIEvaluator {
             return EIAST.NoValue()
         }
     }
+    
+    
 }
+
+

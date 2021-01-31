@@ -32,13 +32,20 @@ type Color
     = RGB Float Float Float
     | RGBA Float Float Float Float
 
+{- Can add this back in when parsing is better at handling whitespace
 type Light
     = DirectionalLight 
       Color -- light colour
       (Float, Float, Float) -- position/direction of vector
       Color -- specular colour
     | AmbientLight Color Float -- float between 0 and 1
+-}
+type Light
+    = DirectionalLight Color (Float, Float, Float) Color
+    | AmbientLight Color Float
 
+
+{- Can add this back in when parsing is better at handling whitespace
 type Camera
     = Camera Transform
     | ArcballCamera
@@ -46,16 +53,23 @@ type Camera
       ( Float, Float, Float ) -- target
       (Maybe Color) -- sceneColor, Nothing is default
       (Maybe (Float, Float, Float)) -- rotation, Nothing is default
-
-
-type Scene
-    = Scene Camera (List Light) (List Shape)
-    | SceneWithTime Camera (List Light) (Float -> List Shape)
+-}
+type Camera
+    = Camera Transform
+    | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Shape
     = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
     | ApTransform Transform Shape -- Apply a transform to an already defined shape
     | Group (List Shape)
+
+type Scene
+    = Scene Camera (List Light) (List Shape)
+    | SceneWithTime Camera (List Light) (Float -> List Shape)
+
+
+defaultCamera : Camera
+defaultCamera = Camera (Translate (0, 0, 0))
 
 -- The default scene initializer
 view : List Light -> List Shape -> Scene
@@ -77,15 +91,21 @@ viewWithTimeAndCamera camera lights shapes = SceneWithTime camera lights shapes
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, -10))
 
+>>>>>>> master
 color : Color -> Stencil -> Shape
 color c stencil =
     Inked (Just c) stencil
 
-rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
-
-rgba : Float -> Float -> Float -> Float -> Color
-rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
+-- The `clamp` function is in the Elm Core library
+-- But it is here as we do not use the library yet
+clamp : number -> number -> number -> number
+clamp low high number =
+    (if number < low then
+        low
+    else if number > high then
+        high
+    else
+        number)
 
 ssc : number -> number
 ssc n =
@@ -95,16 +115,11 @@ ssa : Float -> Float
 ssa n =
     clamp 0 1 n
 
--- The `clamp` function is in the Elm Core library
--- But it is here as we do not use the library yet
-clamp : number -> number -> number -> number
-clamp low high number =
-    if number < low then
-        low
-    else if number > high then
-        high
-    else
-        number
+rgb : Float -> Float -> Float -> Color
+rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
+
+rgba : Float -> Float -> Float -> Float -> Color
+rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
 
 -- Default available colors
 
