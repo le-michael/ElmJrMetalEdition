@@ -64,29 +64,29 @@ type Shape
     | Group (List Shape)
 
 type Scene
-    = Scene Camera (List Light) (List Shape)
-    | SceneWithTime Camera (List Light) (Float -> List Shape)
+    = Scene Camera Color (List Light) (List Shape)
+    | SceneWithTime Camera Color (List Light) (Float -> List Shape)
 
 
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, 0))
 
 -- The default scene initializer
-view : List Light -> List Shape -> Scene
-view lights shapes = Scene defaultCamera lights shapes
+view : Color -> List Light -> List Shape -> Scene
+view c lights shapes = Scene defaultCamera c lights shapes
 
 -- If the camera is to be used, this function should be called instead
 -- Only direct manipulation to the Camera constructor is supported for now
-viewWithCamera : Camera -> List Light -> List Shape -> Scene
-viewWithCamera camera lights shapes = Scene camera lights shapes
+viewWithCamera : Camera -> Color -> List Light -> List Shape -> Scene
+viewWithCamera camera c lights shapes = Scene camera c lights shapes
 
 -- Creating a scene with a time property requires this initializer
 -- The time is passed in as an argument to the scene
-viewWithTime : List Light -> (Float -> List Shape) -> Scene
-viewWithTime lights shapes = SceneWithTime defaultCamera lights shapes
+viewWithTime : Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTime c lights shapes = SceneWithTime defaultCamera c lights shapes
 
-viewWithTimeAndCamera : Camera -> List Light -> (Float -> List Shape) -> Scene
-viewWithTimeAndCamera camera lights shapes = SceneWithTime camera lights shapes
+viewWithTimeAndCamera : Camera -> Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights shapes
 
 defaultCamera : Camera
 defaultCamera = Camera (Translate (0, 0, -10))
