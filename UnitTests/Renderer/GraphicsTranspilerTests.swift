@@ -51,5 +51,7 @@ class GraphicsTranspilerTests: XCTestCase {
     
     
     //(SceneWithTime (ArcballCamera 5 (0, -1, 0) Nothing Nothing) [(DirectionalLight (RGB 0.6 0.6 0.6) (1, 2, 2) (RGB 0.1 0.1 0.1)), (AmbientLight (RGB 1 1 1) 0.5)]
+    //(ApTransform (Translate (0, 2.15, 0.5)) (ApTransform (Scale (0.1, 0.1, 0.1)) (ApTransform (Rotate3D (90, 0, 0)) (Inked (Just (RGBA 0.20392157 0.68235296 0.39607844 1)) Capsule))))
+    //(ApTransform (Translate (0, 2.7, 0)) (ApTransform (Scale (0.35, 0.02, 0.35)) (Inked (Just (RGBA 0.1 0.1 0.1 1)) Cylinder)))
 }
 

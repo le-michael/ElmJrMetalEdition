@@ -19,12 +19,12 @@ myShapes time =
     , sphere |> color (rgb 0 0 0) |> scaleAll 0.075 |> move (-0.3, 2.25, 0.45)
     , sphere |> color (rgb 0 0 0) |> scaleAll 0.075 |> move (0.3, 2.25, 0.45)
     -- nose
-    , capsule |> color (rgb (52/255) (174/255) (101/255)) |> rotate (90, 0, 0) |> scaleAll 0.1 |> move (0, 2.15, 0.5)
+    , capsule |> color (rgb (252/255) (174/255) (101/255)) |> rotate (90, 0, 0) |> scaleAll 0.1 |> move (0, 2.15, 0.5)
     -- hat
     , cylinder |> color (rgb 0.1 0.1 0.1) |> scale (0.35, 0.02, 0.35) |> move (0, 2.70, 0) --rim
-    , cylinder |> color (rgb 0.1 0.1 0.1) |> scale (0.25, 0.02, 0.25) |> move (0, 2.90, 0) --top
+    , cylinder |> color (rgb 0.1 0.1 0.1) |> scale (0.25, 0.2, 0.25) |> move (0, 2.90, 0) --top
     -- arm
-    , cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.55, 1.65, 0) |> rotate (0, 0, (45-15)+(15*sin (time * 8)))
+    --, cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.55, 1.65, 0) |> rotate (0, 0, (45-15)+(15*sin (time * 8)))
     , cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.67, 1.3, 0) |> rotate (0, 0, 35)
     ]
 

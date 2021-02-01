@@ -12,15 +12,14 @@ func transpile(node: EINode) -> EGGraphicsNode{
     var shapes = [EGGraphicsNode]()
     var lightingDone = false
     switch node {
-    case let literal as EILiteral:
-        print(literal)
-        
-    case let unOp as EIAST.UnaryOp:
-        print(unOp)
-        
-    case let binOp as EIAST.BinaryOp:
-        print(binOp)
-        
+//    case let _ as EILiteral:
+//        break
+//
+//    case let _ as EIAST.UnaryOp:
+//        break
+//
+//    case let _ as EIAST.BinaryOp:
+//        break
     case let inst as EIAST.ConstructorInstance:
         switch inst.constructorName {
         
@@ -39,7 +38,7 @@ func transpile(node: EINode) -> EGGraphicsNode{
                     //need a way to figure out if list of lighting
                     if(!lightingDone){
                         lightingDone = true
-                        print("DEaling with lighting")
+                        print("Dealing with lighting")
                         lightingHelper(list: list, scene: scene)
                     }
                     else{
@@ -84,7 +83,6 @@ func transpile(node: EINode) -> EGGraphicsNode{
             return inkedHelper(node: inst)
             
         case "ApTransform":
-            print(inst)
             var shape = EGGraphicsNode()
             var transform = [Float]()
             var transformType = String()
@@ -97,6 +95,9 @@ func transpile(node: EINode) -> EGGraphicsNode{
                         transform = unwrapTransform(transform: param)
                     case "Scale":
                         transformType = "Scale"
+                        transform = unwrapTransform(transform: param)
+                    case "Rotate3D":
+                        transformType = "Rotate3D"
                         transform = unwrapTransform(transform: param)
                     case "Inked":
                         shape = inkedHelper(node: param)
@@ -114,11 +115,10 @@ func transpile(node: EINode) -> EGGraphicsNode{
         default:
             break
         }
-    case let tuple as EIAST.Tuple:
-        print(tuple)
-        
-    case let list as EIAST.List:
-        print(list)
+//    case let tuple as EIAST.Tuple:
+//
+//    case let list as EIAST.List:
+//
             
     default:
         break
@@ -127,7 +127,6 @@ func transpile(node: EINode) -> EGGraphicsNode{
     for shape in shapes{
         scene.add(shape)
     }
-    print(shapes)
     return scene
 }
 
@@ -174,6 +173,34 @@ func transformHelper(shape: EGGraphicsNode, transform: [Float], transformType: S
         switch transformType{
         case "Translate":
             sphere.transform.translate.set(x: transform[0], y: transform[1], z: transform[2])
+        case "Scale":
+            sphere.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
+        default:
+            break
+        }
+    }
+    if let capsule = shape as? EGCapsule {
+        switch transformType{
+        case "Rotate3D":
+            capsule.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1], z: transform[2])
+        case "Scale":
+            capsule.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
+        case "Translate":
+            capsule.transform.translate.set(x: transform[0], y: transform[1], z: transform[2])
+        default:
+            break
+        }
+    }
+    
+    if let cylinder = shape as? EGCylinder {
+        switch transformType{
+        case "Translate":
+            cylinder.transform.translate.set(x: transform[0], y: transform[1], z: transform[2])
+        case "Scale":
+            print(transformType, transform)
+            cylinder.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
+        case "Rotate3D":
+            cylinder.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1], z: transform[2])
         default:
             break
         }
@@ -254,11 +281,14 @@ func inkedHelper(node: EINode) -> EGGraphicsNode{
             case "Just":
                 //this is hacky just skips optional validation
                 RGBA = rgbaHelper(node: param.parameters[0])
-                print(RGBA)
             case "Polygon":
                 shape = polyHelper(polygon: param.parameters)
             case "Sphere":
                 shape = EGSphere()
+            case "Capsule":
+                shape = EGCapsule()
+            case "Cylinder":
+                shape = EGCylinder()
             break
             default:
                 break
@@ -269,7 +299,16 @@ func inkedHelper(node: EINode) -> EGGraphicsNode{
     }
     }
     //color is optional so change this logic
-    shape.color.set(r: RGBA[0], g: RGBA[1], b: RGBA[2], a: RGBA[3])
+    if let sphere = shape as? EGSphere{
+        sphere.submeshColorMap[0] = EGColorProperty(r: RGBA[0], g: RGBA[1], b: RGBA[2], a: RGBA[3])
+    }
+    if let capsule = shape as? EGCapsule{
+        capsule.submeshColorMap[0] = EGColorProperty(r: RGBA[0], g: RGBA[1], b: RGBA[2], a: RGBA[3])
+    }
+    if let cylinder = shape as? EGCylinder{
+        cylinder.submeshColorMap[0] = EGColorProperty(r: RGBA[0], g: RGBA[1], b: RGBA[2], a: RGBA[3])
+    }
+    //shape.color.set(r: RGBA[0], g: RGBA[1], b: RGBA[2], a: RGBA[3])
     return shape
 }
 
@@ -333,10 +372,12 @@ func cameraHelper(node: EINode, scene: EGScene){
     //kinda hardcoded for snowman example need to add to logic to deal with the last two parameters in arcball
     if arcball {
         camera = EGArcballCamera(distance: distance, target: target)
+        scene.camera = camera
         print("Set Arcball Camera with", distance, target)
     }
     else{
         camera = sceneTransformHelper(camera: camera, transform: transform, transformType: transformType)
+        scene.camera = camera
     }
 
 }

@@ -14,7 +14,7 @@ class EGPrimitive3D: EGPrimitive {
 
     var submeshColorMap = [Int: EGColorProperty]()
 
-    var smoothIntensity: Float = 0
+    var smoothIntensity: Float = 0.5
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
