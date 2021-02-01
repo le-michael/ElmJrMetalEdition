@@ -17,7 +17,7 @@ class EGScene: EGGraphicsNode {
     var lights = [Light]()
 
     var viewClearColor = MTLClearColorMake(0, 0, 0, 1)
-    
+
     override init() {
         super.init()
     }
@@ -54,9 +54,11 @@ class EGScene: EGGraphicsNode {
         updateSceneProps()
 
         for child in children {
-            child.draw(commandEncoder: commandEncoder,
-                       pipelineStates: pipelineStates,
-                       sceneProps: sceneProps)
+            child.draw(
+                commandEncoder: commandEncoder,
+                pipelineStates: pipelineStates,
+                sceneProps: sceneProps
+            )
         }
     }
 }

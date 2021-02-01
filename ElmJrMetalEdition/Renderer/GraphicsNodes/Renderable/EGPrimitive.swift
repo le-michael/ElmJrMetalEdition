@@ -46,7 +46,7 @@ class EGPrimitive: EGGraphicsNode {
 
     func updateUniforms(_ sceneProps: EGSceneProps) {
         let transformationMatrix = transform.transformationMatrix(sceneProps)
-        vertexUniforms.modelMatrix = transformationMatrix
+        vertexUniforms.modelMatrix = sceneProps.parentTransform * transformationMatrix
         vertexUniforms.viewMatrix = sceneProps.viewMatrix
         vertexUniforms.projectionMatrix = sceneProps.projectionMatrix
         vertexUniforms.normalMatrix = transformationMatrix.upperLeft

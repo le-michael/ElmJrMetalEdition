@@ -21,11 +21,7 @@ class EGColorProperty {
             && !equations.a.usesTime()
 
         if isStatic {
-            let sceneProps = EGSceneProps(
-                projectionMatrix: matrix_identity_float4x4,
-                viewMatrix: matrix_identity_float4x4,
-                time: 0
-            )
+            let sceneProps = EGSceneProps()
 
             let r = equations.r.evaluate(sceneProps)
             let g = equations.g.evaluate(sceneProps)
