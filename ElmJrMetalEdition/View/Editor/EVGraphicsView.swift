@@ -17,7 +17,7 @@ class EVGraphicsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
+        backgroundColor = .black
         addSubview(mtkView)
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
@@ -29,6 +29,7 @@ class EVGraphicsView: UIView {
 
         renderer = EGRenderer(view: mtkView)
         renderer.use(scene: EGDemoScenes.snowman())
+        
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
