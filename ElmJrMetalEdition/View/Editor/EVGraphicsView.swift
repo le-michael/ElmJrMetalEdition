@@ -27,7 +27,7 @@ class EVGraphicsView: UIView {
 
         mtkView.device = MTLCreateSystemDefaultDevice()
 
-        renderer = EGRenderer(view: mtkView, scene: EGDemoScenes.monkeys())
+        renderer = EGRenderer(view: mtkView)
         renderer.use(scene: EGDemoScenes.snowman())
         mtkView.delegate = renderer
 
@@ -39,15 +39,21 @@ class EVGraphicsView: UIView {
     }
 
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        guard let scene = renderer.scene else { return }
+
         let translation = gesture.translation(in: gesture.view)
         let delta = simd_float2(Float(translation.x), Float(-translation.y))
-        renderer.scene.camera.rotate(delta: delta)
+
+        scene.camera.rotate(delta: delta)
+
         gesture.setTranslation(.zero, in: gesture.view)
     }
 
     @objc func handlePinch(gesture: UIPinchGestureRecognizer) {
+        guard let scene = renderer.scene else { return }
+
         let delta = Float(gesture.scale - previousScale)
-        renderer.scene.camera.zoom(delta: delta)
+        scene.camera.zoom(delta: delta)
 
         previousScale = gesture.scale
         if gesture.state == .ended {
