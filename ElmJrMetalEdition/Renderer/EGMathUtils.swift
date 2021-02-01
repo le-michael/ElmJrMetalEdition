@@ -102,6 +102,18 @@ extension matrix_float4x4 {
 }
 
 extension simd_float4 {
+    var r: Float {
+        return x
+    }
+    var g: Float {
+        return y
+    }
+    var b: Float {
+        return z
+    }
+    var a: Float {
+        return w
+    }
     var xyz: simd_float3 {
         simd_float3(x, y, z)
     }
