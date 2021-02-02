@@ -25,6 +25,10 @@ class EVProjectManager {
         if projects.count == 0 {
             projects.append(EVProject(title: "New Project", sourceCode: ""))
         }
+        if !projectExists("SnowMan") {
+            let code = try! getElmFile("SnowMan")
+            projects.append(EVProject(title: "SnowMan", sourceCode: code))
+        }
     }
     
     func subscribe(delegate: EVProjectManagerDelegate) {
@@ -63,6 +67,15 @@ class EVProjectManager {
         projects.append(EVProject(title: projectName, sourceCode: ""))
         saveProjects()
         delegates.forEach({ $0.didUpdateProjects() })
+    }
+    
+    private func projectExists(_ title: String) -> Bool {
+        for project in projects {
+            if project.title == title {
+                return true
+            }
+        }
+        return false
     }
     
 }

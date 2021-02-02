@@ -58,6 +58,8 @@ class EVProjectsMenuCell: UICollectionViewCell {
 }
 
 extension EVProjectsMenuCell: EVEditorDelegate {
+    func didUpdateScene(scene: EGScene) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}

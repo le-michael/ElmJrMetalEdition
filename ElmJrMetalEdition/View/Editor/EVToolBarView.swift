@@ -65,6 +65,8 @@ class EVToolBarView: UIView {
 }
 
 extension EVToolBarView: EVEditorDelegate {
+    func didUpdateScene(scene: EGScene) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}
