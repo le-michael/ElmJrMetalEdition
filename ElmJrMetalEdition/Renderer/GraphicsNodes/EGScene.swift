@@ -10,30 +10,33 @@ import MetalKit
 
 class EGScene: EGGraphicsNode {
     var drawableSize: CGSize?
-    var sceneProps: EGSceneProps
+    var sceneProps = EGSceneProps()
     var fps: Float = 60
-    var camera: EGCamera = EGCamera()
 
+    var camera = EGCamera()
+    var lights = [Light]()
+
+    var viewClearColor = MTLClearColorMake(0, 0, 0, 1)
+    
     override init() {
-        sceneProps = EGSceneProps(
-            projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4,
-            time: 0
-        )
         super.init()
     }
 
     func setDrawableSize(size: CGSize) {
         drawableSize = size
-        sceneProps.projectionMatrix = EGMatrixBuilder.createProjectionMatrix(
-            fovDegrees: 65,
-            aspect: Float(size.width / size.height),
-            nearZ: 0.1,
-            farZ: 300
+        sceneProps.projectionMatrix = matrix_float4x4(
+            projectionFov: Float(65).degreesToRadians,
+            near: 0.1,
+            far: 300,
+            aspect: Float(size.width / size.height)
         )
     }
 
     override func createBuffers(device: MTLDevice) {
+        // Add empty light to prevent crash
+        if lights.count == 0 {
+            lights.append(Light())
+        }
         camera.transform.checkIfStatic()
         for child in children {
             child.createBuffers(device: device)
@@ -43,6 +46,8 @@ class EGScene: EGGraphicsNode {
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
+        sceneProps.lights = lights
+        sceneProps.cameraPosition = camera.position
     }
 
     func draw(commandEncoder: MTLRenderCommandEncoder, pipelineStates: EGPipelineState) {

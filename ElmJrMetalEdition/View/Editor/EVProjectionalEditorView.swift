@@ -76,6 +76,8 @@ class EVProjectionalEditorView: UIView {
 }
 
 extension EVProjectionalEditorView: EVEditorDelegate {
+    func didUpdateScene(scene: EGScene) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}

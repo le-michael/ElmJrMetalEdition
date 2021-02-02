@@ -9,12 +9,19 @@
 import MetalKit
 
 class EGPrimitive3D: EGPrimitive {
-    var mtkMesh: MTKMesh?
     var mdlMeshFunction: (MTKMeshBufferAllocator) -> MDLMesh?
+    var modelMesh: EGModelMesh?
+
+    var submeshColorMap = [Int: EGColorProperty]()
+
+    var smoothIntensity: Float = 0.5
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
         super.init()
+        surfaceType = Lit
+        fragmentUniforms.materialShine = 1
+        fragmentUniforms.materialSpecularColor = [0.6, 0.6, 0.6]
     }
 
     override func createBuffers(device: MTLDevice) {
@@ -22,12 +29,13 @@ class EGPrimitive3D: EGPrimitive {
         guard let mdlMesh = mdlMeshFunction(allocator) else {
             return
         }
-
+        mdlMesh.addNormals(withAttributeNamed: MDLVertexAttributeNormal, creaseThreshold: max(0, 1 - smoothIntensity))
         transform.checkIfStatic()
         color.checkIfStatic()
 
         do {
-            mtkMesh = try MTKMesh(mesh: mdlMesh, device: device)
+            let mtkMesh = try MTKMesh(mesh: mdlMesh, device: device)
+            modelMesh = EGModelMesh(mdlMesh: mdlMesh, mtkMesh: mtkMesh, submeshColorMap: submeshColorMap)
         } catch {
             fatalError("Unable to create buffers for shape 3D: \(error.localizedDescription)")
         }
@@ -38,131 +46,107 @@ class EGPrimitive3D: EGPrimitive {
                        sceneProps: EGSceneProps)
     {
         guard let pipeline = pipelineStates.states[.primitive3D],
-              let mtkMesh = mtkMesh,
-              let submesh = mtkMesh.submeshes.first else { return }
+              let modelMesh = modelMesh else { return }
 
-        updateVertexUniforms(sceneProps)
-
+        updateUniforms(sceneProps)
         commandEncoder.setRenderPipelineState(pipeline)
-        commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
-        commandEncoder.setVertexBytes(&vertexUniforms,
-                                      length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
-                                      index: 1)
+
+        commandEncoder.setFragmentBytes(
+            sceneProps.lights,
+            length: MemoryLayout<Light>.stride * sceneProps.lights.count,
+            index: Int(BufferLights.rawValue)
+        )
+        commandEncoder.setVertexBuffer(
+            modelMesh.mtkMesh.vertexBuffers[0].buffer,
+            offset: 0,
+            index: Int(BufferVertex.rawValue)
+        )
+        commandEncoder.setVertexBytes(
+            &vertexUniforms,
+            length: MemoryLayout<PrimitiveVertexUniforms>.stride,
+            index: Int(BufferVertexUniforms.rawValue)
+        )
+
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setCullMode(.front)
-        commandEncoder.drawIndexedPrimitives(type: .triangle,
-                                             indexCount: submesh.indexCount,
-                                             indexType: submesh.indexType,
-                                             indexBuffer: submesh.indexBuffer.buffer,
-                                             indexBufferOffset: submesh.indexBuffer.offset)
-
-        if drawOutline {
-            vertexUniforms.color = outlineColor
-
-            commandEncoder.setRenderPipelineState(pipeline)
-            commandEncoder.setVertexBuffer(mtkMesh.vertexBuffers[0].buffer, offset: 0, index: 0)
-            commandEncoder.setVertexBytes(&vertexUniforms,
-                                          length: MemoryLayout<EGVertexUniforms.Primitive>.stride,
-                                          index: 1)
-            commandEncoder.setTriangleFillMode(.lines)
-            commandEncoder.drawIndexedPrimitives(type: .triangle,
-                                                 indexCount: submesh.indexCount,
-                                                 indexType: submesh.indexType,
-                                                 indexBuffer: submesh.indexBuffer.buffer,
-                                                 indexBufferOffset: submesh.indexBuffer.offset)
+        for submesh in modelMesh.submeshes {
+            let mtkSubmesh = submesh.mtkSubmesh
+            fragmentUniforms.baseColor = submesh.color.evaluate(sceneProps)
+            commandEncoder.setFragmentBytes(
+                &fragmentUniforms,
+                length: MemoryLayout<PrimitiveFragmentUniforms>.stride,
+                index: Int(BufferFragmentUniforms.rawValue)
+            )
+            commandEncoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: mtkSubmesh.indexCount,
+                indexType: mtkSubmesh.indexType,
+                indexBuffer: mtkSubmesh.indexBuffer.buffer,
+                indexBufferOffset: mtkSubmesh.indexBuffer.offset
+            )
         }
     }
 }
 
-class EGSphere: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(sphereWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
+class EGModel: EGPrimitive3D {
+    var name: String
 
-class EGCube: EGPrimitive3D {
-    init(extent: simd_float3) {
+    init(modelName name: String) {
+        self.name = name
         super.init(mdlMeshFunction: { allocator in
-            MDLMesh(boxWithExtent: extent,
-                    segments: [1, 1, 1],
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
+            guard let assetURL = Bundle.main.url(forResource: name, withExtension: nil) else {
+                fatalError("Cannot find model '\(name)'")
+            }
 
-        })
-    }
-}
-
-class EGCone: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(coneWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: false,
-                    cap: true,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGCapsule: EGPrimitive3D {
-    init(extent: simd_float3, cylinderSegments: simd_uint2, hemisphereSegments: Int32) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(capsuleWithExtent: extent,
-                    cylinderSegments: cylinderSegments,
-                    hemisphereSegments: hemisphereSegments,
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGHemisphere: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(hemisphereWithExtent: extent,
-                    segments: segments,
-                    inwardNormals: false,
-                    cap: true,
-                    geometryType: .triangles,
-                    allocator: allocator)
-        })
-    }
-}
-
-class EGCylinder: EGPrimitive3D {
-    init(extent: simd_float3, segments: simd_uint2) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(
-                cylinderWithExtent: extent,
-                segments: segments,
-                inwardNormals: false,
-                topCap: true,
-                bottomCap: true,
-                geometryType: .triangles,
-                allocator: allocator
+            let asset = MDLAsset(
+                url: assetURL,
+                vertexDescriptor: EGVertexDescriptor.primitive,
+                bufferAllocator: allocator
             )
+
+            return asset.childObjects(of: MDLMesh.self).first as! MDLMesh
         })
     }
 }
 
-class EGIcosahedron: EGPrimitive3D {
-    init(extent: simd_float3) {
-        super.init(mdlMeshFunction: { allocator in
-            MDLMesh(
-                icosahedronWithExtent: extent,
-                inwardNormals: false,
-                geometryType: .triangles,
-                allocator: allocator
-            )
-        })
+class EGSphere: EGModel {
+    init() {
+        super.init(modelName: "sphere.obj")
+    }
+}
+
+class EGCube: EGModel {
+    init() {
+        super.init(modelName: "cube.obj")
+    }
+}
+
+class EGCone: EGModel {
+    init() {
+        super.init(modelName: "cone.obj")
+    }
+}
+
+class EGCapsule: EGModel {
+    init() {
+        super.init(modelName: "capsule.obj")
+    }
+}
+
+class EGCylinder: EGModel {
+    init() {
+        super.init(modelName: "cylinder.obj")
+    }
+}
+
+class EGMonkey: EGModel {
+    init() {
+        super.init(modelName: "monkey.obj")
+    }
+}
+
+class EGRing: EGModel {
+    init() {
+        super.init(modelName: "ring.obj")
     }
 }

@@ -18,6 +18,19 @@
 		10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10340BB0257697880006F922 /* EGPoint2DTests.swift */; };
 		1038643125A6AA9A0018402E /* EGCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1038643025A6AA9A0018402E /* EGCamera.swift */; };
 		103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103DF84325769FFA00C093D1 /* EGDemoScenes.swift */; };
+		104792E625AFD8B700269311 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792DA25AFD8B600269311 /* sphere.obj */; };
+		104792E725AFD8B700269311 /* cube.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792DB25AFD8B600269311 /* cube.mtl */; };
+		104792E825AFD8B700269311 /* cylinder.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792DC25AFD8B600269311 /* cylinder.mtl */; };
+		104792E925AFD8B700269311 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792DD25AFD8B600269311 /* cube.obj */; };
+		104792EA25AFD8B700269311 /* ring.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792DE25AFD8B600269311 /* ring.obj */; };
+		104792EB25AFD8B700269311 /* capsule.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792DF25AFD8B700269311 /* capsule.obj */; };
+		104792EC25AFD8B700269311 /* monkey.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792E025AFD8B700269311 /* monkey.obj */; };
+		104792ED25AFD8B700269311 /* ring.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E125AFD8B700269311 /* ring.mtl */; };
+		104792EE25AFD8B700269311 /* monkey.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E225AFD8B700269311 /* monkey.mtl */; };
+		104792EF25AFD8B700269311 /* capsule.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E325AFD8B700269311 /* capsule.mtl */; };
+		104792F025AFD8B700269311 /* cylinder.obj in Resources */ = {isa = PBXBuildFile; fileRef = 104792E425AFD8B700269311 /* cylinder.obj */; };
+		104792F125AFD8B700269311 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 104792E525AFD8B700269311 /* sphere.mtl */; };
+		104792F525B00BE600269311 /* Primitive3D.metal in Sources */ = {isa = PBXBuildFile; fileRef = 104792F425B00BE600269311 /* Primitive3D.metal */; };
 		105CCEF625769166006A6634 /* EGMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF525769166006A6634 /* EGMesh.swift */; };
 		105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEF9257691CE006A6634 /* EGBezierMesh.swift */; };
 		105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCEFD257692B3006A6634 /* EGVertex.swift */; };
@@ -25,7 +38,6 @@
 		105CCF132576968B006A6634 /* EGBufferData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105CCF122576968B006A6634 /* EGBufferData.swift */; };
 		1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1066EB9E256D9D3C00667E1E /* EGColorTests.swift */; };
 		106B6CB72575DF5700287A62 /* EGCurvedPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */; };
-		1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */; };
 		1072E3E42564C41000D390FE /* EILexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E32564C41000D390FE /* EILexer.swift */; };
 		1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E62564C42100D390FE /* EIEvaluator.swift */; };
 		1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1072E3E92564C43B00D390FE /* EIParser.swift */; };
@@ -34,7 +46,6 @@
 		107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107596F8251C461600BBE3B6 /* EGRenderer.swift */; };
 		107FDB5D2567182800D1B54C /* EGMathNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5C2567182800D1B54C /* EGMathNode.swift */; };
 		107FDB602567189D00D1B54C /* EGConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107FDB5F2567189D00D1B54C /* EGConstant.swift */; };
-		108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108815242567253900E0850D /* EGTranslationMatrix.swift */; };
 		109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109357AD256D8C0200CC2F3D /* EGColorProperty.swift */; };
 		1098B33925A02F2200BD7AD1 /* EGPrimitive3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1098B33825A02F2200BD7AD1 /* EGPrimitive3D.swift */; };
 		109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DD9CD256B27C700FB700F /* EGTransformProperty.swift */; };
@@ -42,17 +53,48 @@
 		10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */; };
 		10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */ = {isa = PBXBuildFile; fileRef = 10ACC0B22562F4A400ABEAD4 /* Primitive.metal */; };
 		10BE1C842575C88A002C2D49 /* EGRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE1C832575C88A002C2D49 /* EGRandom.swift */; };
+		10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736125AE48E20011DF97 /* EGMathUtils.swift */; };
+		10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736925AE676E0011DF97 /* EGTransformFunction.swift */; };
+		10C3739C25AF795D0011DF97 /* EGLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3739B25AF795D0011DF97 /* EGLight.swift */; };
+		10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */; };
 		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
-		10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */; };
-		10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */; };
+		10EF452625B6138700C037AB /* bed.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452425B6138700C037AB /* bed.obj */; };
+		10EF452725B6138700C037AB /* bed.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452525B6138700C037AB /* bed.mtl */; };
+		10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EF452A25B650E500C037AB /* EGModelMesh.swift */; };
+		10EF453225B6605600C037AB /* cliff_block_rock.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453025B6605600C037AB /* cliff_block_rock.obj */; };
+		10EF453325B6605600C037AB /* cliff_block_rock.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453125B6605600C037AB /* cliff_block_rock.mtl */; };
+		10EF453825B6609900C037AB /* stone_smallE.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453625B6609900C037AB /* stone_smallE.mtl */; };
+		10EF453925B6609900C037AB /* stone_smallE.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453725B6609900C037AB /* stone_smallE.obj */; };
+		10EF453E25B660C200C037AB /* tree_blocks.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453C25B660C100C037AB /* tree_blocks.obj */; };
+		10EF453F25B660C200C037AB /* tree_blocks.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF453D25B660C200C037AB /* tree_blocks.mtl */; };
+		10EF454425B660D900C037AB /* tree_default.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454225B660D900C037AB /* tree_default.mtl */; };
+		10EF454525B660D900C037AB /* tree_default.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454325B660D900C037AB /* tree_default.obj */; };
+		10EF454A25B6614300C037AB /* log_stack.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454825B6614200C037AB /* log_stack.mtl */; };
+		10EF454B25B6614300C037AB /* log_stack.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454925B6614300C037AB /* log_stack.obj */; };
+		10EF455025B6687C00C037AB /* tent_detailedOpen.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */; };
+		10EF455125B6687C00C037AB /* tent_detailedOpen.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */; };
+		10EF455625B66CB100C037AB /* campfire_bricks.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455425B66CB100C037AB /* campfire_bricks.obj */; };
+		10EF455725B66CB100C037AB /* campfire_bricks.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455525B66CB100C037AB /* campfire_bricks.mtl */; };
+		10EF455C25B66CDD00C037AB /* campfire_logs.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455A25B66CDD00C037AB /* campfire_logs.mtl */; };
+		10EF455D25B66CDD00C037AB /* campfire_logs.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF455B25B66CDD00C037AB /* campfire_logs.obj */; };
+		10EF456225B66CEE00C037AB /* campfire_stones.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456025B66CED00C037AB /* campfire_stones.obj */; };
+		10EF456325B66CEE00C037AB /* campfire_stones.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456125B66CED00C037AB /* campfire_stones.mtl */; };
+		10EF456825B66D8900C037AB /* flower_redC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456625B66D8900C037AB /* flower_redC.mtl */; };
+		10EF456925B66D8900C037AB /* flower_redC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456725B66D8900C037AB /* flower_redC.obj */; };
+		10EF456E25B66D9500C037AB /* flower_purpleC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456C25B66D9500C037AB /* flower_purpleC.mtl */; };
+		10EF456F25B66D9500C037AB /* flower_purpleC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF456D25B66D9500C037AB /* flower_purpleC.obj */; };
+		10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457225B66DA000C037AB /* flower_yellowC.mtl */; };
+		10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457325B66DA000C037AB /* flower_yellowC.obj */; };
+		10EF457A25B66F7B00C037AB /* ground_pathOpen.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457825B66F7A00C037AB /* ground_pathOpen.obj */; };
+		10EF457B25B66F7B00C037AB /* ground_pathOpen.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */; };
+		5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */; };
+		5551CBDB25C4CD76005723BC /* GraphicsTranspilerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */; };
 		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
 		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
 		7C1856AF259E8C6200546CD3 /* Char.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AE259E8C6200546CD3 /* Char.swift */; };
 		7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B225A123CC00546CD3 /* SwiftArray.swift */; };
 		7C1856B725A142D900546CD3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856B625A142D900546CD3 /* List.swift */; };
 		7C1856C025A14F8000546CD3 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 7C1856BF25A14F8000546CD3 /* Swiftz */; };
-		7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */; };
-		7C1A44B32573637400C3017B /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44B22573637400C3017B /* Fix.elm */; };
 		7C1A44DB2575C20900C3017B /* Array.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BA2575C20900C3017B /* Array.elm */; };
 		7C1A44DC2575C20900C3017B /* Basics.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BB2575C20900C3017B /* Basics.elm */; };
 		7C1A44DD2575C20900C3017B /* Bitwise.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C1A44BC2575C20900C3017B /* Bitwise.elm */; };
@@ -86,8 +128,16 @@
 		7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */; };
 		7C74A9AD2582175A00311C48 /* EITypeInferencerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */; };
 		7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C74A9B92584A6C300311C48 /* Basics.swift */; };
+		7C8184E025A7C39500A7F349 /* API2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184DF25A7C39500A7F349 /* API2D.elm */; };
+		7C8184E725A7FA2200A7F349 /* Base.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E525A7FA2200A7F349 /* Base.elm */; };
+		7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C8184E625A7FA2200A7F349 /* API3D.elm */; };
+		7C81852A25ACD3FC00A7F349 /* elm.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851B25ACD3FC00A7F349 /* elm.json */; };
+		7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81851D25ACD3FC00A7F349 /* Example2D.elm */; };
+		7C81856A25C4D87D00A7F349 /* Fix.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856825C4D87D00A7F349 /* Fix.elm */; };
+		7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */ = {isa = PBXBuildFile; fileRef = 7C81856E25C5009B00A7F349 /* ThreeDee.elm */; };
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
+		D9294D6925C91E7C005FEBB9 /* SnowMan.elm in Resources */ = {isa = PBXBuildFile; fileRef = D9294D6825C91E7C005FEBB9 /* SnowMan.elm */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
 		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
 		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
@@ -110,9 +160,12 @@
 		D9BDF53A25A10F24008E6D2C /* EVTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF53925A10F24008E6D2C /* EVTheme.swift */; };
 		D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54725A2B856008E6D2C /* EVProject.swift */; };
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
+		DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB397E6D25BBC29500DA92B9 /* bigtest1.elm */; };
+		DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C52FF25AC04E900DC1903 /* EIAST.swift */; };
+		DB93079E25C61913008F5E35 /* Builtin.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB93079D25C61913008F5E35 /* Builtin.elm */; };
 		FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */; };
-		FE42166C256C8C41008622FB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* Token.swift */; };
-		FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* TokenTests.swift */; };
+		FE42166C256C8C41008622FB /* EIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42166B256C8C41008622FB /* EIToken.swift */; };
+		FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE59C9DD256CADC00098042C /* EITokenTests.swift */; };
 		FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37E8256F41D600797CD2 /* EILexerTests.swift */; };
 		FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFA37EC256F656900797CD2 /* EIParserTests.swift */; };
 /* End PBXBuildFile section */
@@ -142,6 +195,19 @@
 		10340BB0257697880006F922 /* EGPoint2DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPoint2DTests.swift; sourceTree = "<group>"; };
 		1038643025A6AA9A0018402E /* EGCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCamera.swift; sourceTree = "<group>"; };
 		103DF84325769FFA00C093D1 /* EGDemoScenes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGDemoScenes.swift; sourceTree = "<group>"; };
+		104792DA25AFD8B600269311 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		104792DB25AFD8B600269311 /* cube.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.mtl; sourceTree = "<group>"; };
+		104792DC25AFD8B600269311 /* cylinder.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cylinder.mtl; sourceTree = "<group>"; };
+		104792DD25AFD8B600269311 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		104792DE25AFD8B600269311 /* ring.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ring.obj; sourceTree = "<group>"; };
+		104792DF25AFD8B700269311 /* capsule.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = capsule.obj; sourceTree = "<group>"; };
+		104792E025AFD8B700269311 /* monkey.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.obj; sourceTree = "<group>"; };
+		104792E125AFD8B700269311 /* ring.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ring.mtl; sourceTree = "<group>"; };
+		104792E225AFD8B700269311 /* monkey.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.mtl; sourceTree = "<group>"; };
+		104792E325AFD8B700269311 /* capsule.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = capsule.mtl; sourceTree = "<group>"; };
+		104792E425AFD8B700269311 /* cylinder.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cylinder.obj; sourceTree = "<group>"; };
+		104792E525AFD8B700269311 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
+		104792F425B00BE600269311 /* Primitive3D.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive3D.metal; sourceTree = "<group>"; };
 		105CCEF525769166006A6634 /* EGMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMesh.swift; sourceTree = "<group>"; };
 		105CCEF9257691CE006A6634 /* EGBezierMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBezierMesh.swift; sourceTree = "<group>"; };
 		105CCEFD257692B3006A6634 /* EGVertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertex.swift; sourceTree = "<group>"; };
@@ -149,7 +215,6 @@
 		105CCF122576968B006A6634 /* EGBufferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBufferData.swift; sourceTree = "<group>"; };
 		1066EB9E256D9D3C00667E1E /* EGColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorTests.swift; sourceTree = "<group>"; };
 		106B6CB62575DF5700287A62 /* EGCurvedPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGCurvedPolygon.swift; sourceTree = "<group>"; };
-		1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMatrixBuilder.swift; sourceTree = "<group>"; };
 		1072E3E32564C41000D390FE /* EILexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexer.swift; sourceTree = "<group>"; };
 		1072E3E62564C42100D390FE /* EIEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluator.swift; sourceTree = "<group>"; };
 		1072E3E92564C43B00D390FE /* EIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParser.swift; sourceTree = "<group>"; };
@@ -158,7 +223,6 @@
 		107596F8251C461600BBE3B6 /* EGRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRenderer.swift; sourceTree = "<group>"; };
 		107FDB5C2567182800D1B54C /* EGMathNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathNode.swift; sourceTree = "<group>"; };
 		107FDB5F2567189D00D1B54C /* EGConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGConstant.swift; sourceTree = "<group>"; };
-		108815242567253900E0850D /* EGTranslationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTranslationMatrix.swift; sourceTree = "<group>"; };
 		109357AD256D8C0200CC2F3D /* EGColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGColorProperty.swift; sourceTree = "<group>"; };
 		1098B33825A02F2200BD7AD1 /* EGPrimitive3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPrimitive3D.swift; sourceTree = "<group>"; };
 		109DD9CD256B27C700FB700F /* EGTransformProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformProperty.swift; sourceTree = "<group>"; };
@@ -166,16 +230,47 @@
 		10A9D031256CA5E20046ACFF /* EGBinaryOp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGBinaryOp.swift; sourceTree = "<group>"; };
 		10ACC0B22562F4A400ABEAD4 /* Primitive.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Primitive.metal; sourceTree = "<group>"; };
 		10BE1C832575C88A002C2D49 /* EGRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRandom.swift; sourceTree = "<group>"; };
+		10C3736125AE48E20011DF97 /* EGMathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGMathUtils.swift; sourceTree = "<group>"; };
+		10C3736925AE676E0011DF97 /* EGTransformFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformFunction.swift; sourceTree = "<group>"; };
+		10C3739B25AF795D0011DF97 /* EGLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLight.swift; sourceTree = "<group>"; };
+		10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexDescriptor.swift; sourceTree = "<group>"; };
 		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
-		10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGScaleMatrix.swift; sourceTree = "<group>"; };
-		10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGRotationMatrix.swift; sourceTree = "<group>"; };
+		10EF452425B6138700C037AB /* bed.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.obj; sourceTree = "<group>"; };
+		10EF452525B6138700C037AB /* bed.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.mtl; sourceTree = "<group>"; };
+		10EF452A25B650E500C037AB /* EGModelMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGModelMesh.swift; sourceTree = "<group>"; };
+		10EF453025B6605600C037AB /* cliff_block_rock.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cliff_block_rock.obj; sourceTree = "<group>"; };
+		10EF453125B6605600C037AB /* cliff_block_rock.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cliff_block_rock.mtl; sourceTree = "<group>"; };
+		10EF453625B6609900C037AB /* stone_smallE.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stone_smallE.mtl; sourceTree = "<group>"; };
+		10EF453725B6609900C037AB /* stone_smallE.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = stone_smallE.obj; sourceTree = "<group>"; };
+		10EF453C25B660C100C037AB /* tree_blocks.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_blocks.obj; sourceTree = "<group>"; };
+		10EF453D25B660C200C037AB /* tree_blocks.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_blocks.mtl; sourceTree = "<group>"; };
+		10EF454225B660D900C037AB /* tree_default.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_default.mtl; sourceTree = "<group>"; };
+		10EF454325B660D900C037AB /* tree_default.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tree_default.obj; sourceTree = "<group>"; };
+		10EF454825B6614200C037AB /* log_stack.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_stack.mtl; sourceTree = "<group>"; };
+		10EF454925B6614300C037AB /* log_stack.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = log_stack.obj; sourceTree = "<group>"; };
+		10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tent_detailedOpen.obj; sourceTree = "<group>"; };
+		10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tent_detailedOpen.mtl; sourceTree = "<group>"; };
+		10EF455425B66CB100C037AB /* campfire_bricks.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_bricks.obj; sourceTree = "<group>"; };
+		10EF455525B66CB100C037AB /* campfire_bricks.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_bricks.mtl; sourceTree = "<group>"; };
+		10EF455A25B66CDD00C037AB /* campfire_logs.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_logs.mtl; sourceTree = "<group>"; };
+		10EF455B25B66CDD00C037AB /* campfire_logs.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_logs.obj; sourceTree = "<group>"; };
+		10EF456025B66CED00C037AB /* campfire_stones.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_stones.obj; sourceTree = "<group>"; };
+		10EF456125B66CED00C037AB /* campfire_stones.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = campfire_stones.mtl; sourceTree = "<group>"; };
+		10EF456625B66D8900C037AB /* flower_redC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_redC.mtl; sourceTree = "<group>"; };
+		10EF456725B66D8900C037AB /* flower_redC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_redC.obj; sourceTree = "<group>"; };
+		10EF456C25B66D9500C037AB /* flower_purpleC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_purpleC.mtl; sourceTree = "<group>"; };
+		10EF456D25B66D9500C037AB /* flower_purpleC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_purpleC.obj; sourceTree = "<group>"; };
+		10EF457225B66DA000C037AB /* flower_yellowC.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_yellowC.mtl; sourceTree = "<group>"; };
+		10EF457325B66DA000C037AB /* flower_yellowC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_yellowC.obj; sourceTree = "<group>"; };
+		10EF457825B66F7A00C037AB /* ground_pathOpen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.obj; sourceTree = "<group>"; };
+		10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.mtl; sourceTree = "<group>"; };
+		5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsTranspiler.swift; sourceTree = "<group>"; };
+		5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsTranspilerTests.swift; sourceTree = "<group>"; };
 		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
 		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
 		7C1856B225A123CC00546CD3 /* SwiftArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftArray.swift; sourceTree = "<group>"; };
 		7C1856B625A142D900546CD3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = GraphicSVG.elm; sourceTree = "<group>"; };
-		7C1A44B22573637400C3017B /* Fix.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
 		7C1A44BA2575C20900C3017B /* Array.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Array.elm; sourceTree = "<group>"; };
 		7C1A44BB2575C20900C3017B /* Basics.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Basics.elm; sourceTree = "<group>"; };
 		7C1A44BC2575C20900C3017B /* Bitwise.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bitwise.elm; sourceTree = "<group>"; };
@@ -209,8 +304,16 @@
 		7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencer.swift; sourceTree = "<group>"; };
 		7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITypeInferencerTests.swift; sourceTree = "<group>"; };
 		7C74A9B92584A6C300311C48 /* Basics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Basics.swift; sourceTree = "<group>"; };
+		7C8184DF25A7C39500A7F349 /* API2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API2D.elm; sourceTree = "<group>"; };
+		7C8184E525A7FA2200A7F349 /* Base.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Base.elm; sourceTree = "<group>"; };
+		7C8184E625A7FA2200A7F349 /* API3D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = API3D.elm; sourceTree = "<group>"; };
+		7C81851B25ACD3FC00A7F349 /* elm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elm.json; sourceTree = "<group>"; };
+		7C81851D25ACD3FC00A7F349 /* Example2D.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Example2D.elm; sourceTree = "<group>"; };
+		7C81856825C4D87D00A7F349 /* Fix.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Fix.elm; sourceTree = "<group>"; };
+		7C81856E25C5009B00A7F349 /* ThreeDee.elm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreeDee.elm; sourceTree = "<group>"; };
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
+		D9294D6825C91E7C005FEBB9 /* SnowMan.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = SnowMan.elm; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
 		D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVSectionHeaderView.swift; sourceTree = "<group>"; };
@@ -235,9 +338,12 @@
 		D9BDF53925A10F24008E6D2C /* EVTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVTheme.swift; sourceTree = "<group>"; };
 		D9BDF54725A2B856008E6D2C /* EVProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProject.swift; sourceTree = "<group>"; };
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
+		DB397E6D25BBC29500DA92B9 /* bigtest1.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bigtest1.elm; sourceTree = "<group>"; };
+		DB7C52FF25AC04E900DC1903 /* EIAST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAST.swift; sourceTree = "<group>"; };
+		DB93079D25C61913008F5E35 /* Builtin.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Builtin.elm; sourceTree = "<group>"; };
 		FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIEvaluatorTests.swift; sourceTree = "<group>"; };
-		FE42166B256C8C41008622FB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		FE59C9DD256CADC00098042C /* TokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenTests.swift; sourceTree = "<group>"; };
+		FE42166B256C8C41008622FB /* EIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIToken.swift; sourceTree = "<group>"; };
+		FE59C9DD256CADC00098042C /* EITokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EITokenTests.swift; sourceTree = "<group>"; };
 		FEFA37E8256F41D600797CD2 /* EILexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EILexerTests.swift; sourceTree = "<group>"; };
 		FEFA37EC256F656900797CD2 /* EIParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIParserTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,6 +384,7 @@
 				101D0825256C6BD6008F5A0D /* EGTransformTests.swift */,
 				1066EB9E256D9D3C00667E1E /* EGColorTests.swift */,
 				10340BB0257697880006F922 /* EGPoint2DTests.swift */,
+				5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -291,6 +398,7 @@
 				1038643025A6AA9A0018402E /* EGCamera.swift */,
 				1028E01A25632BAE00C4DBFA /* EGScene.swift */,
 				1072E3F12565979D00D390FE /* EGBufferDataBuilder.swift */,
+				10C3739B25AF795D0011DF97 /* EGLight.swift */,
 			);
 			path = GraphicsNodes;
 			sourceTree = "<group>";
@@ -316,10 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				109DD9CD256B27C700FB700F /* EGTransformProperty.swift */,
-				108815242567253900E0850D /* EGTranslationMatrix.swift */,
-				10EFCB9C25A113D6003514E0 /* EGRotationMatrix.swift */,
-				10CB97E5256721F30096BA10 /* EGScaleMatrix.swift */,
-				1072E3D62564669D00D390FE /* EGMatrixBuilder.swift */,
+				10C3736925AE676E0011DF97 /* EGTransformFunction.swift */,
 			);
 			path = Transform;
 			sourceTree = "<group>";
@@ -329,6 +434,7 @@
 			children = (
 				105CCEF525769166006A6634 /* EGMesh.swift */,
 				105CCEF9257691CE006A6634 /* EGBezierMesh.swift */,
+				10EF452A25B650E500C037AB /* EGModelMesh.swift */,
 			);
 			path = Mesh;
 			sourceTree = "<group>";
@@ -336,12 +442,13 @@
 		1072E3E22564C3BF00D390FE /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44B12573635C00C3017B /* ElmCodeExamples */,
+				7C81856725C4D87D00A7F349 /* ElmCodeExamples */,
 				7C1A44A825721C8200C3017B /* ElmLibrary */,
+				FE42166B256C8C41008622FB /* EIToken.swift */,
 				1072E3E32564C41000D390FE /* EILexer.swift */,
-				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
 				1072E3E92564C43B00D390FE /* EIParser.swift */,
-				FE42166B256C8C41008622FB /* Token.swift */,
+				DB7C52FF25AC04E900DC1903 /* EIAST.swift */,
+				1072E3E62564C42100D390FE /* EIEvaluator.swift */,
 				7C74A9A2257DE74800311C48 /* EITypeInferencer.swift */,
 			);
 			path = Interpreter;
@@ -350,6 +457,7 @@
 		107596F7251C460200BBE3B6 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
+				10C373B725AFACD30011DF97 /* Models */,
 				103DF84225769FE500C093D1 /* Demos */,
 				10A0BB9B2575F900001CD1F8 /* Types */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
@@ -357,6 +465,8 @@
 				10ACC0B12562F47700ABEAD4 /* Shaders */,
 				107596F8251C461600BBE3B6 /* EGRenderer.swift */,
 				10126A95257600B6001659B3 /* EGPipelineState.swift */,
+				10C3736125AE48E20011DF97 /* EGMathUtils.swift */,
+				10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -400,9 +510,30 @@
 			children = (
 				10ACC0B22562F4A400ABEAD4 /* Primitive.metal */,
 				102D1A5A2575EF8D00A6CD27 /* Bezier.metal */,
+				104792F425B00BE600269311 /* Primitive3D.metal */,
 				1029B41D2587205600B47320 /* Types.h */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		10C373B725AFACD30011DF97 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				10EF42A525B60FA400C037AB /* KennyNatureKit2.1 */,
+				104792E325AFD8B700269311 /* capsule.mtl */,
+				104792DF25AFD8B700269311 /* capsule.obj */,
+				104792DB25AFD8B600269311 /* cube.mtl */,
+				104792DD25AFD8B600269311 /* cube.obj */,
+				104792DC25AFD8B600269311 /* cylinder.mtl */,
+				104792E425AFD8B700269311 /* cylinder.obj */,
+				104792E225AFD8B700269311 /* monkey.mtl */,
+				104792E025AFD8B700269311 /* monkey.obj */,
+				104792E125AFD8B700269311 /* ring.mtl */,
+				104792DE25AFD8B600269311 /* ring.obj */,
+				104792E525AFD8B700269311 /* sphere.mtl */,
+				104792DA25AFD8B600269311 /* sphere.obj */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		10D8962B256845830053D762 /* Renderable */ = {
@@ -415,10 +546,45 @@
 			path = Renderable;
 			sourceTree = "<group>";
 		};
+		10EF42A525B60FA400C037AB /* KennyNatureKit2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */,
+				10EF457825B66F7A00C037AB /* ground_pathOpen.obj */,
+				10EF457225B66DA000C037AB /* flower_yellowC.mtl */,
+				10EF457325B66DA000C037AB /* flower_yellowC.obj */,
+				10EF456C25B66D9500C037AB /* flower_purpleC.mtl */,
+				10EF456D25B66D9500C037AB /* flower_purpleC.obj */,
+				10EF456625B66D8900C037AB /* flower_redC.mtl */,
+				10EF456725B66D8900C037AB /* flower_redC.obj */,
+				10EF456125B66CED00C037AB /* campfire_stones.mtl */,
+				10EF456025B66CED00C037AB /* campfire_stones.obj */,
+				10EF455A25B66CDD00C037AB /* campfire_logs.mtl */,
+				10EF455B25B66CDD00C037AB /* campfire_logs.obj */,
+				10EF455525B66CB100C037AB /* campfire_bricks.mtl */,
+				10EF455425B66CB100C037AB /* campfire_bricks.obj */,
+				10EF454F25B6687C00C037AB /* tent_detailedOpen.mtl */,
+				10EF454E25B6687C00C037AB /* tent_detailedOpen.obj */,
+				10EF454825B6614200C037AB /* log_stack.mtl */,
+				10EF454925B6614300C037AB /* log_stack.obj */,
+				10EF454225B660D900C037AB /* tree_default.mtl */,
+				10EF454325B660D900C037AB /* tree_default.obj */,
+				10EF453D25B660C200C037AB /* tree_blocks.mtl */,
+				10EF453C25B660C100C037AB /* tree_blocks.obj */,
+				10EF453625B6609900C037AB /* stone_smallE.mtl */,
+				10EF453725B6609900C037AB /* stone_smallE.obj */,
+				10EF453125B6605600C037AB /* cliff_block_rock.mtl */,
+				10EF453025B6605600C037AB /* cliff_block_rock.obj */,
+				10EF452525B6138700C037AB /* bed.mtl */,
+				10EF452425B6138700C037AB /* bed.obj */,
+			);
+			path = KennyNatureKit2.1;
+			sourceTree = "<group>";
+		};
 		7C1A44A825721C8200C3017B /* ElmLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44AA25721C8D00C3017B /* GraphicSVG */,
+				7C1A44AA25721C8D00C3017B /* Graphics */,
 				7C1A44A925721C8900C3017B /* Core */,
 			);
 			path = ElmLibrary;
@@ -432,20 +598,16 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		7C1A44AA25721C8D00C3017B /* GraphicSVG */ = {
+		7C1A44AA25721C8D00C3017B /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				7C1A44AB2572CAAD00C3017B /* GraphicSVG.elm */,
+				7C81851B25ACD3FC00A7F349 /* elm.json */,
+				7C81851C25ACD3FC00A7F349 /* Examples */,
+				7C8184E625A7FA2200A7F349 /* API3D.elm */,
+				7C8184E525A7FA2200A7F349 /* Base.elm */,
+				7C8184DF25A7C39500A7F349 /* API2D.elm */,
 			);
-			path = GraphicSVG;
-			sourceTree = "<group>";
-		};
-		7C1A44B12573635C00C3017B /* ElmCodeExamples */ = {
-			isa = PBXGroup;
-			children = (
-				7C1A44B22573637400C3017B /* Fix.elm */,
-			);
-			path = ElmCodeExamples;
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		7C1A44B92575C20900C3017B /* src */ = {
@@ -468,6 +630,7 @@
 				7C1A44D82575C20900C3017B /* String.elm */,
 				7C1A44D92575C20900C3017B /* Task.elm */,
 				7C1A44DA2575C20900C3017B /* Tuple.elm */,
+				DB93079D25C61913008F5E35 /* Builtin.elm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -523,6 +686,32 @@
 			path = SwiftKernel;
 			sourceTree = "<group>";
 		};
+		7C81851C25ACD3FC00A7F349 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				7C81856E25C5009B00A7F349 /* ThreeDee.elm */,
+				7C81851D25ACD3FC00A7F349 /* Example2D.elm */,
+				D9294D6825C91E7C005FEBB9 /* SnowMan.elm */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		7C81856725C4D87D00A7F349 /* ElmCodeExamples */ = {
+			isa = PBXGroup;
+			children = (
+				7C81856825C4D87D00A7F349 /* Fix.elm */,
+			);
+			path = ElmCodeExamples;
+			sourceTree = "<group>";
+		};
+		D9294D6125C8EAEB005FEBB9 /* Transpiler */ = {
+			isa = PBXGroup;
+			children = (
+				5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */,
+			);
+			path = Transpiler;
+			sourceTree = "<group>";
+		};
 		D95DF1E3251BDD1900F9457F = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +733,7 @@
 		D95DF1EE251BDD1900F9457F /* ElmJrMetalEdition */ = {
 			isa = PBXGroup;
 			children = (
+				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				D98A8C7225A02AAB00FA3539 /* View */,
 				1072E3E22564C3BF00D390FE /* Interpreter */,
 				107596F7251C460200BBE3B6 /* Renderer */,
@@ -607,13 +797,22 @@
 			path = DemoWorkspaces;
 			sourceTree = "<group>";
 		};
+		DB397E6C25BBC21E00DA92B9 /* LargestTestcases */ = {
+			isa = PBXGroup;
+			children = (
+				DB397E6D25BBC29500DA92B9 /* bigtest1.elm */,
+			);
+			path = LargestTestcases;
+			sourceTree = "<group>";
+		};
 		FE59C9D4256CACF30098042C /* Interpreter */ = {
 			isa = PBXGroup;
 			children = (
-				FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */,
-				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
+				DB397E6C25BBC21E00DA92B9 /* LargestTestcases */,
+				FE59C9DD256CADC00098042C /* EITokenTests.swift */,
 				FEFA37E8256F41D600797CD2 /* EILexerTests.swift */,
-				FE59C9DD256CADC00098042C /* TokenTests.swift */,
+				FEFA37EC256F656900797CD2 /* EIParserTests.swift */,
+				FE1898E7257AF1D600345A70 /* EIEvaluatorTests.swift */,
 				7C74A9AC2582175A00311C48 /* EITypeInferencerTests.swift */,
 			);
 			path = Interpreter;
@@ -706,6 +905,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,36 +916,83 @@
 				7C1A44EE2575C20900C3017B /* List.elm in Resources */,
 				7C1A44EA2575C20900C3017B /* Process.server.js in Resources */,
 				7C1A44E42575C20900C3017B /* Char.js in Resources */,
+				10EF457A25B66F7B00C037AB /* ground_pathOpen.obj in Resources */,
+				10EF452625B6138700C037AB /* bed.obj in Resources */,
+				104792EF25AFD8B700269311 /* capsule.mtl in Resources */,
+				7C8184E025A7C39500A7F349 /* API2D.elm in Resources */,
+				104792EE25AFD8B700269311 /* monkey.mtl in Resources */,
 				7C1A44E62575C20900C3017B /* JsArray.js in Resources */,
+				104792EB25AFD8B700269311 /* capsule.obj in Resources */,
 				7C1A44DB2575C20900C3017B /* Array.elm in Resources */,
+				104792EC25AFD8B700269311 /* monkey.obj in Resources */,
+				104792E925AFD8B700269311 /* cube.obj in Resources */,
+				10EF456925B66D8900C037AB /* flower_redC.obj in Resources */,
+				10EF455725B66CB100C037AB /* campfire_bricks.mtl in Resources */,
 				7C1A44F52575C20900C3017B /* Set.elm in Resources */,
 				7C1A44F22575C20900C3017B /* Platform.elm in Resources */,
+				10EF453225B6605600C037AB /* cliff_block_rock.obj in Resources */,
+				7C8184E725A7FA2200A7F349 /* Base.elm in Resources */,
+				10EF456825B66D8900C037AB /* flower_redC.mtl in Resources */,
+				10EF455D25B66CDD00C037AB /* campfire_logs.obj in Resources */,
 				7C1A44E22575C20900C3017B /* Basics.js in Resources */,
+				10EF453825B6609900C037AB /* stone_smallE.mtl in Resources */,
 				D95DF1FC251BDD1F00F9457F /* LaunchScreen.storyboard in Resources */,
 				7C1A44F82575C20900C3017B /* Tuple.elm in Resources */,
+				10EF457B25B66F7B00C037AB /* ground_pathOpen.mtl in Resources */,
+				10EF456E25B66D9500C037AB /* flower_purpleC.mtl in Resources */,
+				10EF453325B6605600C037AB /* cliff_block_rock.mtl in Resources */,
+				10EF456F25B66D9500C037AB /* flower_purpleC.obj in Resources */,
+				104792ED25AFD8B700269311 /* ring.mtl in Resources */,
+				DB93079E25C61913008F5E35 /* Builtin.elm in Resources */,
 				7C1A44DE2575C20900C3017B /* Char.elm in Resources */,
+				10EF453E25B660C200C037AB /* tree_blocks.obj in Resources */,
 				7C1A44F32575C20900C3017B /* Process.elm in Resources */,
+				10EF455025B6687C00C037AB /* tent_detailedOpen.obj in Resources */,
+				10EF452725B6138700C037AB /* bed.mtl in Resources */,
 				7C1A44E92575C20900C3017B /* Process.js in Resources */,
+				10EF454425B660D900C037AB /* tree_default.mtl in Resources */,
+				104792F025AFD8B700269311 /* cylinder.obj in Resources */,
+				10EF457425B66DA000C037AB /* flower_yellowC.mtl in Resources */,
+				7C81856F25C5009B00A7F349 /* ThreeDee.elm in Resources */,
 				7C1A44F12575C20900C3017B /* Sub.elm in Resources */,
 				7C1A44F62575C20900C3017B /* String.elm in Resources */,
 				D95DF1F9251BDD1F00F9457F /* Assets.xcassets in Resources */,
 				7C1A44E82575C20900C3017B /* Platform.js in Resources */,
+				10EF453925B6609900C037AB /* stone_smallE.obj in Resources */,
 				7C1A44DC2575C20900C3017B /* Basics.elm in Resources */,
 				7C1A44DF2575C20900C3017B /* Debug.elm in Resources */,
 				7C1A44EF2575C20900C3017B /* Maybe.elm in Resources */,
+				10EF455C25B66CDD00C037AB /* campfire_logs.mtl in Resources */,
 				7C1A44F42575C20900C3017B /* Result.elm in Resources */,
 				7C1A44E32575C20900C3017B /* Bitwise.js in Resources */,
 				7C1A44F72575C20900C3017B /* Task.elm in Resources */,
+				10EF456225B66CEE00C037AB /* campfire_stones.obj in Resources */,
 				7C1A44F02575C20900C3017B /* Cmd.elm in Resources */,
+				10EF454525B660D900C037AB /* tree_default.obj in Resources */,
+				7C81856A25C4D87D00A7F349 /* Fix.elm in Resources */,
+				10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */,
+				104792E725AFD8B700269311 /* cube.mtl in Resources */,
+				104792F125AFD8B700269311 /* sphere.mtl in Resources */,
+				104792E825AFD8B700269311 /* cylinder.mtl in Resources */,
+				10EF454B25B6614300C037AB /* log_stack.obj in Resources */,
 				7C1A44E72575C20900C3017B /* List.js in Resources */,
-				7C1A44B32573637400C3017B /* Fix.elm in Resources */,
-				7C1A44AC2572CAAD00C3017B /* GraphicSVG.elm in Resources */,
 				7C1A44E02575C20900C3017B /* Dict.elm in Resources */,
 				7C1A44E12575C20900C3017B /* JsArray.elm in Resources */,
+				10EF455625B66CB100C037AB /* campfire_bricks.obj in Resources */,
+				10EF456325B66CEE00C037AB /* campfire_stones.mtl in Resources */,
+				10EF453F25B660C200C037AB /* tree_blocks.mtl in Resources */,
 				7C1A44DD2575C20900C3017B /* Bitwise.elm in Resources */,
+				104792E625AFD8B700269311 /* sphere.obj in Resources */,
 				7C1A44EC2575C20900C3017B /* String.js in Resources */,
+				10EF454A25B6614300C037AB /* log_stack.mtl in Resources */,
+				10EF455125B6687C00C037AB /* tent_detailedOpen.mtl in Resources */,
 				7C1A44EB2575C20900C3017B /* Scheduler.js in Resources */,
 				7C1A44ED2575C20900C3017B /* Utils.js in Resources */,
+				7C8184E825A7FA2200A7F349 /* API3D.elm in Resources */,
+				7C81852B25ACD3FC00A7F349 /* Example2D.elm in Resources */,
+				7C81852A25ACD3FC00A7F349 /* elm.json in Resources */,
+				D9294D6925C91E7C005FEBB9 /* SnowMan.elm in Resources */,
+				104792EA25AFD8B700269311 /* ring.obj in Resources */,
 				7C1A44E52575C20900C3017B /* Debug.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,9 +1005,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE1898E8257AF1D600345A70 /* EIEvaluatorTests.swift in Sources */,
-				FE59C9DE256CADC00098042C /* TokenTests.swift in Sources */,
+				FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */,
 				FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */,
 				FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */,
+				5551CBDB25C4CD76005723BC /* GraphicsTranspilerTests.swift in Sources */,
 				1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */,
 				101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */,
 				10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */,
@@ -775,6 +1023,7 @@
 			files = (
 				10126A96257600B6001659B3 /* EGPipelineState.swift in Sources */,
 				1072E3E72564C42100D390FE /* EIEvaluator.swift in Sources */,
+				104792F525B00BE600269311 /* Primitive3D.metal in Sources */,
 				7C74A9A3257DE74800311C48 /* EITypeInferencer.swift in Sources */,
 				D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */,
 				103DF84425769FFA00C093D1 /* EGDemoScenes.swift in Sources */,
@@ -785,6 +1034,7 @@
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */,
+				10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */,
 				D951051D25A4031A00B07B79 /* EVButtonCell.swift in Sources */,
 				D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */,
 				D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */,
@@ -793,23 +1043,22 @@
 				105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */,
 				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
-				108815252567253900E0850D /* EGTranslationMatrix.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
 				D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
+				5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */,
 				10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */,
 				D98D47E325AA141A002DCDA9 /* EVProjectionalEditorView.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
-				1072E3D72564669D00D390FE /* EGMatrixBuilder.swift in Sources */,
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,
 				D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */,
 				1020B441256719FB00651AA4 /* EGUnaryOp.swift in Sources */,
 				7C1856AB259E82A400546CD3 /* Utils.swift in Sources */,
-				10CB97E6256721F30096BA10 /* EGScaleMatrix.swift in Sources */,
 				1038643125A6AA9A0018402E /* EGCamera.swift in Sources */,
+				10C3739C25AF795D0011DF97 /* EGLight.swift in Sources */,
 				D98A8C7525A02B9600FA3539 /* EVEditor.swift in Sources */,
 				1020B44425671B6600651AA4 /* EGTime.swift in Sources */,
 				D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */,
@@ -820,15 +1069,18 @@
 				107596F9251C461600BBE3B6 /* EGRenderer.swift in Sources */,
 				7C1856B325A123CC00546CD3 /* SwiftArray.swift in Sources */,
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
+				DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
+				10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
 				D98A8C7925A0377900FA3539 /* EVToolBarView.swift in Sources */,
-				10EFCB9D25A113D6003514E0 /* EGRotationMatrix.swift in Sources */,
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				D952DC9B25AD104A00DDBE0A /* EVProjectionalNodeSource.swift in Sources */,
+				10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */,
+				10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
-				FE42166C256C8C41008622FB /* Token.swift in Sources */,
+				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,
 				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,
 				1098B33925A02F2200BD7AD1 /* EGPrimitive3D.swift in Sources */,
 				D98D47DD25A90B34002DCDA9 /* EVProjectionalNode.swift in Sources */,
@@ -963,6 +1215,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = ElmJrMetalEdition/Renderer/Shaders/Types.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1017,6 +1270,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = ElmJrMetalEdition/Renderer/Shaders/Types.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1034,7 +1288,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ElmJrMetalEdition;
+				PRODUCT_BUNDLE_IDENTIFIER = Michael.com.ElmJrMetalEdition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1054,7 +1308,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ElmJrMetalEdition;
+				PRODUCT_BUNDLE_IDENTIFIER = Michael.com.ElmJrMetalEdition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

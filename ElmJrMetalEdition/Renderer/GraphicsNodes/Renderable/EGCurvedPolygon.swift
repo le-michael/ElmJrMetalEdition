@@ -14,7 +14,7 @@ class EGCurvedPolygon: EGGraphicsNode {
     var indexBuffer: MTLBuffer?
     var triangleFillMode: MTLTriangleFillMode = .fill
 
-    var vertexUniforms = EGVertexUniforms.Bezier()
+    var vertexUniforms = BezierVertexUniforms()
     var transform = EGTransformProperty()
     var color = EGColorProperty()
 
@@ -77,12 +77,12 @@ class EGCurvedPolygon: EGGraphicsNode {
         updateVertexUniforms(sceneProps)
       
         commandEncoder.setRenderPipelineState(pipeline)
-        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: Int(BufferVertex.rawValue))
         commandEncoder.setTriangleFillMode(triangleFillMode)
         commandEncoder.setVertexBytes(
             &vertexUniforms,
-            length: MemoryLayout<EGVertexUniforms.Bezier>.stride,
-            index: 1
+            length: MemoryLayout<BezierVertexUniforms>.stride,
+            index: Int(BufferVertexUniforms.rawValue)
         )
         commandEncoder.drawIndexedPrimitives(
             type: .triangle,

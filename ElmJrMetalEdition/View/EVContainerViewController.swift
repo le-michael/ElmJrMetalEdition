@@ -46,7 +46,10 @@ class EVContainerViewController: UIViewController {
 }
 
 extension EVContainerViewController: EVEditorDelegate {
+    
     func didToggleMode(isProjectional: Bool) {}
+
+    func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
     

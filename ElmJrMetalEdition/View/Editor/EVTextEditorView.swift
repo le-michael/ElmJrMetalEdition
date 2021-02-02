@@ -60,7 +60,7 @@ class EVTextEditorView: UIView {
         while(true){
             let rangeStart = lexer.characterIndex
             
-            var token: Token
+            var token: EIToken
             do { token = try lexer.nextToken() } catch { break }
             
             let length = lexer.characterIndex - rangeStart
@@ -97,6 +97,8 @@ extension EVTextEditorView: UITextViewDelegate {
 
 extension EVTextEditorView: EVEditorDelegate {
     func didToggleMode(isProjectional: Bool) {}
+
+    func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
     
@@ -117,7 +119,7 @@ extension EVTextEditorView: EVEditorDelegate {
     
 }
 
-func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
+func getTokenTypeColor(_ tokenType: EIToken.TokenType) -> UIColor? {
     switch(tokenType){
     case .leftParan:    return EVTheme.Colors.symbol
     case .rightParan:   return EVTheme.Colors.symbol
@@ -126,6 +128,7 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .minus:        return EVTheme.Colors.symbol
     case .asterisk:     return EVTheme.Colors.symbol
     case .caret:        return EVTheme.Colors.symbol
+    case .backSlash:    return EVTheme.Colors.symbol
     case .forwardSlash: return EVTheme.Colors.symbol
     case .singlequote:  return EVTheme.Colors.string
     case .doublequote:  return EVTheme.Colors.string
@@ -154,6 +157,9 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .bar:          return EVTheme.Colors.symbol
     case .string:       return EVTheme.Colors.string
     case .char:         return EVTheme.Colors.string
+    case .identifier:   return EVTheme.Colors.identifier
+    case .number:       return EVTheme.Colors.number
+    case .newline:      return EVTheme.Colors.symbol
     case .IF:           return EVTheme.Colors.reserved
     case .THEN:         return EVTheme.Colors.reserved
     case .ELSE:         return EVTheme.Colors.reserved
@@ -163,7 +169,8 @@ func getTokenTypeColor(_ tokenType: Token.TokenType) -> UIColor? {
     case .IN:           return EVTheme.Colors.reserved
     case .TYPE:         return EVTheme.Colors.reserved
     case .ALIAS:        return EVTheme.Colors.reserved
-    case .identifier:   return EVTheme.Colors.identifier
-    case .number:       return EVTheme.Colors.number
+    case .MODULE:       return EVTheme.Colors.reserved
+    case .IMPORT:       return EVTheme.Colors.reserved
+    case .EXPOSING:     return EVTheme.Colors.reserved
     }
 }

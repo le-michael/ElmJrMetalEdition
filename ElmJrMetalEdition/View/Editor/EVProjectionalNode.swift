@@ -115,7 +115,7 @@ protocol EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView
 }
 
-extension EIParser.Integer: EVProjectionalNode {
+extension EIAST.Integer: EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView {
         let label = UILabel()
         label.text = self.value.description
@@ -143,7 +143,7 @@ extension EIParser.Integer: EVProjectionalNode {
     
 }
 
-extension EIParser.FloatingPoint: EVProjectionalNode {
+extension EIAST.FloatingPoint: EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView {
         let label = UILabel()
         label.text = self.value.description
@@ -155,7 +155,7 @@ extension EIParser.FloatingPoint: EVProjectionalNode {
     }
 }
 
-extension EIParser.Boolean: EVProjectionalNode {
+extension EIAST.Boolean: EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView {
         let label = UILabel()
         label.text = self.description
@@ -167,7 +167,7 @@ extension EIParser.Boolean: EVProjectionalNode {
     }
 }
 
-extension EIParser.BinaryOp: EVProjectionalNode {
+extension EIAST.BinaryOp: EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView {
         
         let stackView = UIStackView()
@@ -211,7 +211,7 @@ extension EIParser.BinaryOp: EVProjectionalNode {
     }
 }
 
-extension EIParser.UnaryOp: EVProjectionalNode {
+extension EIAST.UnaryOp: EVProjectionalNode {
     func getUIView(isStore: Bool) -> UIView {
         let cardView = EVProjectionalNodeView(node: self, view: UIView(), borderColor: .red, isStore: isStore)
         return cardView

@@ -142,6 +142,8 @@ extension EVEditorViewController: EVEditorDelegate {
         }
     }
     
+    func didUpdateScene(scene: EGScene) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {
         codeEditorWidthConstraint?.constant = width
     }

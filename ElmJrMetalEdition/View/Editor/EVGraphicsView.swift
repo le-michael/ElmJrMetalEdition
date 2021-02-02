@@ -17,7 +17,8 @@ class EVGraphicsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
+        EVEditor.shared.subscribe(delegate: self)
+        backgroundColor = .black
         addSubview(mtkView)
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
@@ -26,10 +27,10 @@ class EVGraphicsView: UIView {
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
 
         mtkView.device = MTLCreateSystemDefaultDevice()
-        mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
 
-        let scene = EGDemoScenes.cactus()
-        renderer = EGRenderer(view: mtkView, scene: scene)
+        renderer = EGRenderer(view: mtkView)
+        renderer.use(scene: EVEditor.shared.scene)
+        
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
@@ -40,15 +41,21 @@ class EVGraphicsView: UIView {
     }
 
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        guard let scene = renderer.scene else { return }
+
         let translation = gesture.translation(in: gesture.view)
         let delta = simd_float2(Float(translation.x), Float(-translation.y))
-        renderer.scene.camera.rotate(delta: delta)
+
+        scene.camera.rotate(delta: delta)
+
         gesture.setTranslation(.zero, in: gesture.view)
     }
 
     @objc func handlePinch(gesture: UIPinchGestureRecognizer) {
+        guard let scene = renderer.scene else { return }
+
         let delta = Float(gesture.scale - previousScale)
-        renderer.scene.camera.zoom(delta: delta)
+        scene.camera.zoom(delta: delta)
 
         previousScale = gesture.scale
         if gesture.state == .ended {
@@ -60,4 +67,27 @@ class EVGraphicsView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension EVGraphicsView: EVEditorDelegate {
+    
+    func didToggleMode(isProjectional: Bool) {}
+    
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeTextEditorHeight(height: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didOpenProjects() {}
+    
+    func didLoadProject(project: EVProject) {}
+    
+    func didUpdateScene(scene: EGScene) {
+        renderer.use(scene: scene)
+        guard let scene = renderer.scene else { return }
+        scene.setDrawableSize(size: mtkView.frame.size)
+    }
+    
+    
 }

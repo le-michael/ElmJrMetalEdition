@@ -9,9 +9,11 @@
 import Foundation
 
 class EIEvaluator {
-    var globals : [String:EIParser.Function]
+    var parser: EIParser
+    var globals: [String: EINode]
     
-    enum EvaluatorError : Error {
+    
+    enum EvaluatorError: Error {
         case DivisionByZero
         case UnknownIdentifier
         case VariableShadowing
@@ -19,10 +21,12 @@ class EIEvaluator {
         case ConditionMustBeBool
         case UnsupportedOperation
         case NotImplemented
+        case TypeIsNotAFunction
     }
     
-    init () {
-        globals = [String:EIParser.Function]()
+    init() {
+        globals = [String: EINode]()
+        parser = EIParser()
     }
     
     /**
@@ -30,179 +34,316 @@ class EIEvaluator {
      Intended to be used in an Elm REPL.
      Declarations will be stored to the 'globals' dictionary.
      */
-    func interpret(_ text : String) throws -> EINode {
-        let ast = try EIParser(text: text).parse()
-        if let function = ast as? EIParser.Function {
-            // functions are added to the global scope
-            globals[function.name] = function
-            return ast
-        }
-        return try evaluate(ast, globals)
+    func interpret(_ text: String) throws -> EINode {
+        try parser.appendText(text: text)
+        let ast = try parser.parse()
+        let (result, _) = try evaluate(ast, globals)
+        return result
     }
     
-    func compile(_ text: String) throws -> EINode {
-        let parser = EIParser(text: text)
-        while (!parser.isDone()) {
-            let function = try parser.parseDeclaration()
-            globals[function.name] = function
-        }
-        // For now we will return the final value of the view variable
-        if let view = globals["view"] {
-            return try evaluate(view.body, globals)
-        } else {
-            throw EvaluatorError.NotImplemented
+    func compile(_ text: String) throws {
+        try parser.appendText(text: text)
+        while !parser.isDone() {
+            let decl = try parser.parseDeclaration()
+            print("\(decl)")
+            try evaluate(decl, globals)
         }
     }
     
     /**
-    Given an AST subtree 'evaluate' will attempt to find the value of the tree and return it as a Literal.
-    Note that a Literal is itself an ASTNode but it won't contain things like function calls / if then ... else ...
-    Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
+     Given an AST subtree 'evaluate' will attempt to evaluate (or at least simplify the tree).
+     It returns a 2-tuple (EINode, Bool) consisting respectively of the simplified tree and whether the tree could be evaluated.
+     Scope contains all the variable/functions that can be seen during this evaluation, including things at global scope.
+     If a variable is in scope but does not have a value is will be set to EIAST.NoValue.
      */
-    func evaluate(_ node : EINode, _ scope : [String:EIParser.Function]) throws -> EILiteral {
+    @discardableResult func evaluate(_ node: EINode, _ scope: [String: EINode]) throws -> (EINode, Bool) {
         switch node {
         case let literal as EILiteral:
-            return literal
-        case let unOp as EIParser.UnaryOp:
-            let operand = try evaluate(unOp.operand, scope)
+            return (literal, true)
+        case let unOp as EIAST.UnaryOp:
+            let (operand, isEvaluated) = try evaluate(unOp.operand, scope)
+            if !isEvaluated { return (EIAST.UnaryOp(operand: operand, type: unOp.type), false) }
             switch unOp.type {
             case .not:
-                let asBool = operand as? EIParser.Boolean
+                let asBool = operand as? EIAST.Boolean
                 guard asBool != nil else {
                     throw EvaluatorError.UnsupportedOperation
                 }
-                return EIParser.Boolean(!asBool!.value)
+                return (EIAST.Boolean(!asBool!.value), true)
             }
-        case let binOp as EIParser.BinaryOp:
-                // If one argument is a float convert both to float
-                // TODO: In the future we should should should instead have a 'numeric' type
-            var left = try evaluate(binOp.leftOperand, scope);
-            var right = try evaluate(binOp.rightOperand, scope);
+        case let binOp as EIAST.BinaryOp:
+            // TODO: In the future we should should should instead have a 'numeric' type
+            var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
+            var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
+            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
+            // TODO: Make this more general
+            if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
+                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
+                return (result, false)
+            }
             // handle case where both operands are booleans
-            if let leftBool = left as? EIParser.Boolean,
-               let rightBool = right as? EIParser.Boolean {
+            if let leftBool = left as? EIAST.Boolean,
+               let rightBool = right as? EIAST.Boolean
+            {
+                let result: EINode
                 switch binOp.type {
                 case .and:
-                    return EIParser.Boolean(leftBool.value && rightBool.value)
+                    result = EIAST.Boolean(leftBool.value && rightBool.value)
                 case .or:
-                    return EIParser.Boolean(leftBool.value || rightBool.value)
+                    result = EIAST.Boolean(leftBool.value || rightBool.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
-            guard (left as? EIParser.Boolean == nil && right as? EIParser.Boolean == nil) else {
+            guard left as? EIAST.Boolean == nil, right as? EIAST.Boolean == nil else {
                 // cannot perform binary op with one bool and one non-bool
                 throw EvaluatorError.UnsupportedOperation
             }
             // handle case where both operands are integers
-            if let leftInt = left as? EIParser.Integer,
-               let rightInt = right as? EIParser.Integer {
+            if let leftInt = left as? EIAST.Integer,
+               let rightInt = right as? EIAST.Integer
+            {
+                let result: EINode
                 switch binOp.type {
                 case .add:
-                    return EIParser.Integer(leftInt.value + rightInt.value)
+                    result = EIAST.Integer(leftInt.value + rightInt.value)
                 case .subtract:
-                    return EIParser.Integer(leftInt.value - rightInt.value)
+                    result = EIAST.Integer(leftInt.value - rightInt.value)
                 case .multiply:
-                    return EIParser.Integer(leftInt.value * rightInt.value)
+                    result = EIAST.Integer(leftInt.value * rightInt.value)
                 case .divide:
                     if rightInt.value == 0 { throw EvaluatorError.DivisionByZero }
-                    return EIParser.Integer(leftInt.value / rightInt.value)
+                    result = EIAST.FloatingPoint(Float(leftInt.value) / Float(rightInt.value))
                 case .eq:
-                    return EIParser.Boolean(leftInt.value == rightInt.value)
+                    result = EIAST.Boolean(leftInt.value == rightInt.value)
                 case .ne:
-                    return EIParser.Boolean(leftInt.value != rightInt.value)
+                    result = EIAST.Boolean(leftInt.value != rightInt.value)
                 case .le:
-                    return EIParser.Boolean(leftInt.value <= rightInt.value)
+                    result = EIAST.Boolean(leftInt.value <= rightInt.value)
                 case .ge:
-                    return EIParser.Boolean(leftInt.value >= rightInt.value)
+                    result = EIAST.Boolean(leftInt.value >= rightInt.value)
                 case .lt:
-                    return EIParser.Boolean(leftInt.value < rightInt.value)
+                    result = EIAST.Boolean(leftInt.value < rightInt.value)
                 case .gt:
-                    return EIParser.Boolean(leftInt.value > rightInt.value)
+                    result = EIAST.Boolean(leftInt.value > rightInt.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
             // handle case where at least one operand is not an integer
             // we cast any integers to floats
-            if let leftInt = left as? EIParser.Integer {
-                left = EIParser.FloatingPoint(Float(leftInt.value))
+            if let leftInt = left as? EIAST.Integer {
+                left = EIAST.FloatingPoint(Float(leftInt.value))
             }
-            if let rightInt = right as? EIParser.Integer {
-                right = EIParser.FloatingPoint(Float(rightInt.value))
+            if let rightInt = right as? EIAST.Integer {
+                right = EIAST.FloatingPoint(Float(rightInt.value))
             }
-            if let leftFloat = left as? EIParser.FloatingPoint,
-               let rightFloat = right as? EIParser.FloatingPoint {
+            if let leftFloat = left as? EIAST.FloatingPoint,
+               let rightFloat = right as? EIAST.FloatingPoint
+            {
+                let result: EINode
                 switch binOp.type {
                 case .add:
-                    return EIParser.FloatingPoint(leftFloat.value + rightFloat.value)
+                    result = EIAST.FloatingPoint(leftFloat.value + rightFloat.value)
                 case .subtract:
-                    return EIParser.FloatingPoint(leftFloat.value - rightFloat.value)
+                    result = EIAST.FloatingPoint(leftFloat.value - rightFloat.value)
                 case .multiply:
-                    return EIParser.FloatingPoint(leftFloat.value * rightFloat.value)
+                    result = EIAST.FloatingPoint(leftFloat.value * rightFloat.value)
                 case .divide:
                     if rightFloat.value == 0 { throw EvaluatorError.DivisionByZero }
-                    return EIParser.FloatingPoint(leftFloat.value / rightFloat.value)
+                    result = EIAST.FloatingPoint(leftFloat.value / rightFloat.value)
                 case .eq:
-                    return EIParser.Boolean(leftFloat.value == rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value == rightFloat.value)
                 case .ne:
-                    return EIParser.Boolean(leftFloat.value != rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value != rightFloat.value)
                 case .le:
-                    return EIParser.Boolean(leftFloat.value <= rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value <= rightFloat.value)
                 case .ge:
-                    return EIParser.Boolean(leftFloat.value >= rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value >= rightFloat.value)
                 case .lt:
-                    return EIParser.Boolean(leftFloat.value < rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value < rightFloat.value)
                 case .gt:
-                    return EIParser.Boolean(leftFloat.value > rightFloat.value)
+                    result = EIAST.Boolean(leftFloat.value > rightFloat.value)
                 default:
                     throw EvaluatorError.UnsupportedOperation
                 }
+                return (result, true)
             }
             // if we made it this far at least one operand is not an int or float
             throw EvaluatorError.NotImplemented
-        case let funcCall as EIParser.FunctionCall:
-            if let function = scope[funcCall.name] {
-                if function.parameters.count < funcCall.arguments.count {
-                    throw EvaluatorError.TooManyArguments
+        case let variable as EIAST.Variable:
+            let lookup: EINode? = scope[variable.name]
+            switch lookup {
+            case .some(let value):
+                if value as? EIAST.NoValue != nil {
+                    // variable is in scope but hasn't been assigned a value
+                    return (variable, false)
                 }
-                if function.parameters.count < funcCall.arguments.count {
-                    // TODO: Support partial function application
-                    // One way we could do this is by storing already set parameters
-                    throw EvaluatorError.NotImplemented
-                }
-                // map function parameters to funcCall arguments
-                var newScope = globals;
-                for i in 0..<function.parameters.count {
-                    let key = function.parameters[i]
-                    let value = try evaluate(funcCall.arguments[i], scope)
-                    if newScope[key] != nil {
-                        throw EvaluatorError.VariableShadowing
-                    }
-                    // note that variables are just treated as functions with no parameters
-                    newScope[key] = EIParser.Function(name: key, parameters: [], body: value)
-                }
-                return try evaluate(function.body, newScope)
-            } else {
+                // normal behavior
+                return (value, true)
+            default:
+                // unexpected variable
                 throw EvaluatorError.UnknownIdentifier
             }
-        case let ifElse as EIParser.IfElse:
+        case let decl as EIAST.Declaration:
+            var newScope = globals
+            // put declaration name in scope to support recursion
+            newScope[decl.name] = EIAST.NoValue()
+            let (body, bodyEvaled) = try evaluate(decl.body, newScope)
+            assert(bodyEvaled == true)
+            if globals[decl.name] != nil {
+                throw EvaluatorError.VariableShadowing
+            }
+            globals[decl.name] = body
+            return (EIAST.Declaration(name: decl.name, body: body), true)
+        case let typeDef as EIAST.TypeDefinition:
+            for constructor in typeDef.constructors {
+                let name = constructor.constructorName
+                let varname = "_COMPILER_CONSTRUCTOR_INTERNAL"
+                var vars = [EIAST.Variable]()
+                for i in 0..<constructor.typeParameters.count {
+                    vars.append(EIAST.Variable(name: "\(varname)\(i)"))
+                }
+                var node : EINode = EIAST.ConstructorInstance(constructorName: name, parameters: vars)
+                for element in vars.reversed() {
+                    node = EIAST.Function(parameter: element.name, body: node)
+                }
+                globals[name] = node
+            }
+            return (typeDef, true)
+        case _ as EIAST.ConstructorDefinition:
+            // This should never run
+            throw EvaluatorError.NotImplemented
+        case let inst as EIAST.ConstructorInstance:
+            var newParameters = [EINode]()
+            var evaled = true
+            for parameter in inst.parameters {
+                let (param, paramEvaled) = try evaluate(parameter, scope)
+                evaled = evaled && paramEvaled
+                newParameters.append(param)
+            }
+            return (EIAST.ConstructorInstance(constructorName: inst.constructorName, parameters: newParameters), evaled)
+        case let tuple as EIAST.Tuple:
+            let (val1, val1Evaled) = try evaluate(tuple.v1, scope)
+            let (val2, val2Evaled) = try evaluate(tuple.v2, scope)
+            var evaled = val1Evaled && val2Evaled
+            if tuple.v3 != nil {
+                let (val3, val3Evaled) = try evaluate(tuple.v3!, scope)
+                evaled = evaled && val3Evaled
+                return (EIAST.Tuple(val1, val2, val3), evaled)
+            }
+            return (EIAST.Tuple(val1, val2, nil), evaled)
+        case let list as EIAST.List:
+            var items = [EINode]()
+            var evaled = true
+            for item in list.items {
+                let (newItem, itemEvaled) = try evaluate(item, scope)
+                evaled = evaled && itemEvaled
+                items.append(newItem)
+            }
+            return (EIAST.List(items), evaled)
+        case let function as EIAST.Function:
+            var newScope = scope
+            newScope[function.parameter] = EIAST.NoValue()
+            let (body, _) = try evaluate(function.body, newScope)
+            let result = EIAST.Function(parameter: function.parameter, body: body)
+            return (result, true)
+        case let funcApp as EIAST.FunctionApplication:
+            let (node, functionEvaled) = try evaluate(funcApp.function, scope)
+            let (argument, argumentEvaled) = try evaluate(funcApp.argument, scope)
+            if !functionEvaled {
+                return (EIAST.FunctionApplication(function: node, argument: argument), false)
+            }
+            let function = node as? EIAST.Function
+            if function == nil {
+                throw EvaluatorError.TypeIsNotAFunction
+            }
+            let body = substitute(function!.body, function!.parameter, argument)
+            let (result, resultEvaled) = try evaluate(body, scope)
+            return (result, argumentEvaled && resultEvaled)
+        case let ifElse as EIAST.IfElse:
             assert(ifElse.branches.count == ifElse.conditions.count + 1)
-            for i in 0..<ifElse.conditions.count {
-                // evaluate ith condition
-                let condEvaluated = try evaluate(ifElse.conditions[i], scope) as? EIParser.Boolean
-                guard condEvaluated != nil else {
+            for i in 0 ..< ifElse.conditions.count {
+                let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
+                let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
+                
+                // check if anything could not be evaluated
+                if !condEvaluated || !branchEvaled { return (node, false) }
+                
+                // check if condition is non-bool
+                let conditionBool = condition as? EIAST.Boolean
+                guard conditionBool != nil else {
                     throw EvaluatorError.ConditionMustBeBool
                 }
                 // if it's true, result is ith branch
-                if condEvaluated!.value {
-                    return try evaluate(ifElse.branches[i], scope)
+                if conditionBool!.value {
+                    return (branch, true)
                 }
             }
-            // if no conditons are true we run the else logic
-            return try evaluate(ifElse.branches.last!, scope)
+            let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
+            if !elseBranchEvaled { return (node, false) }
+            return (elseBranch, true)
+        case _ as EIAST.NoValue:
+            return (EIAST.NoValue(), false)
         default:
             throw EvaluatorError.NotImplemented
         }
     }
+    
+    func substitute(_ node: EINode, _ variable: String, _ value: EINode) -> EINode {
+        switch node {
+        case let literal as EILiteral:
+            return literal
+        case let unOp as EIAST.UnaryOp:
+            let operand = substitute(unOp.operand , variable, value)
+            return EIAST.UnaryOp(operand: operand, type: unOp.type)
+        case let binOp as EIAST.BinaryOp:
+            let left = substitute(binOp.leftOperand, variable, value)
+            let right = substitute(binOp.rightOperand, variable, value)
+            return EIAST.BinaryOp(left, right, binOp.type)
+        case let vari as EIAST.Variable:
+            if vari.name == variable { return value }
+            return vari
+        case let decl as EIAST.Declaration:
+            return EIAST.Declaration(name: decl.name, body: substitute(decl.body, variable, value))
+        case let typeDef as EIAST.TypeDefinition:
+            return EIAST.TypeDefinition(
+                typeName: typeDef.typeName, typeVars: typeDef.typeVars,
+                constructors: typeDef.constructors.map{
+                    substitute($0, variable, value) as! EIAST.ConstructorDefinition
+                })
+        case let constDef as EIAST.ConstructorDefinition:
+            return EIAST.ConstructorDefinition(constructorName: constDef.constructorName,
+                                               typeParameters: constDef.typeParameters)
+        case let inst as EIAST.ConstructorInstance:
+            return EIAST.ConstructorInstance(constructorName: inst.constructorName,
+                                             parameters: inst.parameters.map{ substitute($0, variable, value) })
+        case let tuple as EIAST.Tuple:
+            return EIAST.Tuple(substitute(tuple.v1, variable, value),
+                               substitute(tuple.v2, variable, value),
+                               tuple.v3 != nil ? substitute(tuple.v3!, variable, value) : nil)
+        case let list as EIAST.List:
+            return EIAST.List(list.items.map{ substitute($0, variable, value) })
+        case let function as EIAST.Function:
+            return EIAST.Function(parameter: function.parameter, body: substitute(function.body, variable, value))
+        case let funcApp as EIAST.FunctionApplication:
+            return EIAST.FunctionApplication(function: substitute(funcApp.function, variable, value),
+                                             argument: substitute(funcApp.argument, variable, value))
+        case let ifElse as EIAST.IfElse:
+            return EIAST.IfElse(conditions: ifElse.conditions.map{substitute($0, variable, value)},
+                                branches: ifElse.branches.map{substitute($0, variable, value)})
+        case _ as EIAST.NoValue:
+            return EIAST.NoValue()
+        default:
+            // This will never run
+            assert(false);
+            return EIAST.NoValue()
+        }
+    }
+    
+    
 }
+
+

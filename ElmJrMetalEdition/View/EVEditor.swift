@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MetalKit
 
 protocol EVEditorDelegate {
     func didChangeTextEditorWidth(width: CGFloat)
@@ -15,6 +16,7 @@ protocol EVEditorDelegate {
     func didOpenProjects()
     func didLoadProject(project: EVProject)
     func didToggleMode(isProjectional: Bool)
+    func didUpdateScene(scene: EGScene)
 }
 
 class EVEditor {
@@ -29,6 +31,7 @@ class EVEditor {
     var isInProjectionalMode: Bool
     
     var ast: EINode?
+    var scene: EGScene
     
     var project: EVProject {
         return EVProjectManager.shared.projects[currentProjectInd]
@@ -40,6 +43,8 @@ class EVEditor {
         textEditorWidth = 500
         textEditorHeight = 500
         isInProjectionalMode = false
+        scene = EGScene()
+        run()
     }
     
     func subscribe(delegate: EVEditorDelegate) {
@@ -74,6 +79,7 @@ class EVEditor {
                 delegates.forEach({ $0.didLoadProject(project: project) })
             }
         }
+        run()
     }
     
     func toggleMode() {
@@ -82,16 +88,8 @@ class EVEditor {
     }
     
     func run() {
-        print("raw: --------")
-        print(project.sourceCode)
-        print("evaluation: ------")
-        let evaluator = EIEvaluator()
-        do {
-            let viewNode = try evaluator.compile(project.sourceCode)
-            print(viewNode)
-        } catch {
-            print("Error evaluating program: \(error)")
-        }
+        scene = compileWithLibraries(sourceCode: project.sourceCode)
+        delegates.forEach({ $0.didUpdateScene(scene: scene) })
     }
     
     func getAST() -> EINode? {
@@ -120,4 +118,30 @@ class EVEditor {
         setSourceCode(newSourceCode)
     }
     
+}
+
+func compileWithLibraries(sourceCode: String) -> EGScene{
+    do {
+        let toLoad = ["Maybe","Builtin","Base","API3D"]
+        var code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
+        code.append("\n"+sourceCode)
+        let evaluator = EIEvaluator()
+        try evaluator.compile(code)
+
+        guard let sceneNode = evaluator.globals["scene"] else { return EGScene() }
+        let scene = transpile(node: sceneNode) as! EGScene
+        scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
+        return scene
+
+    }
+    catch {
+        return EGScene()
+    }
+}
+
+func getElmFile(_ filename: String) throws -> String {
+    let bundle = Bundle.main
+    let path = bundle.path(forResource: filename, ofType: "elm")!
+    let data : Data = Data(referencing: try NSData(contentsOfFile: path))
+    return String(data: data, encoding: .utf8)!
 }

@@ -11,7 +11,7 @@ import simd
 import XCTest
 
 class EGTransformTests: XCTestCase {
-    var sceneProps: EGSceneProps!
+    var sceneProps = EGSceneProps()
     
     override func setUpWithError() throws {
         super.setUp()
@@ -22,110 +22,47 @@ class EGTransformTests: XCTestCase {
         )
     }
     
-    func testEGTranslationMatrix() throws {
-        let translate = EGTranslationMatrix()
-        translate.setTranslation(x: 1, y: 10.2, z: 32.1)
-        var expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: 1, y: 10.2, z: 32.1)
-        XCTAssert(translate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(translate.usesTime() == false)
+    func testEGTransformFunction() throws {
+        let translate = EGTransformFunction(
+            defaultValues: [1, 3, 4],
+            matrixFunction: { xyz in matrix_float4x4(translation: xyz) }
+        )
         
-        sceneProps.time = 1.22223
-        translate.setTranslation(
-            x: EGConstant(1.22),
-            y: EGTime(),
-            z: EGUnaryOp(type: .cos, child: EGTime())
-        )
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
-            x: 1.22,
-            y: sceneProps.time,
-            z: cos(sceneProps.time)
-        )
-        XCTAssert(translate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(translate.usesTime() == true)
+        // Default Values
+        XCTAssert(translate.equations.x.evaluate(sceneProps) == 1)
+        XCTAssert(translate.equations.y.evaluate(sceneProps) == 3)
+        XCTAssert(translate.equations.z.evaluate(sceneProps) == 4)
         
-        sceneProps.time = 2123.222
-        translate.setTranslation(
-            x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .tan, child: EGTime())),
-            y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .sin, child: EGConstant(1.22))),
-            z: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGTime()))
-        )
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(
-            x: cos(tan(sceneProps.time)),
-            y: sin(sin(1.22)),
-            z: cos(cos(sceneProps.time))
-        )
-        XCTAssert(translate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(translate.usesTime() == true)
-    }
-    
-    func testEGRotationMatrix() throws {
-        let rotate = EGRotationMatrix()
-        rotate.setRotation(x: 1, y: 2, z: 300)
-        var expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: 1)
-            * EGMatrixBuilder.createYRotationMatrix(radians: 2)
-            * EGMatrixBuilder.createZRotationMatrix(radians: 300)
-        XCTAssert(rotate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(rotate.usesTime() == false)
+        translate.set(x: 3, y: 3, z: 5)
+        XCTAssert(translate.evaluate(sceneProps) == matrix_float4x4(translation: [3, 3, 5]))
         
-        sceneProps.time = 21.3
-        rotate.setRotation(
-            x: EGConstant(2),
-            y: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .cos, child: EGTime())),
-            z: EGBinaryOp(type: .add, leftChild: EGUnaryOp(type: .tan, child: EGTime()), rightChild: EGTime())
+        translate.set(
+            x: EGBinaryOp(
+                type: .add,
+                leftChild: EGTime(),
+                rightChild: EGConstant(4)
+            ),
+            y: EGUnaryOp(type: .sin, child: EGConstant(0.22)),
+            z: EGConstant(10)
         )
-        expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: 2)
-            * EGMatrixBuilder.createYRotationMatrix(radians: sin(cos(sceneProps.time)))
-            * EGMatrixBuilder.createZRotationMatrix(radians: tan(sceneProps.time) + sceneProps.time)
-        XCTAssert(rotate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(rotate.usesTime() == true)
+        XCTAssert(translate.evaluate(sceneProps) == matrix_float4x4(translation: [sceneProps.time + 4, sin(0.22), 10]))
         
-        sceneProps.time = 2000.333
-        rotate.setRotation(
-            x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGBinaryOp(type: .add, leftChild: EGTime(), rightChild: EGConstant(1)))),
-            y: EGBinaryOp(type: .sub, leftChild: EGTime(), rightChild: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .cos, child: EGConstant(12)))),
-            z: EGConstant(232)
+        translate.set(
+            x: EGBinaryOp(
+                type: .add,
+                leftChild: EGTime(),
+                rightChild: EGBinaryOp(
+                    type: .mul,
+                    leftChild: EGTime(),
+                    rightChild: EGConstant(5)
+                )
+            ),
+            y: EGUnaryOp(type: .sin, child: EGConstant(0.22)),
+            z: EGConstant(10)
         )
-        expectedMatrix = EGMatrixBuilder.createXRotationMatrix(radians: cos(sin(sceneProps.time + 1)))
-            * EGMatrixBuilder.createYRotationMatrix(radians: sceneProps.time - sin(cos(12)))
-            * EGMatrixBuilder.createZRotationMatrix(radians: 232)
-        XCTAssert(rotate.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(rotate.usesTime() == true)
-    }
-    
-    func testEGScaleMatrix() throws {
-        let scale = EGScaleMatrix()
-        scale.setScale(x: 1, y: 2, z: 3)
-        var expectedMatrix = EGMatrixBuilder.createScaleMatrix(x: 1, y: 2, z: 3)
-        XCTAssert(scale.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(scale.usesTime() == false)
-        
-        sceneProps.time = 123.2222
-        scale.setScale(
-            x: EGConstant(10.22),
-            y: EGUnaryOp(type: .cos, child: EGTime()),
-            z: EGUnaryOp(type: .sin, child: EGTime())
+        XCTAssert(
+            translate.evaluate(sceneProps) == matrix_float4x4(translation: [sceneProps.time + (sceneProps.time * 5), sin(0.22), 10])
         )
-        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
-            x: 10.22,
-            y: cos(sceneProps.time),
-            z: sin(sceneProps.time)
-        )
-        XCTAssert(scale.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(scale.usesTime() == true)
-    
-        sceneProps.time = 111.2222
-        scale.setScale(
-            x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGTime())),
-            y: EGUnaryOp(type: .tan, child: EGTime()),
-            z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .tan, child: EGConstant(2.33)))
-        )
-        expectedMatrix = EGMatrixBuilder.createScaleMatrix(
-            x: cos(sin(sceneProps.time)),
-            y: tan(sceneProps.time),
-            z: sin(tan(2.33))
-        )
-        XCTAssert(scale.evaluate(sceneProps) == expectedMatrix)
-        XCTAssert(scale.usesTime() == true)
     }
     
     func testEGTransformProperty() throws {
@@ -133,7 +70,7 @@ class EGTransformTests: XCTestCase {
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
         
-        transform.translate.setTranslation(
+        transform.translate.set(
             x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGConstant(12))),
             y: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .tan, child: EGConstant(8))),
             z: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGConstant(311)))
@@ -141,10 +78,11 @@ class EGTransformTests: XCTestCase {
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
         var transformationMatrix = transform.transformationMatrix(sceneProps)
-        var expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(12)), y: cos(tan(8)), z: abs(sin(311)))
+        var expectedMatrix = matrix_float4x4(translation: [cos(sin(12)), cos(tan(8)), abs(sin(311))])
+        print("got: \(transformationMatrix)\n\nwant: \(expectedMatrix)")
         XCTAssert(transformationMatrix == expectedMatrix)
         
-        transform.translate.setTranslation(
+        transform.translate.set(
             x: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .sin, child: EGConstant(1.12))),
             y: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .tan, child: EGConstant(88))),
             z: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGConstant(3)))
@@ -152,19 +90,19 @@ class EGTransformTests: XCTestCase {
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
         transformationMatrix = transform.transformationMatrix(sceneProps)
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
+        expectedMatrix = matrix_float4x4(translation: [cos(sin(1.12)), cos(tan(88)), abs(sin(3))])
         XCTAssert(transformationMatrix == expectedMatrix)
     
-        transform.rotate.setRotation(x: 1, y: 2, z: 3)
+        transform.rotate.set(x: 1, y: 2, z: 3)
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == true)
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
-            * EGMatrixBuilder.createRotationMatrix(x: 1, y: 2, z: 3)
+        expectedMatrix = matrix_float4x4(translation: [cos(sin(1.12)), cos(tan(88)), abs(sin(3))])
+            * matrix_float4x4(rotation: [1, 2, 3])
         transformationMatrix = transform.transformationMatrix(sceneProps)
         XCTAssert(transformationMatrix == expectedMatrix)
         
         sceneProps.time = 122
-        transform.scale.setScale(
+        transform.scale.set(
             x: EGUnaryOp(type: .sin, child: EGTime()),
             y: EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGTime())),
             z: EGUnaryOp(type: .sin, child: EGTime())
@@ -172,16 +110,16 @@ class EGTransformTests: XCTestCase {
         transform.checkIfStatic()
         XCTAssert(transform.isStatic == false)
         transformationMatrix = transform.transformationMatrix(sceneProps)
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
-            * EGMatrixBuilder.createRotationMatrix(x: 1, y: 2, z: 3)
-            * EGMatrixBuilder.createScaleMatrix(x: sin(sceneProps.time), y: cos(cos(sceneProps.time)), z: sin(sceneProps.time))
+        expectedMatrix = matrix_float4x4(translation: [cos(sin(1.12)), cos(tan(88)), abs(sin(3))])
+            * matrix_float4x4(rotation: [1, 2, 3])
+            * matrix_float4x4(scale: [sin(sceneProps.time), cos(cos(sceneProps.time)), sin(sceneProps.time)])
         XCTAssert(transformationMatrix == expectedMatrix)
         
         sceneProps.time = 15885
         transformationMatrix = transform.transformationMatrix(sceneProps)
-        expectedMatrix = EGMatrixBuilder.createTranslationMatrix(x: cos(sin(1.12)), y: cos(tan(88)), z: abs(sin(3)))
-            * EGMatrixBuilder.createRotationMatrix(x: 1, y: 2, z: 3)
-            * EGMatrixBuilder.createScaleMatrix(x: sin(sceneProps.time), y: cos(cos(sceneProps.time)), z: sin(sceneProps.time))
+        expectedMatrix = matrix_float4x4(translation: [cos(sin(1.12)), cos(tan(88)), abs(sin(3))])
+            * matrix_float4x4(rotation: [1, 2, 3])
+            * matrix_float4x4(scale: [sin(sceneProps.time), cos(cos(sceneProps.time)), sin(sceneProps.time)])
         XCTAssert(transformationMatrix == expectedMatrix)
     }
 }

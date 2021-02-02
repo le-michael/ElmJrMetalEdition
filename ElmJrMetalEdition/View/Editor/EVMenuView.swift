@@ -15,16 +15,16 @@ struct StoreSection {
 
 var store = [
     StoreSection(name: "numbers", nodes: [
-        EIParser.Integer(1),
-        EIParser.BinaryOp(
-            EIParser.Integer(1),
-            EIParser.Integer(1),
+        EIAST.Integer(1),
+        EIAST.BinaryOp(
+            EIAST.Integer(1),
+            EIAST.Integer(1),
             .add
         ),
     ]),
     StoreSection(name: "conditions", nodes: [
-        EIParser.Boolean(true),
-        EIParser.Boolean(false),
+        EIAST.Boolean(true),
+        EIAST.Boolean(false),
     ]),
 ]
 
