@@ -39,6 +39,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "GraphicsTranspilerTests/testThreeDee()">
+               </Test>
+               <Test
                   Identifier = "InterpreterTests/testParseVariable()">
                </Test>
                <Test

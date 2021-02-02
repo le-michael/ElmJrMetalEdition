@@ -28,7 +28,7 @@ class EVGraphicsView: UIView {
         mtkView.device = MTLCreateSystemDefaultDevice()
 
         renderer = EGRenderer(view: mtkView)
-        renderer.use(scene: EGDemoScenes.snowman())
+        renderer.use(scene: EGDemoScenes.run3DTest())
         
         mtkView.delegate = renderer
 
