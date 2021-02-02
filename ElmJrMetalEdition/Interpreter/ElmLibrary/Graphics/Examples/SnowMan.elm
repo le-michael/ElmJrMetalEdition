@@ -45,4 +45,4 @@ lights =
     , AmbientLight (RGB 1 1 1) 0.5
     ]
 
-scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) lights myShapes
+scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB 1 1 1) lights myShapes

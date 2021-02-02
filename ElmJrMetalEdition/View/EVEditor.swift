@@ -72,6 +72,7 @@ class EVEditor {
                 delegates.forEach({ $0.didLoadProject(project: project) })
             }
         }
+        run()
     }
     
     func run() {
@@ -89,9 +90,11 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
         let evaluator = EIEvaluator()
         try evaluator.compile(code)
 
-        let scene = transpile(node: (evaluator.globals["scene"]!)) as! EGScene
+        guard let sceneNode = evaluator.globals["scene"] else { return EGScene() }
+        let scene = transpile(node: sceneNode) as! EGScene
         scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
         return scene
+
     }
     catch {
         return EGScene()
