@@ -62,3 +62,6 @@ scale s shape =
 scaleAll : Float -> Shape -> Shape
 scaleAll s shape =
     scale (s, s, s) shape
+
+group : List Shape -> Shape
+group shapes = Group shapes
