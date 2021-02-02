@@ -29,6 +29,8 @@ class EVContainerViewController: UIViewController {
         view.insertSubview(menuViewController.view, at: 0)
         addChild(editorViewController)
         addChild(menuViewController)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func animateEditorToXPosition(_ x: CGFloat) {
