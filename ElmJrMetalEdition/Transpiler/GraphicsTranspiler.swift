@@ -23,9 +23,6 @@ func transpile(node: EINode) -> EGGraphicsNode{
 //    case let _ as EIAST.BinaryOp:
 //        break
     
-    case let inst as EIAST.Function:
-        return transpile(node: inst.body)
-        break
     
     case let inst as EIAST.ConstructorInstance:
         switch inst.constructorName {
