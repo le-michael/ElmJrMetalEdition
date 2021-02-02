@@ -7,10 +7,12 @@
 //
 
 import Foundation
+
 func transpile(node: EINode) -> EGGraphicsNode{
     let scene = EGScene()
     var shapes = [EGGraphicsNode]()
     var lightingDone = false
+        
     switch node {
 //    case let _ as EILiteral:
 //        break
@@ -20,6 +22,8 @@ func transpile(node: EINode) -> EGGraphicsNode{
 //
 //    case let _ as EIAST.BinaryOp:
 //        break
+    
+    
     case let inst as EIAST.ConstructorInstance:
         switch inst.constructorName {
         
@@ -38,7 +42,6 @@ func transpile(node: EINode) -> EGGraphicsNode{
                     //need a way to figure out if list of lighting
                     if(!lightingDone){
                         lightingDone = true
-                        print("Dealing with lighting")
                         lightingHelper(list: list, scene: scene)
                     }
                     else{
@@ -197,7 +200,6 @@ func transformHelper(shape: EGGraphicsNode, transform: [Float], transformType: S
         case "Translate":
             cylinder.transform.translate.set(x: transform[0], y: transform[1], z: transform[2])
         case "Scale":
-            print(transformType, transform)
             cylinder.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
         case "Rotate3D":
             cylinder.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1], z: transform[2])
@@ -373,7 +375,6 @@ func cameraHelper(node: EINode, scene: EGScene){
     if arcball {
         camera = EGArcballCamera(distance: distance, target: target)
         scene.camera = camera
-        print("Set Arcball Camera with", distance, target)
     }
     else{
         camera = sceneTransformHelper(camera: camera, transform: transform, transformType: transformType)
@@ -411,7 +412,6 @@ func directionalLightHelper(node: EINode, scene: EGScene){
         break
     }
     scene.lights.append(EGLight.directional(color: color, position: position, intensity: 0 , specularColor: specularColor))
-    print("Set directional lighitng with", color, position, specularColor)
 }
 
 func ambientLightHelper(node: EINode, scene: EGScene){
@@ -433,7 +433,6 @@ func ambientLightHelper(node: EINode, scene: EGScene){
     default:
         break
     }
-    print("Set ambient light with", color, intensity)
     scene.lights.append(EGLight.ambient(color: color, intensity:intensity))
 }
 

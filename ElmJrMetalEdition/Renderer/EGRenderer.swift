@@ -73,7 +73,6 @@ class EGRenderer: NSObject {
 extension EGRenderer: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         guard let scene = scene else { return }
-        
         scene.setDrawableSize(size: size)
     }
     
@@ -89,7 +88,7 @@ extension EGRenderer: MTKViewDelegate {
         commandEnconder?.setDepthStencilState(depthStencilState)
         
         scene.draw(commandEncoder: commandEnconder!, pipelineStates: pipelineStates)
-        
+
         commandEnconder?.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()

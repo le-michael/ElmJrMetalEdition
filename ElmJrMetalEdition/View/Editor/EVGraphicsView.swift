@@ -17,6 +17,7 @@ class EVGraphicsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        EVEditor.shared.subscribe(delegate: self)
         backgroundColor = .black
         addSubview(mtkView)
         mtkView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +29,7 @@ class EVGraphicsView: UIView {
         mtkView.device = MTLCreateSystemDefaultDevice()
 
         renderer = EGRenderer(view: mtkView)
-        renderer.use(scene: EGDemoScenes.run3DTest())
+        renderer.use(scene: EVEditor.shared.scene)
         
         mtkView.delegate = renderer
 
@@ -66,4 +67,24 @@ class EVGraphicsView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension EVGraphicsView: EVEditorDelegate {
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeTextEditorHeight(height: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didOpenProjects() {}
+    
+    func didLoadProject(project: EVProject) {}
+    
+    func didUpdateScene(scene: EGScene) {
+        renderer.use(scene: scene)
+        guard let scene = renderer.scene else { return }
+        scene.setDrawableSize(size: mtkView.frame.size)
+    }
+    
+    
 }

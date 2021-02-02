@@ -82,13 +82,11 @@ class EVProjectMenuViewController: UIViewController {
 
 extension EVProjectMenuViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        print("1")
         return CGSize(width:200, height:200)
     }
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        print("2")
 
         if section == 1 {
             return CGSize(width:200, height:0)

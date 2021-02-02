@@ -96,6 +96,8 @@ extension EVTextEditorView: UITextViewDelegate {
 }
 
 extension EVTextEditorView: EVEditorDelegate {
+    func didUpdateScene(scene: EGScene) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}
