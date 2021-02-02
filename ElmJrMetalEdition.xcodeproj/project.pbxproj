@@ -311,6 +311,7 @@
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D9294D6825C91E7C005FEBB9 /* SnowMan.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = SnowMan.elm; sourceTree = "<group>"; };
+		D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElmJrMetalEdition.entitlements; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
 		D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVSectionHeaderView.swift; sourceTree = "<group>"; };
@@ -727,6 +728,7 @@
 		D95DF1EE251BDD1900F9457F /* ElmJrMetalEdition */ = {
 			isa = PBXGroup;
 			children = (
+				D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */,
 				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				D98A8C7225A02AAB00FA3539 /* View */,
 				1072E3E22564C3BF00D390FE /* Interpreter */,
@@ -1268,9 +1270,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ElmJrMetalEdition/ElmJrMetalEdition.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1279,6 +1282,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Michael.com.ElmJrMetalEdition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1288,9 +1292,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ElmJrMetalEdition/ElmJrMetalEdition.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1299,6 +1304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Michael.com.ElmJrMetalEdition;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -32,11 +32,15 @@ myShapes time =
         |> color (rgb 0.1 0.1 0.1)
         |> scale (0.25, 0.2, 0.25)
         |> move (0, 2.90, 0)
-    --, cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.55, 1.65, 0) |> rotate (0, 0, (45-15)+(15*sin (time * 8)))
     , cylinder
         |> color (rgb (150/255) (70/255) 0)
         |> scale (0.05, 0.8, 0.05)
-        |> move (-0.67, 1.3, 0)
+        |> move (-0.55, 1.65, 0)
+        |> rotate (0, 0, 45)
+    , cylinder
+        |> color (rgb (150/255) (70/255) 0)
+        |> scale (0.05, 0.8, 0.05)
+        |> move (0.67, 1.3, 0)
         |> rotate (0, 0, 35)
     ]
 

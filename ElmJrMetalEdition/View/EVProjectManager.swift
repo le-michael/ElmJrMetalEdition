@@ -25,9 +25,9 @@ class EVProjectManager {
         if projects.count == 0 {
             projects.append(EVProject(title: "New Project", sourceCode: ""))
         }
-        if !projectExists("SnowManDemo") {
+        if !projectExists("Snow Man Demo") {
             let code = try! getElmFile("SnowMan")
-            projects.append(EVProject(title: "SnowManDemo", sourceCode: code))
+            projects.append(EVProject(title: "Snow Man Demo", sourceCode: code))
         }
     }
     
