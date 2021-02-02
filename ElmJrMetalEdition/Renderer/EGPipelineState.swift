@@ -51,7 +51,8 @@ class EGPipelineState {
         primitiveVertexDescriptor.attributes[1].offset = offset
         primitiveVertexDescriptor.attributes[1].bufferIndex = 0
         
-        primitiveVertexDescriptor.layouts[0].stride = MemoryLayout<EGVertex.Primitive>.stride
+        offset += MemoryLayout<simd_float3>.stride
+        primitiveVertexDescriptor.layouts[0].stride = offset
         
         primitivePipelineDescriptor.vertexDescriptor = primitiveVertexDescriptor
         primitivePipelineDescriptor.depthAttachmentPixelFormat = .depth32Float

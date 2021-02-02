@@ -185,7 +185,7 @@ func transformHelper(shape: EGGraphicsNode, transform: [Float], transformType: S
     if let capsule = shape as? EGCapsule {
         switch transformType{
         case "Rotate3D":
-            capsule.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1], z: transform[2])
+            capsule.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1].degreesToRadians, z: transform[2].degreesToRadians)
         case "Scale":
             capsule.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
         case "Translate":
@@ -202,7 +202,7 @@ func transformHelper(shape: EGGraphicsNode, transform: [Float], transformType: S
         case "Scale":
             cylinder.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
         case "Rotate3D":
-            cylinder.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1], z: transform[2])
+            cylinder.transform.rotate.set(x: transform[0].degreesToRadians, y: transform[1].degreesToRadians, z: transform[2].degreesToRadians)
         default:
             break
         }
