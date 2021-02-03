@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10014B9B25C83FF60009C192 /* EGGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10014B9A25C83FF60009C192 /* EGGroup.swift */; };
 		10126A96257600B6001659B3 /* EGPipelineState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10126A95257600B6001659B3 /* EGPipelineState.swift */; };
 		101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101AE71C256784200083704C /* EGMathNodesTests.swift */; };
 		101D0826256C6BD6008F5A0D /* EGTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D0825256C6BD6008F5A0D /* EGTransformTests.swift */; };
@@ -178,6 +179,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10014B9A25C83FF60009C192 /* EGGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGGroup.swift; sourceTree = "<group>"; };
 		10126A95257600B6001659B3 /* EGPipelineState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGPipelineState.swift; sourceTree = "<group>"; };
 		101AE70F256783D70083704C /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		101AE713256783D70083704C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				1028E01A25632BAE00C4DBFA /* EGScene.swift */,
 				1072E3F12565979D00D390FE /* EGBufferDataBuilder.swift */,
 				10C3739B25AF795D0011DF97 /* EGLight.swift */,
+				10014B9A25C83FF60009C192 /* EGGroup.swift */,
 			);
 			path = GraphicsNodes;
 			sourceTree = "<group>";
@@ -1040,6 +1043,7 @@
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
 				D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */,
+				10014B9B25C83FF60009C192 /* EGGroup.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
 				5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */,
 				10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */,

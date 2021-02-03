@@ -535,8 +535,8 @@ class EGDemoScenes {
         scene.lights.append(
             EGLight.directional(color: [0.6, 0.6, 0.6], position: [1, 2, 2], intensity: 0, specularColor: [0.1, 0.1, 0.1])
         )
-        scene.lights.append(EGLight.ambient(color: [1 , 1, 1], intensity: 0.5))
-        
+        scene.lights.append(EGLight.ambient(color: [1, 1, 1], intensity: 0.5))
+
         let top = EGSphere()
         top.smoothIntensity = 0.5
         top.transform.translate.set(x: 0, y: 2.25, z: 0)
@@ -574,19 +574,25 @@ class EGDemoScenes {
         nose.submeshColorMap[0] = EGColorProperty(r: 252/255, g: 174/255, b: 101/255, a: 1)
         scene.add(nose)
 
+        let hat = EGGroup()
+        hat.transform.translate.set(x: 0.2, y: 2.75, z: 0)
+        hat.transform.rotate.set(x: EGConstant(0), y: EGConstant(0), z: EGConstant(Float(-25).degreesToRadians))
+        hat.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
+        scene.add(hat)
+
         let hatRim = EGCylinder()
         hatRim.transform.scale.set(x: 0.35, y: 0.02, z: 0.35)
-        hatRim.transform.translate.set(x: 0, y: 2.70, z: 0)
+        hatRim.transform.translate.set(x: 0, y: -0.1, z: 0)
         hatRim.smoothIntensity = 0.5
         hatRim.submeshColorMap[0] = EGColorProperty(r: 0.1, g: 0.1, b: 0.1, a: 1)
-        scene.add(hatRim)
+        hat.add(hatRim)
 
         let hatTop = EGCylinder()
         hatTop.transform.scale.set(x: 0.25, y: 0.2, z: 0.25)
-        hatTop.transform.translate.set(x: 0, y: 2.90, z: 0)
+        hatTop.transform.translate.set(x: 0, y: 0.1, z: 0)
         hatTop.smoothIntensity = 0.5
         hatTop.submeshColorMap[0] = EGColorProperty(r: 0.1, g: 0.1, b: 0.1, a: 1)
-        scene.add(hatTop)
+        hat.add(hatTop)
 
         let wave = EGBinaryOp(
             type: .add,

@@ -38,11 +38,7 @@ class EGTransformProperty {
             && !scale.usesTime()
 
         if isStatic {
-            let sceneProps = EGSceneProps(
-                projectionMatrix: matrix_identity_float4x4,
-                viewMatrix: matrix_identity_float4x4,
-                time: 0
-            )
+            let sceneProps = EGSceneProps()
             cachedMatrix = translate.evaluate(sceneProps)
                 * rotate.evaluate(sceneProps)
                 * scale.evaluate(sceneProps)
