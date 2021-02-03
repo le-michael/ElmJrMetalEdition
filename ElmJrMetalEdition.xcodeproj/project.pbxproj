@@ -58,7 +58,6 @@
 		10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3736925AE676E0011DF97 /* EGTransformFunction.swift */; };
 		10C3739C25AF795D0011DF97 /* EGLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C3739B25AF795D0011DF97 /* EGLight.swift */; };
 		10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */; };
-		10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C537782591425D008EB60F /* EGVertexUniforms.swift */; };
 		10EF452625B6138700C037AB /* bed.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452425B6138700C037AB /* bed.obj */; };
 		10EF452725B6138700C037AB /* bed.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF452525B6138700C037AB /* bed.mtl */; };
 		10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10EF452A25B650E500C037AB /* EGModelMesh.swift */; };
@@ -233,7 +232,6 @@
 		10C3736925AE676E0011DF97 /* EGTransformFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTransformFunction.swift; sourceTree = "<group>"; };
 		10C3739B25AF795D0011DF97 /* EGLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGLight.swift; sourceTree = "<group>"; };
 		10C373B325AFA9C80011DF97 /* EGVertexDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexDescriptor.swift; sourceTree = "<group>"; };
-		10C537782591425D008EB60F /* EGVertexUniforms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGVertexUniforms.swift; sourceTree = "<group>"; };
 		10EF452425B6138700C037AB /* bed.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.obj; sourceTree = "<group>"; };
 		10EF452525B6138700C037AB /* bed.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bed.mtl; sourceTree = "<group>"; };
 		10EF452A25B650E500C037AB /* EGModelMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGModelMesh.swift; sourceTree = "<group>"; };
@@ -495,7 +493,6 @@
 			children = (
 				105CCEF325768B30006A6634 /* Mesh */,
 				105CCEFD257692B3006A6634 /* EGVertex.swift */,
-				10C537782591425D008EB60F /* EGVertexUniforms.swift */,
 				10A0BB9C2575F91F001CD1F8 /* EGPoint2D.swift */,
 				105CCF0E25769668006A6634 /* EGSceneProps.swift */,
 				105CCF122576968B006A6634 /* EGBufferData.swift */,
@@ -1046,7 +1043,6 @@
 				10014B9B25C83FF60009C192 /* EGGroup.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
 				5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */,
-				10C537792591425D008EB60F /* EGVertexUniforms.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,
@@ -1277,7 +1273,7 @@
 				CODE_SIGN_ENTITLEMENTS = ElmJrMetalEdition/ElmJrMetalEdition.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H5DZJH27JD;
+				DEVELOPMENT_TEAM = HV6P8SW3SC;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1299,7 +1295,7 @@
 				CODE_SIGN_ENTITLEMENTS = ElmJrMetalEdition/ElmJrMetalEdition.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H5DZJH27JD;
+				DEVELOPMENT_TEAM = HV6P8SW3SC;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
