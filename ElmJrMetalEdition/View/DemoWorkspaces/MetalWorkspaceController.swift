@@ -24,10 +24,11 @@ class MetalWorkspaceController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
 
-        let scene = EGDemoScenes.spinningFan()
+        let scene = EGDemoScenes.pointField()
 
-        mtkView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
-        renderer = EGRenderer(view: mtkView, scene: scene)
+
+        renderer = EGRenderer(view: mtkView)
+        renderer.use(scene: scene)
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
