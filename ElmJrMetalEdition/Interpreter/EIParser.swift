@@ -365,18 +365,17 @@ class EIParser {
     }
     
     func cattitiveExpression() throws -> EINode {
-        var result = try additiveExpression()
-        while true {
-            switch token.type {
-            case .plusplus:
-                advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .concatenate)
-            case .coloncolon:
-                advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .push_left)
-            default:
-                return result
-            }
+        let result = try additiveExpression()
+        // These operators are right associative
+        switch token.type {
+        case .plusplus:
+            advance()
+            return EIAST.BinaryOp(result, try cattitiveExpression(), .concatenate)
+        case .coloncolon:
+            advance()
+            return EIAST.BinaryOp(result, try cattitiveExpression(), .push_left)
+        default:
+            return result
         }
     }
     

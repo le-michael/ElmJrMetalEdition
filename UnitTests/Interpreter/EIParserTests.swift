@@ -113,6 +113,11 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("[1,2,3,4] ++ [5,6,7,8]", "([1, 2, 3, 4]++[5, 6, 7, 8])")
     }
     
+    func testListPushLeft() throws {
+        try checkASTExpression("1::[]", "(1::[])")
+        try checkASTExpression("1::2::[]", "(1::(2::[]))")
+    }
+    
     func testStringCat() throws {
         // TODO: I just realized I never implemented strings.
         // These tests should be enabled when we have string support
