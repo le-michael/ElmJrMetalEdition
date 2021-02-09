@@ -50,6 +50,12 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("5.0/2", "2.5")
     }
     
+    func testListConcatenation() throws {
+        try checkEvaluateExpression("[1,2]++[3]", "[1,2,3]")
+        try checkEvaluateExpression("[1]++[2]++[3]", "[1,2,3]")
+        try checkEvaluateExpression("[1,2]++[3,4]", "[1,2,3,4]")
+    }
+    
     func testEqualityOperators() throws {
         try checkEvaluateExpression("1 == 1", "True")
         try checkEvaluateExpression("1 == 2", "False")
