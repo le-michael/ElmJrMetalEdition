@@ -56,6 +56,10 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("[1,2]++[3,4]", "[1,2,3,4]")
     }
     
+    func testListPushLeft() throws {
+        try checkEvaluateExpression("1::[]", "[1]")
+    }
+    
     func testEqualityOperators() throws {
         try checkEvaluateExpression("1 == 1", "True")
         try checkEvaluateExpression("1 == 2", "False")

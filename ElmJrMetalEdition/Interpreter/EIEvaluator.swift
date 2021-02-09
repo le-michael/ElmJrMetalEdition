@@ -92,7 +92,7 @@ class EIEvaluator {
             }
             
             // support list push_left
-            if binOp.type == .concatenate {
+            if binOp.type == .push_left {
                 if let rightList = right as? EIAST.List
                 {
                     return (EIAST.List([left] + rightList.items), true)
