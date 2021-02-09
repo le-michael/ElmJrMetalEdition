@@ -76,26 +76,28 @@ class EIEvaluator {
             var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
             var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
             if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
-            // TODO: Make this more general
-            if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
-                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
-                return (result, false)
-            }
-            // support list concatenation
-            if binOp.type == .concatenate {
-                if let leftList = left as? EIAST.List,
-                   let rightList = right as? EIAST.List
-                {
-                    return (EIAST.List(leftList.items + rightList.items), true)
-                }
-                throw EvaluatorError.NotImplemented
-            }
             
             // support list push_left
             if binOp.type == .push_left {
                 if let rightList = right as? EIAST.List
                 {
                     return (EIAST.List([left] + rightList.items), true)
+                }
+                throw EvaluatorError.NotImplemented
+            }
+            
+            // TODO: Make this more general (Note: This is for supporting things like math functions
+            if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
+                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
+                return (result, false)
+            }
+            
+            // support list concatenation
+            if binOp.type == .concatenate {
+                if let leftList = left as? EIAST.List,
+                   let rightList = right as? EIAST.List
+                {
+                    return (EIAST.List(leftList.items + rightList.items), true)
                 }
                 throw EvaluatorError.NotImplemented
             }
