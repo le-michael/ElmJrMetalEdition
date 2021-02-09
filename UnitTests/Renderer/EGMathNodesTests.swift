@@ -15,11 +15,7 @@ class EGMathNodesTests: XCTestCase {
 
     override func setUpWithError() throws {
         super.setUp()
-        sceneProps = EGSceneProps(
-            projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4,
-            time: 0
-        )
+        sceneProps = EGSceneProps()
     }
 
     func testEGConstant() throws {
@@ -52,11 +48,9 @@ class EGMathNodesTests: XCTestCase {
         XCTAssert(cosEq.evaluate(sceneProps) == cos(1.2))
         XCTAssert(cosEq.usesTime() == false)
         
-        
         let tanEq = EGUnaryOp(type: .tan, child: EGConstant(1.23))
         XCTAssert(tanEq.evaluate(sceneProps) == tan(1.23))
         XCTAssert(tanEq.usesTime() == false)
-        
         
         let nestedEq = EGUnaryOp(type: .cos, child: EGUnaryOp(type: .cos, child: EGConstant(1.222)))
         XCTAssert(nestedEq.evaluate(sceneProps) == cos(cos(1.222)))
