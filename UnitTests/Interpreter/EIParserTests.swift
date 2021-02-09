@@ -106,6 +106,20 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("[1,2,3,4,5,6]", "[1, 2, 3, 4, 5, 6]")
     }
     
+    func testListCat() throws {
+        try checkASTExpression("[] :: []", "([]::[])")
+        try checkASTExpression("[] :: [1,2]", "([]::[1, 2])")
+        try checkASTExpression("[True, False] :: []", "([True, False]::[])")
+        try checkASTExpression("[1,2,3,4] :: [5,6,7,8]", "([1, 2, 3, 4]::[5, 6, 7, 8])")
+    }
+    
+    func testStringCat() throws {
+        // TODO: I just realized I never implemented strings.
+        // These tests should be enabled when we have string support
+        // try checkASTExpression("\"cat\" ++ \"dog\"", "(\"cat\"++\"dog\")")
+        // try checkASTExpression("\"a\" ++ \"b\" ++ \"c\"", "((\"a\"++\"b\") ++ \"c\")")
+    }
+    
     func testFuncAnnotation() throws {
         try checkASTDeclaration("f : Int -> Int \n f x = x + 1", "f = (\\x -> (x+1))")
         try checkASTDeclaration("f : Int -> List Int \n f x = [x]", "f = (\\x -> [x])")
