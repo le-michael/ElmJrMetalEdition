@@ -15,11 +15,7 @@ class EGTransformTests: XCTestCase {
     
     override func setUpWithError() throws {
         super.setUp()
-        sceneProps = EGSceneProps(
-            projectionMatrix: matrix_identity_float4x4,
-            viewMatrix: matrix_identity_float4x4,
-            time: 0
-        )
+        sceneProps = EGSceneProps()
     }
     
     func testEGTransformFunction() throws {
