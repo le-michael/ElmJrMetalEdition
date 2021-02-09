@@ -73,7 +73,7 @@ class EIAST {
         enum BinaryOpType: String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
             case eq = "==", ne = "/=", le = "<=", ge = ">=", lt = "<", gt = ">"
-            case and = "&&", or = "||", join_string="++", join_list="::"
+            case and = "&&", or = "||", concatenate="++", push_left="::"
         }
         
         init(_ leftOperand: EINode, _ rightOperand: EINode, _ type: BinaryOpType) {

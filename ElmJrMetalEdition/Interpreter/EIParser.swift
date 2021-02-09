@@ -370,10 +370,10 @@ class EIParser {
             switch token.type {
             case .plusplus:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .join_string)
+                result = EIAST.BinaryOp(result, try additiveExpression(), .concatenate)
             case .coloncolon:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .join_list)
+                result = EIAST.BinaryOp(result, try additiveExpression(), .push_left)
             default:
                 return result
             }
