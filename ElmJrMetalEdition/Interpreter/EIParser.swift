@@ -307,12 +307,22 @@ class EIParser {
     }
     
     func andableExpression() throws -> EINode {
-        var result = try equatableExpression()
+        var result = try orableExpression()
         while true {
             switch token.type {
             case .ampersandampersand:
                 advance()
-                result = EIAST.BinaryOp(result, try equatableExpression(), .and)
+                result = EIAST.BinaryOp(result, try orableExpression(), .and)
+            default:
+                return result
+            }
+        }
+    }
+    
+    func orableExpression() throws -> EINode {
+        var result = try equatableExpression()
+        while true {
+            switch token.type {
             case .barbar:
                 advance()
                 result = EIAST.BinaryOp(result, try equatableExpression(), .or)
@@ -327,30 +337,45 @@ class EIParser {
             advance()
             return EIAST.UnaryOp(operand: try equatableExpression(), type: .not)
         }
-        var result = try additiveExpression()
+        var result = try cattitiveExpression()
         while true {
             switch token.type {
             case .equalequal:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .eq)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .eq)
             case .notequal:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .ne)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .ne)
             case .lessequal:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .le)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .le)
             case .greaterequal:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .ge)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .ge)
             case .lessthan:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .lt)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .lt)
             case .greaterthan:
                 advance()
-                result = EIAST.BinaryOp(result, try additiveExpression(), .gt)
+                result = EIAST.BinaryOp(result, try cattitiveExpression(), .gt)
             default:
                 return result
             }
+        }
+    }
+    
+    func cattitiveExpression() throws -> EINode {
+        let result = try additiveExpression()
+        // These operators are right associative
+        switch token.type {
+        case .plusplus:
+            advance()
+            return EIAST.BinaryOp(result, try cattitiveExpression(), .concatenate)
+        case .coloncolon:
+            advance()
+            return EIAST.BinaryOp(result, try cattitiveExpression(), .push_left)
+        default:
+            return result
         }
     }
     

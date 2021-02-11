@@ -46,8 +46,19 @@ class EIEvaluatorTests: XCTestCase {
         try checkEvaluateExpression("1.5+4.5", "6.0")
         try checkEvaluateExpression("2.9+3", "5.9")
         try checkEvaluateExpression("(2 + 3)*6", "30")
-        try checkEvaluateExpression("1*2 + 3*4 + 6/2", "17")
+        try checkEvaluateExpression("1*2 + 3*4 + 6/2", "17.0")
         try checkEvaluateExpression("5.0/2", "2.5")
+    }
+    
+    func testListConcatenation() throws {
+        try checkEvaluateExpression("[1,2]++[3]", "[1,2,3]")
+        try checkEvaluateExpression("[1]++[2]++[3]", "[1,2,3]")
+        try checkEvaluateExpression("[1,2]++[3,4]", "[1,2,3,4]")
+    }
+    
+    func testListPushLeft() throws {
+        try checkEvaluateExpression("1::[]", "[1]")
+        try checkEvaluateExpression("1::2::[]", "[1,2]")
     }
     
     func testEqualityOperators() throws {
