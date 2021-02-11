@@ -504,6 +504,9 @@ class EIParser {
     
     func typeExpression() throws -> EINode {
         switch token.raw {
+        case "NOVALUE": // Special case for NOVALUE
+            advance()
+            return EIAST.NoValue()
         case "True":
             advance()
             return EIAST.Boolean(true)

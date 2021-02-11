@@ -131,6 +131,11 @@ class EIParserTests: XCTestCase {
         try checkASTDeclaration("f : number -> List number \n f x = [x]", "f = (\\x -> [x])")
     }
     
+    func testNOVALUE() throws {
+        try checkASTExpression("NOVALUE", "NOVALUE")
+        try checkASTExpression("(1 + NOVALUE)", "(1+NOVALUE)")
+    }
+    
     func testFancyFunctionApplication() throws {
         try checkASTEquivalentExpression("f 1 2", "2 |> f 1")
         try checkASTEquivalentExpression("f 1 2 3", "(3 |> (2 |> f 1))")
