@@ -16,9 +16,13 @@ class EITypeInferencer {
     var inferState: Infer
     var input: [EINode]
         
-    init(parsed: [EINode]) {
+    init(parsed : [EINode] = []) {
         input = parsed
         inferState = Infer()
+    }
+    
+    func appendNode(parsed : [EINode]) {
+        input += parsed
     }
     
     /* This EINode represents functions which can be recursive
@@ -246,11 +250,6 @@ class EITypeInferencer {
      INFERENCE
      */
     
-    func inferExpr(_ expr: EINode) throws -> Scheme {
-        var (ty, cs) = try infer(expr)
-        let subst = try runSolve(&cs)
-        return try closeOver(apply(subst, with: ty))
-    }
     
     func inferTop() throws -> TypeEnv {
         for expr in input {
@@ -270,6 +269,12 @@ class EITypeInferencer {
         return inferState.typeEnv
     }
 
+    func inferExpr(_ expr: EINode) throws -> Scheme {
+        var (ty, cs) = try infer(expr)
+        let subst = try runSolve(&cs)
+        return try closeOver(apply(subst, with: ty))
+    }
+    
     func closeOver(_ ty: MonoType) throws -> Scheme {
         return try normalize(generalize(ty))
     }
@@ -554,5 +559,66 @@ class EITypeInferencer {
         let su1 = try unify(t1, t2)
         var cs2 = apply(su1, with: cs)
         return try solver(compose(su1, su), &cs2)
+    }
+    
+    func checkAnnotation(_ tyEnv : TypeEnv, _ given : MonoType, _ declr : Var) throws -> Bool{
+        let actual = try tyEnv.lookup(declr)
+        try unify(given, actual.ty)
+        return true
+    }
+    
+    /*
+     Type Signature Checking
+     */
+    
+    class TySig {
+        var tyEnv : TypeEnv
+        var bindings : [TVar : MonoType]
+        init(_ tyEnv : TypeEnv) {
+            self.tyEnv = tyEnv
+            self.bindings = [TVar : MonoType]()
+        }
+        
+        func tcTySigTop(_ given : MonoType, _ declr : Var) throws -> Bool {
+            let actual = try tyEnv.lookup(declr).ty
+            return tcTySig(given, actual)
+        }
+        
+        func tcTySig(_ given : MonoType, _ actual : MonoType) -> Bool {
+            switch (given, actual) {
+            case (.TCon(let con1), .TCon(let con2)):
+                return con1 == con2
+            case (.TVar(let v1), .TVar(let v2)):
+                if case let .TVar(bind) = bindings[v1] {
+                    return bind == v2
+                } else {
+                    bindings[v1] = actual
+                    return true
+                }
+            case (.TArr(let a1, let b1), .TArr(let a2, let b2)):
+                return tcTySig(a1, a2) && tcTySig(b1, b2)
+            case (.TSuper(let s1, let n1), .TSuper(_, _)):
+                let superVar = s1 + String(n1)
+                if case let .TSuper(s, n) = bindings[superVar] {
+                    return actual == .TSuper(s, n)
+                }
+            case (.CustomType(let s1, let tys1), .CustomType(let s2, let tys2)):
+                if (tys1.count != tys2.count) { return false }
+                var isEqual = true
+                for (t1, t2) in zip(tys1, tys2) {
+                    isEqual = isEqual && tcTySig(t1, t2)
+                }
+                return isEqual && (s1 == s2)
+            case (.TupleType(let a1, let b1, let c1), .TupleType(let a2, let b2, let c2)):
+                if let unc1 = c1, let unc2 = c2 {
+                    return tcTySig(a1, a2) && tcTySig(b1, b2) && tcTySig(unc1, unc2)
+                } else {
+                    return tcTySig(a1, a2) && tcTySig(b1, b2)
+                }
+            default:
+                return false
+            }
+            return true
+        }
     }
 }
