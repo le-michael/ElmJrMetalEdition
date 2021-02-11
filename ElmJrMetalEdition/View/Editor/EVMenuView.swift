@@ -15,12 +15,22 @@ struct StoreSection {
 
 var store = [
     StoreSection(name: "numbers", nodes: [
+        EIAST.List([
+            EIAST.FunctionApplication(
+                function: EIAST.Function(parameter: "we", body: EIAST.Integer(1)),
+                argument: EIAST.Integer(1)),
+            EIAST.ConstructorInstance(constructorName: "123123", parameters: [EIAST.Integer(1)]),
+            EIAST.ConstructorInstance(constructorName: "123123werwerwer", parameters: [EIAST.Integer(1), EIAST.Integer(1), EIAST.Integer(1)]),
+            EIAST.ConstructorInstance(constructorName: "123123werwerwerwer", parameters: [EIAST.Integer(1)]),
+            EIAST.ConstructorInstance(constructorName: "123123werwerhjgkjhgkjhgkjhgkjhgkjhgkjhgkjhgkjhgkjhgwerwerwerewr", parameters: [EIAST.Integer(1)]),
+        ]),
         EIAST.Integer(1),
         EIAST.BinaryOp(
             EIAST.Integer(1),
-            EIAST.Integer(1),
+            EIAST.NoValue(),
             .add
         ),
+        EIAST.NoValue(),
     ]),
     StoreSection(name: "conditions", nodes: [
         EIAST.Boolean(true),
@@ -39,7 +49,7 @@ class EVMenuView: UIView {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.headerReferenceSize = CGSize(width: 200, height: 60)
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 280, height: 60)
+        layout.itemSize = CGSize(width: 500, height: 140)
 
         
         collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)

@@ -11,7 +11,7 @@ import UIKit
 
 class EVProjectionalNodeView: UIView {
     
-    static var padding: CGFloat = 10
+    static var padding: CGFloat = 5
     
     var innerView: UIView!
     var borderColor: UIColor!
@@ -31,7 +31,7 @@ class EVProjectionalNodeView: UIView {
         backgroundColor = EVTheme.Colors.background
         
         layer.borderWidth = 1
-        layer.borderColor = borderColor.cgColor
+        layer.borderColor = UIColor.systemGray.cgColor
         layer.cornerRadius = 5;
         layer.masksToBounds = true;
         
@@ -79,6 +79,17 @@ class EVProjectionalNodeView: UIView {
     
 }
 
+extension EIAST.NoValue: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let label = UILabel()
+        label.text = "No Value"
+        label.textColor = EVTheme.Colors.foreground
+        
+        let cardView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.foreground!, isStore: isStore)
+        return cardView
+    }
+}
+
 extension EVProjectionalNodeView: UIDragInteractionDelegate {
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
         let stringItemProvider = NSItemProvider(object: node.description as NSString)
@@ -112,11 +123,11 @@ extension EVProjectionalNodeView: UIDropInteractionDelegate {
 }
 
 protocol EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView
 }
 
 extension EIAST.Integer: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
         label.text = self.value.description
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
@@ -144,7 +155,7 @@ extension EIAST.Integer: EVProjectionalNode {
 }
 
 extension EIAST.FloatingPoint: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
         label.text = self.value.description
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
@@ -156,7 +167,7 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
 }
 
 extension EIAST.Boolean: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
         label.text = self.description
         label.textColor = EVTheme.Colors.ProjectionalEditor.boolean
@@ -168,16 +179,25 @@ extension EIAST.Boolean: EVProjectionalNode {
 }
 
 extension EIAST.BinaryOp: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .leading
+
         
-        guard let leftOperandNode = self.leftOperand as? EVProjectionalNode else { return UIView() }
-        guard let rightOperandNode = self.rightOperand as? EVProjectionalNode else { return UIView() }
+        guard let leftOperandNode = self.leftOperand as? EVProjectionalNode else {
+            print("not typed")
+            print(self.leftOperand)
+            print(type(of: self.leftOperand))
+            return EIAST.NoValue().getUIView(isStore: isStore)
+        }
+        guard let rightOperandNode = self.rightOperand as? EVProjectionalNode else {
+            return EIAST.NoValue().getUIView(isStore: isStore)
+        }
         
-        let leftOperandView = leftOperandNode.getUIView(isStore: isStore) as! EVProjectionalNodeView
-        let rightOperandView = rightOperandNode.getUIView(isStore: isStore) as! EVProjectionalNodeView
+        let leftOperandView = leftOperandNode.getUIView(isStore: isStore)
+        let rightOperandView = rightOperandNode.getUIView(isStore: isStore)
         
         leftOperandView.dropHandler = handleLeftOperandDrop
         rightOperandView.dropHandler = handleRightOperandDrop
@@ -185,8 +205,7 @@ extension EIAST.BinaryOp: EVProjectionalNode {
         stackView.addArrangedSubview(leftOperandView)
         stackView.addArrangedSubview(self.getOperandView())
         stackView.addArrangedSubview(rightOperandView)
-        stackView.spacing = EVProjectionalNodeView.padding
-        
+                
         let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: EVTheme.Colors.ProjectionalEditor.binaryOp!, isStore: isStore)
 
         return cardView
@@ -194,7 +213,7 @@ extension EIAST.BinaryOp: EVProjectionalNode {
 
     func getOperandView() -> UIView {
         let label = UILabel()
-        label.text = self.type.rawValue
+        label.text = self.binaryOpType.rawValue
         label.textColor = EVTheme.Colors.foreground
         label.font = EVTheme.Fonts.editor?.withSize(20)
         return label
@@ -211,8 +230,192 @@ extension EIAST.BinaryOp: EVProjectionalNode {
     }
 }
 
+// TODO NOW
 extension EIAST.UnaryOp: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> UIView {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let cardView = EVProjectionalNodeView(node: self, view: UIView(), borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.Variable: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let label = UILabel()
+        label.text = name
+        let cardView = EVProjectionalNodeView(node: self, view: label, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.Function: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+
+        let parameterView = UILabel()
+        parameterView.text = parameter + " -> "
+        stackView.addArrangedSubview(parameterView)
+        let bodyNode = body as! EVProjectionalNode
+        stackView.addArrangedSubview(bodyNode.getUIView(isStore: isStore))
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.FunctionApplication: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        let functionNode = function as! EVProjectionalNode
+        let argumentNode = argument as! EVProjectionalNode
+        
+        let functionNodeView = functionNode.getUIView(isStore: isStore)
+        stackView.addArrangedSubview(functionNodeView)
+        
+        let argumentNodeView = argumentNode.getUIView(isStore: isStore)
+        stackView.addArrangedSubview(argumentNodeView)
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.Declaration: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        
+        let nameView = UILabel()
+        nameView.text = name + " = "
+        stackView.addArrangedSubview(nameView)
+        let bodyNode = body as! EVProjectionalNode
+        let bodyNodeView = bodyNode.getUIView(isStore: isStore)
+        
+        stackView.addArrangedSubview(bodyNodeView)
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.ConstructorInstance: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+
+        let constructorNameView = EIAST.Integer(1).getUIView(isStore: isStore)
+        //constructorNameView.text = constructorName
+        stackView.addArrangedSubview(constructorNameView)
+
+        for parameter in parameters {
+            let parameterNode = parameter as! EVProjectionalNode
+            stackView.addArrangedSubview(parameterNode.getUIView(isStore: isStore))
+        }
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.Tuple: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+
+        
+        let commaView1 = UILabel()
+        commaView1.text = ","
+        let commaView2 = UILabel()
+        commaView2.text = ","
+        let openBracket = UILabel()
+        openBracket.text = "("
+        let closeBracket = UILabel()
+        closeBracket.text = ")"
+        
+        stackView.addArrangedSubview(openBracket)
+        let v1Node = v1 as! EVProjectionalNode
+        stackView.addArrangedSubview(v1Node.getUIView(isStore: isStore))
+        stackView.addArrangedSubview(commaView1)
+        let v2Node = v2 as! EVProjectionalNode
+        stackView.addArrangedSubview(v2Node.getUIView(isStore: isStore))
+        if let v3Node = v3 as? EVProjectionalNode {
+            stackView.addArrangedSubview(commaView2)
+            stackView.addArrangedSubview(v3Node.getUIView(isStore: isStore))
+        }
+        stackView.addArrangedSubview(closeBracket)
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// TODO NOW
+extension EIAST.List: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        
+        let openBracket = UILabel()
+        openBracket.text = "["
+        stackView.addArrangedSubview(openBracket)
+        
+        for node in items {
+            let itemView = UIStackView()
+            itemView.axis = .horizontal
+            itemView.alignment = .trailing
+            
+            let leadingSpace = UIView()
+            leadingSpace.frame = CGRect(x: 0, y: 0, width: 100, height: 1)
+            itemView.addSubview(leadingSpace)
+            
+            let projectionalNode = node as! EVProjectionalNode
+            itemView.addArrangedSubview(projectionalNode.getUIView(isStore: isStore))
+            
+            let comma = UILabel()
+            comma.text = ","
+            itemView.addArrangedSubview(comma)
+            
+            stackView.addArrangedSubview(itemView)
+        }
+        
+        let closeBracket = UILabel()
+        closeBracket.text = "]"
+        stackView.addArrangedSubview(closeBracket)
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+// STUFF TO DO LATER
+
+
+// TODO
+extension EIAST.ConstructorDefinition: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let cardView = EVProjectionalNodeView(node: self, view: UIView(), borderColor: .red, isStore: isStore)
+        return cardView
+    }
+}
+
+
+// TODO
+extension EIAST.TypeDefinition: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let cardView = EVProjectionalNodeView(node: self, view: UIView(), borderColor: .red, isStore: isStore)
         return cardView
     }
@@ -230,3 +433,4 @@ extension UIView {
         return nil
     }
 }
+

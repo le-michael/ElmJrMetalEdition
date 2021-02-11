@@ -75,10 +75,10 @@ class EIEvaluator {
             // TODO: In the future we should should should instead have a 'numeric' type
             var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
             var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
-            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
+            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.binaryOpType), false) }
             // TODO: Make this more general
             if (left as? EIAST.ConstructorInstance != nil) || (right as? EIAST.ConstructorInstance != nil) {
-                let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
+                let result : EINode = EIAST.BinaryOp(left, right, binOp.binaryOpType)
                 return (result, false)
             }
             // handle case where both operands are booleans
@@ -86,7 +86,7 @@ class EIEvaluator {
                let rightBool = right as? EIAST.Boolean
             {
                 let result: EINode
-                switch binOp.type {
+                switch binOp.binaryOpType {
                 case .and:
                     result = EIAST.Boolean(leftBool.value && rightBool.value)
                 case .or:
@@ -105,7 +105,7 @@ class EIEvaluator {
                let rightInt = right as? EIAST.Integer
             {
                 let result: EINode
-                switch binOp.type {
+                switch binOp.binaryOpType {
                 case .add:
                     result = EIAST.Integer(leftInt.value + rightInt.value)
                 case .subtract:
@@ -144,7 +144,7 @@ class EIEvaluator {
                let rightFloat = right as? EIAST.FloatingPoint
             {
                 let result: EINode
-                switch binOp.type {
+                switch binOp.binaryOpType {
                 case .add:
                     result = EIAST.FloatingPoint(leftFloat.value + rightFloat.value)
                 case .subtract:
@@ -302,7 +302,7 @@ class EIEvaluator {
         case let binOp as EIAST.BinaryOp:
             let left = substitute(binOp.leftOperand, variable, value)
             let right = substitute(binOp.rightOperand, variable, value)
-            return EIAST.BinaryOp(left, right, binOp.type)
+            return EIAST.BinaryOp(left, right, binOp.binaryOpType)
         case let vari as EIAST.Variable:
             if vari.name == variable { return value }
             return vari

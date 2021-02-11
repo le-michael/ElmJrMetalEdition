@@ -370,7 +370,7 @@ class EITypeInferencer {
             let (t2, c2) = try infer(e.rightOperand)
             let tv = inferState.fresh()
             let u1 = t1 => (t2 => tv)
-            let u2 = ops(e.type)
+            let u2 = ops(e.binaryOpType)
             return (tv, c1 + c2 + [(u1, u2)])
         case let e as EIAST.IfElse:
             let inferConds = try e.conditions.map(infer)

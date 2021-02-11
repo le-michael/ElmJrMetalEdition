@@ -99,7 +99,7 @@ extension EVTextEditorView: EVEditorDelegate {
     func didToggleMode(isProjectional: Bool) {}
 
     func didUpdateScene(scene: EGScene) {}
-    
+
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeTextEditorHeight(height: CGFloat) {}

@@ -66,9 +66,9 @@ enum MonoType: Equatable, CustomStringConvertible {
 
 class EIAST {
     class BinaryOp: EINode {
-        let leftOperand: EINode
-        let rightOperand: EINode
-        let type: BinaryOpType
+        var leftOperand: EINode
+        var rightOperand: EINode
+        var binaryOpType: BinaryOpType
 
         enum BinaryOpType: String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
@@ -79,17 +79,17 @@ class EIAST {
         init(_ leftOperand: EINode, _ rightOperand: EINode, _ type: BinaryOpType) {
             self.leftOperand = leftOperand
             self.rightOperand = rightOperand
-            self.type = type
+            self.binaryOpType = type
         }
 
         var description: String {
-            return "(\(leftOperand)\(type.rawValue)\(rightOperand))"
+            return "(\(leftOperand)\(binaryOpType.rawValue)\(rightOperand))"
         }
     }
     
     class UnaryOp: EINode {
-        let operand: EINode
-        let type: UnaryOpType
+        var operand: EINode
+        var type: UnaryOpType
         
         enum UnaryOpType: String {
             case not
@@ -106,7 +106,7 @@ class EIAST {
     }
 
     class FloatingPoint: EILiteral {
-        let value: Float
+        var value: Float
 
         init(_ value: Float) {
             self.value = value
@@ -118,7 +118,7 @@ class EIAST {
     }
     
     class Integer: EILiteral {
-        let value: Int
+        var value: Int
 
         init(_ value: Int) {
             self.value = value
@@ -130,7 +130,7 @@ class EIAST {
     }
 
     class Boolean: EILiteral {
-        let value: Bool
+        var value: Bool
         
         init(_ value: Bool) {
             self.value = value
@@ -147,8 +147,8 @@ class EIAST {
     }
     
     class IfElse: EINode {
-        let conditions: [EINode]
-        let branches: [EINode]
+        var conditions: [EINode]
+        var branches: [EINode]
         
         init(conditions: [EINode], branches: [EINode]) {
             self.conditions = conditions
@@ -183,7 +183,7 @@ class EIAST {
     }
     
     class Variable: EINode {
-        let name: String
+        var name: String
         
         init(name: String) {
             self.name = name
@@ -195,8 +195,8 @@ class EIAST {
     }
     
     class Function: EINode {
-        let parameter: String // Will be replaced by a pattern later
-        let body: EINode
+        var parameter: String // Will be replaced by a pattern later
+        var body: EINode
         
         init(parameter: String, body: EINode) {
             self.parameter = parameter
@@ -205,13 +205,13 @@ class EIAST {
 
         var description: String {
             // display as anonymous function
-            return "(\\\(parameter) -> \(body))"
+            return "(\(parameter) -> \(body))"
         }
     }
     
     class Declaration: EINode {
-        let name: String
-        let body: EINode
+        var name: String
+        var body: EINode
         
         init(name: String, body: EINode) {
             self.name = name
@@ -224,8 +224,8 @@ class EIAST {
     }
     
     class ConstructorDefinition : EINode {
-        let constructorName : String
-        let typeParameters : [MonoType]
+        var constructorName : String
+        var typeParameters : [MonoType]
         init(constructorName: String, typeParameters: [MonoType]) {
             self.constructorName = constructorName
             self.typeParameters = typeParameters
@@ -236,9 +236,9 @@ class EIAST {
     }
 
     class TypeDefinition : EINode {
-        let typeName : String
-        let typeVars : [String]
-        let constructors : [ConstructorDefinition]
+        var typeName : String
+        var typeVars : [String]
+        var constructors : [ConstructorDefinition]
         init(typeName: String, typeVars: [String], constructors: [ConstructorDefinition]) {
             self.typeName = typeName
             self.typeVars = typeVars
@@ -252,8 +252,8 @@ class EIAST {
     }
     
     class ConstructorInstance : EINode {
-        let constructorName: String
-        let parameters: [EINode]
+        var constructorName: String
+        var parameters: [EINode]
         init(constructorName: String, parameters:[EINode]) {
             self.constructorName = constructorName
             self.parameters = parameters
@@ -268,9 +268,9 @@ class EIAST {
     }
     
     class Tuple : EINode {
-        let v1 : EINode
-        let v2 : EINode
-        let v3 : EINode?
+        var v1 : EINode
+        var v2 : EINode
+        var v3 : EINode?
         
         init(_ v1: EINode, _ v2: EINode, _ v3: EINode?) {
             self.v1 = v1
@@ -284,7 +284,7 @@ class EIAST {
     }
     
     class List : EINode {
-        let items : [EINode]
+        var items : [EINode]
         
         init(_ items: [EINode]) {
             self.items = items

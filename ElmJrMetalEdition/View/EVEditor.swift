@@ -30,7 +30,7 @@ class EVEditor {
     var textEditorHeight: CGFloat
     var isInProjectionalMode: Bool
     
-    var ast: EINode?
+    var astNodes: [EVProjectionalNode]
     var scene: EGScene
     
     var project: EVProject {
@@ -44,6 +44,7 @@ class EVEditor {
         textEditorHeight = 500
         isInProjectionalMode = false
         scene = EGScene()
+        astNodes = []
         run()
     }
     
@@ -83,11 +84,17 @@ class EVEditor {
     }
     
     func toggleMode() {
+        if isInProjectionalMode {
+            astToSourceCode()
+        } else {
+            sourceCodeToAst()
+        }
         isInProjectionalMode = !isInProjectionalMode
         delegates.forEach({ $0.didToggleMode(isProjectional: isInProjectionalMode) })
     }
     
     func run() {
+        
         scene = compileWithLibraries(sourceCode: project.sourceCode)
         delegates.forEach({ $0.didUpdateScene(scene: scene) })
     }
@@ -102,22 +109,43 @@ class EVEditor {
     }
     
     func sourceCodeToAst() {
-        do {
-            self.ast = try EIParser(text: project.sourceCode).parse()
-        } catch {
-            print("Unable to convert source code to AST")
-            self.ast = nil
-        }
+        let nodes = parseWithLibraries(sourceCode: project.sourceCode)
+        self.astNodes = nodes
     }
     
     func astToSourceCode() {
-        guard let newSourceCode = self.ast?.description else {
-            print("Unable to convert AST to source code")
-            return
+        var newSourceCode = ""
+        for ast in astNodes {
+            let eiNode = ast as! EINode
+            newSourceCode += eiNode.description
+            newSourceCode += "\n"
         }
         setSourceCode(newSourceCode)
     }
     
+}
+
+func parseWithLibraries(sourceCode: String) -> [EVProjectionalNode] {
+    do {
+        var nodes: [EVProjectionalNode] = []
+        
+        let toLoad = ["Maybe","Builtin","Base","API3D"]
+        var code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
+        code.append("\n"+sourceCode)
+        let evaluator = EIEvaluator()
+        try evaluator.compile(code)
+        
+        let parser = evaluator.parser
+        try parser.appendText(text: sourceCode)
+        while !parser.isDone() {
+            let ast = try parser.parseDeclaration() as! EVProjectionalNode
+            nodes.append(ast)
+        }
+        return nodes
+    } catch {
+        print("Error parsing with libraries: \(error)")
+        return []
+    }
 }
 
 func compileWithLibraries(sourceCode: String) -> EGScene{
@@ -132,7 +160,6 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
         let scene = transpile(node: sceneNode) as! EGScene
         scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
         return scene
-
     }
     catch {
         return EGScene()

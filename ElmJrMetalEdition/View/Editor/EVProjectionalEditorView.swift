@@ -10,7 +10,7 @@ import UIKit
 
 class EVProjectionalEditorView: UIView {
     
-    var rootNodeView: UIView?
+    var astNodeViews = UIStackView()
     var referenceTransform: CGAffineTransform?
     
     override init(frame: CGRect) {
@@ -20,6 +20,7 @@ class EVProjectionalEditorView: UIView {
         layer.masksToBounds = true
         setupGestures()
         updateASTView()
+        addSubview(astNodeViews)
     }
     
     func setupGestures() {
@@ -33,34 +34,38 @@ class EVProjectionalEditorView: UIView {
     
     @objc func pinchedView(sender: UIPinchGestureRecognizer) {
         if (sender.state == UIGestureRecognizer.State.began){
-            referenceTransform = rootNodeView?.transform
+            referenceTransform = astNodeViews.transform
         } else {
             guard let transform = referenceTransform?.scaledBy(x: sender.scale, y: sender.scale) else { return }
-            rootNodeView?.transform = transform
+            astNodeViews.transform = transform
         }
     }
     
     @objc func pannedView(sender: UIPanGestureRecognizer) {
         if (sender.state == UIGestureRecognizer.State.began){
-            referenceTransform = rootNodeView?.transform
+            referenceTransform = astNodeViews.transform
         } else {
             guard let refTransform = referenceTransform else { return }
             let transform = refTransform.translatedBy(
                 x: sender.translation(in: self).x / refTransform.a,
                 y: sender.translation(in: self).y / refTransform.a
             )
-            rootNodeView?.transform = transform
+            astNodeViews.transform = transform
         }
     }
     
     func updateASTView() {
-        rootNodeView?.removeFromSuperview()
-        guard let projectionalNode = EVEditor.shared.ast as? EVProjectionalNode else {
-            rootNodeView = getErrorLabelView(message: "Couldn't render code as projectional node")
-            return
+        astNodeViews.axis = .vertical
+        astNodeViews.alignment = .leading
+        astNodeViews.translatesAutoresizingMaskIntoConstraints = false
+        astNodeViews.spacing = 10
+        for view in astNodeViews.arrangedSubviews {
+            astNodeViews.removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
-        rootNodeView = projectionalNode.getUIView(isStore: false)
-        addSubview(rootNodeView!)
+        for projectionalNode in EVEditor.shared.astNodes {
+            astNodeViews.addArrangedSubview(projectionalNode.getUIView(isStore: false))
+        }
     }
 
     func getErrorLabelView(message: String) -> UIView {
