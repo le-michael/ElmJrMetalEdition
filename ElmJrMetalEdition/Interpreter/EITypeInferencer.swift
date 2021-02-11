@@ -253,7 +253,8 @@ class EITypeInferencer {
     
     func inferTop() throws -> TypeEnv {
         for expr in input {
-            if let declr = expr as? EIAST.Declaration {
+            switch expr {
+            case let declr as EIAST.Declaration :
                 let ty: Scheme
                 if let fn = declr.body as? EIAST.Function {
                     ty = try inferExpr(Fix(body: EIAST.Function(parameter: declr.name, body: fn)))
@@ -261,7 +262,19 @@ class EITypeInferencer {
                     ty = try inferExpr(declr.body)
                 }
                 inferState.typeEnv.extend(declr.name, ty)
-            } else {
+            // Algebraic Data Types
+            case let tyDef as EIAST.TypeDefinition:
+                for consDef in tyDef.constructors {
+                    var consTy = MonoType.CustomType(tyDef.typeName, tyDef.typeVars.map{MonoType.TVar($0)})
+                    for tyParam in consDef.typeParameters.reversed() {
+                        if let v = ftv(with: tyParam).subtracting(Set(tyDef.typeVars)).first {
+                            throw TypeError.UnboundedVariable(v)
+                        }
+                        consTy = tyParam => consTy
+                    }
+                    inferState.typeEnv.extend(tyDef.typeName, Scheme(tyVars: tyDef.typeVars, ty: consTy))
+                }
+            default:
                 let ty = try inferExpr(expr)
                 inferState.typeEnv.extend(expr.description, ty)
             }
@@ -390,8 +403,29 @@ class EITypeInferencer {
                 inferConds.flatMap { $0.1 } + inferBranches.flatMap { $0.1 }
             return (inferBranches[0].0,
                     otherConstraints + branchConstraints + condConstraints)
-        // case let e as EIParser.Function:
-        //    let tv = inferState.fresh()
+        case let tup as EIAST.Tuple:
+            let (t1, c1) = try infer(tup.v1)
+            let (t2, c2) = try infer(tup.v2)
+            if let arg3 = tup.v3 {
+                let (t3, c3) = try infer(arg3)
+                return (MonoType.TupleType(t1, t2, t3), c1 + c2 + c3)
+            } else {
+                return (MonoType.TupleType(t1, t2, nil), c1 + c2)
+            }
+        case let list as EIAST.List:
+            var ts : [MonoType] = []
+            var cs : [Constraint] = []
+            for elem in list.items {
+                let (t, c) = try infer(elem)
+                ts.append(t)
+                cs += c
+            }
+            let tv = inferState.fresh()
+            let listConstraints : [Constraint] =
+                (0..<cs.count - 1)
+                    .map { (cs[$0].0,
+                            cs[$0 + 1].0) }
+            return (MonoType.CustomType("List", [tv]), [(tv, cs[0].0)] + listConstraints)
             
         default:
             throw TypeError.UnimplementedError(expr)
@@ -521,6 +555,10 @@ class EITypeInferencer {
         case(.TSuper(let a, let inst), .TCon(let x))
             where a == "number" && x == "Float":
             return try bind(a + String(inst), t2)
+        // Unify type variables in algebraic data types
+        case(.CustomType(let a, let vars1), .CustomType(let b, let vars2))
+            where a == b && vars1.count == vars2.count:
+            return try zip(vars1, vars2).map(unify).reduce(nullSubst, compose)
         case(.TCon(let x), .TSuper(let a, let inst))
             where a == "number" && x == "Float":
             return try bind(a + String(inst), t1)
@@ -559,12 +597,6 @@ class EITypeInferencer {
         let su1 = try unify(t1, t2)
         var cs2 = apply(su1, with: cs)
         return try solver(compose(su1, su), &cs2)
-    }
-    
-    func checkAnnotation(_ tyEnv : TypeEnv, _ given : MonoType, _ declr : Var) throws -> Bool{
-        let actual = try tyEnv.lookup(declr)
-        try unify(given, actual.ty)
-        return true
     }
     
     /*
