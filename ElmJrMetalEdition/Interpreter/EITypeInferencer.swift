@@ -606,14 +606,53 @@ class EITypeInferencer {
     class TySig {
         var tyEnv : TypeEnv
         var bindings : [TVar : MonoType]
-        init(_ tyEnv : TypeEnv) {
-            self.tyEnv = tyEnv
-            self.bindings = [TVar : MonoType]()
+        var revBindings : [TVar : MonoType]
+        init(_ argTyEnv : TypeEnv) {
+            tyEnv = argTyEnv
+            bindings = [TVar : MonoType]()
+            revBindings = [TVar : MonoType]()
         }
         
+        /**
+        Checking type signatures involve the following process
+         1. Create a mapping for all type variables and super types in both directions, as the equality is symmetric.
+         2. Use the mapping to check for consistency.
+         
+         */
         func tcTySigTop(_ given : MonoType, _ declr : Var) throws -> Bool {
             let actual = try tyEnv.lookup(declr).ty
+            print(actual.description)
+            assignMapping(given, actual)
+            print(bindings)
             return tcTySig(given, actual)
+        }
+        
+        func assignMapping(_ given : MonoType, _ actual : MonoType) {
+            switch (given, actual) {
+            case (.TVar(let v1), .TVar(let v2)):
+                bindings[v2] = given
+                revBindings[v1] = actual
+            case (.TSuper(let s1, let n1), .TSuper(let s2, let n2)):
+                let superVar2 = s2 + (n2 == 0 ? "" : String(n2))
+                let superVar1 = s1 + (n1 == 0 ? "" : String(n1))
+                bindings[superVar2] = given
+                revBindings[superVar1] = actual
+            case(.CustomType(_, let tys1), .CustomType(_, let tys2)):
+                for (t1, t2) in zip(tys1, tys2) {
+                    assignMapping(t1, t2)
+                }
+            case (.TArr(let a1, let b1), .TArr(let a2, let b2)):
+                assignMapping(a1, a2)
+                assignMapping(b1, b2)
+            case (.TupleType(let a1, let b1, let c1), .TupleType(let a2, let b2, let c2)):
+                assignMapping(a1, a2)
+                assignMapping(b1, b2)
+                if let unc1 = c1, let unc2 = c2 {
+                    assignMapping(unc1, unc2)
+                }
+            default:
+                return
+            }
         }
         
         func tcTySig(_ given : MonoType, _ actual : MonoType) -> Bool {
@@ -621,26 +660,28 @@ class EITypeInferencer {
             case (.TCon(let con1), .TCon(let con2)):
                 return con1 == con2
             case (.TVar(let v1), .TVar(let v2)):
-                if case let .TVar(bind) = bindings[v1] {
-                    return bind == v2
+                if case let .TVar(bind) = bindings[v2], case let .TVar(revBind) = revBindings[v1] {
+                    return bind == v1 && revBind == v2
                 } else {
-                    bindings[v1] = actual
-                    return true
+                    return false
                 }
             case (.TArr(let a1, let b1), .TArr(let a2, let b2)):
                 return tcTySig(a1, a2) && tcTySig(b1, b2)
-            case (.TSuper(let s1, let n1), .TSuper(_, _)):
-                let superVar = s1 + String(n1)
-                if case let .TSuper(s, n) = bindings[superVar] {
-                    return actual == .TSuper(s, n)
+            case (.TSuper(let s1, let n1), .TSuper(let s2, let n2)):
+                let superVar2 = s2 + (n2 == 0 ? "" : String(n2))
+                let superVar1 = s1 + (n1 == 0 ? "" : String(n1))
+                if case let .TSuper(s, n) = bindings[superVar2], case let .TSuper(rs, rn) = revBindings[superVar1] {
+                    return given == .TSuper(s, n) && actual == .TSuper(rs, rn)
+                } else {
+                    return false
                 }
             case (.CustomType(let s1, let tys1), .CustomType(let s2, let tys2)):
-                if (tys1.count != tys2.count) { return false }
+                if (tys1.count != tys2.count || s1 != s2) { return false }
                 var isEqual = true
                 for (t1, t2) in zip(tys1, tys2) {
                     isEqual = isEqual && tcTySig(t1, t2)
                 }
-                return isEqual && (s1 == s2)
+                return isEqual
             case (.TupleType(let a1, let b1, let c1), .TupleType(let a2, let b2, let c2)):
                 if let unc1 = c1, let unc2 = c2 {
                     return tcTySig(a1, a2) && tcTySig(b1, b2) && tcTySig(unc1, unc2)
@@ -650,7 +691,6 @@ class EITypeInferencer {
             default:
                 return false
             }
-            return true
         }
     }
 }

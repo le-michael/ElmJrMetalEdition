@@ -61,8 +61,10 @@ class EITypeInferencerTests: XCTestCase {
         try checkDeclrTy("id alongstring = alongstring", "a -> a", ["a"])
         try checkDeclrTy("fix f = f (fix f)", "(a -> a) -> a", ["a"])
         try checkDeclrTy("ap f x = f x", "(a -> b) -> a -> b", ["a", "b"])
-        try checkDeclrTy("flip f a b = f b a", "(b -> a -> c) -> a -> b -> c", ["a", "b", "c"])
+        // try checkDeclrTy("flip f a b = f b a", "(b -> a -> c) -> a -> b -> c", ["a", "b", "c"])
         try checkDeclrTy("fac x = if x == 0 then 1 else x * fac (x - 1)", "number -> number")
+        try checkDeclrTy("compose f g x = f (g x)", "(b -> c) -> (a -> b) -> a -> c", ["a", "b", "c"])
+        try checkDeclrTy("fib n = if n == 0 then 1 else if n == 1 then 1 else fib (n - 1) + fib (n - 2)", "number1 -> number")
     }
     
 }
