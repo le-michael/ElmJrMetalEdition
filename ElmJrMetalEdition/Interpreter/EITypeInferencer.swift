@@ -15,10 +15,12 @@ class EITypeInferencer {
     // Type checker state
     var inferState: Infer
     var input: [EINode]
-        
+    var inputIndex : Int
+    
     init(parsed : [EINode] = []) {
         input = parsed
         inferState = Infer()
+        inputIndex = 0
     }
     
     func appendNode(parsed : [EINode]) {
@@ -64,30 +66,43 @@ class EITypeInferencer {
         func lookup(_ x: Var) throws -> Scheme {
             return types[x]!
         }
+        
+        var description : String {
+            var s = ""
+            for (v, scheme) in types {
+                s += v + " : \(scheme)\n"
+            }
+            return s
+        }
     }
     
-    func showEnv(_ x: String) throws -> String {
-        return try inferState.typeEnv.lookup(x).description
+    func showEnv() -> String {
+        return inferState.typeEnv.description
     }
     
-    // Inference state - A type environment and a counter for fresh typevars
-    class Infer {
-        var typeEnv: TypeEnv
-        var counter: Int
+    // Data structure for providing fresh variable names in different contexts
+    class VarSupply {
         var numberCounter : Int
         var alphaCounter : Int
+        var globNumberCounter : Int
+        var globAlphaCounter : Int
         
         init() {
-            typeEnv = TypeEnv()
-            counter = 0
-            alphaCounter = 96
             numberCounter = -1
+            alphaCounter = -1
+            globNumberCounter = -1
+            globAlphaCounter = 96
         }
         
-        func fresh() -> MonoType {
-            alphaCounter += 1
-            if alphaCounter > 122 {
-                return .TVar("v" + String(counter))
+        func resetGlobalState() {
+            globNumberCounter = -1
+            globAlphaCounter = 96
+        }
+        
+        func globalFresh() -> MonoType {
+            globAlphaCounter += 1
+            if globAlphaCounter > 122 {
+                return .TVar("v" + String(globAlphaCounter))
             }
             else {
                 return .TVar(String(UnicodeScalar(alphaCounter)!))
@@ -95,10 +110,34 @@ class EITypeInferencer {
             
         }
         
+        func globalFreshNumber() -> MonoType {
+            globNumberCounter += 1
+            return .TSuper("number", globNumberCounter)
+        }
+        
+        func fresh() -> MonoType {
+            alphaCounter += 1
+            return .TVar("internal_v_" + String(alphaCounter))
+        }
+        
         func freshNumber() -> MonoType {
             numberCounter += 1
             return .TSuper("number", numberCounter)
         }
+    }
+    
+    // Inference state - A type environment and a counter for fresh typevars
+    class Infer {
+        var typeEnv: TypeEnv
+        var counter: Int
+        var supply: VarSupply
+        
+        init() {
+            typeEnv = TypeEnv()
+            counter = 0
+            supply = VarSupply()
+        }
+        
     }
     
     // Type checking errors
@@ -173,6 +212,8 @@ class EITypeInferencer {
             return MonoType.CustomType(tyName, types.map{ apply(s, with: $0) })
         case .TupleType(let t1, let t2, let t3):
             return MonoType.TupleType(apply(s, with: t1), apply(s, with: t2), (t3 != nil ? apply(s, with: t3!) : nil))
+        case .TNoValue:
+            return MonoType.TNoValue
         }
     }
     
@@ -223,6 +264,8 @@ class EITypeInferencer {
             } else {
                 return Set([a,b].flatMap(ftv))
             }
+        case .TNoValue:
+            return []
         }
     }
     
@@ -250,9 +293,10 @@ class EITypeInferencer {
      INFERENCE
      */
     
-    
-    func inferTop() throws -> TypeEnv {
-        for expr in input {
+    func inferNext() {
+        do {
+            let expr = input[inputIndex]
+            inputIndex += 1
             switch expr {
             case let declr as EIAST.Declaration :
                 let ty: Scheme
@@ -272,14 +316,31 @@ class EITypeInferencer {
                         }
                         consTy = tyParam => consTy
                     }
-                    inferState.typeEnv.extend(tyDef.typeName, Scheme(tyVars: tyDef.typeVars, ty: consTy))
+                    inferState.typeEnv.extend(consDef.constructorName, Scheme(tyVars: tyDef.typeVars, ty: consTy))
                 }
+                // print(inferState.typeEnv.description)
             default:
                 let ty = try inferExpr(expr)
                 inferState.typeEnv.extend(expr.description, ty)
             }
+        } catch TypeError.UnificationFail(let t1, let t2) {
+                print("Unification fail: \(t1) and \(t2)")
+        } catch TypeError.InfiniteType(let tvar, let t) {
+                print("Occurs check: \(tvar) with \(t)")
+        } catch TypeError.UnboundedVariable(let s) {
+                print("Unbounded variable: " + s)
+        } catch TypeError.NotInScopeTyVar {
+                print("Type variable not in scope")
+        } catch {
+                print("A feature was not implemented")
         }
-        return inferState.typeEnv
+    }
+    
+    func inferAll() throws {
+        for _ in input[inputIndex...] {
+            inferNext()
+        }
+        inputIndex = input.count
     }
 
     func inferExpr(_ expr: EINode) throws -> Scheme {
@@ -313,7 +374,7 @@ class EITypeInferencer {
     func instantiate(_ s: Scheme) -> MonoType {
         var subst = Subst()
         for oldVar in s.tyVars {
-            let newVar = inferState.fresh()
+            let newVar = inferState.supply.fresh()
             subst[oldVar] = newVar
         }
         return apply(subst, with: s.ty)
@@ -335,7 +396,7 @@ class EITypeInferencer {
              EIAST.BinaryOp.BinaryOpType.subtract,
              EIAST.BinaryOp.BinaryOpType.multiply,
              EIAST.BinaryOp.BinaryOpType.divide:
-            let freshNum = inferState.freshNumber()
+            let freshNum = inferState.supply.freshNumber()
             return freshNum => (freshNum => freshNum)
         case EIAST.BinaryOp.BinaryOpType.eq,
              EIAST.BinaryOp.BinaryOpType.ne,
@@ -343,7 +404,7 @@ class EITypeInferencer {
              EIAST.BinaryOp.BinaryOpType.lt,
              EIAST.BinaryOp.BinaryOpType.ge,
              EIAST.BinaryOp.BinaryOpType.gt:
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             return tv => (tv => typeBool)
         case EIAST.BinaryOp.BinaryOpType.and,
              EIAST.BinaryOp.BinaryOpType.or:
@@ -364,20 +425,20 @@ class EITypeInferencer {
         case let v as EIAST.Variable:
             return try (lookupEnv(x: v.name), [])
         case let f as EIAST.Function:
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             let (t, c) = try inEnv(f.parameter, Scheme(tyVars: [], ty: tv), f.body)
             return (tv => t, c)
         case let fApp as EIAST.FunctionApplication:
             let (t1, c1) = try infer(fApp.function)
             let (t2, c2) = try infer(fApp.argument)
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             return (tv, c1 + c2 + [(t1, t2 => tv)])
         case let fix as Fix:
             let (t1, c1) = try infer(fix.body)
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             return (tv, c1 + [(tv => tv, t1)])
         case _ as EIAST.Integer:
-            let freshNum = inferState.freshNumber()
+            let freshNum = inferState.supply.freshNumber()
             return (freshNum, [])
         case _ as EIAST.FloatingPoint:
             return (MonoType.TCon("Float"), [])
@@ -386,7 +447,7 @@ class EITypeInferencer {
         case let e as EIAST.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             let u1 = t1 => (t2 => tv)
             let u2 = ops(e.type)
             return (tv, c1 + c2 + [(u1, u2)])
@@ -420,20 +481,23 @@ class EITypeInferencer {
                 ts.append(t)
                 cs += c
             }
-            let tv = inferState.fresh()
+            let tv = inferState.supply.fresh()
             let listConstraints : [Constraint] =
                 (0..<cs.count - 1)
                     .map { (cs[$0].0,
                             cs[$0 + 1].0) }
             return (MonoType.CustomType("List", [tv]), [(tv, cs[0].0)] + listConstraints)
-            
+        case _ as EIAST.NoValue:
+            let tv = inferState.supply.fresh()
+            return (tv, [])
         default:
             throw TypeError.UnimplementedError(expr)
         }
     }
     
     func normalize(_ s: Scheme) throws -> Scheme {
-        let localInferState = Infer()
+        // Refresh the state of supply of global type variables
+        inferState.supply.resetGlobalState()
         
         func fv(_ m: MonoType) -> [TVar] {
             switch m {
@@ -454,6 +518,8 @@ class EITypeInferencer {
                 } else {
                     return [a,b].flatMap(fv)
                 }
+            case .TNoValue:
+                return []
             }
         }
         
@@ -471,14 +537,14 @@ class EITypeInferencer {
         var freshVars: [MonoType] = []
         let fvs: [TVar] = Array(Set(fv(s.ty)))
         for _ in 0..<fvs.count {
-            freshVars.append(localInferState.fresh())
+            freshVars.append(inferState.supply.globalFresh())
         }
         
         // This has to be reworked to account for all type constraints
         var freshNumVars: [MonoType] = []
         let numVars: [TVar] = Array(Set(superVars(s.ty)))
         for _ in 0..<numVars.count {
-            freshNumVars.append(localInferState.freshNumber())
+            freshNumVars.append(inferState.supply.globalFreshNumber())
         }
         
         assert(fvs.count + freshNumVars.count ==
@@ -512,6 +578,8 @@ class EITypeInferencer {
                 } else {
                     return .TupleType(try normtype(a), try normtype(b), nil)
                 }
+            case .TNoValue:
+                return .TNoValue
             }
         }
         
@@ -542,7 +610,7 @@ class EITypeInferencer {
         return try solver(nullSubst, &cs)
     }
     
-    // Unification of two expressions under a substituion
+    // Unification of two expressions under a substitution
     func unify(_ t1: MonoType, _ t2: MonoType) throws -> Subst {
         switch (t1, t2) {
         case(let a, let b) where a == b:
@@ -555,21 +623,32 @@ class EITypeInferencer {
         case(.TSuper(let a, let inst), .TCon(let x))
             where a == "number" && x == "Float":
             return try bind(a + String(inst), t2)
+        case(.TCon(let x), .TSuper(let a, let inst))
+            where a == "number" && x == "Float":
+            return try bind(a + String(inst), t1)
         // Unify type variables in algebraic data types
         case(.CustomType(let a, let vars1), .CustomType(let b, let vars2))
             where a == b && vars1.count == vars2.count:
             return try zip(vars1, vars2).map(unify).reduce(nullSubst, compose)
-        case(.TCon(let x), .TSuper(let a, let inst))
-            where a == "number" && x == "Float":
-            return try bind(a + String(inst), t1)
+        // Recursively unify arrow types
         case (.TArr(let l1, let r1), .TArr(let l2, let r2)):
             let s1 = try unify(l1, l2)
             let s2 = try unify(apply(s1, with: r1), apply(s1, with: r2))
             return compose(s2, s1)
+        // Bind type variables
         case(.TVar(let a), let t):
             return try bind(a, t)
         case(let t, .TVar(let a)):
             return try bind(a, t)
+        // Recursively unify tuple types
+        case(.TupleType(let t1, let t2, let mt3), .TupleType(let u1, let u2, let mu3)):
+            let s1 = try unify(t1, u1)
+            let s2 = try unify(t2, u2)
+            var s3 = nullSubst
+            if let m3 = mt3, let u3 = mu3 {
+                s3 = try unify(m3, u3)
+            }
+            return compose(s3, compose(s2, s1))
         default:
             throw TypeError.UnificationFail(t1, t2)
         }
