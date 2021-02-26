@@ -51,7 +51,12 @@ enum MonoType: Equatable, CustomStringConvertible {
         case .TSuper(let sup, let inst):
             return sup + (inst == 0 ? "" : String(inst))
         case .TArr(let t1, let t2):
-            return "\(t1.description) -> \(t2.description)"
+            switch t1 {
+            case .TArr(_, _):
+                return "(\(t1.description)) -> \(t2.description)"
+            default:
+                return "\(t1.description) -> \(t2.description)"
+            }
         case .CustomType(let typeName, let typeParameters):
             if typeParameters.count == 0 {
                 return "\(typeName)"
@@ -73,7 +78,7 @@ class EIAST {
         enum BinaryOpType: String {
             case add = "+", subtract = "-", multiply = "*", divide = "/"
             case eq = "==", ne = "/=", le = "<=", ge = ">=", lt = "<", gt = ">"
-            case and = "&&", or = "||"
+            case and = "&&", or = "||", concatenate="++", push_left="::"
         }
         
         init(_ leftOperand: EINode, _ rightOperand: EINode, _ type: BinaryOpType) {
