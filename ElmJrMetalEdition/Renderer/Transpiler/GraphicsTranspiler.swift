@@ -74,7 +74,7 @@ func arcballCameraHelper(scene: EGScene, node: EINode) {
     for param in camera.parameters{
         switch param{
         case let int as EIAST.Integer:
-            distance = Float(unwrapInt(wrappedInt: int))
+            distance = unwrapFloat(wrappedFloat: int)
             //have to do this because arcball expects a float, but elm defines the paramater as an int
         case let tuple as EIAST.Tuple:
             target = unwrapTuple(wrappedTuple: tuple)
@@ -240,10 +240,10 @@ func constructTransform(node: EINode, radians: Bool = false) -> EGMathNode{
         
     case let int as EIAST.Integer:
         if radians{
-            return EGConstant(Float(unwrapInt(wrappedInt: int)).degreesToRadians)
+            return EGConstant(Float(unwrapFloat(wrappedFloat: int)).degreesToRadians)
 
         }
-        return EGConstant(Float(unwrapInt(wrappedInt: int)))
+        return EGConstant(Float(unwrapFloat(wrappedFloat: int)))
         
     case let float as EIAST.FloatingPoint:
         if radians{
@@ -266,14 +266,21 @@ func constructTransform(node: EINode, radians: Bool = false) -> EGMathNode{
         return binaryOp
         
     case let inst as EIAST.ConstructorInstance:
-        //unOp is stored as binOp need clarification on this
-        if let unOp = inst.parameters[0] as? EIAST.BinaryOp{
+        
+        if inst.parameters.count == 1 {
             let unaryOp = EGUnaryOp(
                 type: unOptypeConverter(type: inst.constructorName),
-                child: constructTransform(node: unOp, radians: radians)
+                child: constructTransform(node: inst.parameters[0])
             )
             return unaryOp
-            }
+        }
+        
+        let binaryOp = EGBinaryOp(
+            type: binOptypeConverter(type: inst.constructorName),
+            leftChild: constructTransform(node: inst.parameters[0]),
+            rightChild: constructTransform(node: inst.parameters[1])
+        )
+        return binaryOp
     
     default:
         break
@@ -359,7 +366,7 @@ func inkedHelper(node: EINode) -> EGGraphicsNode{
             print("Created Cube")
         case "Polygon":
             print("Created Polygon")
-            shape = EGRegularPolygon(unwrapInt(wrappedInt: inst.parameters[0]))
+            shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
         case "Cone":
             shape = EGCone()
             print("Created Cone")
@@ -400,12 +407,6 @@ func colorHelper(node: EINode) -> [EGMathNode]{
     return values
 }
 
-
-func unwrapInt(wrappedInt: EINode) -> Int{
-    let value = wrappedInt as! EIAST.Integer
-    return Int(value.value)
-}
-
 func unwrapFloat(wrappedFloat: EINode) -> Float{
     if let value = wrappedFloat as? EIAST.FloatingPoint{
         return value.value
@@ -419,9 +420,9 @@ func unwrapFloat(wrappedFloat: EINode) -> Float{
 func unwrapTuple(wrappedTuple: EINode) -> simd_float3{
     var unwrappedTuple = simd_float3()
     let tuple = wrappedTuple as! EIAST.Tuple
-    unwrappedTuple.x = Float(unwrapInt(wrappedInt: tuple.v1))
-    unwrappedTuple.y = Float(unwrapInt(wrappedInt: tuple.v2))
-    unwrappedTuple.z = Float(unwrapInt(wrappedInt: tuple.v3!))
+    unwrappedTuple.x = unwrapFloat(wrappedFloat: tuple.v1)
+    unwrappedTuple.y = unwrapFloat(wrappedFloat: tuple.v2)
+    unwrappedTuple.z = unwrapFloat(wrappedFloat: tuple.v3!)
     //More weird behaviour because ints are passed in but floats are needed for Metal API
     return unwrappedTuple
 }
