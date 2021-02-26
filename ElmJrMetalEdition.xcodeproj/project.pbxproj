@@ -455,6 +455,7 @@
 			children = (
 				10C373B725AFACD30011DF97 /* Models */,
 				103DF84225769FE500C093D1 /* Demos */,
+				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				10A0BB9B2575F900001CD1F8 /* Types */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
@@ -729,7 +730,6 @@
 			isa = PBXGroup;
 			children = (
 				D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */,
-				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				D98A8C7225A02AAB00FA3539 /* View */,
 				1072E3E22564C3BF00D390FE /* Interpreter */,
 				107596F7251C460200BBE3B6 /* Renderer */,

@@ -47,6 +47,7 @@ class GraphicsTranspilerTests: XCTestCase {
 
     func testThreeDee() throws {
         try run3DTest("ThreeDee")
+        try run3DTest("SnowMan")
     }
     
     
