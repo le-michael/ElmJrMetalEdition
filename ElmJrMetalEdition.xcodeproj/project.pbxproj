@@ -138,6 +138,8 @@
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D9294D6925C91E7C005FEBB9 /* SnowMan.elm in Resources */ = {isa = PBXBuildFile; fileRef = D9294D6825C91E7C005FEBB9 /* SnowMan.elm */; };
+		D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */; };
+		D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
 		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
 		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
@@ -311,6 +313,8 @@
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D9294D6825C91E7C005FEBB9 /* SnowMan.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = SnowMan.elm; sourceTree = "<group>"; };
+		D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalEditorView.swift; sourceTree = "<group>"; };
+		D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalNode.swift; sourceTree = "<group>"; };
 		D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElmJrMetalEdition.entitlements; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
@@ -761,10 +765,12 @@
 			isa = PBXGroup;
 			children = (
 				D95DF206251C06CA00F9457F /* EVEditorViewController.swift */,
+				D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */,
 				D98A8C7825A0377900FA3539 /* EVToolBarView.swift */,
 				D98A8C7C25A037AD00FA3539 /* EVGraphicsView.swift */,
 				D98A8C7A25A0379200FA3539 /* EVDraggableDividerView.swift */,
 				D98A8C7625A0375600FA3539 /* EVTextEditorView.swift */,
+				D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */,
 				D98A8C7E25A037C700FA3539 /* EVMenuView.swift */,
 			);
 			path = Editor;
@@ -1036,6 +1042,7 @@
 				105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */,
 				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
+				D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
@@ -1063,6 +1070,7 @@
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
+				D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */,
 				10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
@@ -1274,7 +1282,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 49976XP4C5;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1297,7 +1305,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 49976XP4C5;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

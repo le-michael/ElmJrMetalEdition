@@ -71,4 +71,6 @@ extension EVProjectsMenuCell: EVEditorDelegate {
     func didLoadProject(project: EVProject) {
         updateSelectionColor()
     }
+    
+    func didToggleMode() {}
 }

@@ -99,9 +99,7 @@ extension EVTextEditorView: EVEditorDelegate {
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
-    
-    func didChangeTextEditorHeight(height: CGFloat) {}
-    
+        
     func didChangeSourceCode(sourceCode: String) {}
     
     func didOpenProjects() {}
@@ -109,6 +107,8 @@ extension EVTextEditorView: EVEditorDelegate {
     func didLoadProject(project: EVProject) {
         updateTextViewFromEditor()
     }
+    
+    func didToggleMode() {}
     
 }
 

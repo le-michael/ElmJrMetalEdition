@@ -34,8 +34,11 @@ class EVToolBarView: UIView {
         
         let runButton = UIBarButtonItem(title: "Run", style: UIBarButtonItem.Style.plain, target: self, action: #selector(runClicked))
         runButton.tintColor = EVTheme.Colors.highlighted
+        
+        let toggleModeButton = UIBarButtonItem(title: "Toggle Mode", style: UIBarButtonItem.Style.plain, target: self, action: #selector(toggleModeButtonClicked))
+        saveButton.tintColor = EVTheme.Colors.highlighted
 
-        navigationItem.setRightBarButtonItems([saveButton, runButton], animated: true)
+        navigationItem.setRightBarButtonItems([saveButton, runButton, toggleModeButton], animated: true)
         
         navigationBar.items = [navigationItem]
 
@@ -58,6 +61,10 @@ class EVToolBarView: UIView {
         EVEditor.shared.toggleProjectMenu()
     }
     
+    @objc func toggleModeButtonClicked(sender: UIBarButtonItem) {
+        EVEditor.shared.toggleMode()
+    }
+    
     @objc func saveClicked(sender: UIBarButtonItem) {
         EVProjectManager.shared.saveProjects()
     }
@@ -65,12 +72,12 @@ class EVToolBarView: UIView {
 }
 
 extension EVToolBarView: EVEditorDelegate {
+    func didToggleMode() {}
+    
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
-    
-    func didChangeTextEditorHeight(height: CGFloat) {}
-    
+        
     func didChangeSourceCode(sourceCode: String) {}
     
     func didOpenProjects() {}

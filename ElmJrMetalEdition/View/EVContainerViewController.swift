@@ -67,4 +67,6 @@ extension EVContainerViewController: EVEditorDelegate {
             animateEditorToXPosition(0)
         }
     }
+    
+    func didToggleMode() {}
 }

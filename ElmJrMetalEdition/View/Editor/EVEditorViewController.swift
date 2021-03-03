@@ -14,11 +14,9 @@ class EVEditorViewController: UIViewController {
     let textEditorView = EVTextEditorView()
     let graphicsView = EVGraphicsView()
     let menuView = EVMenuView()
-    let leftRightDivider = EVDraggableDivider(dragsHorizontally: true)
-    let upDownDivider = EVDraggableDivider(dragsHorizontally: false)
+    let leftRightDivider = EVDraggableDivider()
     
     var textEditorWidthConstraint: NSLayoutConstraint?
-    var textEditorHeightConstraint: NSLayoutConstraint?
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +34,12 @@ class EVEditorViewController: UIViewController {
         view.addSubview(textEditorView)
         view.addSubview(leftRightDivider)
         view.addSubview(graphicsView)
-        view.addSubview(upDownDivider)
         view.addSubview(menuView)
 
         setupToolBarLayout()
         setupTextEditorViewLayout()
         setupLeftRightDividerLayout()
         setupGraphicsViewLayout()
-        setupUpDownDividerLayout()
-        setupMenuViewLayout()
     }
     
     func setupToolBarLayout() {
@@ -58,13 +53,11 @@ class EVEditorViewController: UIViewController {
     func setupTextEditorViewLayout() {
         textEditorView.translatesAutoresizingMaskIntoConstraints = false
         textEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
+        textEditorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         textEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        
         textEditorWidthConstraint = textEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
         textEditorWidthConstraint?.isActive = true
         
-        textEditorHeightConstraint = textEditorView.heightAnchor.constraint(equalToConstant: EVEditor.shared.textEditorHeight)
-        textEditorHeightConstraint?.isActive = true
     }
     
     func setupLeftRightDividerLayout() {
@@ -83,22 +76,6 @@ class EVEditorViewController: UIViewController {
         graphicsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
     }
     
-    func setupUpDownDividerLayout() {
-        upDownDivider.translatesAutoresizingMaskIntoConstraints = false
-        upDownDivider.topAnchor.constraint(equalTo: textEditorView.bottomAnchor, constant: 0).isActive = true
-        upDownDivider.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        upDownDivider.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-        upDownDivider.heightAnchor.constraint(equalToConstant: 20).isActive = true
-    }
-    
-    func setupMenuViewLayout() {
-        menuView.translatesAutoresizingMaskIntoConstraints = false
-        menuView.topAnchor.constraint(equalTo: upDownDivider.bottomAnchor, constant: 0).isActive = true
-        menuView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        menuView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        menuView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-    }
-    
     func addDropShadow() {
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
@@ -114,10 +91,6 @@ extension EVEditorViewController: EVEditorDelegate {
         textEditorWidthConstraint?.constant = width
     }
     
-    func didChangeTextEditorHeight(height: CGFloat) {
-        textEditorHeightConstraint?.constant = height
-    }
-    
     func didChangeSourceCode(sourceCode: String) {}
     
     func didLoadProject(project: EVProject) {}
@@ -125,6 +98,10 @@ extension EVEditorViewController: EVEditorDelegate {
     func editor(_ editor: EVEditor, didChangeSourceCode: String){}
     
     func didOpenProjects() {}
+    
+    func didToggleMode() {
+    
+    }
 }
 
 extension EVEditorViewController: EVProjectManagerDelegate {
