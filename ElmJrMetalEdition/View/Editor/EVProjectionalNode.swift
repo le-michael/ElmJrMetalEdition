@@ -70,6 +70,7 @@ class EVProjectionalNodeView: UIView {
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        print("Tapped")
         tapHandler()
     }
     
@@ -161,6 +162,21 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
             
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
+        nodeView.tapHandler = {
+            let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.keyboardType = .numberPad
+                textField.text = "\(self.value)"
+            }
+            alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
+                guard let newValueStr = alert?.textFields![0].text else { return }
+                guard let newValue = Float(newValueStr) else { return }
+                self.value = newValue
+                EVEditor.shared.astToSourceCode()
+            }))
+            let uiView = nodeView as UIView
+            uiView.parentViewController?.present(alert, animated: true, completion: nil)
+        }
 
         return nodeView
     }

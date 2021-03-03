@@ -38,6 +38,9 @@ class EVEditorViewController: UIViewController {
         view.addSubview(leftRightDivider)
         view.addSubview(graphicsView)
         view.addSubview(menuView)
+        
+        codeEditorView.addSubview(textEditorView)
+        setupTextEditorLayout()
 
         setupToolBarLayout()
         setupCodeEditorViewLayout()
