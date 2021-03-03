@@ -12,9 +12,12 @@ class EVEditorViewController: UIViewController {
     
     let toolBarView = EVToolBarView()
     let textEditorView = EVTextEditorView()
+    let projectionalEditorView = EVProjectionalEditorView()
     let graphicsView = EVGraphicsView()
     let menuView = EVMenuView()
     let leftRightDivider = EVDraggableDivider()
+    let codeEditorView = UIView()
+
     
     var textEditorWidthConstraint: NSLayoutConstraint?
         
@@ -31,13 +34,13 @@ class EVEditorViewController: UIViewController {
         addDropShadow()
         
         view.addSubview(toolBarView)
-        view.addSubview(textEditorView)
+        view.addSubview(codeEditorView)
         view.addSubview(leftRightDivider)
         view.addSubview(graphicsView)
         view.addSubview(menuView)
 
         setupToolBarLayout()
-        setupTextEditorViewLayout()
+        setupCodeEditorViewLayout()
         setupLeftRightDividerLayout()
         setupGraphicsViewLayout()
     }
@@ -50,21 +53,21 @@ class EVEditorViewController: UIViewController {
         toolBarView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    func setupTextEditorViewLayout() {
-        textEditorView.translatesAutoresizingMaskIntoConstraints = false
-        textEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
-        textEditorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        textEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        textEditorWidthConstraint = textEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
+    func setupCodeEditorViewLayout() {
+        codeEditorView.translatesAutoresizingMaskIntoConstraints = false
+        codeEditorView.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 0).isActive = true
+        codeEditorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        codeEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+        textEditorWidthConstraint = codeEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
         textEditorWidthConstraint?.isActive = true
         
     }
     
     func setupLeftRightDividerLayout() {
         leftRightDivider.translatesAutoresizingMaskIntoConstraints = false
-        leftRightDivider.topAnchor.constraint(equalTo: textEditorView.topAnchor, constant: 0).isActive = true
-        leftRightDivider.bottomAnchor.constraint(equalTo: textEditorView.bottomAnchor, constant: 0).isActive = true
-        leftRightDivider.leadingAnchor.constraint(equalTo: textEditorView.trailingAnchor, constant: 0).isActive = true
+        leftRightDivider.topAnchor.constraint(equalTo: codeEditorView.topAnchor, constant: 0).isActive = true
+        leftRightDivider.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor, constant: 0).isActive = true
+        leftRightDivider.leadingAnchor.constraint(equalTo: codeEditorView.trailingAnchor, constant: 0).isActive = true
         leftRightDivider.widthAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
@@ -74,6 +77,22 @@ class EVEditorViewController: UIViewController {
         graphicsView.bottomAnchor.constraint(equalTo: leftRightDivider.bottomAnchor, constant: 0).isActive = true
         graphicsView.leadingAnchor.constraint(equalTo: leftRightDivider.trailingAnchor, constant: 0).isActive = true
         graphicsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+    }
+    
+    func setupTextEditorLayout() {
+        textEditorView.translatesAutoresizingMaskIntoConstraints = false
+        textEditorView.topAnchor.constraint(equalTo: codeEditorView.topAnchor).isActive = true
+        textEditorView.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor).isActive = true
+        textEditorView.leadingAnchor.constraint(equalTo: codeEditorView.leadingAnchor).isActive = true
+        textEditorView.trailingAnchor.constraint(equalTo: codeEditorView.trailingAnchor).isActive = true
+    }
+
+    func setupProjectionalEditorLayout() {
+        projectionalEditorView.translatesAutoresizingMaskIntoConstraints = false
+        projectionalEditorView.topAnchor.constraint(equalTo: codeEditorView.topAnchor).isActive = true
+        projectionalEditorView.bottomAnchor.constraint(equalTo: codeEditorView.bottomAnchor).isActive = true
+        projectionalEditorView.leadingAnchor.constraint(equalTo: codeEditorView.leadingAnchor).isActive = true
+        projectionalEditorView.trailingAnchor.constraint(equalTo: codeEditorView.trailingAnchor).isActive = true
     }
     
     func addDropShadow() {
@@ -100,7 +119,15 @@ extension EVEditorViewController: EVEditorDelegate {
     func didOpenProjects() {}
     
     func didToggleMode() {
-    
+        textEditorView.removeFromSuperview()
+        projectionalEditorView.removeFromSuperview()
+        if EVEditor.shared.mode == .projectional {
+            codeEditorView.addSubview(projectionalEditorView)
+            setupProjectionalEditorLayout()
+        } else {
+            codeEditorView.addSubview(textEditorView)
+            setupTextEditorLayout()
+        }
     }
 }
 

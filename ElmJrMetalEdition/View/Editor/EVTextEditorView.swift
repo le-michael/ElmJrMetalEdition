@@ -100,7 +100,12 @@ extension EVTextEditorView: EVEditorDelegate {
     
     func didChangeTextEditorWidth(width: CGFloat) {}
         
-    func didChangeSourceCode(sourceCode: String) {}
+    func didChangeSourceCode(sourceCode: String) {
+        if sourceCode != textView.text {
+            textView.text = sourceCode
+            postProcess()
+        }
+    }
     
     func didOpenProjects() {}
     
