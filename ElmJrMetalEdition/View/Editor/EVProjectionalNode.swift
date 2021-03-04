@@ -425,17 +425,22 @@ extension EIAST.List: EVProjectionalNode {
     @objc func handleAddItemPress(sender: UIButton) {
         let alert = UIAlertController(title: "Add item to list: ", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cylinder", style: .default, handler: { [weak alert] (_) in
-            self.items.append(EIAST.ConstructorInstance(constructorName: "cylinder", parameters: []))
+            let sphere = compileNode(sourceCode: """
+                cylinder
+                    |> color (rgb 1 1 1)
+                    |> move (0, 0, 0)
+                    |> scale (1.0, 1.0, 1.0)
+            """)
+            self.items.append(sphere)
             EVEditor.shared.astToSourceCode()
         }))
         alert.addAction(UIAlertAction(title: "Sphere", style: .default, handler: { [weak alert] (_) in
             let sphere = compileNode(sourceCode: """
                 sphere
-                    |> color (rgb 1 1 1)
-                    |> move (0, 2.25, 0)
-                    |> scaleAll 0.5
+                    |> color (rgb 1.0 1.0 1.0)
+                    |> move (0, 0, 0)
+                    |> scale (1.0, 1.0, 1.0)
             """)
-            print(sphere)
             self.items.append(sphere)
             EVEditor.shared.astToSourceCode()
         }))
