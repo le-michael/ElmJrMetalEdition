@@ -140,6 +140,7 @@
 		D9294D6925C91E7C005FEBB9 /* SnowMan.elm in Resources */ = {isa = PBXBuildFile; fileRef = D9294D6825C91E7C005FEBB9 /* SnowMan.elm */; };
 		D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */; };
 		D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */; };
+		D9373E3A25F16C2C0093D63F /* InterpreterHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
 		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
 		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
@@ -315,6 +316,7 @@
 		D9294D6825C91E7C005FEBB9 /* SnowMan.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = SnowMan.elm; sourceTree = "<group>"; };
 		D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalEditorView.swift; sourceTree = "<group>"; };
 		D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalNode.swift; sourceTree = "<group>"; };
+		D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpreterHelpers.swift; sourceTree = "<group>"; };
 		D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElmJrMetalEdition.entitlements; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				D98A8C7325A02B3C00FA3539 /* Editor */,
 				D98A8C7425A02B9600FA3539 /* EVEditor.swift */,
 				D9BDF53925A10F24008E6D2C /* EVTheme.swift */,
+				D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */,
 				D9BDF54725A2B856008E6D2C /* EVProject.swift */,
 				D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */,
 				D951051125A3F4A500B07B79 /* EVProjectManager.swift */,
@@ -1078,6 +1081,7 @@
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */,
 				10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */,
+				D9373E3A25F16C2C0093D63F /* InterpreterHelpers.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
 				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,
 				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,

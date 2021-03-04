@@ -404,13 +404,43 @@ extension EIAST.List: EVProjectionalNode {
             
             stackView.addArrangedSubview(itemView)
         }
-        
+        stackView.addArrangedSubview(_getAddItemView())
         let closeBracket = UILabel()
         closeBracket.text = "]"
         stackView.addArrangedSubview(closeBracket)
         
         let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
         return cardView
+    }
+    
+    func _getAddItemView() -> UIView {
+        let button = UIButton()
+        button.setTitle(" + Add Item", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleAddItemPress), for: .touchUpInside)
+        
+        return button
+    }
+    
+    @objc func handleAddItemPress(sender: UIButton) {
+        let alert = UIAlertController(title: "Add item to list: ", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cylinder", style: .default, handler: { [weak alert] (_) in
+            self.items.append(EIAST.ConstructorInstance(constructorName: "cylinder", parameters: []))
+            EVEditor.shared.astToSourceCode()
+        }))
+        alert.addAction(UIAlertAction(title: "Sphere", style: .default, handler: { [weak alert] (_) in
+            let sphere = compileNode(sourceCode: """
+                sphere
+                    |> color (rgb 1 1 1)
+                    |> move (0, 2.25, 0)
+                    |> scaleAll 0.5
+            """)
+            print(sphere)
+            self.items.append(sphere)
+            EVEditor.shared.astToSourceCode()
+        }))
+        let uiView = sender as UIView
+        uiView.parentViewController?.present(alert, animated: true, completion: nil)
     }
 }
 
