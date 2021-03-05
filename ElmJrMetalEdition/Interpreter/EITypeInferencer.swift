@@ -64,7 +64,11 @@ class EITypeInferencer {
         }
         
         func lookup(_ x: Var) throws -> Scheme {
-            return types[x]!
+            if let scheme = types[x] {
+                return scheme
+            } else {
+                throw TypeError.VarNotInEnv
+            }
         }
         
         var description : String {
@@ -82,14 +86,19 @@ class EITypeInferencer {
     
     // Data structure for providing fresh variable names in different contexts
     class VarSupply {
+        // local to InferState
         var numberCounter : Int
         var alphaCounter : Int
+        var noValueCounter : Int
+
+        // global
         var globNumberCounter : Int
         var globAlphaCounter : Int
         
         init() {
             numberCounter = -1
             alphaCounter = -1
+            noValueCounter = -1
             globNumberCounter = -1
             globAlphaCounter = 96
         }
@@ -113,6 +122,11 @@ class EITypeInferencer {
         func globalFreshNumber() -> MonoType {
             globNumberCounter += 1
             return .TSuper("number", globNumberCounter)
+        }
+        
+        func freshNoValue() -> MonoType {
+            noValueCounter += 1
+            return .TNoValue("internal_novalue_v_" + String(noValueCounter))
         }
         
         func fresh() -> MonoType {
@@ -146,6 +160,7 @@ class EITypeInferencer {
         case InfiniteType(TVar, MonoType)
         case UnboundedVariable(String)
         case NotInScopeTyVar
+        case VarNotInEnv
         case UnimplementedError(EINode)
     }
     
@@ -212,8 +227,8 @@ class EITypeInferencer {
             return MonoType.CustomType(tyName, types.map{ apply(s, with: $0) })
         case .TupleType(let t1, let t2, let t3):
             return MonoType.TupleType(apply(s, with: t1), apply(s, with: t2), (t3 != nil ? apply(s, with: t3!) : nil))
-        case .TNoValue:
-            return MonoType.TNoValue
+        case .TNoValue(let id):
+            return .TNoValue(id)
         }
     }
     
@@ -488,8 +503,8 @@ class EITypeInferencer {
                             cs[$0 + 1].0) }
             return (MonoType.CustomType("List", [tv]), [(tv, cs[0].0)] + listConstraints)
         case _ as EIAST.NoValue:
-            let tv = inferState.supply.fresh()
-            return (tv, [])
+            let ntv = inferState.supply.freshNoValue()
+            return (ntv, [])
         default:
             throw TypeError.UnimplementedError(expr)
         }
@@ -578,8 +593,8 @@ class EITypeInferencer {
                 } else {
                     return .TupleType(try normtype(a), try normtype(b), nil)
                 }
-            case .TNoValue:
-                return .TNoValue
+            case .TNoValue(let nv):
+                return .TNoValue(nv)
             }
         }
         
@@ -615,6 +630,23 @@ class EITypeInferencer {
         switch (t1, t2) {
         case(let a, let b) where a == b:
             return nullSubst
+        /* Handle NOVALUE nodes here: If I see a constraint on a NoValue type,
+            there will be two cases:
+            - NoValue not in the type-env: Just add it into the TypeEnv
+            - It is in the TypeEnv: Retreive its type, perform unification, then
+              perform the substitution on the NoValue type in the table
+        */
+        case(.TNoValue(let ident), let t):
+            do {
+                let scheme = try inferState.typeEnv.lookup(ident)
+                let subst = try unify(scheme.ty, t)
+                let newScheme = try closeOver(apply(subst, with: scheme.ty))
+                inferState.typeEnv.extend(ident, newScheme)
+                return nullSubst
+            } catch TypeError.VarNotInEnv {
+                inferState.typeEnv.extend(ident, Scheme(tyVars: [], ty: t))
+                return nullSubst
+            }
         // unify type constraints
         case(.TSuper(let a, let n), .TSuper(let b, _))
             where a == b:
@@ -771,5 +803,11 @@ class EITypeInferencer {
                 return false
             }
         }
+    }
+    
+    // NoValue query function
+    func getNoValue(x : String) throws -> MonoType {
+        let scheme = try inferState.typeEnv.lookup(x)
+        return scheme.ty
     }
 }

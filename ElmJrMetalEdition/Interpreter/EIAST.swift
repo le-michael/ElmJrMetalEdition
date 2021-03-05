@@ -17,7 +17,7 @@ enum MonoType: Equatable, CustomStringConvertible {
     case TVar(TVar)
     case TCon(String)
     case TSuper(String, Int)
-    case TNoValue // For NoValue nodes
+    case TNoValue(String) // For NoValue nodes - the string acts as an identifier used in typechecking
     indirect case TArr(MonoType, MonoType)
     indirect case CustomType(String, [MonoType]) // Corresponds to "parameterized types"
     indirect case TupleType(MonoType, MonoType, MonoType?) // Corresponds to 2 and 3 tuples
@@ -153,7 +153,7 @@ class EIAST {
         var typeInfo: MonoType
         var name: Var
         init() {
-            typeInfo = MonoType.TNoValue
+            typeInfo = MonoType.TNoValue("placeholder")
             name = ""
         }
         var description: String { return "NOVALUE" }
