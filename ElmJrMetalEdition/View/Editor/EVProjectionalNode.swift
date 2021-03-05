@@ -42,13 +42,16 @@ class EVProjectionalNodeView: UIView {
         innerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: EVProjectionalNodeView.padding).isActive = true
         innerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -EVProjectionalNodeView.padding).isActive = true
         
-        setupTapGesture()
-        
         if isStore {
             setupDrag()
         } else {
             setupDrop()
         }
+    }
+    
+    func addTapCallback(callback: @escaping ()->Void) {
+        tapHandler = callback
+        setupTapGesture()
     }
     
     func setupTapGesture() {
@@ -134,7 +137,7 @@ extension EIAST.Integer: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
 
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
-        nodeView.tapHandler = {
+        nodeView.addTapCallback(callback: {
             let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
             alert.addTextField { (textField) in
                 textField.keyboardType = .numberPad
@@ -148,7 +151,7 @@ extension EIAST.Integer: EVProjectionalNode {
             }))
             let uiView = nodeView as UIView
             uiView.parentViewController?.present(alert, animated: true, completion: nil)
-        }
+        })
         return nodeView
     }
     
@@ -162,7 +165,7 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
             
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
-        nodeView.tapHandler = {
+        nodeView.addTapCallback(callback: {
             let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
             alert.addTextField { (textField) in
                 textField.keyboardType = .numberPad
@@ -176,7 +179,7 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
             }))
             let uiView = nodeView as UIView
             uiView.parentViewController?.present(alert, animated: true, completion: nil)
-        }
+        })
 
         return nodeView
     }
@@ -423,6 +426,43 @@ extension EIAST.List: EVProjectionalNode {
     }
     
     @objc func handleAddItemPress(sender: UIButton) {
+        let sphere = compileNode(sourceCode: """
+            sphere
+                |> color (rgb 1 1 1)
+                |> move (0, 0, 0)
+                |> scale (1.0, 1.0, 1.0)
+        """)
+        
+        let cylinder = compileNode(sourceCode: """
+            cylinder
+                |> color (rgb 1 1 1)
+                |> move (0, 0, 0)
+                |> scale (1.0, 1.0, 1.0)
+        """)
+        
+        EVEditor.shared.openNodeMenu(
+            nodes: [
+                sphere as! EVProjectionalNode,
+                cylinder as! EVProjectionalNode,
+            ],
+            descriptions: [
+                "A Sphere",
+                "A Cylinder"
+            ],
+            callbacks: [
+                {
+                    self.items.append(sphere)
+                    EVEditor.shared.astToSourceCode()
+                    EVEditor.shared.closeNodeMenu()
+                },
+                {
+                    self.items.append(cylinder)
+                    EVEditor.shared.astToSourceCode()
+                    EVEditor.shared.closeNodeMenu()
+                },
+            ]
+        )
+        /*
         let alert = UIAlertController(title: "Add item to list: ", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cylinder", style: .default, handler: { [weak alert] (_) in
             let sphere = compileNode(sourceCode: """
@@ -446,6 +486,7 @@ extension EIAST.List: EVProjectionalNode {
         }))
         let uiView = sender as UIView
         uiView.parentViewController?.present(alert, animated: true, completion: nil)
+         */
     }
 }
 

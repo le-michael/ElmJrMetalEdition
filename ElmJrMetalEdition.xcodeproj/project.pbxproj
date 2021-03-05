@@ -141,6 +141,7 @@
 		D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */; };
 		D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */; };
 		D9373E3A25F16C2C0093D63F /* InterpreterHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */; };
+		D9373E3E25F2B44A0093D63F /* EVNodeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
 		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
 		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
@@ -317,6 +318,7 @@
 		D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalEditorView.swift; sourceTree = "<group>"; };
 		D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalNode.swift; sourceTree = "<group>"; };
 		D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpreterHelpers.swift; sourceTree = "<group>"; };
+		D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVNodeMenu.swift; sourceTree = "<group>"; };
 		D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElmJrMetalEdition.entitlements; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 			children = (
 				D95DF206251C06CA00F9457F /* EVEditorViewController.swift */,
 				D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */,
+				D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */,
 				D98A8C7825A0377900FA3539 /* EVToolBarView.swift */,
 				D98A8C7C25A037AD00FA3539 /* EVGraphicsView.swift */,
 				D98A8C7A25A0379200FA3539 /* EVDraggableDividerView.swift */,
@@ -1034,6 +1037,7 @@
 				1072E3EF2565942100D390FE /* EGPrimitive.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
+				D9373E3E25F2B44A0093D63F /* EVNodeMenu.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */,
 				10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */,

@@ -17,8 +17,9 @@ class EVEditorViewController: UIViewController {
     let menuView = EVMenuView()
     let leftRightDivider = EVDraggableDivider()
     let codeEditorView = UIView()
-
     
+    var nodeMenuView: EVNodeMenu?
+
     var textEditorWidthConstraint: NSLayoutConstraint?
         
     override func viewDidLoad() {
@@ -107,6 +108,21 @@ class EVEditorViewController: UIViewController {
 }
 
 extension EVEditorViewController: EVEditorDelegate {
+    func didOpenNodeMenu(nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {
+        nodeMenuView?.removeFromSuperview()
+        nodeMenuView = EVNodeMenu(nodes: nodes, descriptions: descriptions, callbacks: callbacks)
+        view.addSubview(nodeMenuView!)
+        nodeMenuView?.translatesAutoresizingMaskIntoConstraints = false
+        nodeMenuView?.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        nodeMenuView?.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        nodeMenuView?.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
+        //nodeMenuView?.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+    }
+    
+    func didCloseNodeMenu() {
+        nodeMenuView?.removeFromSuperview()
+    }
+    
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {

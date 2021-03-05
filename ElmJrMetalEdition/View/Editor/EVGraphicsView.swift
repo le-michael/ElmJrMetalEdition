@@ -70,6 +70,11 @@ class EVGraphicsView: UIView {
 }
 
 extension EVGraphicsView: EVEditorDelegate {
+    
+    func didOpenNodeMenu(nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
+    
+    func didCloseNodeMenu() {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
         
     func didChangeSourceCode(sourceCode: String) {}
