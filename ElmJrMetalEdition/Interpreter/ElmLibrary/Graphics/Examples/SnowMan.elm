@@ -36,7 +36,7 @@ myShapes time =
         |> color (rgb (150/255) (70/255) 0)
         |> scale (0.05, 0.8, 0.05)
         |> move (-0.55, 1.65, 0)
-        |> rotate (0, 0, 45)
+        |> rotate (0, 0, (45-15)+(15*sin (time * 8 * (180 * 3.14))))
     , cylinder
         |> color (rgb (150/255) (70/255) 0)
         |> scale (0.05, 0.8, 0.05)

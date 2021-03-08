@@ -91,7 +91,8 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
         try evaluator.compile(code)
 
         guard let sceneNode = evaluator.globals["scene"] else { return EGScene() }
-        let scene = transpile(node: sceneNode) as! EGScene
+        let transpiler = EGTranspiler()
+        let scene = transpiler.transpile(node: sceneNode) as! EGScene
         scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
         return scene
 
