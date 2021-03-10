@@ -108,9 +108,9 @@ class EVEditorViewController: UIViewController {
 }
 
 extension EVEditorViewController: EVEditorDelegate {
-    func didOpenNodeMenu(nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {
+    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {
         nodeMenuView?.removeFromSuperview()
-        nodeMenuView = EVNodeMenu(nodes: nodes, descriptions: descriptions, callbacks: callbacks)
+        nodeMenuView = EVNodeMenu(title: title, nodes: nodes, descriptions: descriptions, callbacks: callbacks)
         view.addSubview(nodeMenuView!)
         nodeMenuView?.translatesAutoresizingMaskIntoConstraints = false
         nodeMenuView?.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true

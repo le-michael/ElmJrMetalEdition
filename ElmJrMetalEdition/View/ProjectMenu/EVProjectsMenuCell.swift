@@ -59,8 +59,8 @@ class EVProjectsMenuCell: UICollectionViewCell {
 
 extension EVProjectsMenuCell: EVEditorDelegate {
     
-    func didOpenNodeMenu(nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
-    
+    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
+
     func didCloseNodeMenu() {}
     
     func didUpdateScene(scene: EGScene) {}

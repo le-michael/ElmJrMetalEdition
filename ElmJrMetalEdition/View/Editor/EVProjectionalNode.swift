@@ -30,17 +30,17 @@ class EVProjectionalNodeView: UIView {
 
         backgroundColor = EVTheme.Colors.background
         
-        layer.borderWidth = 1
+        layer.borderWidth = 0
         layer.borderColor = UIColor.systemGray.cgColor
         layer.cornerRadius = 5;
         layer.masksToBounds = true;
         
         translatesAutoresizingMaskIntoConstraints = false
         innerView.translatesAutoresizingMaskIntoConstraints = false
-        innerView.topAnchor.constraint(equalTo: topAnchor, constant: EVProjectionalNodeView.padding).isActive = true
-        innerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -EVProjectionalNodeView.padding).isActive = true
-        innerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: EVProjectionalNodeView.padding).isActive = true
-        innerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -EVProjectionalNodeView.padding).isActive = true
+        innerView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        innerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        innerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
+        innerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
         
         if isStore {
             setupDrag()
@@ -137,21 +137,24 @@ extension EIAST.Integer: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
 
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
-        nodeView.addTapCallback(callback: {
-            let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
-            alert.addTextField { (textField) in
-                textField.keyboardType = .numberPad
-                textField.text = "\(self.value)"
-            }
-            alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
-                guard let newValueStr = alert?.textFields![0].text else { return }
-                guard let newValue = Int(newValueStr) else { return }
-                self.value = newValue
-                EVEditor.shared.astToSourceCode()
-            }))
-            let uiView = nodeView as UIView
-            uiView.parentViewController?.present(alert, animated: true, completion: nil)
-        })
+        if (!isStore) {
+            nodeView.addTapCallback(callback: {
+                let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
+                alert.addTextField { (textField) in
+                    textField.keyboardType = .numberPad
+                    textField.text = "\(self.value)"
+                }
+                alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
+                    guard let newValueStr = alert?.textFields![0].text else { return }
+                    guard let newValue = Int(newValueStr) else { return }
+                    self.value = newValue
+                    EVEditor.shared.astToSourceCode()
+                }))
+                let uiView = nodeView as UIView
+                uiView.parentViewController?.present(alert, animated: true, completion: nil)
+            })
+        }
+
         return nodeView
     }
     
@@ -165,21 +168,24 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
             
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
-        nodeView.addTapCallback(callback: {
-            let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
-            alert.addTextField { (textField) in
-                textField.keyboardType = .numberPad
-                textField.text = "\(self.value)"
-            }
-            alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
-                guard let newValueStr = alert?.textFields![0].text else { return }
-                guard let newValue = Float(newValueStr) else { return }
-                self.value = newValue
-                EVEditor.shared.astToSourceCode()
-            }))
-            let uiView = nodeView as UIView
-            uiView.parentViewController?.present(alert, animated: true, completion: nil)
-        })
+        if (!isStore) {
+            nodeView.addTapCallback(callback: {
+                let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
+                alert.addTextField { (textField) in
+                    textField.keyboardType = .numberPad
+                    textField.text = "\(self.value)"
+                }
+                alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
+                    guard let newValueStr = alert?.textFields![0].text else { return }
+                    guard let newValue = Float(newValueStr) else { return }
+                    self.value = newValue
+                    EVEditor.shared.astToSourceCode()
+                }))
+                let uiView = nodeView as UIView
+                uiView.parentViewController?.present(alert, animated: true, completion: nil)
+            })
+        }
+
 
         return nodeView
     }
@@ -285,17 +291,50 @@ extension EIAST.Function: EVProjectionalNode {
 // TODO NOW
 extension EIAST.FunctionApplication: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        
+        return normalForm(isStore: isStore)
+    }
+    
+    func normalForm(isStore: Bool) -> EVProjectionalNodeView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
+        stackView.spacing = 10
         let functionNode = function as! EVProjectionalNode
         let argumentNode = argument as! EVProjectionalNode
+        
+        let leftBracket = UILabel()
+        leftBracket.text = "("
+        stackView.addArrangedSubview(leftBracket)
         
         let functionNodeView = functionNode.getUIView(isStore: isStore)
         stackView.addArrangedSubview(functionNodeView)
         
         let argumentNodeView = argumentNode.getUIView(isStore: isStore)
         stackView.addArrangedSubview(argumentNodeView)
+        
+        let rightBracket = UILabel()
+        rightBracket.text = ")"
+        stackView.addArrangedSubview(rightBracket)
+        
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+        return cardView
+    }
+    
+    func arrowForm(isStore: Bool) -> EVProjectionalNodeView {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        let functionNode = function as! EVProjectionalNode
+        let argumentNode = argument as! EVProjectionalNode
+        
+        let argumentNodeView = argumentNode.getUIView(isStore: isStore)
+        stackView.addArrangedSubview(argumentNodeView)
+        
+        let functionNodeView = functionNode.getUIView(isStore: isStore)
+        stackView.addArrangedSubview(functionNodeView)
+        
+
         
         let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
         return cardView
@@ -384,6 +423,7 @@ extension EIAST.List: EVProjectionalNode {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.spacing = 10
         
         let openBracket = UILabel()
         openBracket.text = "["
@@ -428,19 +468,20 @@ extension EIAST.List: EVProjectionalNode {
     @objc func handleAddItemPress(sender: UIButton) {
         let sphere = compileNode(sourceCode: """
             sphere
-                |> color (rgb 1 1 1)
-                |> move (0, 0, 0)
+                |> color (rgb 1.0 1.0 1.0)
+                |> move (0.0, 0.0, 0.0)
                 |> scale (1.0, 1.0, 1.0)
         """)
         
         let cylinder = compileNode(sourceCode: """
             cylinder
-                |> color (rgb 1 1 1)
-                |> move (0, 0, 0)
+                |> color (rgb 1.0 1.0 1.0)
+                |> move (0.0, 0.0, 0.0)
                 |> scale (1.0, 1.0, 1.0)
         """)
         
         EVEditor.shared.openNodeMenu(
+            title: "Add item to list:",
             nodes: [
                 sphere as! EVProjectionalNode,
                 cylinder as! EVProjectionalNode,
