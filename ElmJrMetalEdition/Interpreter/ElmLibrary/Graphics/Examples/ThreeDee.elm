@@ -24,7 +24,7 @@ myShapes time =
     , cylinder |> color (rgb 0.1 0.1 0.1) |> scale (0.35, 0.02, 0.35) |> move (0, 2.70, 0) --rim
     , cylinder |> color (rgb 0.1 0.1 0.1) |> scale (0.25, 0.2, 0.25) |> move (0, 2.90, 0) --top
     -- arm
-    --, cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.55, 1.65, 0) |> rotate (0, 0, (45-15)+(15*sin (time * 8)))
+    , cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.55, 1.65, 0) |> rotate (0, 0, (45-15)+(15*sin (time * 8)))
     , cylinder |> color (rgb (150/255) (70/255) 0) |> scale (0.05, 0.8, 0.05) |> move (-0.67, 1.3, 0) |> rotate (0, 0, 35)
     ]
 
@@ -33,7 +33,7 @@ lights =
     , AmbientLight (RGB 1 1 1) 0.5
     ]
 
-scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) lights myShapes 
+scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB 1 1 1) lights myShapes
 
 -- Shapes have smooth intensity
 -- scale (x, y, z) instead of X, Y, Z

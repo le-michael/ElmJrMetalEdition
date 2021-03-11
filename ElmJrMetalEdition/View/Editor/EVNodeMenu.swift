@@ -39,7 +39,6 @@ class EVNodeMenu: UIView {
         stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 15
         stackView.distribution = .fill
         
         let titleView = UILabel()
@@ -47,9 +46,17 @@ class EVNodeMenu: UIView {
         titleView.text = self.title
         
         for (index, node) in nodes.enumerated() {
+            
+            let labelView = UILabel()
+            labelView.text = descriptions[index]
+            stackView.addArrangedSubview(labelView)
+            
             let nodeView = node.getUIView(isStore: true)
             nodeView.addTapCallback(callback: callbacks[index])
             stackView.addArrangedSubview(nodeView)
+            
+            stackView.setCustomSpacing(20, after: nodeView)
+
         }
     }
     

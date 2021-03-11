@@ -87,8 +87,8 @@
 		10EF457525B66DA000C037AB /* flower_yellowC.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457325B66DA000C037AB /* flower_yellowC.obj */; };
 		10EF457A25B66F7B00C037AB /* ground_pathOpen.obj in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457825B66F7A00C037AB /* ground_pathOpen.obj */; };
 		10EF457B25B66F7B00C037AB /* ground_pathOpen.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */; };
-		5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */; };
-		5551CBDB25C4CD76005723BC /* GraphicsTranspilerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */; };
+		5551CBD725C4CD44005723BC /* EGTranspiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBD625C4CD44005723BC /* EGTranspiler.swift */; };
+		5551CBDB25C4CD76005723BC /* EGTranspilerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5551CBDA25C4CD76005723BC /* EGTranspilerTests.swift */; };
 		7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856A6259E7D7300546CD3 /* Bitwise.swift */; };
 		7C1856AB259E82A400546CD3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AA259E82A400546CD3 /* Utils.swift */; };
 		7C1856AF259E8C6200546CD3 /* Char.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1856AE259E8C6200546CD3 /* Char.swift */; };
@@ -265,8 +265,8 @@
 		10EF457325B66DA000C037AB /* flower_yellowC.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = flower_yellowC.obj; sourceTree = "<group>"; };
 		10EF457825B66F7A00C037AB /* ground_pathOpen.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.obj; sourceTree = "<group>"; };
 		10EF457925B66F7A00C037AB /* ground_pathOpen.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ground_pathOpen.mtl; sourceTree = "<group>"; };
-		5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsTranspiler.swift; sourceTree = "<group>"; };
-		5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphicsTranspilerTests.swift; sourceTree = "<group>"; };
+		5551CBD625C4CD44005723BC /* EGTranspiler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTranspiler.swift; sourceTree = "<group>"; };
+		5551CBDA25C4CD76005723BC /* EGTranspilerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EGTranspilerTests.swift; sourceTree = "<group>"; };
 		7C1856A6259E7D7300546CD3 /* Bitwise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitwise.swift; sourceTree = "<group>"; };
 		7C1856AA259E82A400546CD3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7C1856AE259E8C6200546CD3 /* Char.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Char.swift; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@
 				101D0825256C6BD6008F5A0D /* EGTransformTests.swift */,
 				1066EB9E256D9D3C00667E1E /* EGColorTests.swift */,
 				10340BB0257697880006F922 /* EGPoint2DTests.swift */,
-				5551CBDA25C4CD76005723BC /* GraphicsTranspilerTests.swift */,
+				5551CBDA25C4CD76005723BC /* EGTranspilerTests.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -463,6 +463,7 @@
 			children = (
 				10C373B725AFACD30011DF97 /* Models */,
 				103DF84225769FE500C093D1 /* Demos */,
+				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				10A0BB9B2575F900001CD1F8 /* Types */,
 				107FDB5A256717D200D1B54C /* MathNodes */,
 				1028E0132563163700C4DBFA /* GraphicsNodes */,
@@ -710,7 +711,7 @@
 		D9294D6125C8EAEB005FEBB9 /* Transpiler */ = {
 			isa = PBXGroup;
 			children = (
-				5551CBD625C4CD44005723BC /* GraphicsTranspiler.swift */,
+				5551CBD625C4CD44005723BC /* EGTranspiler.swift */,
 			);
 			path = Transpiler;
 			sourceTree = "<group>";
@@ -737,7 +738,6 @@
 			isa = PBXGroup;
 			children = (
 				D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */,
-				D9294D6125C8EAEB005FEBB9 /* Transpiler */,
 				D98A8C7225A02AAB00FA3539 /* View */,
 				1072E3E22564C3BF00D390FE /* Interpreter */,
 				107596F7251C460200BBE3B6 /* Renderer */,
@@ -1013,7 +1013,7 @@
 				FE59C9DE256CADC00098042C /* EITokenTests.swift in Sources */,
 				FEFA37ED256F656900797CD2 /* EIParserTests.swift in Sources */,
 				FEFA37E9256F41D600797CD2 /* EILexerTests.swift in Sources */,
-				5551CBDB25C4CD76005723BC /* GraphicsTranspilerTests.swift in Sources */,
+				5551CBDB25C4CD76005723BC /* EGTranspilerTests.swift in Sources */,
 				1066EB9F256D9D3C00667E1E /* EGColorTests.swift in Sources */,
 				101AE71D256784200083704C /* EGMathNodesTests.swift in Sources */,
 				10340BB1257697880006F922 /* EGPoint2DTests.swift in Sources */,
@@ -1056,7 +1056,7 @@
 				D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */,
 				10014B9B25C83FF60009C192 /* EGGroup.swift in Sources */,
 				107FDB602567189D00D1B54C /* EGConstant.swift in Sources */,
-				5551CBD725C4CD44005723BC /* GraphicsTranspiler.swift in Sources */,
+				5551CBD725C4CD44005723BC /* EGTranspiler.swift in Sources */,
 				105CCF132576968B006A6634 /* EGBufferData.swift in Sources */,
 				105CCEF625769166006A6634 /* EGMesh.swift in Sources */,
 				10A9D032256CA5E20046ACFF /* EGBinaryOp.swift in Sources */,

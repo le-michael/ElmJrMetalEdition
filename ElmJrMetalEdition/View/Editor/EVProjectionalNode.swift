@@ -137,6 +137,7 @@ extension EIAST.Integer: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
 
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
+        /*
         if (!isStore) {
             nodeView.addTapCallback(callback: {
                 let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
@@ -154,7 +155,7 @@ extension EIAST.Integer: EVProjectionalNode {
                 uiView.parentViewController?.present(alert, animated: true, completion: nil)
             })
         }
-
+        */
         return nodeView
     }
     
@@ -168,6 +169,7 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
         label.textColor = EVTheme.Colors.ProjectionalEditor.integer
             
         let nodeView = EVProjectionalNodeView(node: self, view: label, borderColor: EVTheme.Colors.ProjectionalEditor.integer!, isStore: isStore)
+        /*
         if (!isStore) {
             nodeView.addTapCallback(callback: {
                 let alert = UIAlertController(title: "Replace value of node: ", message: "", preferredStyle: .alert)
@@ -185,7 +187,7 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
                 uiView.parentViewController?.present(alert, animated: true, completion: nil)
             })
         }
-
+        */
 
         return nodeView
     }
@@ -387,31 +389,44 @@ extension EIAST.ConstructorInstance: EVProjectionalNode {
 extension EIAST.Tuple: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let stackView = UIStackView()
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
+
         stackView.axis = .horizontal
         stackView.alignment = .leading
 
-        
-        let commaView1 = UILabel()
-        commaView1.text = ","
-        let commaView2 = UILabel()
-        commaView2.text = ","
         let openBracket = UILabel()
         openBracket.text = "("
         let closeBracket = UILabel()
         closeBracket.text = ")"
         
         stackView.addArrangedSubview(openBracket)
-        let v1Node = v1 as! EVProjectionalNode
-        stackView.addArrangedSubview(v1Node.getUIView(isStore: isStore))
-        stackView.addArrangedSubview(commaView1)
-        let v2Node = v2 as! EVProjectionalNode
-        stackView.addArrangedSubview(v2Node.getUIView(isStore: isStore))
-        if let v3Node = v3 as? EVProjectionalNode {
-            stackView.addArrangedSubview(commaView2)
-            stackView.addArrangedSubview(v3Node.getUIView(isStore: isStore))
+        
+        for (index, v) in [v1, v2, v3].enumerated() {
+ 
+            guard let vNode = v as? EVProjectionalNode else { break }
+            let vNodeView = vNode.getUIView(isStore: isStore)
+            vNodeView.addTapCallback {
+                numberMenu(view:cardView, numberHandler: {num in
+                    if (index == 0) {
+                        self.v1 = num
+                    } else if (index == 1) {
+                        self.v2 = num
+                    } else if (index == 3) {
+                        self.v3 = num
+                    }
+                    EVEditor.shared.astToSourceCode()
+                    EVEditor.shared.closeNodeMenu()
+
+                })
+            }
+            stackView.addArrangedSubview(vNodeView)
+            if (index == 2) { break }
+            
+            let commaView = UILabel()
+            commaView.text = ","
+            stackView.addArrangedSubview(commaView)
         }
         stackView.addArrangedSubview(closeBracket)
-        let cardView = EVProjectionalNodeView(node: self, view: stackView, borderColor: .red, isStore: isStore)
         return cardView
     }
 }
@@ -503,31 +518,6 @@ extension EIAST.List: EVProjectionalNode {
                 },
             ]
         )
-        /*
-        let alert = UIAlertController(title: "Add item to list: ", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cylinder", style: .default, handler: { [weak alert] (_) in
-            let sphere = compileNode(sourceCode: """
-                cylinder
-                    |> color (rgb 1 1 1)
-                    |> move (0, 0, 0)
-                    |> scale (1.0, 1.0, 1.0)
-            """)
-            self.items.append(sphere)
-            EVEditor.shared.astToSourceCode()
-        }))
-        alert.addAction(UIAlertAction(title: "Sphere", style: .default, handler: { [weak alert] (_) in
-            let sphere = compileNode(sourceCode: """
-                sphere
-                    |> color (rgb 1.0 1.0 1.0)
-                    |> move (0, 0, 0)
-                    |> scale (1.0, 1.0, 1.0)
-            """)
-            self.items.append(sphere)
-            EVEditor.shared.astToSourceCode()
-        }))
-        let uiView = sender as UIView
-        uiView.parentViewController?.present(alert, animated: true, completion: nil)
-         */
     }
 }
 
@@ -564,4 +554,44 @@ extension UIView {
     }
 }
 
+func numberMenu(view: UIView, numberHandler: @escaping (EINode)->Void) {
+    let binaryOP = compileNode(sourceCode: """
+        1.0+1.0
+    """)
+    
+    let floatNum = compileNode(sourceCode: """
+        1.0
+    """)
+    
+    EVEditor.shared.openNodeMenu(
+        title: "Edit number:",
+        nodes: [
+            binaryOP as! EVProjectionalNode,
+            floatNum as! EVProjectionalNode,
+        ],
+        descriptions: [
+            "A Binary Operation",
+            "A Floating Point Number"
+        ],
+        callbacks: [
+            {
+                numberHandler(binaryOP)
+            },
+            {
+                let alert = UIAlertController(title: "Set number: ", message: "", preferredStyle: .alert)
+                alert.addTextField { (textField) in
+                    textField.keyboardType = .numberPad
+                    textField.text = "1.0"
+                }
+                alert.addAction(UIAlertAction(title: "Replace Value", style: .default, handler: { [weak alert] (_) in
+                    guard let newValueStr = alert?.textFields![0].text else { return }
+                    guard let newValue = Float(newValueStr) else { return }
+                    let floatNode = EIAST.FloatingPoint(newValue)
+                    numberHandler(floatNode)
+                }))
+                view.parentViewController?.present(alert, animated: true, completion: nil)
+            },
+        ]
+    )
+}
 

@@ -157,6 +157,7 @@ func parseWithLibraries(sourceCode: String) -> [EVProjectionalNode] {
     } catch {
         print("Error parsing with libraries: \(error)")
         return []
+
     }
 }
 
