@@ -16,7 +16,7 @@ protocol EVEditorDelegate {
     func didLoadProject(project: EVProject)
     func didUpdateScene(scene: EGScene)
     func didToggleMode()
-    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [()->Void])
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption])
     func didCloseNodeMenu()
 }
 
@@ -125,9 +125,9 @@ class EVEditor {
         delegates.forEach({ $0.didUpdateScene(scene: scene) })
     }
     
-    func openNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [()->Void]) {
+    func openNodeMenu(title: String, options: [EVNodeMenuOption]) {
         delegates.forEach({
-            $0.didOpenNodeMenu(title: title, nodes: nodes, descriptions: descriptions, callbacks: callbacks)
+            $0.didOpenNodeMenu(title: title, options: options)
         })
     }
     

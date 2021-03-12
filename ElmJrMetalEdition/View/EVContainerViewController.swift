@@ -49,8 +49,8 @@ class EVContainerViewController: UIViewController {
 
 extension EVContainerViewController: EVEditorDelegate {
     
-    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
-    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+
     func didCloseNodeMenu() {}
     
     func didUpdateScene(scene: EGScene) {}

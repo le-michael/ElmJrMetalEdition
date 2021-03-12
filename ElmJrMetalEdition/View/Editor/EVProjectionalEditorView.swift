@@ -16,6 +16,7 @@ class EVProjectionalEditorView: UIView {
         super.init(frame: frame)
         EVEditor.shared.subscribe(delegate: self)
         backgroundColor = EVTheme.Colors.background
+
         layer.masksToBounds = true
         setupGestures()
         updateASTView()
@@ -73,6 +74,7 @@ class EVProjectionalEditorView: UIView {
         label.textColor = .red
         return label
     }
+    
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -81,7 +83,7 @@ class EVProjectionalEditorView: UIView {
 
 extension EVProjectionalEditorView: EVEditorDelegate {
     
-    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 
     func didCloseNodeMenu() {}
     

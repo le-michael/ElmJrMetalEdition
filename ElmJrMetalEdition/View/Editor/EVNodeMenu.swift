@@ -8,23 +8,36 @@
 
 import UIKit
 
+class EVNodeMenuOption {
+    
+    var node: EVProjectionalNode
+    var description: String
+    var callback: ()->Void
+    
+    init(node: EVProjectionalNode, description: String, callback: @escaping ()->Void) {
+        self.node = node
+        self.description = description
+        self.callback = callback
+    }
+}
+
 class EVNodeMenu: UIView {
     
     var stackView: UIStackView!
-    var nodes: [EVProjectionalNode] = []
     
     var title: String = ""
-    var descriptions: [String] = []
-    var callbacks: [()->Void] = []
     
-    init(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [()->Void]) {
+    var options: [EVNodeMenuOption] = []
+
+    
+    init(title: String, options: [EVNodeMenuOption]) {
         self.title = title
-        self.nodes = nodes
-        self.descriptions = descriptions
-        self.callbacks = callbacks
+        self.options = options
         super.init(frame: .zero)
         
-        backgroundColor = .blue
+        backgroundColor = .gray
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
         
         setupStackView()
     }
@@ -33,10 +46,10 @@ class EVNodeMenu: UIView {
         stackView = UIStackView()
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
+        stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -45,14 +58,14 @@ class EVNodeMenu: UIView {
         stackView.addArrangedSubview(titleView)
         titleView.text = self.title
         
-        for (index, node) in nodes.enumerated() {
+        for option in self.options {
             
             let labelView = UILabel()
-            labelView.text = descriptions[index]
+            labelView.text = option.description
             stackView.addArrangedSubview(labelView)
             
-            let nodeView = node.getUIView(isStore: true)
-            nodeView.addTapCallback(callback: callbacks[index])
+            let nodeView = option.node.getUIView(isStore: true)
+            nodeView.addTapCallback(callback: option.callback)
             stackView.addArrangedSubview(nodeView)
             
             stackView.setCustomSpacing(20, after: nodeView)

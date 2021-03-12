@@ -73,7 +73,7 @@ class EVToolBarView: UIView {
 
 extension EVToolBarView: EVEditorDelegate {
     
-    func didOpenNodeMenu(title: String, nodes: [EVProjectionalNode], descriptions: [String], callbacks: [() -> Void]) {}
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 
     func didCloseNodeMenu() {}
     
