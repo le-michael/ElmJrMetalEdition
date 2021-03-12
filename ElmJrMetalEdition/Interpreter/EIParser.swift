@@ -294,11 +294,11 @@ class EIParser {
             switch token.type {
             case .rightFuncApp:
                 advance()
-                result = EIAST.FunctionApplication(function: try andableExpression(), argument: result)
+                result = EIAST.FunctionApplication(function: try andableExpression(), argument: result, functionApplicationType: .RightArrow)
                 eatNewlines()
             case .leftFuncApp:
                 advance()
-                result = EIAST.FunctionApplication(function: result, argument: try andableExpression())
+                result = EIAST.FunctionApplication(function: result, argument: try andableExpression(), functionApplicationType: .LeftArrow)
                 eatNewlines()
             default:
                 return result

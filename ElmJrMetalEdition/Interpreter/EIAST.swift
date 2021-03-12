@@ -176,14 +176,29 @@ class EIAST {
     class FunctionApplication: EINode {
         var function: EINode
         var argument: EINode
+        var functionApplicationType: FunctionApplicationType
         
-        init(function: EINode, argument: EINode) {
+        enum FunctionApplicationType {
+            case Normal
+            case LeftArrow
+            case RightArrow
+        }
+        
+        init(function: EINode, argument: EINode, functionApplicationType: FunctionApplicationType = .Normal) {
             self.function = function
             self.argument = argument
+            self.functionApplicationType = functionApplicationType
         }
 
         var description: String {
-            return "(\(function) \(argument))"
+            switch functionApplicationType {
+            case .Normal:
+                return "(\(function) \(argument))"
+            case .LeftArrow:
+                return "\(function) \n<| \(argument)"
+            case .RightArrow:
+                return "\(argument) \n|> \(function)"
+            }
         }
     }
     
