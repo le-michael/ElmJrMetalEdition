@@ -137,15 +137,22 @@ class EIParserTests: XCTestCase {
     }
     
     func testFancyFunctionApplication() throws {
-        try checkASTEquivalentExpression("f 1 2", "2 |> f 1")
-        try checkASTEquivalentExpression("f 1 2 3", "(3 |> (2 |> f 1))")
-        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
-                                         "sphere |> color (rgb 1 1 1) |> move (0, 2.25, 0)")
-        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
-                                         "sphere \n |> color (rgb 1 1 1) \n |> move (0, 2.25, 0)")
-        try checkASTEquivalentExpression("f 1 2", "f 1 <| 2")
-        try checkASTEquivalentExpression("f 1 2 3", "f 1 <| 2 <| 3")
-        try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
-                                         "move (0, 2.25, 0) <| (color (rgb 1 1 1) <| sphere)")
+        // These tests become irrelevant when we display function applications based on how they were input
+        // TODO: Have seperate equality checks for semantic and syntactic equality
+        //try checkASTEquivalentExpression("f 1 2", "2 |> f 1")
+        //try checkASTEquivalentExpression("f 1 2 3", "(3 |> (2 |> f 1))")
+        //try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+        //                                 "sphere |> color (rgb 1 1 1) |> move (0, 2.25, 0)")
+        //try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+        //                                 "sphere \n |> color (rgb 1 1 1) \n |> move (0, 2.25, 0)")
+        //try checkASTEquivalentExpression("f 1 2", "f 1 <| 2")
+        //try checkASTEquivalentExpression("f 1 2 3", "f 1 <| 2 <| 3")
+        //try checkASTEquivalentExpression("move (0, 2.25, 0) (color (rgb 1 1 1) sphere)",
+        //                                 "move (0, 2.25, 0) <| (color (rgb 1 1 1) <| sphere)")
+    }
+    
+    func testFunctionApplicationDisplay() throws {
+        try checkASTExpression("1 |> f |> g", "1 \n|> f \n|> g")
+        try checkASTExpression("1 |> f 1 |> g 2 3", "1 \n|> (f 1) \n|> ((g 2) 3)")
     }
 }
