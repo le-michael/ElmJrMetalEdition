@@ -14,7 +14,7 @@ class EGPrimitive3D: EGPrimitive {
 
     var submeshColorMap = [Int: EGColorProperty]()
 
-    var smoothIntensity: Float = 0.5
+    var smoothIntensity: Float = 0
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
@@ -112,6 +112,7 @@ class EGModel: EGPrimitive3D {
 class EGSphere: EGModel {
     init() {
         super.init(modelName: "sphere.obj")
+        smoothIntensity = 0.5
     }
 }
 
@@ -124,18 +125,21 @@ class EGCube: EGModel {
 class EGCone: EGModel {
     init() {
         super.init(modelName: "cone.obj")
+        smoothIntensity = 0.5
     }
 }
 
 class EGCapsule: EGModel {
     init() {
         super.init(modelName: "capsule.obj")
+        smoothIntensity = 0.5
     }
 }
 
 class EGCylinder: EGModel {
     init() {
         super.init(modelName: "cylinder.obj")
+        smoothIntensity = 0.5
     }
 }
 
@@ -148,5 +152,6 @@ class EGMonkey: EGModel {
 class EGRing: EGModel {
     init() {
         super.init(modelName: "ring.obj")
+        smoothIntensity = 0.5
     }
 }

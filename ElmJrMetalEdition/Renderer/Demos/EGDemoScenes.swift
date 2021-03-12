@@ -468,8 +468,18 @@ class EGDemoScenes {
             EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0.5, -1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
         )
         scene.lights.append(
+            EGLight.directional(color: [0.3, 0.3, 0.3], position: [0, -0.5, -1], intensity: 0.2, specularColor: [0.1, 0.1, 0.1])
+        )
+        scene.lights.append(
             EGLight.ambient(color: [0.4, 0.4, 0.4], intensity: 1)
         )
+        scene.lights.append(
+            EGLight.point(color: [1, 0.3, 0], position: [-0.25, 1.2, 0.65], attenuation: [1, 2, 0])
+        )
+        scene.lights.append(
+            EGLight.spotlight(color: [0,0,1], position: [0.25, 1, 3], attenuation: [1, 0, 0], coneAngle: Float(45).degreesToRadians, coneDirection: [0, -0.25, -1], coneAttenuation: 12)
+        )
+        
 
         let tree = EGModel(modelName: "tree_default.obj")
         tree.transform.translate.set(x: -0.75, y: 1, z: -0.25)

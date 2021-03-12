@@ -22,7 +22,9 @@ typedef enum {
 typedef enum {
     Undefined = 0,
     Directional = 1,
-    Ambient = 2
+    Ambient = 2,
+    Point = 3,
+    Spotlight = 4,
 } LightType;
 
 struct Light {
@@ -30,6 +32,10 @@ struct Light {
     vector_float3 color;
     vector_float3 specularColor;
     float intensity;
+    vector_float3 attenuation;
+    float coneAngle;
+    vector_float3 coneDirection;
+    float coneAttenuation;
     LightType type;
 };
 

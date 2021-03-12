@@ -26,4 +26,25 @@ class EGLight {
         light.type = Ambient
         return light
     }
+
+    static func point(color: simd_float3, position: simd_float3, attenuation: simd_float3) -> Light {
+        var light = Light()
+        light.type = Point
+        light.color = color
+        light.position = position
+        light.attenuation = attenuation
+        return light
+    }
+
+    static func spotlight(color: simd_float3, position: simd_float3, attenuation: simd_float3, coneAngle: Float, coneDirection: simd_float3, coneAttenuation: Float) -> Light {
+        var light = Light()
+        light.type = Spotlight
+        light.color = color
+        light.position = position
+        light.attenuation = attenuation
+        light.coneAngle = coneAngle
+        light.coneDirection = coneDirection
+        light.coneAttenuation = coneAttenuation
+        return light
+    }
 }
