@@ -29,12 +29,11 @@ type Transform
     | Scale (Float, Float, Float)
 
 type Color
-    = RGB Float Float Float
-    | RGBA Float Float Float Float
+    = RGB (Float, Float, Float)
 
 {- Can add this back in when parsing is better at handling whitespace
 type Light
-    = DirectionalLight 
+    = DirectionalLight
       Color -- light colour
       (Float, Float, Float) -- position/direction of vector
       Color -- specular colour
@@ -43,7 +42,8 @@ type Light
 type Light
     = DirectionalLight Color (Float, Float, Float) Color
     | AmbientLight Color Float
-
+    | Point Color (Float, Float, Float) (Float, Float, Float) -- color, position, attenuation
+    | Spotlight Color (Float, Float, Float) (Float, Float, Float) Float (Float, Float, Float) (Float, Float, Float)
 
 {- Can add this back in when parsing is better at handling whitespace
 type Camera
@@ -59,7 +59,9 @@ type Camera
     | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Shape
-    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
+    = Inked (Maybe Color) (Maybe Float) (Maybe Float) Stencil -- Base constructor: apply colour to a Stencil
+    -- | Texture String Stencil
+    | Model String (Maybe (List Color))
     | ApTransform Transform Shape -- Apply a transform to an already defined shape
     | Group (List Shape)
 
@@ -92,6 +94,9 @@ color : Color -> Stencil -> Shape
 color c stencil =
     Inked (Just c) stencil
 
+model : String -> (Maybe (List Color)) -> Shape
+model s mxs = Model mxs
+
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
 clamp : number -> number -> number -> number
@@ -116,6 +121,17 @@ rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
 
 rgba : Float -> Float -> Float -> Float -> Color
 rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
+
+pi : Float
+pi = 3.141592653589793
+
+-- deg to rad
+rad : Float -> Float
+rad n = n * pi/180
+
+-- rad to deg
+deg : Float -> Float
+deg n = n * 180/pi
 
 -- Default available colors
 
@@ -326,4 +342,4 @@ darkCharcoal =
 {-| -}
 blank : Color
 blank =
-    RGBA 0 0 0 0
+    RGBA 0 0 0
