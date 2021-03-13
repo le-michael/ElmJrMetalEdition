@@ -138,6 +138,10 @@
 		D90C14F42531064700375F0A /* MetalWorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F32531064700375F0A /* MetalWorkspaceController.swift */; };
 		D90C14F6253106EF00375F0A /* MetalWorkspace2Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */; };
 		D9294D6925C91E7C005FEBB9 /* SnowMan.elm in Resources */ = {isa = PBXBuildFile; fileRef = D9294D6825C91E7C005FEBB9 /* SnowMan.elm */; };
+		D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */; };
+		D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */; };
+		D9373E3A25F16C2C0093D63F /* InterpreterHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */; };
+		D9373E3E25F2B44A0093D63F /* EVNodeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */; };
 		D951050E25A3C9FC00B07B79 /* EVProjectsMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */; };
 		D951051225A3F4A500B07B79 /* EVProjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051125A3F4A500B07B79 /* EVProjectManager.swift */; };
 		D951051625A3F8E100B07B79 /* EVSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D951051525A3F8E100B07B79 /* EVSectionHeaderView.swift */; };
@@ -311,6 +315,10 @@
 		D90C14F32531064700375F0A /* MetalWorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspaceController.swift; sourceTree = "<group>"; };
 		D90C14F5253106EF00375F0A /* MetalWorkspace2Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalWorkspace2Controller.swift; sourceTree = "<group>"; };
 		D9294D6825C91E7C005FEBB9 /* SnowMan.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = SnowMan.elm; sourceTree = "<group>"; };
+		D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalEditorView.swift; sourceTree = "<group>"; };
+		D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectionalNode.swift; sourceTree = "<group>"; };
+		D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpreterHelpers.swift; sourceTree = "<group>"; };
+		D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVNodeMenu.swift; sourceTree = "<group>"; };
 		D93C1E8E25C9C77500447526 /* ElmJrMetalEdition.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElmJrMetalEdition.entitlements; sourceTree = "<group>"; };
 		D951050D25A3C9FC00B07B79 /* EVProjectsMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectsMenuCell.swift; sourceTree = "<group>"; };
 		D951051125A3F4A500B07B79 /* EVProjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProjectManager.swift; sourceTree = "<group>"; };
@@ -750,6 +758,7 @@
 				D98A8C7325A02B3C00FA3539 /* Editor */,
 				D98A8C7425A02B9600FA3539 /* EVEditor.swift */,
 				D9BDF53925A10F24008E6D2C /* EVTheme.swift */,
+				D9373E3925F16C2C0093D63F /* InterpreterHelpers.swift */,
 				D9BDF54725A2B856008E6D2C /* EVProject.swift */,
 				D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */,
 				D951051125A3F4A500B07B79 /* EVProjectManager.swift */,
@@ -761,10 +770,13 @@
 			isa = PBXGroup;
 			children = (
 				D95DF206251C06CA00F9457F /* EVEditorViewController.swift */,
+				D9373E3125F02BA70093D63F /* EVProjectionalNode.swift */,
+				D9373E3D25F2B44A0093D63F /* EVNodeMenu.swift */,
 				D98A8C7825A0377900FA3539 /* EVToolBarView.swift */,
 				D98A8C7C25A037AD00FA3539 /* EVGraphicsView.swift */,
 				D98A8C7A25A0379200FA3539 /* EVDraggableDividerView.swift */,
 				D98A8C7625A0375600FA3539 /* EVTextEditorView.swift */,
+				D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */,
 				D98A8C7E25A037C700FA3539 /* EVMenuView.swift */,
 			);
 			path = Editor;
@@ -1025,6 +1037,7 @@
 				1072E3EF2565942100D390FE /* EGPrimitive.swift in Sources */,
 				10ACC0B32562F4A400ABEAD4 /* Primitive.metal in Sources */,
 				1028E01825632AA000C4DBFA /* EGGraphicsNode.swift in Sources */,
+				D9373E3E25F2B44A0093D63F /* EVNodeMenu.swift in Sources */,
 				D98A8C7F25A037C700FA3539 /* EVMenuView.swift in Sources */,
 				D95DF1F4251BDD1900F9457F /* EVProjectMenuViewController.swift in Sources */,
 				10C3736A25AE676E0011DF97 /* EGTransformFunction.swift in Sources */,
@@ -1036,6 +1049,7 @@
 				105CCEFE257692B3006A6634 /* EGVertex.swift in Sources */,
 				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
+				D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
@@ -1063,6 +1077,7 @@
 				105CCF0F25769668006A6634 /* EGSceneProps.swift in Sources */,
 				DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */,
 				109357AE256D8C0200CC2F3D /* EGColorProperty.swift in Sources */,
+				D9373E3225F02BA70093D63F /* EVProjectionalNode.swift in Sources */,
 				10C3736225AE48E20011DF97 /* EGMathUtils.swift in Sources */,
 				109DD9CE256B27C700FB700F /* EGTransformProperty.swift in Sources */,
 				1028E01B25632BAE00C4DBFA /* EGScene.swift in Sources */,
@@ -1070,6 +1085,7 @@
 				1072E3EA2564C43B00D390FE /* EIParser.swift in Sources */,
 				10C373B425AFA9C80011DF97 /* EGVertexDescriptor.swift in Sources */,
 				10EF452B25B650E500C037AB /* EGModelMesh.swift in Sources */,
+				D9373E3A25F16C2C0093D63F /* InterpreterHelpers.swift in Sources */,
 				7C74A9BA2584A6C300311C48 /* Basics.swift in Sources */,
 				FE42166C256C8C41008622FB /* EIToken.swift in Sources */,
 				7C1856AF259E8C6200546CD3 /* Char.swift in Sources */,
@@ -1275,9 +1291,8 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1287,7 +1302,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1300,9 +1315,8 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1312,7 +1326,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

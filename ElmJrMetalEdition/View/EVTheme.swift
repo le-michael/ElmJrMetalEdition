@@ -21,6 +21,13 @@ class EVTheme {
         static let number = UIColor(hex: "#AE81FF")
         static let string = UIColor(hex: "#E6DB74")
         static let symbol = UIColor(hex: "#f8f8f2")
+        
+        
+        class ProjectionalEditor {
+            static let binaryOp = UIColor(hex: "#A6E22E")
+            static let integer = UIColor(hex: "#AE81FF")
+            static let boolean = UIColor(hex: "#F92672")
+        }
     }
     
     class Fonts {

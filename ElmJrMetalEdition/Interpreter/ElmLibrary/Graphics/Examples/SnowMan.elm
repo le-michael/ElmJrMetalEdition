@@ -1,4 +1,3 @@
-
 myShapes : Float -> List Shape
 myShapes time =
     [ sphere

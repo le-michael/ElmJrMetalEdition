@@ -96,19 +96,29 @@ extension EVTextEditorView: UITextViewDelegate {
 }
 
 extension EVTextEditorView: EVEditorDelegate {
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+
+    func didCloseNodeMenu() {}
+    
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
-    
-    func didChangeTextEditorHeight(height: CGFloat) {}
-    
-    func didChangeSourceCode(sourceCode: String) {}
+        
+    func didChangeSourceCode(sourceCode: String) {
+        if sourceCode != textView.text {
+            textView.text = sourceCode
+            postProcess()
+        }
+    }
     
     func didOpenProjects() {}
     
     func didLoadProject(project: EVProject) {
         updateTextViewFromEditor()
     }
+    
+    func didToggleMode() {}
     
 }
 

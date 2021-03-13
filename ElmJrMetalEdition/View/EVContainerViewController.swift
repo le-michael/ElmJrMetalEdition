@@ -48,6 +48,11 @@ class EVContainerViewController: UIViewController {
 }
 
 extension EVContainerViewController: EVEditorDelegate {
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+
+    func didCloseNodeMenu() {}
+    
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
@@ -67,4 +72,6 @@ extension EVContainerViewController: EVEditorDelegate {
             animateEditorToXPosition(0)
         }
     }
+    
+    func didToggleMode() {}
 }
