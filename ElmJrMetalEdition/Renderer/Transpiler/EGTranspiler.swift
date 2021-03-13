@@ -338,13 +338,22 @@ class EGTranspiler{
 
         switch transformType{
         case "Translate":
-            shape.transform.translate.set(x: transform[0], y: transform[1], z: transform[2])
+            let equations = shape.transform.translate.equations
+            shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
+                                          y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
+                                          z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
             print("Applied Translate")
         case "Scale":
-            shape.transform.scale.set(x: transform[0], y: transform[1], z: transform[2])
+            let equations = shape.transform.scale.equations
+            shape.transform.scale.set(x: EGBinaryOp(type: .mul, leftChild: equations.x, rightChild: transform[0]),
+                                      y: EGBinaryOp(type: .mul, leftChild: equations.y, rightChild: transform[1]),
+                                      z: EGBinaryOp(type: .mul, leftChild: equations.z, rightChild: transform[2]))
             print("Applied Scale")
         case "Rotate3D":
-            shape.transform.rotate.set(x: transform[0], y: transform[1], z: transform[2])
+            let equations = shape.transform.rotate.equations
+            shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
+                                          y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
+                                          z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
             print("Applied Rotation")
         default:
             break
