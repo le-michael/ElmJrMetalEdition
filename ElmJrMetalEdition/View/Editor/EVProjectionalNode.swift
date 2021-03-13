@@ -687,10 +687,6 @@ extension EIAST.List: EVProjectionalNode {
             sender.parentViewController?.present(alert, animated: true, completion: nil)
         }
         
-        let function = compileNode(sourceCode: """
-            (function time)
-        """)
-        
         var options = [
             sphereOption,
             cylinderOption,
@@ -701,12 +697,14 @@ extension EIAST.List: EVProjectionalNode {
         ]
         
         for functionName in EVEditor.shared.functionNames {
-        
+            
+            let function = compileNode(sourceCode: """
+                (\(functionName) 1.0)
+            """)
+            
             let functionOption = EVNodeMenuOption(node: function as! EVProjectionalNode, description: "Shape Given Time Function") {
 
-                let function = compileNode(sourceCode: """
-                    (\(functionName) 1.0)
-                """)
+
                 self.items.append(function)
                 EVEditor.shared.astToSourceCode()
                 EVEditor.shared.closeNodeMenu()
@@ -856,10 +854,9 @@ func numberMenu(view: UIView, numberHandler: @escaping (EINode)->Void) {
         """)
         
         let variableNodeOption = EVNodeMenuOption(
-            node: variableNode as! EVProjectionalNode,
-            description: "Variable",
-            callback: { numberHandler(variableNode) }
-        )
+            node: variableNode as! EVProjectionalNode,description: "Variable") {
+            numberHandler(variableNode)
+        }
         options.append(variableNodeOption)
     }
     
