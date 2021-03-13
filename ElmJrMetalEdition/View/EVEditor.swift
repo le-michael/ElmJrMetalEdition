@@ -37,6 +37,9 @@ class EVEditor {
     var scene: EGScene
     var mode: Mode
     var astNodes: [EVProjectionalNode]
+    
+    var functionNames: [String]
+    var variableNames: [String]
 
     var project: EVProject {
         return EVProjectManager.shared.projects[currentProjectInd]
@@ -50,6 +53,8 @@ class EVEditor {
         scene = EGScene()
         mode = .text
         astNodes = []
+        functionNames = []
+        variableNames = []
         run()
     }
     

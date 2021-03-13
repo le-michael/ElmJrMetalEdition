@@ -13,6 +13,21 @@ protocol EVProjectManagerDelegate {
     func didUpdateProjects()
 }
 
+let starterCode = """
+    myShapes : Float -> List Shape
+    myShapes time = [
+        sphere
+            |> color (rgb 1.0 1.0 1.0)
+    ]
+
+    lights =
+        [ DirectionalLight (RGB 0.6 0.6 0.6) (1, 2, 2) (RGB 0.1 0.1 0.1)
+        , AmbientLight (RGB 1 1 1) 0.5
+        ]
+
+    scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB 1 1 1) lights myShapes
+"""
+
 class EVProjectManager {
     
     static let shared = EVProjectManager()
@@ -23,7 +38,7 @@ class EVProjectManager {
     init() {
         fetchProjectsFromFileSystem()
         if projects.count == 0 {
-            projects.append(EVProject(title: "New Project", sourceCode: ""))
+            projects.append(EVProject(title: "New Project", sourceCode: starterCode))
         }
         if !projectExists("Snow Man Demo") {
             let code = try! getElmFile("SnowMan")
@@ -64,7 +79,7 @@ class EVProjectManager {
     }
     
     func createProject(projectName: String) {
-        projects.append(EVProject(title: projectName, sourceCode: ""))
+        projects.append(EVProject(title: projectName, sourceCode: starterCode))
         saveProjects()
         delegates.forEach({ $0.didUpdateProjects() })
     }

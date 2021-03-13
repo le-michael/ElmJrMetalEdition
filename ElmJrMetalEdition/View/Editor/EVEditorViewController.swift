@@ -64,7 +64,6 @@ class EVEditorViewController: UIViewController {
         codeEditorView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         textEditorWidthConstraint = codeEditorView.widthAnchor.constraint(equalToConstant: EVEditor.shared.textEditorWidth)
         textEditorWidthConstraint?.isActive = true
-        
     }
     
     func setupLeftRightDividerLayout() {
@@ -131,7 +130,7 @@ extension EVEditorViewController: EVEditorDelegate {
     
     func didLoadProject(project: EVProject) {}
     
-    func editor(_ editor: EVEditor, didChangeSourceCode: String){}
+    func editor(_ editor: EVEditor, didChangeSourceCode: String) {}
     
     func didOpenProjects() {}
     

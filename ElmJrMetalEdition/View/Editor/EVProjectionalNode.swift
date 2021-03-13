@@ -91,16 +91,7 @@ class EVProjectionalNodeView: UIView {
     
 }
 
-extension EIAST.NoValue: EVProjectionalNode {
-    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
-        let label = UILabel()
-        label.text = "No Value"
-        label.textColor = EVTheme.Colors.foreground
-        
-        let cardView = EVProjectionalNodeView(node: self, view: label, padding: .zero, isStore: isStore)
-        return cardView
-    }
-}
+
 
 extension EVProjectionalNodeView: UIDragInteractionDelegate {
     func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
@@ -138,6 +129,21 @@ protocol EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView
 }
 
+// MARK: - NoValue
+
+extension EIAST.NoValue: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let label = UILabel()
+        label.text = "No Value"
+        label.textColor = EVTheme.Colors.foreground
+        
+        let cardView = EVProjectionalNodeView(node: self, view: label, padding: .zero, isStore: isStore)
+        return cardView
+    }
+}
+
+// MARK: - Integer
+
 extension EIAST.Integer: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
@@ -148,9 +154,9 @@ extension EIAST.Integer: EVProjectionalNode {
 
         return nodeView
     }
-    
-    
 }
+
+// MARK: - FloatingPoint
 
 extension EIAST.FloatingPoint: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -164,6 +170,8 @@ extension EIAST.FloatingPoint: EVProjectionalNode {
     }
 }
 
+// MARK: - Boolean
+
 extension EIAST.Boolean: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
@@ -175,6 +183,8 @@ extension EIAST.Boolean: EVProjectionalNode {
         return nodeView
     }
 }
+
+// MARK: - BinaryOp
 
 extension EIAST.BinaryOp: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -219,8 +229,7 @@ extension EIAST.BinaryOp: EVProjectionalNode {
         stackView.addArrangedSubview(leftOperandView)
         stackView.addArrangedSubview(self.getOperandView())
         stackView.addArrangedSubview(rightOperandView)
-                
-
+        
         return cardView
     }
 
@@ -243,6 +252,8 @@ extension EIAST.BinaryOp: EVProjectionalNode {
     }
 }
 
+// MARK: - UnaryOp
+
 extension EIAST.UnaryOp: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let cardView = EVProjectionalNodeView(node: self, view: UIView(), padding: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5), isStore: isStore)
@@ -250,14 +261,20 @@ extension EIAST.UnaryOp: EVProjectionalNode {
     }
 }
 
+// MARK: - Variable
+
 extension EIAST.Variable: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let label = UILabel()
         label.text = name
+        label.textColor = EVTheme.Colors.identifier
+
         let cardView = EVProjectionalNodeView(node: self, view: label, padding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), isStore: isStore)
         return cardView
     }
 }
+
+// MARK: - Function
 
 extension EIAST.Function: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -267,6 +284,8 @@ extension EIAST.Function: EVProjectionalNode {
 
         let parameterView = UILabel()
         parameterView.text = parameter + " -> "
+        parameterView.textColor = EVTheme.Colors.symbol
+
         stackView.addArrangedSubview(parameterView)
         let bodyNode = body as! EVProjectionalNode
         stackView.addArrangedSubview(bodyNode.getUIView(isStore: isStore))
@@ -276,10 +295,19 @@ extension EIAST.Function: EVProjectionalNode {
     }
 }
 
+// MARK: - FunctionApplication
+
 extension EIAST.FunctionApplication: EVProjectionalNode {
+    
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
-        
-        return normalForm(isStore: isStore)
+        switch(self.functionApplicationType){
+        case .LeftArrow:
+            return normalForm(isStore: isStore)
+        case .RightArrow:
+            return arrowForm(isStore: isStore)
+        case .Normal:
+            return normalForm(isStore: isStore)
+        }
     }
     
     func normalForm(isStore: Bool) -> EVProjectionalNodeView {
@@ -293,6 +321,8 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         
         let leftBracket = UILabel()
         leftBracket.text = "("
+        leftBracket.textColor = EVTheme.Colors.symbol
+
         stackView.addArrangedSubview(leftBracket)
         
         let functionNodeView = functionNode.getUIView(isStore: isStore)
@@ -315,9 +345,10 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
             }
         }
 
-        
         let rightBracket = UILabel()
         rightBracket.text = ")"
+        rightBracket.textColor = EVTheme.Colors.symbol
+
         stackView.addArrangedSubview(rightBracket)
         
         return cardView
@@ -325,6 +356,7 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
     
     func arrowForm(isStore: Bool) -> EVProjectionalNodeView {
         let stackView = UIStackView()
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0), isStore: isStore)
         stackView.axis = .vertical
         stackView.alignment = .leading
         let functionNode = function as! EVProjectionalNode
@@ -336,20 +368,79 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         let functionStackView = UIStackView()
         functionStackView.axis = .horizontal
         functionStackView.alignment = .leading
+        functionStackView.spacing = 5
         
         let arrow = UILabel()
+        arrow.textColor = EVTheme.Colors.symbol
         arrow.text = "|>"
-        
+        functionStackView.addArrangedSubview(arrow)
         
         let functionNodeView = functionNode.getUIView(isStore: isStore)
-        stackView.addArrangedSubview(functionNodeView)
+        functionStackView.addArrangedSubview(functionNodeView)
         
+        if !isStore {
+            let addButton = _getAddFunctionButton(rootView: cardView)
+            functionStackView.addArrangedSubview(addButton)
+        }
 
         
-        let cardView = EVProjectionalNodeView(node: self, view: stackView, padding: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5), isStore: isStore)
+        stackView.addArrangedSubview(functionStackView)
+        
         return cardView
     }
+    
+    func _getAddFunctionButton(rootView: EVProjectionalNodeView) -> UIButton {
+        let button = ButtonWithProjectionalViewArg()
+        button.rootView = rootView
+        button.setTitle("+ Add Function", for: .normal)
+        button.titleLabel?.textColor = EVTheme.Colors.highlighted
+        button.addTarget(self, action: #selector(_handleAddFunctionPress), for: .touchUpInside)
+        return button
+    }
+    
+    @objc func _handleAddFunctionPress(sender: UIButton) {
+        guard let button = sender as? ButtonWithProjectionalViewArg else { return }
+        button.rootView?.highlight()
+        let moveNode = compileNode(sourceCode: """
+            move (0.0, 0.0, 0.0)
+        """)
+        let moveOption = EVNodeMenuOption(node: moveNode as! EVProjectionalNode, description: "Move the shape given x, y, z values") {
+            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
+            self.function = moveNode
+            button.rootView?.unhighlight()
+            EVEditor.shared.astToSourceCode()
+            EVEditor.shared.closeNodeMenu()
+        }
+        let scaleNode = compileNode(sourceCode: """
+            scale (1.0, 1.0, 1.0)
+        """)
+        let scaleOption = EVNodeMenuOption(node: scaleNode as! EVProjectionalNode, description: "Scale the shape given x, y, z values") {
+            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
+            self.function = scaleNode
+            button.rootView?.unhighlight()
+            EVEditor.shared.astToSourceCode()
+            EVEditor.shared.closeNodeMenu()
+        }
+        
+        let rotateNode = compileNode(sourceCode: """
+            rotate (0.0, 0.0, 0.0)
+        """)
+        let rotateOption = EVNodeMenuOption(node: rotateNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
+            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
+            self.function = rotateNode
+            button.rootView?.unhighlight()
+            EVEditor.shared.astToSourceCode()
+            EVEditor.shared.closeNodeMenu()
+        }
+        
+        EVEditor.shared.openNodeMenu(
+            title: "Apply another function:",
+            options: [moveOption, scaleOption, rotateOption]
+        )
+    }
 }
+
+// MARK: - Declaration
 
 extension EIAST.Declaration: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -360,6 +451,8 @@ extension EIAST.Declaration: EVProjectionalNode {
         
         let nameView = UILabel()
         nameView.text = name + " = "
+        nameView.textColor = EVTheme.Colors.symbol
+
         stackView.addArrangedSubview(nameView)
         let bodyNode = body as! EVProjectionalNode
         let bodyNodeView = bodyNode.getUIView(isStore: isStore)
@@ -370,6 +463,8 @@ extension EIAST.Declaration: EVProjectionalNode {
         return cardView
     }
 }
+
+// MARK: - ConstructorInstance
 
 extension EIAST.ConstructorInstance: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -390,6 +485,8 @@ extension EIAST.ConstructorInstance: EVProjectionalNode {
     }
 }
 
+// MARK: - Tuple
+
 extension EIAST.Tuple: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let stackView = UIStackView()
@@ -399,8 +496,10 @@ extension EIAST.Tuple: EVProjectionalNode {
         stackView.alignment = .leading
 
         let openBracket = UILabel()
+        openBracket.textColor = EVTheme.Colors.symbol
         openBracket.text = "("
         let closeBracket = UILabel()
+        closeBracket.textColor = EVTheme.Colors.symbol
         closeBracket.text = ")"
         
         stackView.addArrangedSubview(openBracket)
@@ -409,32 +508,38 @@ extension EIAST.Tuple: EVProjectionalNode {
  
             guard let vNode = v as? EVProjectionalNode else { break }
             let vNodeView = vNode.getUIView(isStore: isStore)
-            vNodeView.addTapCallback {
-                vNodeView.highlight()
-                numberMenu(view:cardView, numberHandler: {num in
-                    if (index == 0) {
-                        self.v1 = num
-                    } else if (index == 1) {
-                        self.v2 = num
-                    } else if (index == 3) {
-                        self.v3 = num
-                    }
-                    EVEditor.shared.astToSourceCode()
-                    EVEditor.shared.closeNodeMenu()
-                    vNodeView.unhighlight()
-                })
+            if (!isStore) {
+                vNodeView.addTapCallback {
+                    vNodeView.highlight()
+                    numberMenu(view:cardView, numberHandler: {num in
+                        if (index == 0) {
+                            self.v1 = num
+                        } else if (index == 1) {
+                            self.v2 = num
+                        } else if (index == 2) {
+                            self.v3 = num
+                        }
+                        EVEditor.shared.astToSourceCode()
+                        EVEditor.shared.closeNodeMenu()
+                        vNodeView.unhighlight()
+                    })
+                }
             }
+ 
             stackView.addArrangedSubview(vNodeView)
             if (index == 2) { break }
             
             let commaView = UILabel()
             commaView.text = ","
+            commaView.textColor = EVTheme.Colors.symbol
             stackView.addArrangedSubview(commaView)
         }
         stackView.addArrangedSubview(closeBracket)
         return cardView
     }
 }
+
+// MARK: - List
 
 extension EIAST.List: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -446,6 +551,7 @@ extension EIAST.List: EVProjectionalNode {
         
         let openBracket = UILabel()
         openBracket.text = "["
+        openBracket.textColor = EVTheme.Colors.symbol
         stackView.addArrangedSubview(openBracket)
         
         for node in items {
@@ -462,6 +568,8 @@ extension EIAST.List: EVProjectionalNode {
             
             let comma = UILabel()
             comma.text = ","
+            comma.textColor = EVTheme.Colors.symbol
+
             itemView.addArrangedSubview(comma)
             
             stackView.addArrangedSubview(itemView)
@@ -471,6 +579,8 @@ extension EIAST.List: EVProjectionalNode {
         }
         let closeBracket = UILabel()
         closeBracket.text = "]"
+        closeBracket.textColor = EVTheme.Colors.symbol
+
         stackView.addArrangedSubview(closeBracket)
         
         let cardView = EVProjectionalNodeView(node: self, view: stackView, padding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), isStore: isStore)
@@ -488,12 +598,9 @@ extension EIAST.List: EVProjectionalNode {
     
     @objc func handleAddItemPress(sender: UIButton) {
         
-        
         let sphere = compileNode(sourceCode: """
             sphere
                 |> color (rgb 1.0 1.0 1.0)
-                |> move (0.0, 0.0, 0.0)
-                |> scale (1.0, 1.0, 1.0)
         """)
 
         let sphereOption = EVNodeMenuOption(
@@ -508,8 +615,6 @@ extension EIAST.List: EVProjectionalNode {
         let cylinder = compileNode(sourceCode: """
             cylinder
                 |> color (rgb 1.0 1.0 1.0)
-                |> move (0.0, 0.0, 0.0)
-                |> scale (1.0, 1.0, 1.0)
         """)
         
         let cylinderOption = EVNodeMenuOption(
@@ -521,14 +626,103 @@ extension EIAST.List: EVProjectionalNode {
                 EVEditor.shared.closeNodeMenu()
             })
         
+        let cube = compileNode(sourceCode: """
+            cube
+                |> color (rgb 1.0 1.0 1.0)
+        """)
+        
+        let cubeOption = EVNodeMenuOption(
+            node: cube as! EVProjectionalNode,
+            description: "A Cube",
+            callback: {
+                self.items.append(cube)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            })
+        
+        let cone = compileNode(sourceCode: """
+            cone
+                |> color (rgb 1.0 1.0 1.0)
+        """)
+        
+        let coneOption = EVNodeMenuOption(
+            node: cone as! EVProjectionalNode,
+            description: "A Cone",
+            callback: {
+                self.items.append(cone)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            })
+        
+        let capsule = compileNode(sourceCode: """
+            capsule
+                |> color (rgb 1.0 1.0 1.0)
+        """)
+        
+        let capsuleOption = EVNodeMenuOption(
+            node: capsule as! EVProjectionalNode,
+            description: "A Capsule",
+            callback: {
+                self.items.append(capsule)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            })
+        
+        let variable = compileNode(sourceCode: """
+            variable
+        """)
+        
+        let variableOption = EVNodeMenuOption(node: variable as! EVProjectionalNode, description: "Variable") {
+            let alert = UIAlertController(title: "Name of variable to use: ", message: "", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.text = ""
+            }
+            alert.addAction(UIAlertAction(title: "Use variable", style: .default, handler: { [weak alert] (_) in
+                guard let varName = alert?.textFields![0].text else { return }
+                let variable = EIAST.Variable(name: varName)
+                self.items.append(variable)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            }))
+            sender.parentViewController?.present(alert, animated: true, completion: nil)
+        }
+        
+        let function = compileNode(sourceCode: """
+            (function time)
+        """)
+        
+        var options = [
+            sphereOption,
+            cylinderOption,
+            cubeOption,
+            coneOption,
+            capsuleOption,
+            variableOption,
+        ]
+        
+        for functionName in EVEditor.shared.functionNames {
+        
+            let functionOption = EVNodeMenuOption(node: function as! EVProjectionalNode, description: "Shape Given Time Function") {
 
+                let function = compileNode(sourceCode: """
+                    (\(functionName) 1.0)
+                """)
+                self.items.append(function)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+
+            }
+            options.append(functionOption)
+        }
         
         EVEditor.shared.openNodeMenu(
             title: "Add item to list:",
-            options: [sphereOption, cylinderOption]
+            options: options
         )
     }
 }
+
+// MARK: - ConstructorDefinition
 
 extension EIAST.ConstructorDefinition: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -536,6 +730,8 @@ extension EIAST.ConstructorDefinition: EVProjectionalNode {
         return cardView
     }
 }
+
+// MARK: - TypeDefinition
 
 extension EIAST.TypeDefinition: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
@@ -556,6 +752,8 @@ extension UIView {
         return nil
     }
 }
+
+// MARK: - numberMenu
 
 func numberMenu(view: UIView, numberHandler: @escaping (EINode)->Void) {
     
@@ -588,8 +786,38 @@ func numberMenu(view: UIView, numberHandler: @escaping (EINode)->Void) {
     
     let additionOption = EVNodeMenuOption(
         node: addition as! EVProjectionalNode,
-        description: "Addition Binary Expression",
+        description: "Addition Expression",
         callback: { numberHandler(addition) }
+    )
+    
+    let subtraction = compileNode(sourceCode: """
+        1.0-1.0
+    """)
+    
+    let subtractionOption = EVNodeMenuOption(
+        node: subtraction as! EVProjectionalNode,
+        description: "Subtraction Expression",
+        callback: { numberHandler(subtraction) }
+    )
+    
+    let multiplication = compileNode(sourceCode: """
+        1.0*1.0
+    """)
+    
+    let multiplicationOption = EVNodeMenuOption(
+        node: multiplication as! EVProjectionalNode,
+        description: "Multiplication Expression",
+        callback: { numberHandler(multiplication) }
+    )
+    
+    let division = compileNode(sourceCode: """
+        1.0/1.0
+    """)
+    
+    let divisionOption = EVNodeMenuOption(
+        node: division as! EVProjectionalNode,
+        description: "Division Expression",
+        callback: { numberHandler(division) }
     )
     
     let sin = compileNode(sourceCode: """
@@ -612,9 +840,35 @@ func numberMenu(view: UIView, numberHandler: @escaping (EINode)->Void) {
         callback: { numberHandler(time) }
     )
     
+    var options = [
+        floatNumOption,
+        additionOption,
+        subtractionOption,
+        divisionOption,
+        multiplicationOption,
+        sinOption,
+        timeOption
+    ]
+    
+    for variable in EVEditor.shared.variableNames {
+        let variableNode = compileNode(sourceCode: """
+            \(variable)
+        """)
+        
+        let variableNodeOption = EVNodeMenuOption(
+            node: variableNode as! EVProjectionalNode,
+            description: "Variable",
+            callback: { numberHandler(variableNode) }
+        )
+        options.append(variableNodeOption)
+    }
+    
     EVEditor.shared.openNodeMenu(
         title: "Edit number:",
-        options: [floatNumOption, additionOption, sinOption, timeOption]
+        options: options
     )
 }
 
+class ButtonWithProjectionalViewArg: UIButton {
+    var rootView: EVProjectionalNodeView?
+}

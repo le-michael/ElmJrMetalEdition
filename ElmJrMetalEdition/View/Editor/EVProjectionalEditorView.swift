@@ -66,6 +66,80 @@ class EVProjectionalEditorView: UIView {
         for projectionalNode in EVEditor.shared.astNodes {
             astNodeViews.addArrangedSubview(projectionalNode.getUIView(isStore: false))
         }
+        
+        let addDeclarationButton = UIButton()
+        addDeclarationButton.setTitle("+ Add Declaration", for: .normal)
+        addDeclarationButton.addTarget(self, action: #selector(_handleAddDeclaration), for: .touchUpInside)
+        astNodeViews.addArrangedSubview(addDeclarationButton)
+    }
+    
+    @objc func _handleAddDeclaration() {
+        
+        let timeFunction = compileDeclaration(sourceCode: """
+            newFunction time = (cube
+                |> color (rgb 0.0 0.0 0.0)
+                |> move (0.0, 0.0, 0.0))
+        """)
+        let timeFunctionOption = EVNodeMenuOption(node: timeFunction as! EVProjectionalNode, description: "Function that returns a shape given time") {
+            let alert = UIAlertController(title: "Choose a name for the function", message: "", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.text = ""
+            }
+            alert.addAction(UIAlertAction(title: "Create function", style: .default, handler: { [weak alert] (_) in
+                guard let varName = alert?.textFields![0].text else { return }
+                EVEditor.shared.functionNames.append(varName)
+
+                let cubeImplementation = compileDeclaration(sourceCode: """
+                    \(varName) time = (cube
+                        |> color (rgb 0.0 0.0 0.0)
+                        |> move (time, 0.0, 0.0))
+                """)
+                EVEditor.shared.astNodes.insert(cubeImplementation as! EVProjectionalNode, at: 0)
+
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            }))
+            self.parentViewController?.present(alert, animated: true, completion: nil)
+        }
+        
+        let floatFunction = compileDeclaration(sourceCode: """
+            floatFunction x = (cube
+                |> color (rgb 0.0 0.0 0.0)
+                |> move (x, 0.0, 0.0))
+        """)
+        let floatFunctionOption = EVNodeMenuOption(node: floatFunction as! EVProjectionalNode, description: "Function that returns a shape given a float") {
+            let alert = UIAlertController(title: "Choose a name for the function", message: "", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.text = "floatFunction"
+            }
+            alert.addTextField { (textField) in
+                textField.text = "num"
+            }
+            alert.addAction(UIAlertAction(title: "Create declaration", style: .default, handler: { [weak alert] (_) in
+                guard let varName = alert?.textFields![0].text else { return }
+                guard let argName = alert?.textFields![1].text else { return }
+                EVEditor.shared.functionNames.append(varName)
+                EVEditor.shared.variableNames.append(argName)
+
+                let cubeImplementation = compileDeclaration(sourceCode: """
+                    \(varName) \(argName) = (cube
+                        |> color (rgb 0.0 0.0 0.0)
+                        |> move (0.0, 0.0, 0.0))
+                """)
+                EVEditor.shared.astNodes.insert(cubeImplementation as! EVProjectionalNode, at: 0)
+
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            }))
+            self.parentViewController?.present(alert, animated: true, completion: nil)
+        }
+        
+        
+        
+        EVEditor.shared.openNodeMenu(title: "Add Declaration", options: [
+            timeFunctionOption,
+            floatFunctionOption
+        ])
     }
 
     func getErrorLabelView(message: String) -> UIView {

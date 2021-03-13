@@ -31,11 +31,20 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
 
 func compileNode(sourceCode: String) -> EINode {
     do {
-        let declarationCode = "decl = \(sourceCode)"
-        let parser = EIParser(text: declarationCode)
-        let node = try parser.parse()
-        guard let declaration = node as? EIAST.Declaration else { return EIAST.NoValue() }
-        return declaration.body
+        let parser = EIParser(text: sourceCode)
+        let node = try parser.parseExpression()
+        return node
+    }
+    catch {
+        return EIAST.NoValue()
+    }
+}
+
+func compileDeclaration(sourceCode: String) -> EINode {
+    do {
+        let parser = EIParser(text: sourceCode)
+        let node = try parser.parseDeclaration()
+        return node
     }
     catch {
         return EIAST.NoValue()
