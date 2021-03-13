@@ -27,16 +27,16 @@ class EVToolBarView: UIView {
         
         let projectsButton = UIBarButtonItem(title: "Projects", style: UIBarButtonItem.Style.plain, target: self, action: #selector(projectsClicked))
         navigationItem.leftBarButtonItem = projectsButton
-        projectsButton.tintColor = EVTheme.Colors.highlighted
+        projectsButton.tintColor = EVTheme.Colors.ProjectionalEditor.action
 
         let saveButton = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveClicked))
-        saveButton.tintColor = EVTheme.Colors.highlighted
+        saveButton.tintColor = EVTheme.Colors.ProjectionalEditor.action
         
         let runButton = UIBarButtonItem(title: "Run", style: UIBarButtonItem.Style.plain, target: self, action: #selector(runClicked))
-        runButton.tintColor = EVTheme.Colors.highlighted
+        runButton.tintColor = EVTheme.Colors.ProjectionalEditor.action
         
         let toggleModeButton = UIBarButtonItem(title: "Toggle Mode", style: UIBarButtonItem.Style.plain, target: self, action: #selector(toggleModeButtonClicked))
-        saveButton.tintColor = EVTheme.Colors.highlighted
+        toggleModeButton.tintColor = EVTheme.Colors.ProjectionalEditor.action
 
         navigationItem.setRightBarButtonItems([saveButton, runButton, toggleModeButton], animated: true)
         

@@ -8,25 +8,35 @@
 
 import UIKit
 
+let keywordsHex = "#FF7AB2"
+let operatorsHex = "#ffffff"
+let numbersHex = "#A79DF8"
+let stringsHex = "#FC6A5D"
+let typeHex = "#8AD1C3"
+let greenHex = "#91D462"
+let cyanHex = "#8AD1C3"
+let foregroundHex = "#FFFFFF"
+let backgroundHex = "#292A30"
+
 class EVTheme {
     
     class Colors {
-        static let background = UIColor(hex: "#272822")
-        static let foreground = UIColor(hex: "#f8f8f2")
-        static let activeSelectionBackground = UIColor(hex: "#575b6180")
-        static let highlighted = UIColor(hex: "#A6E22E")
-        static let secondaryHighlighted = UIColor(hex: "#AE81FF")
-        static let identifier = UIColor(hex: "#A6E22E")
-        static let reserved = UIColor(hex: "#F92672")
-        static let number = UIColor(hex: "#AE81FF")
-        static let string = UIColor(hex: "#E6DB74")
-        static let symbol = UIColor(hex: "#f8f8f2")
+        static let background = UIColor(hex: backgroundHex)
+        static let foreground = UIColor(hex: foregroundHex)
+        static let activeSelectionBackground = UIColor(hex: numbersHex)
+        static let highlighted = UIColor(hex: cyanHex)
+        static let secondaryHighlighted = UIColor(hex: greenHex) //
+        static let identifier = UIColor(hex: keywordsHex)
+        static let reserved = UIColor(hex: keywordsHex)
+        static let number = UIColor(hex: greenHex)
+        static let string = UIColor(hex: stringsHex)
+        static let symbol = UIColor(hex: operatorsHex)
+        static let function = UIColor(hex: "#FF816F")
         
         
         class ProjectionalEditor {
-            static let binaryOp = UIColor(hex: "#A6E22E")
-            static let integer = UIColor(hex: "#AE81FF")
-            static let boolean = UIColor(hex: "#F92672")
+            static let action = UIColor(hex: numbersHex) //
+            
         }
     }
     
