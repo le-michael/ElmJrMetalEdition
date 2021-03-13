@@ -19,7 +19,7 @@ class EVToolBarView: UIView {
         addSubview(navigationBar)
         
         navigationBar.barTintColor = EVTheme.Colors.background
-        navigationBar.titleTextAttributes = [.foregroundColor: EVTheme.Colors.foreground]
+        navigationBar.titleTextAttributes = [.foregroundColor: EVTheme.Colors.foreground ?? .black]
         navigationBar.delegate = self
         
         navigationItem = UINavigationItem()

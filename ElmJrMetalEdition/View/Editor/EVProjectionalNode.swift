@@ -195,7 +195,6 @@ extension EIAST.BinaryOp: EVProjectionalNode {
         stackView.axis = .horizontal
         stackView.alignment = .leading
 
-        
         guard let leftOperandNode = self.leftOperand as? EVProjectionalNode else {
             return EIAST.NoValue().getUIView(isStore: isStore)
         }
@@ -332,7 +331,7 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         stackView.addArrangedSubview(argumentNodeView)
         
         if !isStore {
-            if let argumentNumber = argumentNode as? EIAST.FloatingPoint {
+            if argumentNode is EIAST.FloatingPoint {
                 argumentNodeView.addTapCallback {
                     argumentNodeView.highlight()
                     numberMenu(view: cardView, numberHandler: {number in
