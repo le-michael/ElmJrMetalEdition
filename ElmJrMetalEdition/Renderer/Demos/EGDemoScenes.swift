@@ -250,13 +250,26 @@ class EGDemoScenes {
         )
 
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, 0, 1], intensity: 0.2, specularColor: [0.6, 0.6, 0.6])
+            EGDirectionaLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6))
+            )
         )
         scene.lights.append(
-            EGLight.directional(color: [1, 1, 1], position: [0, 0, -1], intensity: 0.2, specularColor: [0.6, 0.6, 0.6])
+            EGDirectionaLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(-1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6))
+            )
         )
         scene.lights.append(
-            EGLight.ambient(color: [1, 1, 1], intensity: 0.4)
+            EGAmbientLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                intensity: EGConstant(0.4)
+            )
         )
 
         var pointCords: [simd_float3] = []
@@ -312,7 +325,12 @@ class EGDemoScenes {
             z: EGTime()
         )
         scene.camera = camera
-        scene.lights.append(EGLight.ambient(color: [1, 1, 1], intensity: 1))
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                intensity: EGConstant(1)
+            )
+        )
 
         for i in 0 ..< 14 {
             let count = i * 10 + 30
@@ -400,16 +418,39 @@ class EGDemoScenes {
         scene.camera = camera
 
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, 1], intensity: 1, specularColor: [0.2, 0.2, 0.2])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.2), EGConstant(0.2), EGConstant(0.2))
+            )
         )
+
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, -1], intensity: 0.7, specularColor: [0.2, 0.2, 0.2])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(-1)),
+                intensity: EGConstant(0.7),
+                specularColor: (EGConstant(0.2), EGConstant(0.2), EGConstant(0.2))
+            )
         )
+
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 1, 0], intensity: 0.3, specularColor: [0.2, 0.2, 0.2])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(1), EGConstant(0)),
+                intensity: EGConstant(0.3),
+                specularColor: (EGConstant(0.2), EGConstant(0.2), EGConstant(0.2))
+            )
         )
+
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, -1, 0], intensity: 0.3, specularColor: [0.2, 0.2, 0.2])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(-1), EGConstant(0)),
+                intensity: EGConstant(0.3),
+                specularColor: (EGConstant(0.2), EGConstant(0.2), EGConstant(0.2))
+            )
         )
 
         let monkey = EGMonkey()
@@ -462,13 +503,56 @@ class EGDemoScenes {
         scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
 
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0, 1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(1)),
+                intensity: EGConstant(0.5),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
         )
+
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [0, 0.5, -1], intensity: 0.5, specularColor: [0.1, 0.1, 0.1])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0.5), EGConstant(-1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
         )
+
         scene.lights.append(
-            EGLight.ambient(color: [0.4, 0.4, 0.4], intensity: 1)
+            EGDirectionaLight(
+                color: (EGConstant(0.3), EGConstant(0.3), EGConstant(0.3)),
+                position: (EGConstant(0), EGConstant(-0.5), EGConstant(-1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
+        )
+
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(0.4), EGConstant(0.4), EGConstant(0.4)),
+                intensity: EGConstant(0.5)
+            )
+        )
+
+        scene.lights.append(
+            EGPointLight(
+                color: (EGConstant(0), EGConstant(0.3), EGConstant(1)),
+                position: (EGBinaryOp(type: .mul, leftChild: EGConstant(0.25), rightChild: EGUnaryOp(type: .sin, child: EGTime())), EGConstant(1.2), EGUnaryOp(type: .cos, child: EGTime())),
+                attenuation: (EGConstant(1), EGConstant(1), EGConstant(0))
+            )
+        )
+
+        scene.lights.append(
+            EGSpotLight(
+                color: (EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: EGTime())), EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: EGTime())), EGConstant(1)),
+                position: (EGConstant(0.25), EGConstant(1), EGConstant(3)),
+                attenuation: (EGConstant(1), EGConstant(0), EGConstant(0)),
+                coneAngle: EGConstant(Float(45).degreesToRadians),
+                coneDirection: (EGConstant(0), EGConstant(-0.25), EGConstant(-1)),
+                coneAttenuation: EGConstant(12)
+            )
         )
 
         let tree = EGModel(modelName: "tree_default.obj")
@@ -533,9 +617,19 @@ class EGDemoScenes {
         scene.viewClearColor = MTLClearColorMake(0.529, 0.808, 0.922, 1.0)
 
         scene.lights.append(
-            EGLight.directional(color: [0.6, 0.6, 0.6], position: [1, 2, 2], intensity: 0, specularColor: [0.1, 0.1, 0.1])
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(1), EGConstant(2), EGConstant(2)),
+                intensity: EGConstant(0),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
         )
-        scene.lights.append(EGLight.ambient(color: [1, 1, 1], intensity: 0.5))
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                intensity: EGConstant(0.5)
+            )
+        )
 
         let top = EGSphere()
         top.smoothIntensity = 0.5
@@ -627,6 +721,4 @@ class EGDemoScenes {
 
         return scene
     }
-    
-    
 }

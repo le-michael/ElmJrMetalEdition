@@ -58,6 +58,11 @@ class EVProjectsMenuCell: UICollectionViewCell {
 }
 
 extension EVProjectsMenuCell: EVEditorDelegate {
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+
+    func didCloseNodeMenu() {}
+    
     func didUpdateScene(scene: EGScene) {}
     
     func didChangeTextEditorWidth(width: CGFloat) {}
@@ -71,4 +76,6 @@ extension EVProjectsMenuCell: EVEditorDelegate {
     func didLoadProject(project: EVProject) {
         updateSelectionColor()
     }
+    
+    func didToggleMode() {}
 }

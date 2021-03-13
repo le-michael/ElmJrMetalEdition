@@ -70,10 +70,13 @@ class EVGraphicsView: UIView {
 }
 
 extension EVGraphicsView: EVEditorDelegate {
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+
+    func didCloseNodeMenu() {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
-    
-    func didChangeTextEditorHeight(height: CGFloat) {}
-    
+        
     func didChangeSourceCode(sourceCode: String) {}
     
     func didOpenProjects() {}
@@ -86,5 +89,6 @@ extension EVGraphicsView: EVEditorDelegate {
         scene.setDrawableSize(size: mtkView.frame.size)
     }
     
+    func didToggleMode() {}
     
 }

@@ -24,7 +24,7 @@ class MetalWorkspaceController: UIViewController {
         mtkView.device = MTLCreateSystemDefaultDevice()
         device = mtkView.device
 
-        let scene = EGDemoScenes.pointField()
+        let scene = EGDemoScenes.campSite()
 
 
         renderer = EGRenderer(view: mtkView)
