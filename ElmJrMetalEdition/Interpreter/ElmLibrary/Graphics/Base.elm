@@ -21,6 +21,9 @@ type Stencil
     | Cone
     | Cylinder
     | Capsule
+    | Model String
+    | Smooth Float Stencil
+    | Shininess Float Stencil
 
 type Transform
     = Translate ( Float, Float, Float)
@@ -59,9 +62,7 @@ type Camera
     | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Shape
-    = Inked (Maybe Color) (Maybe Float) (Maybe Float) Stencil -- Base constructor: apply colour to a Stencil
-    -- | Texture String Stencil
-    | Model String (Maybe (List Color))
+    = Inked (List Color) Stencil -- Base constructor: apply colour to a Stencil
     | ApTransform Transform Shape -- Apply a transform to an already defined shape
     | Group (List Shape)
 
@@ -92,7 +93,10 @@ viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights sha
 
 color : Color -> Stencil -> Shape
 color c stencil =
-    Inked (Just c) stencil
+    Inked [c] stencil
+
+colorModel : List Color -> Stencil -> Shape
+colorModel cs stencil =
 
 model : String -> (Maybe (List Color)) -> Shape
 model s mxs = Model mxs
