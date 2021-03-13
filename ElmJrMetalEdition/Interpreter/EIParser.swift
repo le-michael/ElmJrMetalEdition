@@ -19,6 +19,7 @@ class EIParser {
     let builtinTypes = [
         "Int": MonoType.TCon("Int"),
         "Float": MonoType.TCon("Float"),
+        "Bool": MonoType.TCon("Bool"),
         "List": MonoType.CustomType("List", [MonoType.TVar("a")])
     ]
         
@@ -208,8 +209,11 @@ class EIParser {
                 }
             } else {
                 // "number" support hardcoded, I assume we might generalize this later
-                if annotation && token.raw == "number" {
-                    result = MonoType.TSuper("number", 0)
+                // Lucas: Note that this doesn't account for degenerate cases like "numberANDTHENSOMERANDOMSTRINGAFTER"
+                if annotation && token.raw.hasPrefix("number") {
+                    let numCount = token.raw.suffix(token.raw.count - 6)
+                    let counter = Int(numCount) ?? 0
+                    result = MonoType.TSuper("number", counter)
                     advance()
                 }
                 else if typeVars.contains(token.raw) {
