@@ -7,33 +7,31 @@
 //
 
 import Foundation
-class EGTranspiler{
-    
+class EGTranspiler {
     func transpile(node: EINode) -> EGScene {
         var node = node
-        if let function = node as? EIAST.Function{
+        if let function = node as? EIAST.Function {
             node = function.body
         }
         let scene = EGScene()
         sceneTranspiler(node: node, scene: scene)
         let shapes = shapesTranspiler(node: node)
-        for shape in shapes{
+        for shape in shapes {
             scene.add(shape)
         }
         return scene
     }
 
-    func sceneTranspiler(node: EINode, scene: EGScene){
-
+    func sceneTranspiler(node: EINode, scene: EGScene) {
         let inst = node as! EIAST.ConstructorInstance
-        for param in inst.parameters{
-            switch param{
+        for param in inst.parameters {
+            switch param {
             case let camera as EIAST.ConstructorInstance:
                 let typeOfCamera = camera.constructorName
-                if typeOfCamera == "ArcballCamera"{
+                if typeOfCamera == "ArcballCamera" {
                     arcballCameraTranspiler(scene: scene, node: camera)
                 }
-                else if typeOfCamera == "Camera"{
+                else if typeOfCamera == "Camera" {
                     cameraTranspiler(scene: scene, node: camera)
                 }
                 else {
@@ -42,7 +40,7 @@ class EGTranspiler{
             case let list as EIAST.List:
                 lightingTranspiler(scene: scene, lightingList: list)
             default:
-            break
+                break
             }
         }
     }
@@ -52,7 +50,7 @@ class EGTranspiler{
         let node = node as! EIAST.ConstructorInstance
 
         let transform = node.parameters[0] as! EIAST.ConstructorInstance
-        switch transform.constructorName{
+        switch transform.constructorName {
         case "Translate":
             let cameraTransform = unwrapTransform(transform: transform, isRotation: false)
             camera.transform.translate.set(x: cameraTransform[0], y: cameraTransform[1], z: cameraTransform[2])
@@ -73,10 +71,10 @@ class EGTranspiler{
         var target = simd_float3()
         var rotation = simd_float3()
         var rotate = false
-        
+
         let camera = node as! EIAST.ConstructorInstance
-        for param in camera.parameters{
-            switch param{
+        for param in camera.parameters {
+            switch param {
             case let int as EIAST.Integer:
                 distance = unwrapFloat(wrappedFloat: int)
             case let tuple as EIAST.Tuple:
@@ -90,7 +88,7 @@ class EGTranspiler{
                 break
             }
         }
-        
+
         let arcballCamera = EGArcballCamera(distance: distance, target: target)
         if rotate {
             arcballCamera.rotation = rotation
@@ -100,11 +98,11 @@ class EGTranspiler{
         print("Set Arcball Camera")
     }
 
-    func lightingTranspiler(scene: EGScene, lightingList: EINode){
+    func lightingTranspiler(scene: EGScene, lightingList: EINode) {
         let list = lightingList as! EIAST.List
-        for item in list.items{
+        for item in list.items {
             let inst = item as! EIAST.ConstructorInstance
-            switch inst.constructorName{
+            switch inst.constructorName {
             case "DirectionalLight":
                 directionalLightTranspiler(scene: scene, node: inst)
             case "AmbientLight":
@@ -115,21 +113,33 @@ class EGTranspiler{
         }
     }
 
-    func directionalLightTranspiler(scene: EGScene, node: EINode){
+    func directionalLightTranspiler(scene: EGScene, node: EINode) {
         let inst = node as! EIAST.ConstructorInstance
         let color = rgbHelper(node: inst.parameters[0])
         let position = unwrapTuple(wrappedTuple: inst.parameters[1])
         let specularColor = rgbHelper(node: inst.parameters[2])
-        scene.lights.append(EGLight.directional(color: color, position: position, intensity: 0, specularColor: specularColor))
-        print("Set Directional Light with colour:",color,", position:", position, "specularColor:", specularColor)
+        scene.lights.append(
+            EGDirectionaLight(
+                color: (EGConstant(color.x), EGConstant(color.y), EGConstant(color.z)),
+                position: (EGConstant(position.x), EGConstant(position.y), EGConstant(position.z)),
+                intensity: EGConstant(0),
+                specularColor: (EGConstant(specularColor.x), EGConstant(specularColor.y), EGConstant(specularColor.z))
+            )
+        )
+        print("Set Directional Light with colour:", color, ", position:", position, "specularColor:", specularColor)
     }
 
-    func ambientLightTranspiler(scene: EGScene, node: EINode){
+    func ambientLightTranspiler(scene: EGScene, node: EINode) {
         let inst = node as! EIAST.ConstructorInstance
         let color = rgbHelper(node: inst.parameters[0])
         let intensity = unwrapFloat(wrappedFloat: inst.parameters[1])
-        scene.lights.append(EGLight.ambient(color: color, intensity:intensity))
-        print("Set Ambient Light with color:", color,", intensity:", intensity)
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(color.x), EGConstant(color.y), EGConstant(color.z)),
+                intensity: EGConstant(intensity)
+            )
+        )
+        print("Set Ambient Light with color:", color, ", intensity:", intensity)
     }
 
     func rgbHelper(node: EINode) -> simd_float3 {
@@ -137,7 +147,7 @@ class EGTranspiler{
         var unwrappedRGB = simd_float3()
 
         let rgb = node as! EIAST.ConstructorInstance
-        for value in rgb.parameters{
+        for value in rgb.parameters {
             values.append(unwrapFloat(wrappedFloat: value))
         }
 
@@ -151,15 +161,15 @@ class EGTranspiler{
     func shapesTranspiler(node: EINode) -> [EGGraphicsNode] {
         var shapes = [EGGraphicsNode]()
         let inst = node as! EIAST.ConstructorInstance
-        if let function = inst.parameters[3] as? EIAST.Function{
+        if let function = inst.parameters[3] as? EIAST.Function {
             let list = function.body as! EIAST.List
-            for shape in list.items{
+            for shape in list.items {
                 shapes.append(addShape(node: shape))
             }
         }
-        else{
+        else {
             let list = inst.parameters[3] as! EIAST.List
-            for shape in list.items{
+            for shape in list.items {
                 shapes.append(addShape(node: shape))
             }
         }
@@ -168,9 +178,9 @@ class EGTranspiler{
 
     func addShape(node: EINode) -> EGGraphicsNode {
         print("Dealing with shape: ", node)
-        switch node{
+        switch node {
         case let inst as EIAST.ConstructorInstance:
-            switch inst.constructorName{
+            switch inst.constructorName {
             case "Inked":
                 return inkedHelper(node: inst)
             case "ApTransform":
@@ -178,7 +188,7 @@ class EGTranspiler{
             case "Group":
                 let group = EGGroup()
                 let list = inst.parameters[0] as! EIAST.List
-                for shape in list.items{
+                for shape in list.items {
                     group.add(addShape(node: shape))
                 }
                 return group
@@ -196,7 +206,7 @@ class EGTranspiler{
         var transform = [EGMathNode]()
         var transformType = String()
         let inst = node as! EIAST.ConstructorInstance
-        for paramater in inst.parameters{
+        for paramater in inst.parameters {
             let param = paramater as! EIAST.ConstructorInstance
             switch param.constructorName {
             case "Translate":
@@ -211,7 +221,7 @@ class EGTranspiler{
             case "Rotate2D":
                 break
             case "Inked":
-                shape = inkedHelper(node:param)
+                shape = inkedHelper(node: param)
             case "ApTransform":
                 shape = apTransformHelper(node: param)
             default:
@@ -224,44 +234,43 @@ class EGTranspiler{
     func unwrapTransform(transform: EINode, isRotation: Bool) -> [EGMathNode] {
         let transform = transform as! EIAST.ConstructorInstance
         let tuple = transform.parameters[0] as! EIAST.Tuple
-        
+
         let x = constructTransform(node: tuple.v1, radians: isRotation)
         let y = constructTransform(node: tuple.v2, radians: isRotation)
         let z = constructTransform(node: tuple.v3!, radians: isRotation)
         print("Passing back transform of ", tuple.v1, tuple.v2, tuple.v3!)
-        return [x,y,z]
+        return [x, y, z]
     }
 
-    func constructTransform(node: EINode, radians: Bool = false) -> EGMathNode{
-        
-        switch node{
+    func constructTransform(node: EINode, radians: Bool = false) -> EGMathNode {
+        switch node {
         case let variable as EIAST.Variable:
-            switch variable.name{
+            switch variable.name {
             case "time":
                 return EGTime()
             default:
                 break
             }
-            
-        case let int as EIAST.Integer:
-            if radians{
-                return EGConstant(Float(unwrapFloat(wrappedFloat: int)).degreesToRadians)
 
+        case let int as EIAST.Integer:
+            if radians {
+                return EGConstant(Float(unwrapFloat(wrappedFloat: int)).degreesToRadians)
             }
             return EGConstant(Float(unwrapFloat(wrappedFloat: int)))
-            
+
         case let float as EIAST.FloatingPoint:
-            if radians{
+            if radians {
                 return EGConstant(unwrapFloat(wrappedFloat: float).degreesToRadians)
             }
             return EGConstant(unwrapFloat(wrappedFloat: float))
-            
+
         case let unOp as EIAST.UnaryOp:
             let unaryOp = EGUnaryOp(
                 type: unOptypeConverter(type: unOp.type.rawValue),
-                child: constructTransform(node: unOp.operand, radians: radians))
+                child: constructTransform(node: unOp.operand, radians: radians)
+            )
             return unaryOp
-            
+
         case let binOp as EIAST.BinaryOp:
             let binaryOp = EGBinaryOp(
                 type: binOptypeConverter(type: binOp.type.rawValue),
@@ -269,9 +278,9 @@ class EGTranspiler{
                 rightChild: constructTransform(node: binOp.rightOperand, radians: radians)
             )
             return binaryOp
-            
+
         case let inst as EIAST.ConstructorInstance:
-            
+
             if inst.parameters.count == 1 {
                 let unaryOp = EGUnaryOp(
                     type: unOptypeConverter(type: inst.constructorName),
@@ -279,14 +288,14 @@ class EGTranspiler{
                 )
                 return unaryOp
             }
-            
+
             let binaryOp = EGBinaryOp(
                 type: binOptypeConverter(type: inst.constructorName),
                 leftChild: constructTransform(node: inst.parameters[0]),
                 rightChild: constructTransform(node: inst.parameters[1])
             )
             return binaryOp
-        
+
         default:
             break
         }
@@ -294,7 +303,7 @@ class EGTranspiler{
     }
 
     func binOptypeConverter(type: String) -> EGBinaryOp.BinaryOpType {
-        switch type{
+        switch type {
         case "+":
             return .add
         case "-":
@@ -303,8 +312,8 @@ class EGTranspiler{
             return .mul
         case "/":
             return .div
-        
-        //not sure if cases below are correct
+
+        // not sure if cases below are correct
         case "Max":
             return .max
         case "Min":
@@ -322,8 +331,8 @@ class EGTranspiler{
             return .cos
         case "Tan":
             return .tan
-            
-        //not sure if cases below are corret
+
+        // not sure if cases below are corret
         case "Neg":
             return .neg
         case "Abs":
@@ -336,7 +345,7 @@ class EGTranspiler{
     func applyTransform(shape: EGGraphicsNode, transform: [EGMathNode], transformType: String) -> EGGraphicsNode {
         let shape = shape as! EGModel
 
-        switch transformType{
+        switch transformType {
         case "Translate":
             let equations = shape.transform.translate.equations
             shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
@@ -352,8 +361,8 @@ class EGTranspiler{
         case "Rotate3D":
             let equations = shape.transform.rotate.equations
             shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
-                                          y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
-                                          z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
+                                       y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
+                                       z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
             print("Applied Rotation")
         default:
             break
@@ -361,14 +370,14 @@ class EGTranspiler{
         return shape
     }
 
-    func inkedHelper(node: EINode) -> EGGraphicsNode{
+    func inkedHelper(node: EINode) -> EGGraphicsNode {
         var color = [EGMathNode]()
         var isColored = false
         var shape = EGGraphicsNode()
         let inked = node as! EIAST.ConstructorInstance
-        for param in inked.parameters{
+        for param in inked.parameters {
             let inst = param as! EIAST.ConstructorInstance
-            switch inst.constructorName{
+            switch inst.constructorName {
             case "Just":
                 isColored = true
                 color = colorHelper(node: inst.parameters[0])
@@ -394,35 +403,34 @@ class EGTranspiler{
                 break
             }
         }
-        
+
         let model = shape as! EGModel
-        if isColored{
-            if color.count == 4{
+        if isColored {
+            if color.count == 4 {
                 model.submeshColorMap[0] = EGColorProperty()
                 model.submeshColorMap[0]?.set(r: color[0], g: color[1], b: color[2], a: color[3])
                 print("coloured shape")
             }
-            else{
+            else {
                 model.submeshColorMap[0] = EGColorProperty()
-                model.submeshColorMap[0]?.set(r: color[0], g: color[1], b: color[2], a:EGConstant(1))
+                model.submeshColorMap[0]?.set(r: color[0], g: color[1], b: color[2], a: EGConstant(1))
                 print("coloured shape")
             }
-
         }
         return shape
     }
 
-    func colorHelper(node: EINode) -> [EGMathNode]{
+    func colorHelper(node: EINode) -> [EGMathNode] {
         var values = [EGConstant]()
         let colors = node as! EIAST.ConstructorInstance
-        for value in colors.parameters{
+        for value in colors.parameters {
             values.append(EGConstant(unwrapFloat(wrappedFloat: value)))
         }
         return values
     }
 
-    func unwrapFloat(wrappedFloat: EINode) -> Float{
-        if let value = wrappedFloat as? EIAST.FloatingPoint{
+    func unwrapFloat(wrappedFloat: EINode) -> Float {
+        if let value = wrappedFloat as? EIAST.FloatingPoint {
             return value.value
         }
         else {
@@ -431,7 +439,7 @@ class EGTranspiler{
         }
     }
 
-    func unwrapTuple(wrappedTuple: EINode) -> simd_float3{
+    func unwrapTuple(wrappedTuple: EINode) -> simd_float3 {
         var unwrappedTuple = simd_float3()
         let tuple = wrappedTuple as! EIAST.Tuple
         unwrappedTuple.x = unwrapFloat(wrappedFloat: tuple.v1)
@@ -439,5 +447,4 @@ class EGTranspiler{
         unwrappedTuple.z = unwrapFloat(wrappedFloat: tuple.v3!)
         return unwrappedTuple
     }
-
 }

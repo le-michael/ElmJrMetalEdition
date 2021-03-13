@@ -14,7 +14,7 @@ class EGScene: EGGraphicsNode {
     var fps: Float = 60
 
     var camera = EGCamera()
-    var lights = [Light]()
+    var lights = [EGLight]()
 
     var viewClearColor = MTLClearColorMake(0, 0, 0, 1)
 
@@ -35,7 +35,7 @@ class EGScene: EGGraphicsNode {
     override func createBuffers(device: MTLDevice) {
         // Add empty light to prevent crash
         if lights.count == 0 {
-            lights.append(Light())
+            lights.append(EGLight())
         }
         camera.transform.checkIfStatic()
         for child in children {
@@ -46,7 +46,7 @@ class EGScene: EGGraphicsNode {
     private func updateSceneProps() {
         sceneProps.time += 1.0 / fps
         sceneProps.viewMatrix = camera.viewMatrix(sceneProps: sceneProps)
-        sceneProps.lights = lights
+        sceneProps.lights = lights.map { $0.evaluate(sceneProps: sceneProps) }
         sceneProps.cameraPosition = camera.position
     }
 
