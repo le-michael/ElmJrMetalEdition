@@ -68,7 +68,30 @@ fragment float4 primitive3d_fragment_shader(
                     specularColor += light.specularColor * materialSpecularColor * specularIntensity;
                 }
             } else if (light.type == Ambient) {
-                ambientColor += baseColor * light.color * light.intensity;
+                ambientColor +=  baseColor * light.color * light.intensity;
+            } else if (light.type == Point) {
+                float d = distance(light.position, vertexIn.worldPosition);
+                float3 lightDirection = normalize(vertexIn.worldPosition - light.position);
+                float attenuation = 1.0 / (light.attenuation.x + light.attenuation.y * d + light.attenuation.z * d * d);
+                float diffuseIntensity = saturate(-dot(lightDirection, normalDirection));
+                float3 color = light.color * baseColor * diffuseIntensity;
+                color *= attenuation;
+                diffuseColor += color;
+            } else if (light.type == Spotlight) {
+                float d = distance(light.position, vertexIn.worldPosition);
+                float3 lightDirection = normalize(vertexIn.worldPosition - light.position);
+                float3 coneDirection = normalize(light.coneDirection);
+                float spotResult = dot(lightDirection, coneDirection);
+                if (spotResult > cos(light.coneAngle)) {
+                  float attenuation = 1.0 / (light.attenuation.x +
+                      light.attenuation.y * d + light.attenuation.z * d * d);
+                  attenuation *= pow(spotResult, light.coneAttenuation);
+                  float diffuseIntensity =
+                           saturate(dot(-lightDirection, normalDirection));
+                  float3 color = light.color * baseColor * diffuseIntensity;
+                  color *= attenuation;
+                  diffuseColor += color;
+                }
             }
         }
         float3 color = diffuseColor + ambientColor + specularColor;
