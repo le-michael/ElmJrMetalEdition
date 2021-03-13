@@ -91,15 +91,22 @@ viewWithTime c lights shapes = SceneWithTime defaultCamera c lights shapes
 viewWithTimeAndCamera : Camera -> Color -> List Light -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights shapes
 
+smooth : Float -> Stencil -> Stencil
+smooth f s = Smooth f s
+
+shininess : Float -> Stencil -> Stencil
+shininess f s = Shininess f s
+
 color : Color -> Stencil -> Shape
 color c stencil =
     Inked [c] stencil
 
 colorModel : List Color -> Stencil -> Shape
 colorModel cs stencil =
+    Inked cs stencil
 
-model : String -> (Maybe (List Color)) -> Shape
-model s mxs = Model mxs
+model : String -> Stencil
+model s = Model s
 
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
@@ -121,229 +128,225 @@ ssa n =
     clamp 0 1 n
 
 rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
-
-rgba : Float -> Float -> Float -> Float -> Color
-rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
+rgb r g b = RGB (ssa r, ssc g, ssc b)
 
 pi : Float
 pi = 3.141592653589793
 
 -- deg to rad
-rad : Float -> Float
-rad n = n * pi/180
+degToRad : Float -> Float
+degToRad n = n * pi/180
 
 -- rad to deg
-deg : Float -> Float
-deg n = n * 180/pi
+radToDeg : Float -> Float
+radToDeg n = n * 180/pi
 
 -- Default available colors
 
 {-| -}
 pink : Color
 pink =
-    RGBA 255 105 180 1
-
+    RGB (255, 105, 180)
 
 {-| -}
 hotPink : Color
 hotPink =
-    RGBA 255 0 66 1
+    RGB (255, 0, 66)
 
 
 {-| -}
 lightRed : Color
 lightRed =
-    RGBA 239 41 41 1
+    RGB (239, 41, 41)
 
 
 {-| -}
 red : Color
 red =
-    RGBA 204 0 0 1
+    RGB (204, 0, 0)
 
 
 {-| -}
 darkRed : Color
 darkRed =
-    RGBA 164 0 0 1
+    RGB (164, 0, 0)
 
 
 {-| -}
 lightOrange : Color
 lightOrange =
-    RGBA 252 175 62 1
+    RGB (252, 175, 62)
 
 
 {-| -}
 orange : Color
 orange =
-    RGBA 245 121 0 1
+    RGB (245, 121, 0)
 
 
 {-| -}
 darkOrange : Color
 darkOrange =
-    RGBA 206 92 0 1
+    RGB (206, 92, 0)
 
 
 {-| -}
 lightYellow : Color
 lightYellow =
-    RGBA 255 233 79 1
+    RGB (255, 233, 79)
 
 
 {-| -}
 yellow : Color
 yellow =
-    RGBA 237 212 0 1
+    RGB (237, 212, 0)
 
 
 {-| -}
 darkYellow : Color
 darkYellow =
-    RGBA 196 160 0 1
+    RGB (196, 160, 0)
 
 
 {-| -}
 lightGreen : Color
 lightGreen =
-    RGBA 138 226 52 1
+    RGB (138, 226, 52)
 
 
 {-| -}
 green : Color
 green =
-    RGBA 115 210 22 1
+    RGB (115, 210, 22)
 
 
 {-| -}
 darkGreen : Color
 darkGreen =
-    RGBA 78 154 6 1
+    RGB (78, 154, 6)
 
 
 {-| -}
 lightBlue : Color
 lightBlue =
-    RGBA 114 159 207 1
+    RGB (114, 159, 207)
 
 
 {-| -}
 blue : Color
 blue =
-    RGBA 52 101 164 1
+    RGB (52, 101, 164)
 
 
 {-| -}
 darkBlue : Color
 darkBlue =
-    RGBA 32 74 135 1
+    RGB (32, 74, 135)
 
 
 {-| -}
 lightPurple : Color
 lightPurple =
-    RGBA 173 127 168 1
+    RGB (173, 127, 168)
 
 
 {-| -}
 purple : Color
 purple =
-    RGBA 117 80 123 1
+    RGB (117, 80, 123)
 
 
 {-| -}
 darkPurple : Color
 darkPurple =
-    RGBA 92 53 102 1
+    RGB (92, 53, 102)
 
 
 {-| -}
 lightBrown : Color
 lightBrown =
-    RGBA 233 185 110 1
+    RGB (233, 185, 110)
 
 
 {-| -}
 brown : Color
 brown =
-    RGBA 193 125 17 1
+    RGB (193, 125, 17)
 
 
 {-| -}
 darkBrown : Color
 darkBrown =
-    RGBA 143 89 2 1
+    RGB (143, 89, 2)
 
 
 {-| -}
 black : Color
 black =
-    RGBA 0 0 0 1
+    RGB (0, 0, 0)
 
 
 {-| -}
 white : Color
 white =
-    RGBA 255 255 255 1
+    RGB (255, 255, 255)
 
 
 {-| -}
 lightGrey : Color
 lightGrey =
-    RGBA 238 238 236 1
+    RGB (238, 238, 236)
 
 
 {-| -}
 grey : Color
 grey =
-    RGBA 211 215 207 1
+    RGB (211, 215, 207)
 
 
 {-| -}
 darkGrey : Color
 darkGrey =
-    RGBA 186 189 182 1
+    RGB (186, 189, 182)
 
 
 {-| -}
 lightGray : Color
 lightGray =
-    RGBA 238 238 236 1
+    RGB (238, 238, 236)
 
 
 {-| -}
 gray : Color
 gray =
-    RGBA 211 215 207 1
+    RGB (211, 215, 207)
 
 
 {-| -}
 darkGray : Color
 darkGray =
-    RGBA 186 189 182 1
+    RGB (186, 189, 182)
 
 
 {-| -}
 lightCharcoal : Color
 lightCharcoal =
-    RGBA 136 138 133 1
+    RGB (136, 138, 133)
 
 
 {-| -}
 charcoal : Color
 charcoal =
-    RGBA 85 87 83 1
+    RGB (85, 87, 83)
 
 
 {-| -}
 darkCharcoal : Color
 darkCharcoal =
-    RGBA 46 52 54 1
+    RGB (46, 52, 54)
 
 
 {-| -}
 blank : Color
 blank =
-    RGBA 0 0 0
+    RGB (0, 0, 0)

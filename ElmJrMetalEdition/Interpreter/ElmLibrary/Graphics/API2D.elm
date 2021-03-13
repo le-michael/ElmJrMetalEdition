@@ -22,19 +22,19 @@ import Base exposing (..)
 -}
 
 
-ngon : Int -> Float -> Stencil
-ngon n r =
-    Polygon n r
+ngon : Int -> Stencil
+ngon n =
+    Polygon n
 
 triangle = ngon 3
 
-circle : Float -> Stencil
-circle r = Sphere r
+circle : Stencil
+circle = Sphere
 
 
 filled : Color -> Stencil -> Shape
 filled color stencil =
-    Inked (Just color) stencil
+    Inked [color] stencil
 
 group : List Shape -> Shape
 group shapes = Group shapes
@@ -55,15 +55,15 @@ rotate theta shape =
 
 scale : Float -> Shape -> Shape
 scale s shape =
-    ApTransform (Scale s s 1) shape
+    ApTransform (Scale (s, s, 1)) shape
 
 scaleX : Float -> Shape -> Shape
 scaleX s shape =
-    ApTransform (Scale s 1 1) shape
+    ApTransform (Scale (s, 1, 1)) shape
 
 scaleY : Float -> Shape -> Shape
 scaleY s shape =
-    ApTransform (Scale 1 s 1) shape
+    ApTransform (Scale (1, s, 1)) shape
 
 {-
 myScene = view [myShape]
