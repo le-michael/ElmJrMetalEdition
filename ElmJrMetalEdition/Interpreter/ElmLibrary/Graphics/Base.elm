@@ -128,7 +128,7 @@ ssa n =
     clamp 0 1 n
 
 rgb : Float -> Float -> Float -> Color
-rgb r g b = RGB (ssa r, ssc g, ssc b)
+rgb r g b = RGB (ssa r, ssa g, ssa b)
 
 pi : Float
 pi = 3.141592653589793

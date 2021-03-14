@@ -40,7 +40,11 @@ myShapes time =
         |> rotate (0, 0, degToRad (-25))
         |> move (0.2, 2.75, 0)
     , cylinder
+<<<<<<< HEAD
         |> color (rgb ((150/255), (70/255), 0))
+=======
+        |> color (rgb (150/255) (70/255) 0)
+>>>>>>> 86e97fc13d7f883378a512a6345814407cf9432c
         |> scale (0.05, 0.8, 0.05)
         |> move (-0.55, 1.65, 0)
         |> rotate (0, 0, (45-15)+(15*sin (time * 8 * (180 * 3.14))))
@@ -52,8 +56,13 @@ myShapes time =
     ]
 
 lights =
+<<<<<<< HEAD
     [ DirectionalLight (RGB (0.6, 0.6, 0.6)) (1, 2, 2) (RGB (0.1, 0.1, 0.1))
     , AmbientLight (RGB 1 1 1) 0.5
+=======
+    [ DirectionalLight Nothing (RGB (0.6, 0.6, 0.6)) (1, 2, 2) (RGB (0.1, 0.1, 0.1))
+    , AmbientLight Nothing (RGB (1, 1, 1)) 0.5
+>>>>>>> 86e97fc13d7f883378a512a6345814407cf9432c
     ]
 
-scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB 1 1 1) lights myShapes
+scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB (1, 1, 1)) (\f -> lights) myShapes
