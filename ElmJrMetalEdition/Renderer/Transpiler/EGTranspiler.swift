@@ -422,12 +422,12 @@ class EGTranspiler {
     }
     
     func colorHelper(node: EINode) -> [EGMathNode] {
-        var values = [EGConstant]()
+        var values = [EGMathNode]()
         let colors = node as! EIAST.ConstructorInstance
-        let rgb = unwrapTuple(wrappedTuple: colors.parameters[0])
-        values.append(EGConstant(rgb.x))
-        values.append(EGConstant(rgb.y))
-        values.append(EGConstant(rgb.z))
+        let rgb = colors.parameters[0] as! EIAST.Tuple
+        values.append(constructTransform(node: rgb.v1))
+        values.append(constructTransform(node: rgb.v2))
+        values.append(constructTransform(node: rgb.v3!))
         return values
     }
 
