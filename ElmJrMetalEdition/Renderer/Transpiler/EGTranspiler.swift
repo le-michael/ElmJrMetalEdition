@@ -143,19 +143,8 @@ class EGTranspiler {
     }
 
     func rgbHelper(node: EINode) -> simd_float3 {
-        var values = [Float]()
-        var unwrappedRGB = simd_float3()
-
         let rgb = node as! EIAST.ConstructorInstance
-        for value in rgb.parameters {
-            values.append(unwrapFloat(wrappedFloat: value))
-        }
-
-        unwrappedRGB.x = values[0]
-        unwrappedRGB.y = values[1]
-        unwrappedRGB.z = values[2]
-
-        return unwrappedRGB
+        return unwrapTuple(wrappedTuple: rgb.parameters[0])
     }
 
     func shapesTranspiler(node: EINode) -> [EGGraphicsNode] {
@@ -371,34 +360,49 @@ class EGTranspiler {
     }
 
     func inkedHelper(node: EINode) -> EGGraphicsNode {
-        var color = [EGMathNode]()
+        var color = [[EGMathNode]]()
         var isColored = false
         var shape = EGGraphicsNode()
         let inked = node as! EIAST.ConstructorInstance
         for param in inked.parameters {
-            let inst = param as! EIAST.ConstructorInstance
-            switch inst.constructorName {
-            case "Just":
-                isColored = true
-                color = colorHelper(node: inst.parameters[0])
-            case "Sphere":
-                shape = EGSphere()
-                print("Created Sphere")
-            case "Cube":
-                shape = EGCube()
-                print("Created Cube")
-            case "Polygon":
-                print("Created Polygon")
-                shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
-            case "Cone":
-                shape = EGCone()
-                print("Created Cone")
-            case "Cylinder":
-                shape = EGCylinder()
-                print("Created Cylinder")
-            case "Capsule":
-                shape = EGCapsule()
-                print("Created Capsule")
+            switch param {
+            case let inst as EIAST.ConstructorInstance:
+                switch inst.constructorName {
+                case "Sphere":
+                    shape = EGSphere()
+                    print("Created Sphere")
+                case "Cube":
+                    shape = EGCube()
+                    print("Created Cube")
+                case "Polygon":
+                    print("Created Polygon")
+                    shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
+                case "Cone":
+                    shape = EGCone()
+                    print("Created Cone")
+                case "Cylinder":
+                    shape = EGCylinder()
+                    print("Created Cylinder")
+                case "Capsule":
+                    shape = EGCapsule()
+                    print("Created Capsule")
+                case "Model":
+                    let name = inst.parameters[0].description
+                    shape = EGModel(modelName: name)
+                case "Smooth":
+                    shape = inkedHelper(node: inst.parameters[1])
+                    let shape = shape as! EGModel
+                    shape.smoothIntensity = unwrapFloat(wrappedFloat: inst.parameters[0])
+                case "Shininess":
+                    break
+                default:
+                    break
+                }
+            case let list as EIAST.List:
+                for item in list.items{
+                    isColored = true
+                    color.append(colorHelper(node: item))
+                }
             default:
                 break
             }
@@ -406,26 +410,24 @@ class EGTranspiler {
 
         let model = shape as! EGModel
         if isColored {
-            if color.count == 4 {
-                model.submeshColorMap[0] = EGColorProperty()
-                model.submeshColorMap[0]?.set(r: color[0], g: color[1], b: color[2], a: color[3])
-                print("coloured shape")
+            var index = 0
+            for colors in color {
+                model.submeshColorMap[index] = EGColorProperty()
+                model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
+                index+=1
             }
-            else {
-                model.submeshColorMap[0] = EGColorProperty()
-                model.submeshColorMap[0]?.set(r: color[0], g: color[1], b: color[2], a: EGConstant(1))
-                print("coloured shape")
-            }
+            print("coloured shape")
         }
         return shape
     }
-
+    
     func colorHelper(node: EINode) -> [EGMathNode] {
         var values = [EGConstant]()
         let colors = node as! EIAST.ConstructorInstance
-        for value in colors.parameters {
-            values.append(EGConstant(unwrapFloat(wrappedFloat: value)))
-        }
+        let rgb = unwrapTuple(wrappedTuple: colors.parameters[0])
+        values.append(EGConstant(rgb.x))
+        values.append(EGConstant(rgb.y))
+        values.append(EGConstant(rgb.z))
         return values
     }
 
