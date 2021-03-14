@@ -46,7 +46,7 @@ type Light
     = DirectionalLight (Maybe Float) Color (Float, Float, Float) Color
     | AmbientLight (Maybe Float) Color Float
     | Point (Maybe Float) Color (Float, Float, Float) (Float, Float, Float) -- color, position, attenuation
-    | Spotlight (Maybe Float) Color (Float, Float, Float) (Float, Float, Float) Float (Float, Float, Float) (Float, Float, Float)
+    | Spotlight (Maybe Float) Color (Float, Float, Float) (Float, Float, Float) Float (Float, Float, Float) Float
 
 {- Can add this back in when parsing is better at handling whitespace
 type Camera
