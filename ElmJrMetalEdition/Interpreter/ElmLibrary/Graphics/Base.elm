@@ -68,7 +68,7 @@ type Shape
 
 type Scene
     = Scene Camera Color (List Light) (List Shape)
-    | SceneWithTime Camera Color (List Light) (Float -> List Shape)
+    | SceneWithTime Camera Color (Float -> List Light) (Float -> List Shape)
 
 
 defaultCamera : Camera
@@ -85,10 +85,10 @@ viewWithCamera camera c lights shapes = Scene camera c lights shapes
 
 -- Creating a scene with a time property requires this initializer
 -- The time is passed in as an argument to the scene
-viewWithTime : Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTime : Color -> (Float -> List Light) -> (Float -> List Shape) -> Scene
 viewWithTime c lights shapes = SceneWithTime defaultCamera c lights shapes
 
-viewWithTimeAndCamera : Camera -> Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTimeAndCamera : Camera -> Color -> (Float -> List Light) -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights shapes
 
 smooth : Float -> Stencil -> Stencil

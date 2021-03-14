@@ -40,11 +40,8 @@ group : List Shape -> Shape
 group shapes = Group shapes
 
 -- Pattern matching used with let statement here
-move : ( Float, Float ) -> Shape -> Shape
-move disp shape =
-    let
-        (xt, yt) = disp
-    in
+move : Float -> Float -> Shape -> Shape
+move xt yt shape =
     ApTransform (Translate (xt, yt, 1)) shape
 
 -- Is the rotation in degrees or radians
