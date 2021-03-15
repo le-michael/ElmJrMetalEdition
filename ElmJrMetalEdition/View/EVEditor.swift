@@ -149,7 +149,7 @@ func parseWithLibraries(sourceCode: String) -> [EVProjectionalNode] {
         let toLoad = ["Maybe","Builtin","Base","API3D"]
         var code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
         code.append("\n"+sourceCode)
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         try evaluator.compile(code)
 
         let parser = evaluator.parser

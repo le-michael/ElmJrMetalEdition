@@ -39,15 +39,15 @@ class EIParser {
         }
     }
         
-    init(text: String = "") {
+    init(text: String = "") throws {
         lexer = EILexer(text: text)
-        token = try! lexer.nextToken()
+        token = try lexer.nextToken()
         // builtins
         types = builtinTypes
     }
     
-    func advance() {
-        token = try! lexer.nextToken()
+    func advance() throws {
+        token = try lexer.nextToken()
     }
     
     func appendText(text: String) throws {
@@ -75,8 +75,8 @@ class EIParser {
     }
     
     func parseDeclaration() throws -> EINode {
-        defer { eatNewlines() }
-        eatNewlines()
+        //defer { try eatNewlines() }
+        try eatNewlines()
         if token.type == .MODULE {
             return try moduleDeclaration()
         }
@@ -91,21 +91,21 @@ class EIParser {
     
     
     
-    func eatNewlines() {
+    func eatNewlines() throws {
         while token.type == .newline {
-            advance()
+            try advance()
         }
     }
     
     func moduleDeclaration() throws -> EINode {
         // TODO: Implement module/import system
         try safeAssert(token.type == .MODULE)
-        advance()
+        try advance()
         try safeAssert(token.type == .identifier)
-        advance()
+        try advance()
         try safeAssert(token.type == .EXPOSING)
-        advance()
-        eatNewlines()
+        try advance()
+        try eatNewlines()
         try safeAssert(token.type == .leftParan)
         try ignore()
         return EIAST.NoValue()
@@ -114,12 +114,12 @@ class EIParser {
     func importDeclaration() throws -> EINode {
         // TODO: Implement module/import system
         try safeAssert(token.type == .IMPORT)
-        advance()
+        try advance()
         try safeAssert(token.type == .identifier)
-        advance()
+        try advance()
         try safeAssert(token.type == .EXPOSING)
-        advance()
-        eatNewlines()
+        try advance()
+        try eatNewlines()
         try safeAssert(token.type == .leftParan)
         try ignore()
         return EIAST.NoValue()
@@ -129,15 +129,15 @@ class EIParser {
         // TODO: This code will eventually be removed
         // Currently I have it so I can ignore Module/Import stuff.
         try safeAssert(token.type == .leftParan)
-        advance()
+        try advance()
         while token.type != .rightParan {
             if token.type == .leftParan {
                 try ignore()
             } else {
-                advance()
+                try advance()
             }
         }
-        advance()
+        try advance()
     }
     
     
@@ -145,33 +145,33 @@ class EIParser {
     
     func typeDeclaration() throws -> EINode {
         try safeAssert(token.type == .TYPE)
-        advance()
+        try advance()
         try safeAssert(token.type == .identifier)
         try safeAssert(tokenIsCapitalizedIdentifier())
         let name = token.raw
-        advance()
+        try advance()
         var typeVars = [String]()
         while token.type == .identifier {
             typeVars.append(token.raw)
-            advance()
+            try advance()
         }
         // we immediately put type name in type lookup
         // because we might have a recursive type
         types[name] = MonoType.CustomType(name, typeVars.map{MonoType.TVar($0)})
-        eatNewlines()
+        try eatNewlines()
         try safeAssert(token.type == .equal)
-        advance()
-        eatNewlines()
+        try advance()
+        try eatNewlines()
         var typeConstructors = [EIAST.ConstructorDefinition]()
         while(true) {
             typeConstructors.append(try typeConstructor(typeVars: typeVars))
             while token.type == .newline {
-                advance()
+                try advance()
             }
             if token.type != .bar {
                 break
             }
-            advance()
+            try advance()
         }
         return EIAST.TypeDefinition(typeName: name, typeVars: typeVars, constructors: typeConstructors)
     }
@@ -180,7 +180,7 @@ class EIParser {
         try safeAssert(token.type == .identifier)
         try safeAssert(tokenIsCapitalizedIdentifier())
         let name = token.raw
-        advance()
+        try advance()
         var typeParameters = [MonoType]()
         while token.type != .newline && token.type != .bar && token.type != .endOfFile {
             typeParameters.append(try type(typeVars: typeVars))
@@ -199,7 +199,7 @@ class EIParser {
                 if types[token.raw] != nil {
                     // must have no arguments
                     let t = types[token.raw]
-                    advance()
+                    try advance()
                     switch t {
                     case .CustomType(let name, let parameterVars):
                         if !bounded {
@@ -224,37 +224,37 @@ class EIParser {
                     let numCount = token.raw.suffix(token.raw.count - 6)
                     let counter = Int(numCount) ?? 0
                     result = MonoType.TSuper("number", counter)
-                    advance()
+                    try advance()
                 }
                 else if typeVars.contains(token.raw) {
                     result = MonoType.TVar(token.raw)
-                    advance()
+                    try advance()
                 } else {
                     throw ParserError.UnexpectedToken
                 }
             }
         case .leftParan:
-            advance()
+            try advance()
             let t1 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = t1
-                try safeAssert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); try advance()
                 break
             }
             try safeAssert(token.type == .comma)
-            advance()
+            try advance()
             let t2 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, nil)
-                try safeAssert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); try advance()
                 break
             }
             try safeAssert(token.type == .comma)
-            advance()
+            try advance()
             let t3 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, t3)
-                try safeAssert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); try advance()
                 break
             }
             throw ParserError.MaxTupleSizeIsThree
@@ -262,7 +262,7 @@ class EIParser {
             throw ParserError.NotImplemented
         }
         if bounded && token.type == .arrow {
-            advance()
+            try advance()
             result = result => (try type(typeVars: typeVars, bounded:true, annotation: annotation))
         }
         return result
@@ -271,29 +271,29 @@ class EIParser {
     func declaration() throws -> EIAST.Declaration {
         try safeAssert(token.type == .identifier)
         let name = token.raw
-        advance()
+        try advance()
         if token.type == .colon {
             // we have a type annotation!
-            advance()
+            try advance()
             // TODO: Currently I don't use the annoation, but I assume we'll want
             // to use it for type annotation.
             let _ = try type(bounded: true, annotation: true)
-            while token.type == .newline { advance() }
+            while token.type == .newline { try advance() }
             try safeAssert(token.type == .identifier)
             try safeAssert(token.raw == name)
-            advance()
+            try advance()
         }
         
         // for now we assume parameters are strings rather than patterns
         var parameters = [String]()
         while token.type == .identifier {
             parameters.append(token.raw)
-            advance()
+            try advance()
         }
-        eatNewlines()
+        try eatNewlines()
         try safeAssert(token.type == .equal)
-        advance()
-        eatNewlines()
+        try advance()
+        try eatNewlines()
         var node = try funcAppableExpression()
         for parameter in parameters.reversed() {
             node = EIAST.Function(parameter: parameter, body: node)
@@ -303,17 +303,17 @@ class EIParser {
     
     func funcAppableExpression() throws -> EINode {
         var result = try andableExpression()
-        eatNewlines()
+        try eatNewlines()
         while true {
             switch token.type {
             case .rightFuncApp:
-                advance()
+                try advance()
                 result = EIAST.FunctionApplication(function: try andableExpression(), argument: result, functionApplicationType: .RightArrow)
-                eatNewlines()
+                try eatNewlines()
             case .leftFuncApp:
-                advance()
+                try advance()
                 result = EIAST.FunctionApplication(function: result, argument: try andableExpression(), functionApplicationType: .LeftArrow)
-                eatNewlines()
+                try eatNewlines()
             default:
                 return result
             }
@@ -325,7 +325,7 @@ class EIParser {
         while true {
             switch token.type {
             case .ampersandampersand:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try orableExpression(), .and)
             default:
                 return result
@@ -338,7 +338,7 @@ class EIParser {
         while true {
             switch token.type {
             case .barbar:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try equatableExpression(), .or)
             default:
                 return result
@@ -348,29 +348,29 @@ class EIParser {
     
     func equatableExpression() throws -> EINode {
         if token.type == .not {
-            advance()
+            try advance()
             return EIAST.UnaryOp(operand: try equatableExpression(), type: .not)
         }
         var result = try cattitiveExpression()
         while true {
             switch token.type {
             case .equalequal:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .eq)
             case .notequal:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .ne)
             case .lessequal:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .le)
             case .greaterequal:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .ge)
             case .lessthan:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .lt)
             case .greaterthan:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try cattitiveExpression(), .gt)
             default:
                 return result
@@ -383,10 +383,10 @@ class EIParser {
         // These operators are right associative
         switch token.type {
         case .plusplus:
-            advance()
+            try advance()
             return EIAST.BinaryOp(result, try cattitiveExpression(), .concatenate)
         case .coloncolon:
-            advance()
+            try advance()
             return EIAST.BinaryOp(result, try cattitiveExpression(), .push_left)
         default:
             return result
@@ -398,10 +398,10 @@ class EIParser {
         while true {
             switch token.type {
             case .plus:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try multiplicativeExpression(), .add)
             case .minus:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try multiplicativeExpression(), .subtract)
             default:
                 return result
@@ -414,10 +414,10 @@ class EIParser {
         while true {
             switch token.type {
             case .asterisk:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try funcativeExpression(), .multiply)
             case .forwardSlash:
-                advance()
+                try advance()
                 result = EIAST.BinaryOp(result, try funcativeExpression(), .divide)
             default:
                 return result
@@ -426,12 +426,12 @@ class EIParser {
     }
     
     func funcativeExpression() throws -> EINode {
-        eatNewlines()
+        try eatNewlines()
         var result = try unaryExpression()
         while tokenCouldStartExpression() {
             result = EIAST.FunctionApplication(function: result, argument: try unaryExpression())
         }
-        //while token.type == .newline { advance() }
+        //while token.type == .newline { try advance() }
         return result
     }
 
@@ -443,13 +443,13 @@ class EIParser {
         let result: EINode
         switch token.type {
         case .leftParan:
-            advance()
+            try advance()
             let v1 = try funcAppableExpression()
             if token.type == .comma {
-                advance()
+                try advance()
                 let v2 = try funcAppableExpression()
                 if token.type == .comma {
-                    advance()
+                    try advance()
                     let v3 = try funcAppableExpression()
                     result = EIAST.Tuple(v1,v2,v3)
                 } else {
@@ -461,16 +461,16 @@ class EIParser {
             guard case .rightParan = token.type else {
                 throw ParserError.MissingRightParantheses
             }
-            advance()
+            try advance()
         case .leftSquare:
-            advance()
+            try advance()
             var items = [EINode]()
             while token.type != .rightSquare {
                 let expr = try funcAppableExpression()
                 items.append(expr)
-                if token.type == .comma { advance() }
+                if token.type == .comma { try advance() }
             }
-            advance()
+            try advance()
             result = EIAST.List(items)
         case .identifier:
             if try tokenIsCapitalizedIdentifier() {
@@ -493,15 +493,15 @@ class EIParser {
     
     func anonymousFunction() throws -> EINode {
         try safeAssert(token.type == .backSlash)
-        advance()
+        try advance()
         try safeAssert(token.type == .identifier)
         var parameters = [String]()
         while token.type == .identifier {
             parameters.append(token.raw)
-            advance()
+            try advance()
         }
         try safeAssert(token.type == .arrow)
-        advance()
+        try advance()
         var node = try funcAppableExpression()
         for parameter in parameters.reversed() {
             node = EIAST.Function(parameter: parameter, body: node)
@@ -512,20 +512,20 @@ class EIParser {
     func variable() throws -> EINode {
         try safeAssert(token.type == .identifier)
         let name = token.raw
-        advance()
+        try advance()
         return EIAST.Variable(name: name)
     }
     
     func typeExpression() throws -> EINode {
         switch token.raw {
         case "NOVALUE": // Special case for NOVALUE
-            advance()
+            try advance()
             return EIAST.NoValue()
         case "True":
-            advance()
+            try advance()
             return EIAST.Boolean(true)
         case "False":
-            advance()
+            try advance()
             return EIAST.Boolean(false)
         default:
             return try variable()
@@ -544,15 +544,15 @@ class EIParser {
         var conditions = [EINode]()
         var branches = [EINode]()
         while token.type == .IF {
-            advance()
+            try advance()
             try conditions.append(funcAppableExpression())
-            eatNewlines()
+            try eatNewlines()
             try safeAssert(token.type == .THEN)
-            advance()
+            try advance()
             try branches.append(funcAppableExpression())
-            eatNewlines()
+            try eatNewlines()
             try safeAssert(token.type == .ELSE)
-            advance()
+            try advance()
         }
         try branches.append(funcAppableExpression())
         return EIAST.IfElse(conditions: conditions, branches: branches)
@@ -564,7 +564,7 @@ class EIParser {
         var minus = false
         if token.type == .minus {
             minus = true
-            advance()
+            try advance()
         }
         if token.type != .number {
             throw ParserError.UnexpectedToken
@@ -578,7 +578,7 @@ class EIParser {
         } else {
             result = EIAST.Integer(Int(numberRaw)!)
         }
-        advance()
+        try advance()
         return result
     }
 }

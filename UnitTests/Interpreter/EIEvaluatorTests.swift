@@ -19,7 +19,7 @@ class EIEvaluatorTests: XCTestCase {
     
     func checkInterpret(_ toInterpret: [String], _ toOutput: [String]) throws {
         XCTAssertEqual(toInterpret.count, toOutput.count)
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         for i in 0 ..< toInterpret.count {
             let result = try evaluator.interpret(toInterpret[i])
             let output = try EIParser(text: toOutput[i]).parse()
@@ -28,7 +28,7 @@ class EIEvaluatorTests: XCTestCase {
     }
     
     func checkCompile(_ toCompile: String, _ toOutput: String) throws {
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         try evaluator.compile(toCompile)
         XCTAssertEqual("\(evaluator.globals["view"]!)", toOutput)
     }
@@ -165,7 +165,7 @@ class EIEvaluatorTests: XCTestCase {
         //let toLoad = ["Maybe","Builtin","Base","API3D"]
         let toLoad = ["Maybe","Builtin","Base","API3D",filename]
         let code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         try evaluator.compile(code)
         print("\(evaluator.globals["scene"]!)")
     }

@@ -14,7 +14,7 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
         let toLoad = ["Maybe","Builtin","Base","API3D"]
         var code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
         code.append("\n"+sourceCode)
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         try evaluator.compile(code)
 
         guard let sceneNode = evaluator.globals["scene"] else { return EGScene() }
@@ -31,7 +31,7 @@ func compileWithLibraries(sourceCode: String) -> EGScene{
 
 func compileNode(sourceCode: String) -> EINode {
     do {
-        let parser = EIParser(text: sourceCode)
+        let parser = try EIParser(text: sourceCode)
         let node = try parser.parseExpression()
         return node
     }
@@ -42,7 +42,7 @@ func compileNode(sourceCode: String) -> EINode {
 
 func compileDeclaration(sourceCode: String) -> EINode {
     do {
-        let parser = EIParser(text: sourceCode)
+        let parser = try EIParser(text: sourceCode)
         let node = try parser.parseDeclaration()
         return node
     }

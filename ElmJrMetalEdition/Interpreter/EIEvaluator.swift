@@ -24,9 +24,9 @@ class EIEvaluator {
         case TypeIsNotAFunction
     }
     
-    init() {
+    init() throws {
         globals = [String: EINode]()
-        parser = EIParser()
+        parser = try EIParser()
         typechecker = EITypeInferencer()
     }
     
@@ -38,8 +38,8 @@ class EIEvaluator {
     func interpret(_ text: String) throws -> EINode {
         try parser.appendText(text: text)
         let ast = try parser.parse()
-        typechecker.appendNode(parsed: [ast])
-        typechecker.inferNext()
+        //typechecker.appendNode(parsed: [ast])
+        //typechecker.inferNext()
         let (result, _) = try evaluate(ast, globals)
         return result
     }
@@ -49,8 +49,8 @@ class EIEvaluator {
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
             print("\(decl)")
-            typechecker.appendNode(parsed: [decl])
-            typechecker.inferNext()
+            //typechecker.appendNode(parsed: [decl])
+            //typechecker.inferNext()
             try evaluate(decl, globals)
         }
     }
