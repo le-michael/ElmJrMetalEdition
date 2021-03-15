@@ -35,9 +35,15 @@ class EVNodeMenu: UIView {
         self.options = options
         super.init(frame: .zero)
         
-        backgroundColor = .gray
+        backgroundColor = .clear
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(blurEffectView)
         
         setupStackView()
     }
@@ -57,7 +63,9 @@ class EVNodeMenu: UIView {
         let titleView = UILabel()
         stackView.addArrangedSubview(titleView)
         titleView.text = self.title
-        
+        titleView.font = UIFont.systemFont(ofSize: 20)
+        stackView.setCustomSpacing(20, after: titleView)
+
         for option in self.options {
             
             let labelView = UILabel()
@@ -71,6 +79,15 @@ class EVNodeMenu: UIView {
             stackView.setCustomSpacing(20, after: nodeView)
 
         }
+        
+        let cancelButton = UIButton()
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.addTarget(self, action: #selector(_handleCancel), for: .touchUpInside)
+        stackView.addArrangedSubview(cancelButton)
+    }
+    
+    @objc func _handleCancel() {
+        EVEditor.shared.closeNodeMenu()
     }
     
     required init?(coder: NSCoder) {

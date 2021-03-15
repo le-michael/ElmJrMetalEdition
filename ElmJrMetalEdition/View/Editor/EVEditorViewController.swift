@@ -112,7 +112,7 @@ extension EVEditorViewController: EVEditorDelegate {
         nodeMenuView = EVNodeMenu(title: title, options: options)
         view.addSubview(nodeMenuView!)
         nodeMenuView?.translatesAutoresizingMaskIntoConstraints = false
-        nodeMenuView?.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        nodeMenuView?.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         nodeMenuView?.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
     }
     
