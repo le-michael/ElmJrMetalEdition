@@ -149,6 +149,18 @@ class EIAST {
         }
     }
     
+    class Str: EILiteral {
+        var value: String
+        
+        init(_ value: String) {
+            self.value = value
+        }
+        
+        var description: String {
+            return "\"\(value)\""
+        }
+    }
+    
     class NoValue: EINode {
         var typeInfo: MonoType
         var name: Var
@@ -205,7 +217,7 @@ class EIAST {
             case .LeftArrow:
                 return "\(function) \n<| \(argument)"
             case .RightArrow:
-                return "\(argument) \n|> \(function)"
+                return "\(argument) \n\t|> \(function)"
             }
         }
     }
@@ -319,7 +331,7 @@ class EIAST {
         }
         
         var description: String {
-            return "[\(items.map{"\($0)"}.joined(separator: ", "))]"
+            return "[\n\t\(items.map{"\($0)"}.joined(separator: ",\n\t"))\n]"
         }
     }
 }

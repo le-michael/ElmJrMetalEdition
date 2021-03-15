@@ -155,4 +155,9 @@ class EIParserTests: XCTestCase {
         try checkASTExpression("1 |> f |> g", "1 \n|> f \n|> g")
         try checkASTExpression("1 |> f 1 |> g 2 3", "1 \n|> (f 1) \n|> ((g 2) 3)")
     }
+    
+    func testString() throws {
+        try checkASTExpression("\"cat\"", "\"cat\"")
+        try checkASTExpression("(\"a\", \"b\")", "(\"a\", \"b\")")
+    }
 }

@@ -11,6 +11,8 @@ import Foundation
 protocol EINode: CustomStringConvertible {}
 protocol EILiteral: EINode {}
 
+
+
 class EIParser {
     let lexer: EILexer
     var token: EIToken
@@ -20,8 +22,23 @@ class EIParser {
         "Int": MonoType.TCon("Int"),
         "Float": MonoType.TCon("Float"),
         "Bool": MonoType.TCon("Bool"),
+        "String": MonoType.TCon("String"),
         "List": MonoType.CustomType("List", [MonoType.TVar("a")])
     ]
+    
+    enum ParserError: Error {
+        case MissingRightParantheses
+        case UnexpectedToken
+        case NotImplemented
+        case TypeIsNotKnown
+        case MaxTupleSizeIsThree
+    }
+    
+    func safeAssert(_ toAssert: Bool) throws {
+        if !toAssert {
+            throw ParserError.NotImplemented
+        }
+    }
         
     init(text: String = "") {
         lexer = EILexer(text: text)
@@ -73,13 +90,7 @@ class EIParser {
         return try declaration()
     }
     
-    enum ParserError: Error {
-        case MissingRightParantheses
-        case UnexpectedToken
-        case NotImplemented
-        case TypeIsNotKnown
-        case MaxTupleSizeIsThree
-    }
+    
     
     func eatNewlines() {
         while token.type == .newline {
@@ -89,40 +100,40 @@ class EIParser {
     
     func moduleDeclaration() throws -> EINode {
         // TODO: Implement module/import system
-        assert(token.type == .MODULE)
+        try safeAssert(token.type == .MODULE)
         advance()
-        assert(token.type == .identifier)
+        try safeAssert(token.type == .identifier)
         advance()
-        assert(token.type == .EXPOSING)
+        try safeAssert(token.type == .EXPOSING)
         advance()
         eatNewlines()
-        assert(token.type == .leftParan)
-        ignore()
+        try safeAssert(token.type == .leftParan)
+        try ignore()
         return EIAST.NoValue()
     }
     
     func importDeclaration() throws -> EINode {
         // TODO: Implement module/import system
-        assert(token.type == .IMPORT)
+        try safeAssert(token.type == .IMPORT)
         advance()
-        assert(token.type == .identifier)
+        try safeAssert(token.type == .identifier)
         advance()
-        assert(token.type == .EXPOSING)
+        try safeAssert(token.type == .EXPOSING)
         advance()
         eatNewlines()
-        assert(token.type == .leftParan)
-        ignore()
+        try safeAssert(token.type == .leftParan)
+        try ignore()
         return EIAST.NoValue()
     }
     
-    func ignore() {
+    func ignore() throws {
         // TODO: This code will eventually be removed
         // Currently I have it so I can ignore Module/Import stuff.
-        assert(token.type == .leftParan)
+        try safeAssert(token.type == .leftParan)
         advance()
         while token.type != .rightParan {
             if token.type == .leftParan {
-                ignore()
+                try ignore()
             } else {
                 advance()
             }
@@ -134,10 +145,10 @@ class EIParser {
     
     
     func typeDeclaration() throws -> EINode {
-        assert(token.type == .TYPE)
+        try safeAssert(token.type == .TYPE)
         advance()
-        assert(token.type == .identifier)
-        assert(tokenIsCapitalizedIdentifier())
+        try safeAssert(token.type == .identifier)
+        try safeAssert(tokenIsCapitalizedIdentifier())
         let name = token.raw
         advance()
         var typeVars = [String]()
@@ -149,7 +160,7 @@ class EIParser {
         // because we might have a recursive type
         types[name] = MonoType.CustomType(name, typeVars.map{MonoType.TVar($0)})
         eatNewlines()
-        assert(token.type == .equal)
+        try safeAssert(token.type == .equal)
         advance()
         eatNewlines()
         var typeConstructors = [EIAST.ConstructorDefinition]()
@@ -167,8 +178,8 @@ class EIParser {
     }
     
     func typeConstructor(typeVars: [String]) throws -> EIAST.ConstructorDefinition {
-        assert(token.type == .identifier)
-        assert(tokenIsCapitalizedIdentifier())
+        try safeAssert(token.type == .identifier)
+        try safeAssert(tokenIsCapitalizedIdentifier())
         let name = token.raw
         advance()
         var typeParameters = [MonoType]()
@@ -185,7 +196,7 @@ class EIParser {
         var result: MonoType
         switch token.type {
         case .identifier:
-            if tokenIsCapitalizedIdentifier() {
+            if try tokenIsCapitalizedIdentifier() {
                 if types[token.raw] != nil {
                     // must have no arguments
                     let t = types[token.raw]
@@ -194,7 +205,7 @@ class EIParser {
                     case .CustomType(let name, let parameterVars):
                         if !bounded {
                             // TODO: replace this with a proper error
-                            assert(parameterVars.count == 0)
+                            try safeAssert(parameterVars.count == 0)
                         }
                         var parameters = [MonoType]()
                         for _ in 0..<parameterVars.count {
@@ -228,23 +239,23 @@ class EIParser {
             let t1 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = t1
-                assert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); advance()
                 break
             }
-            assert(token.type == .comma)
+            try safeAssert(token.type == .comma)
             advance()
             let t2 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, nil)
-                assert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); advance()
                 break
             }
-            assert(token.type == .comma)
+            try safeAssert(token.type == .comma)
             advance()
             let t3 = try type(typeVars: typeVars, bounded: true, annotation: annotation)
             if token.type == .rightParan {
                 result = MonoType.TupleType(t1, t2, t3)
-                assert(token.type == .rightParan); advance()
+                try safeAssert(token.type == .rightParan); advance()
                 break
             }
             throw ParserError.MaxTupleSizeIsThree
@@ -259,7 +270,7 @@ class EIParser {
     }
     
     func declaration() throws -> EIAST.Declaration {
-        assert(token.type == .identifier)
+        try safeAssert(token.type == .identifier)
         let name = token.raw
         advance()
         if token.type == .colon {
@@ -269,8 +280,8 @@ class EIParser {
             // to use it for type annotation.
             let _ = try type(bounded: true, annotation: true)
             while token.type == .newline { advance() }
-            assert(token.type == .identifier)
-            assert(token.raw == name)
+            try safeAssert(token.type == .identifier)
+            try safeAssert(token.raw == name)
             advance()
         }
         
@@ -281,7 +292,7 @@ class EIParser {
             advance()
         }
         eatNewlines()
-        assert(token.type == .equal)
+        try safeAssert(token.type == .equal)
         advance()
         eatNewlines()
         var node = try funcAppableExpression()
@@ -463,7 +474,7 @@ class EIParser {
             advance()
             result = EIAST.List(items)
         case .identifier:
-            if tokenIsCapitalizedIdentifier() {
+            if try tokenIsCapitalizedIdentifier() {
                 result = try typeExpression()
             } else {
                 result = try variable()
@@ -475,6 +486,8 @@ class EIParser {
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
+        case .string:
+            result = try string()
         default:
             throw ParserError.UnexpectedToken
         }
@@ -482,15 +495,15 @@ class EIParser {
     }
     
     func anonymousFunction() throws -> EINode {
-        assert(token.type == .backSlash)
+        try safeAssert(token.type == .backSlash)
         advance()
-        assert(token.type == .identifier)
+        try safeAssert(token.type == .identifier)
         var parameters = [String]()
         while token.type == .identifier {
             parameters.append(token.raw)
             advance()
         }
-        assert(token.type == .arrow)
+        try safeAssert(token.type == .arrow)
         advance()
         var node = try funcAppableExpression()
         for parameter in parameters.reversed() {
@@ -500,7 +513,7 @@ class EIParser {
     }
     
     func variable() throws -> EINode {
-        assert(token.type == .identifier)
+        try safeAssert(token.type == .identifier)
         let name = token.raw
         advance()
         return EIAST.Variable(name: name)
@@ -522,26 +535,26 @@ class EIParser {
         }
     }
     
-    func tokenIsCapitalizedIdentifier() -> Bool {
+    func tokenIsCapitalizedIdentifier() throws -> Bool {
         if token.type != .identifier { return false }
-        assert(token.raw.count >= 1)
+        try safeAssert(token.raw.count >= 1)
         let first = token.raw.first
         return first!.isUppercase
     }
     
     func ifExpression() throws -> EINode {
-        assert(token.type == .IF)
+        try safeAssert(token.type == .IF)
         var conditions = [EINode]()
         var branches = [EINode]()
         while token.type == .IF {
             advance()
             try conditions.append(funcAppableExpression())
             eatNewlines()
-            assert(token.type == .THEN)
+            try safeAssert(token.type == .THEN)
             advance()
             try branches.append(funcAppableExpression())
             eatNewlines()
-            assert(token.type == .ELSE)
+            try safeAssert(token.type == .ELSE)
             advance()
         }
         try branches.append(funcAppableExpression())
@@ -549,7 +562,7 @@ class EIParser {
     }
     
     func number() throws -> EINode {
-        assert(token.type == .number || token.type == .minus)
+        try safeAssert(token.type == .number || token.type == .minus)
         let result: EINode
         var minus = false
         if token.type == .minus {
@@ -570,5 +583,12 @@ class EIParser {
         }
         advance()
         return result
+    }
+    
+    func string() throws -> EINode {
+        try safeAssert(token.type == .string)
+        let value = token.raw
+        advance()
+        return EIAST.Str(value)
     }
 }

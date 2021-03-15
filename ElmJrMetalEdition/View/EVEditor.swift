@@ -118,7 +118,7 @@ class EVEditor {
         for ast in astNodes {
             let eiNode = ast as! EINode
             newSourceCode += eiNode.description
-            newSourceCode += "\n"
+            newSourceCode += "\n\n"
         }
         setSourceCode(newSourceCode)
         run()
