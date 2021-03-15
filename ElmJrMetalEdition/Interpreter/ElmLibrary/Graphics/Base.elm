@@ -146,138 +146,138 @@ radToDeg n = n * 180/pi
 {-| -}
 pink : Color
 pink =
-    RGB (255, 105, 180)
+    RGB (1, 105/255, 180/255)
 
 {-| -}
 hotPink : Color
 hotPink =
-    RGB (255, 0, 66)
+    RGB (1, 0, 66/255)
 
 
 {-| -}
 lightRed : Color
 lightRed =
-    RGB (239, 41, 41)
+    RGB (239/255, 41/255, 41/255)
 
 
 {-| -}
 red : Color
 red =
-    RGB (204, 0, 0)
+    RGB (204/255, 0, 0)
 
 
 {-| -}
 darkRed : Color
 darkRed =
-    RGB (164, 0, 0)
+    RGB (164/255, 0, 0)
 
 
 {-| -}
 lightOrange : Color
 lightOrange =
-    RGB (252, 175, 62)
+    RGB (252/255, 175/255, 62/255)
 
 
 {-| -}
 orange : Color
 orange =
-    RGB (245, 121, 0)
+    RGB (245/255, 121/255, 0)
 
 
 {-| -}
 darkOrange : Color
 darkOrange =
-    RGB (206, 92, 0)
+    RGB (206/255, 92/255, 0)
 
 
 {-| -}
 lightYellow : Color
 lightYellow =
-    RGB (255, 233, 79)
+    RGB (1, 233/255, 79/255)
 
 
 {-| -}
 yellow : Color
 yellow =
-    RGB (237, 212, 0)
+    RGB (237/255, 212/255, 0)
 
 
 {-| -}
 darkYellow : Color
 darkYellow =
-    RGB (196, 160, 0)
+    RGB (196/255, 160/255, 0)
 
 
 {-| -}
 lightGreen : Color
 lightGreen =
-    RGB (138, 226, 52)
+    RGB (138/255, 226/255, 52/255)
 
 
 {-| -}
 green : Color
 green =
-    RGB (115, 210, 22)
+    RGB (115/255, 210/255, 22/255)
 
 
 {-| -}
 darkGreen : Color
 darkGreen =
-    RGB (78, 154, 6)
+    RGB (78/255, 154/255, 6/255)
 
 
 {-| -}
 lightBlue : Color
 lightBlue =
-    RGB (114, 159, 207)
+    RGB (114/255, 159/255, 207/255)
 
 
 {-| -}
 blue : Color
 blue =
-    RGB (52, 101, 164)
+    RGB (52/255, 101/255, 164/255)
 
 
 {-| -}
 darkBlue : Color
 darkBlue =
-    RGB (32, 74, 135)
+    RGB (32/255, 74/255, 135/255)
 
 
 {-| -}
 lightPurple : Color
 lightPurple =
-    RGB (173, 127, 168)
+    RGB (173/255, 127/255, 168/255)
 
 
 {-| -}
 purple : Color
 purple =
-    RGB (117, 80, 123)
+    RGB (117/255, 80/255, 123/255)
 
 
 {-| -}
 darkPurple : Color
 darkPurple =
-    RGB (92, 53, 102)
+    RGB (92/255, 53/255, 102/255)
 
 
 {-| -}
 lightBrown : Color
 lightBrown =
-    RGB (233, 185, 110)
+    RGB (233/255, 185/255, 110/255)
 
 
 {-| -}
 brown : Color
 brown =
-    RGB (193, 125, 17)
+    RGB (193/255, 125/255, 17/255)
 
 
 {-| -}
 darkBrown : Color
 darkBrown =
-    RGB (143, 89, 2)
+    RGB (143/255, 89/255, 2/255)
 
 
 {-| -}
@@ -289,61 +289,61 @@ black =
 {-| -}
 white : Color
 white =
-    RGB (255, 255, 255)
+    RGB (1, 1, 1)
 
 
 {-| -}
 lightGrey : Color
 lightGrey =
-    RGB (238, 238, 236)
+    RGB (238/255, 238/255, 236/255)
 
 
 {-| -}
 grey : Color
 grey =
-    RGB (211, 215, 207)
+    RGB (211/255, 215/255, 207/255)
 
 
 {-| -}
 darkGrey : Color
 darkGrey =
-    RGB (186, 189, 182)
+    RGB (186/255, 189/255, 182/255)
 
 
 {-| -}
 lightGray : Color
 lightGray =
-    RGB (238, 238, 236)
+    RGB (238/255, 238/255, 236/255)
 
 
 {-| -}
 gray : Color
 gray =
-    RGB (211, 215, 207)
+    RGB (211/255, 215/255, 207/255)
 
 
 {-| -}
 darkGray : Color
 darkGray =
-    RGB (186, 189, 182)
+    RGB (186/255, 189/255, 182/255)
 
 
 {-| -}
 lightCharcoal : Color
 lightCharcoal =
-    RGB (136, 138, 133)
+    RGB (136/255, 138/255, 133/255)
 
 
 {-| -}
 charcoal : Color
 charcoal =
-    RGB (85, 87, 83)
+    RGB (85/255, 87/255, 83/255)
 
 
 {-| -}
 darkCharcoal : Color
 darkCharcoal =
-    RGB (46, 52, 54)
+    RGB (46/255, 52/255, 54/255)
 
 
 {-| -}
