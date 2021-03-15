@@ -149,6 +149,18 @@ class EIAST {
         }
     }
     
+    class Str: EILiteral {
+        var value: String
+        
+        init(_ value: String) {
+            self.value = value
+        }
+        
+        var description: String {
+            return "\"\(value)\""
+        }
+    }
+    
     class NoValue: EINode {
         var typeInfo: MonoType
         var name: Var

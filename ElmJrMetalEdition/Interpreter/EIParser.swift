@@ -22,6 +22,7 @@ class EIParser {
         "Int": MonoType.TCon("Int"),
         "Float": MonoType.TCon("Float"),
         "Bool": MonoType.TCon("Bool"),
+        "String": MonoType.TCon("String"),
         "List": MonoType.CustomType("List", [MonoType.TVar("a")])
     ]
     
@@ -485,6 +486,8 @@ class EIParser {
         case .minus: fallthrough // unary minus
         case .number:
             result = try number()
+        case .string:
+            result = try string()
         default:
             throw ParserError.UnexpectedToken
         }
@@ -580,5 +583,12 @@ class EIParser {
         }
         advance()
         return result
+    }
+    
+    func string() throws -> EINode {
+        try safeAssert(token.type == .string)
+        let value = token.raw
+        advance()
+        return EIAST.Str(value)
     }
 }

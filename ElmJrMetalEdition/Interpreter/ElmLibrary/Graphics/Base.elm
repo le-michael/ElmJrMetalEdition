@@ -21,6 +21,9 @@ type Stencil
     | Cone
     | Cylinder
     | Capsule
+    | Model String
+    | Smooth Float Stencil
+    | Shininess Float Stencil
 
 type Transform
     = Translate ( Float, Float, Float)
@@ -29,21 +32,21 @@ type Transform
     | Scale (Float, Float, Float)
 
 type Color
-    = RGB Float Float Float
-    | RGBA Float Float Float Float
+    = RGB (Float, Float, Float)
 
 {- Can add this back in when parsing is better at handling whitespace
 type Light
-    = DirectionalLight 
+    = DirectionalLight
       Color -- light colour
       (Float, Float, Float) -- position/direction of vector
       Color -- specular colour
     | AmbientLight Color Float -- float between 0 and 1
 -}
 type Light
-    = DirectionalLight Color (Float, Float, Float) Color
-    | AmbientLight Color Float
-
+    = DirectionalLight (Maybe Float) Color (Float, Float, Float) Color
+    | AmbientLight (Maybe Float) Color Float
+    | Point (Maybe Float) Color (Float, Float, Float) (Float, Float, Float) -- color, position, attenuation
+    | Spotlight (Maybe Float) Color (Float, Float, Float) (Float, Float, Float) Float (Float, Float, Float) Float
 
 {- Can add this back in when parsing is better at handling whitespace
 type Camera
@@ -59,13 +62,13 @@ type Camera
     | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Shape
-    = Inked (Maybe Color) Stencil -- Base constructor: apply colour to a Stencil
+    = Inked (List Color) Stencil -- Base constructor: apply colour to a Stencil
     | ApTransform Transform Shape -- Apply a transform to an already defined shape
     | Group (List Shape)
 
 type Scene
     = Scene Camera Color (List Light) (List Shape)
-    | SceneWithTime Camera Color (List Light) (Float -> List Shape)
+    | SceneWithTime Camera Color (Float -> List Light) (Float -> List Shape)
 
 
 defaultCamera : Camera
@@ -82,15 +85,28 @@ viewWithCamera camera c lights shapes = Scene camera c lights shapes
 
 -- Creating a scene with a time property requires this initializer
 -- The time is passed in as an argument to the scene
-viewWithTime : Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTime : Color -> (Float -> List Light) -> (Float -> List Shape) -> Scene
 viewWithTime c lights shapes = SceneWithTime defaultCamera c lights shapes
 
-viewWithTimeAndCamera : Camera -> Color -> List Light -> (Float -> List Shape) -> Scene
+viewWithTimeAndCamera : Camera -> Color -> (Float -> List Light) -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights shapes
+
+smooth : Float -> Stencil -> Stencil
+smooth f s = Smooth f s
+
+shininess : Float -> Stencil -> Stencil
+shininess f s = Shininess f s
 
 color : Color -> Stencil -> Shape
 color c stencil =
-    Inked (Just c) stencil
+    Inked [c] stencil
+
+colorModel : List Color -> Stencil -> Shape
+colorModel cs stencil =
+    Inked cs stencil
+
+model : String -> Stencil
+model s = Model s
 
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet
@@ -112,218 +128,225 @@ ssa n =
     clamp 0 1 n
 
 rgb : Float -> Float -> Float -> Color
-rgb r g b = RGBA (ssa r) (ssc g) (ssc b) 1
+rgb r g b = RGB (ssa r, ssa g, ssa b)
 
-rgba : Float -> Float -> Float -> Float -> Color
-rgba r g b a = RGBA (ssc r) (ssc g) (ssc b) (ssa a)
+pi : Float
+pi = 3.141592653589793
+
+-- deg to rad
+degToRad : Float -> Float
+degToRad n = n * pi/180
+
+-- rad to deg
+radToDeg : Float -> Float
+radToDeg n = n * 180/pi
 
 -- Default available colors
 
 {-| -}
 pink : Color
 pink =
-    RGBA 255 105 180 1
-
+    RGB (1, 105/255, 180/255)
 
 {-| -}
 hotPink : Color
 hotPink =
-    RGBA 255 0 66 1
+    RGB (1, 0, 66/255)
 
 
 {-| -}
 lightRed : Color
 lightRed =
-    RGBA 239 41 41 1
+    RGB (239/255, 41/255, 41/255)
 
 
 {-| -}
 red : Color
 red =
-    RGBA 204 0 0 1
+    RGB (204/255, 0, 0)
 
 
 {-| -}
 darkRed : Color
 darkRed =
-    RGBA 164 0 0 1
+    RGB (164/255, 0, 0)
 
 
 {-| -}
 lightOrange : Color
 lightOrange =
-    RGBA 252 175 62 1
+    RGB (252/255, 175/255, 62/255)
 
 
 {-| -}
 orange : Color
 orange =
-    RGBA 245 121 0 1
+    RGB (245/255, 121/255, 0)
 
 
 {-| -}
 darkOrange : Color
 darkOrange =
-    RGBA 206 92 0 1
+    RGB (206/255, 92/255, 0)
 
 
 {-| -}
 lightYellow : Color
 lightYellow =
-    RGBA 255 233 79 1
+    RGB (1, 233/255, 79/255)
 
 
 {-| -}
 yellow : Color
 yellow =
-    RGBA 237 212 0 1
+    RGB (237/255, 212/255, 0)
 
 
 {-| -}
 darkYellow : Color
 darkYellow =
-    RGBA 196 160 0 1
+    RGB (196/255, 160/255, 0)
 
 
 {-| -}
 lightGreen : Color
 lightGreen =
-    RGBA 138 226 52 1
+    RGB (138/255, 226/255, 52/255)
 
 
 {-| -}
 green : Color
 green =
-    RGBA 115 210 22 1
+    RGB (115/255, 210/255, 22/255)
 
 
 {-| -}
 darkGreen : Color
 darkGreen =
-    RGBA 78 154 6 1
+    RGB (78/255, 154/255, 6/255)
 
 
 {-| -}
 lightBlue : Color
 lightBlue =
-    RGBA 114 159 207 1
+    RGB (114/255, 159/255, 207/255)
 
 
 {-| -}
 blue : Color
 blue =
-    RGBA 52 101 164 1
+    RGB (52/255, 101/255, 164/255)
 
 
 {-| -}
 darkBlue : Color
 darkBlue =
-    RGBA 32 74 135 1
+    RGB (32/255, 74/255, 135/255)
 
 
 {-| -}
 lightPurple : Color
 lightPurple =
-    RGBA 173 127 168 1
+    RGB (173/255, 127/255, 168/255)
 
 
 {-| -}
 purple : Color
 purple =
-    RGBA 117 80 123 1
+    RGB (117/255, 80/255, 123/255)
 
 
 {-| -}
 darkPurple : Color
 darkPurple =
-    RGBA 92 53 102 1
+    RGB (92/255, 53/255, 102/255)
 
 
 {-| -}
 lightBrown : Color
 lightBrown =
-    RGBA 233 185 110 1
+    RGB (233/255, 185/255, 110/255)
 
 
 {-| -}
 brown : Color
 brown =
-    RGBA 193 125 17 1
+    RGB (193/255, 125/255, 17/255)
 
 
 {-| -}
 darkBrown : Color
 darkBrown =
-    RGBA 143 89 2 1
+    RGB (143/255, 89/255, 2/255)
 
 
 {-| -}
 black : Color
 black =
-    RGBA 0 0 0 1
+    RGB (0, 0, 0)
 
 
 {-| -}
 white : Color
 white =
-    RGBA 255 255 255 1
+    RGB (1, 1, 1)
 
 
 {-| -}
 lightGrey : Color
 lightGrey =
-    RGBA 238 238 236 1
+    RGB (238/255, 238/255, 236/255)
 
 
 {-| -}
 grey : Color
 grey =
-    RGBA 211 215 207 1
+    RGB (211/255, 215/255, 207/255)
 
 
 {-| -}
 darkGrey : Color
 darkGrey =
-    RGBA 186 189 182 1
+    RGB (186/255, 189/255, 182/255)
 
 
 {-| -}
 lightGray : Color
 lightGray =
-    RGBA 238 238 236 1
+    RGB (238/255, 238/255, 236/255)
 
 
 {-| -}
 gray : Color
 gray =
-    RGBA 211 215 207 1
+    RGB (211/255, 215/255, 207/255)
 
 
 {-| -}
 darkGray : Color
 darkGray =
-    RGBA 186 189 182 1
+    RGB (186/255, 189/255, 182/255)
 
 
 {-| -}
 lightCharcoal : Color
 lightCharcoal =
-    RGBA 136 138 133 1
+    RGB (136/255, 138/255, 133/255)
 
 
 {-| -}
 charcoal : Color
 charcoal =
-    RGBA 85 87 83 1
+    RGB (85/255, 87/255, 83/255)
 
 
 {-| -}
 darkCharcoal : Color
 darkCharcoal =
-    RGBA 46 52 54 1
+    RGB (46/255, 52/255, 54/255)
 
 
 {-| -}
 blank : Color
 blank =
-    RGBA 0 0 0 0
+    RGB (0, 0, 0)
