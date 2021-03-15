@@ -453,8 +453,8 @@ class EGTranspiler {
                     shape = EGCapsule()
                     print("Created Capsule")
                 case "Model":
-                    let name = inst.parameters[0].description
-                    shape = EGModel(modelName: name)
+                    let name = inst.parameters[0] as! EIAST.Str
+                    shape = EGModel(modelName: name.value)
                 case "Smooth":
                     shape = inkedHelper(node: inst.parameters[1])
                     let shape = shape as! EGModel
