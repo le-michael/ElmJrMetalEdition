@@ -459,6 +459,8 @@ class EITypeInferencer {
             return (MonoType.TCon("Float"), [])
         case _ as EIAST.Boolean:
             return (MonoType.TCon("Bool"), [])
+        case _ as EIAST.Str:
+            return (MonoType.TCon("String"), [])
         case let e as EIAST.BinaryOp:
             let (t1, c1) = try infer(e.leftOperand)
             let (t2, c2) = try infer(e.rightOperand)
@@ -498,10 +500,12 @@ class EITypeInferencer {
             }
             let tv = inferState.supply.fresh()
             let listConstraints : [Constraint] =
-                (0..<cs.count - 1)
-                    .map { (cs[$0].0,
-                            cs[$0 + 1].0) }
-            return (MonoType.CustomType("List", [tv]), [(tv, cs[0].0)] + listConstraints)
+                ts.count == 0 ? [] : 
+                (0..<ts.count - 1)
+                    .map { (ts[$0],
+                            ts[$0 + 1]) }
+            let unifyListTy = ts.count == 0 ? [] : [(tv, ts[0])]
+            return (MonoType.CustomType("List", [tv]), cs + listConstraints + unifyListTy)
         case _ as EIAST.NoValue:
             let ntv = inferState.supply.freshNoValue()
             return (ntv, [])
