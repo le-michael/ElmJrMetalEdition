@@ -588,7 +588,7 @@ class EIParser {
     func string() throws -> EINode {
         try safeAssert(token.type == .string)
         let value = token.raw
-        advance()
+        try advance()
         return EIAST.Str(value)
     }
 }
