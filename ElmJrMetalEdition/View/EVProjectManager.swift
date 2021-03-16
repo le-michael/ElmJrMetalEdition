@@ -17,15 +17,15 @@ let starterCode = """
 myShapes : Float -> List Shape
 myShapes time =
     [ sphere
-        |> color (rgb 1 1 1)
+        |> color (rgb 1.0 1.0 1.0)
     ]
 
 lights =
-    [ DirectionalLight Nothing (RGB (0.6, 0.6, 0.6)) (1, 2, 2) (RGB (0.1, 0.1, 0.1))
-    , AmbientLight Nothing (RGB (1, 1, 1)) 0.5
+    [ DirectionalLight Nothing (RGB (0.6, 0.6, 0.6)) (1.0, 2.0, 2.0) (RGB (0.1, 0.1, 0.1))
+    , AmbientLight Nothing (RGB (1.0, 1.0, 1.0)) 0.5
     ]
 
-scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB (1, 1, 1)) (\\f -> lights) myShapes
+scene = viewWithTimeAndCamera (ArcballCamera 5 (0, -1, 0) Nothing Nothing) (RGB (0.529, 0.808, 0.922)) (\\f -> lights) myShapes
 """
 
 class EVProjectManager {
