@@ -266,7 +266,15 @@ class EGTranspiler {
                 case "Model":
                     let name = inst.parameters[0] as! EIAST.Str
                     shape = EGModel(modelName: name.value)
-                    break
+                case "ngon":
+                    print("Created Polygon")
+                    shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
+                case "triangle":
+                    print("Created Triangle")
+                    shape = EGRegularPolygon(3)
+                case "Circle":
+                    shape = EGSphere()
+                    print("Created Circle")
                 default:
                     break
                 }
@@ -281,7 +289,7 @@ class EGTranspiler {
         var transform = [EGMathNode]()
         var transformType = String()
         let inst = node as! EIAST.ConstructorInstance
-        var shape = addShape(node: inst.parameters[1])
+        let shape = addShape(node: inst.parameters[1])
         for paramater in inst.parameters {
             let param = paramater as! EIAST.ConstructorInstance
             switch param.constructorName {
@@ -295,6 +303,8 @@ class EGTranspiler {
                 transformType = "Rotate3D"
                 transform = unwrapTransform(transform: param)
             case "Rotate2D":
+                transformType = "Rotate2D"
+                transform = [EGConstant(0), EGConstant(0), constructTransform(node: param.parameters[0])]
                 break
             default:
                 break
