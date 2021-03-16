@@ -150,6 +150,16 @@ protocol EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView
 }
 
+extension EIAST.Str: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let label = UILabel()
+        label.text = "\"\(value)\""
+        label.textColor = EVTheme.Colors.string
+        let cardView = EVProjectionalNodeView(node: self, view: label, padding: .zero, isStore: isStore)
+        return cardView
+    }
+}
+
 // MARK: - NoValue
 
 extension EIAST.NoValue: EVProjectionalNode {
@@ -336,8 +346,12 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.spacing = 10
-        let functionNode = function as! EVProjectionalNode
-        let argumentNode = argument as! EVProjectionalNode
+        guard let functionNode = function as? EVProjectionalNode else {
+            return errorCard()
+        }
+        guard let argumentNode = argument as? EVProjectionalNode else {
+            return errorCard()
+        }
         
         let leftBracket = UILabel()
         leftBracket.text = "("
@@ -766,6 +780,29 @@ extension EIAST.List: EVProjectionalNode {
             }
             options.append(functionOption)
         }
+        var modelFileNames: [String] = []
+        if let modelUrls = Bundle.main.urls(forResourcesWithExtension: ".obj", subdirectory: nil) {
+            for modelUrl in modelUrls {
+                print(modelUrl.absoluteString)
+                modelFileNames.append(modelUrl.relativePath)
+            }
+        }
+
+
+        for modelFileName in modelFileNames {
+            let sourceCode = "Model \"\(modelFileName)\" |> colorModel []"
+            print("----------------->")
+            //print(sourceCode)
+            let model = compileNode(sourceCode: sourceCode)
+            print(model)
+            let modelOption = EVNodeMenuOption(node: model as! EVProjectionalNode,
+                                               description: "\(modelFileName)") {
+                self.items.append(model)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            }
+            options.append(modelOption)
+        }
         
         EVEditor.shared.openNodeMenu(
             title: "Add item to list:",
@@ -961,10 +998,33 @@ func shapeMenu(view: UIView, shapeHandler: @escaping (EINode)->Void) {
         }
     )
     
-    EVEditor.shared.openNodeMenu(title: "Select a shape:", options: [
+    let modelFileNames = ["alien.obj"]
+    
+    var options = [
         sphereOption,
         cubeOption,
         cylinderOption,
         capsuleOption,
-    ])
+    ]
+    
+    for modelFileName in modelFileNames {
+        let sourceCode = "Model \"\(modelFileName)\" |> colorModel []"
+        let model = compileNode(sourceCode: sourceCode)
+        let modelOption = EVNodeMenuOption(node: model as! EVProjectionalNode,
+                                           description: "\(modelFileName)") {
+            shapeHandler(model)
+        }
+        options.append(modelOption)
+    }
+    
+    EVEditor.shared.openNodeMenu(title: "Select a shape:", options: options)
+}
+
+// MARK: - errorCard
+
+func errorCard() -> EVProjectionalNodeView {
+    let errorLabel = UILabel()
+    errorLabel.text = "ERROR COMPILING"
+    let cardView = EVProjectionalNodeView(node: EIAST.NoValue(), view: errorLabel, padding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), isStore: false)
+    return cardView
 }

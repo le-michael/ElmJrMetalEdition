@@ -736,9 +736,7 @@ class EITypeInferencer {
          */
         func tcTySigTop(_ given : MonoType, _ declr : Var) throws -> Bool {
             let actual = try tyEnv.lookup(declr).ty
-            print(actual.description)
             assignMapping(given, actual)
-            print(bindings)
             return tcTySig(given, actual)
         }
         
