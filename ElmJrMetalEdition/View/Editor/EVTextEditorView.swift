@@ -96,6 +96,7 @@ extension EVTextEditorView: UITextViewDelegate {
 }
 
 extension EVTextEditorView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
     
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 

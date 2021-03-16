@@ -120,6 +120,8 @@ class EVEditorViewController: UIViewController {
 }
 
 extension EVEditorViewController: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
+    
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {
         nodeMenuView?.removeFromSuperview()
         nodeMenuView = EVNodeMenu(title: title, options: options)

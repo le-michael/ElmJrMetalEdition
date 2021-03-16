@@ -72,6 +72,7 @@ class EVToolBarView: UIView {
 }
 
 extension EVToolBarView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
     
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 

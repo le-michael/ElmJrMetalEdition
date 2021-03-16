@@ -38,7 +38,7 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
         self.title = title
         self.options = options
         super.init(frame: .zero)
-        
+                
         backgroundColor = .clear
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
@@ -106,8 +106,14 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
         } else {
             optionsToUse = self.options
         }
+        let slicedOptionsToUse: ArraySlice<EVNodeMenuOption>
+        if optionsToUse.count > 20 {
+            slicedOptionsToUse = optionsToUse[...20]
+        } else {
+            slicedOptionsToUse = optionsToUse[...]
+        }
         
-        for option in optionsToUse {
+        for option in slicedOptionsToUse {
             
             let labelView = UILabel()
             labelView.text = option.description
@@ -117,7 +123,23 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
             nodeView.addTapCallback(callback: option.callback)
             stackView.addArrangedSubview(nodeView)
             
-            stackView.setCustomSpacing(20, after: nodeView)
+            
+            if option.description.contains(".obj") {
+                let previewButton = ButtonWithModelName()
+                previewButton.modelName = option.description
+                previewButton.layer.borderWidth = 2
+                previewButton.layer.borderColor = EVTheme.Colors.ProjectionalEditor.action?.cgColor
+                previewButton.setTitle("  Preview Model  ", for: .normal)
+                previewButton.setTitleColor(EVTheme.Colors.ProjectionalEditor.action, for: .normal)
+                previewButton.addTarget(self, action: #selector(handlePreviewButton), for: .touchUpInside)
+                stackView.addArrangedSubview(previewButton)
+                stackView.setCustomSpacing(20, after: previewButton)
+
+            } else {
+                stackView.setCustomSpacing(20, after: nodeView)
+            }
+            
+
 
         }
         let cancelButton = UIButton()
@@ -142,6 +164,11 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
         return true
     }
     
+    @objc func handlePreviewButton(sender: UIButton) {
+        guard let button = sender as? ButtonWithModelName else { return }
+        EVEditor.shared.setModelPreview(fileName: button.modelName!)
+    }
+    
     @objc func _handleCancel() {
         EVEditor.shared.closeNodeMenu()
     }
@@ -149,4 +176,8 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+class ButtonWithModelName: UIButton {
+    var modelName: String?
 }

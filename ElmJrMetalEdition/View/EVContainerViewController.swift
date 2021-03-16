@@ -48,6 +48,7 @@ class EVContainerViewController: UIViewController {
 }
 
 extension EVContainerViewController: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
     
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 

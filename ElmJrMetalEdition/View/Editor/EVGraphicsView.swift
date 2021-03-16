@@ -70,6 +70,7 @@ class EVGraphicsView: UIView {
 }
 
 extension EVGraphicsView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
     
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 

@@ -93,6 +93,8 @@ class EVProjectionalNodeView: UIView {
 }
 
 extension EVProjectionalNodeView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeSourceCode(sourceCode: String) {}
@@ -397,15 +399,18 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         let argumentNode = argument as! EVProjectionalNode
         
         let argumentNodeView = argumentNode.getUIView(isStore: isStore)
-        argumentNodeView.addTapCallback {
-            shapeMenu(view: cardView) { shape in
-                self.argument = shape
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-            argumentNodeView.highlight()
+        if !isStore {
+            argumentNodeView.addTapCallback {
+                shapeMenu(view: cardView) { shape in
+                    self.argument = shape
+                    EVEditor.shared.astToSourceCode()
+                    EVEditor.shared.closeNodeMenu()
+                }
+                argumentNodeView.highlight()
 
+            }
         }
+
         stackView.addArrangedSubview(argumentNodeView)
         
         let functionStackView = UIStackView()

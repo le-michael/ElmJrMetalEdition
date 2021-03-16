@@ -156,6 +156,7 @@ class EVProjectionalEditorView: UIView {
 }
 
 extension EVProjectionalEditorView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
     
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 

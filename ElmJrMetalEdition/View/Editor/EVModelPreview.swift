@@ -19,7 +19,7 @@ class EVModelPreview: UIView {
         let scene = EGScene()
         let camera = EGArcballCamera(distance: 3, target: [0, -1, 0])
         scene.camera = camera
-        
+        scene.viewClearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         scene.lights.append(
             EGDirectionaLight(
                 color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
@@ -43,6 +43,11 @@ class EVModelPreview: UIView {
     }
     
     func changePreviewModel(modelName:String) {
+        if modelName == "" {
+            self.isHidden = true
+            return
+        }
+        self.isHidden = false
         previousScale = 1;
         let scene = previewScene(modelName: modelName)
         renderer.use(scene: scene)
@@ -52,11 +57,14 @@ class EVModelPreview: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
+        EVEditor.shared.subscribe(delegate: self)
+        self.isHidden = true
+        backgroundColor = .clear
         layer.cornerRadius = 10
         clipsToBounds = true
 
         addSubview(mtkView)
+        mtkView.backgroundColor = .clear
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
         mtkView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
@@ -64,6 +72,7 @@ class EVModelPreview: UIView {
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
 
         mtkView.device = MTLCreateSystemDefaultDevice()
+        
 
         renderer = EGRenderer(view: mtkView)
         renderer.use(scene: previewScene(modelName: "alien.obj"))//"hangar_largeA.obj"))
@@ -103,4 +112,30 @@ class EVModelPreview: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+extension EVModelPreview: EVEditorDelegate {
+    func didChangeTextEditorWidth(width: CGFloat) {}
+    
+    func didChangeSourceCode(sourceCode: String) {}
+    
+    func didOpenProjects() {}
+    
+    func didLoadProject(project: EVProject) {}
+    
+    func didUpdateScene(scene: EGScene) {}
+    
+    func didToggleMode() {}
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+    
+    func didCloseNodeMenu() {
+        changePreviewModel(modelName: "")
+    }
+    
+    func didUpdateModelPreview(modelFileName: String) {
+        changePreviewModel(modelName: modelFileName)
+    }
+    
+    
 }
