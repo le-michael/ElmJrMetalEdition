@@ -22,8 +22,6 @@ type Stencil
     | Cylinder
     | Capsule
     | Model String
-    | Smooth Float Stencil
-    | Shininess Float Stencil
 
 type Transform
     = Translate ( Float, Float, Float)
@@ -62,9 +60,12 @@ type Camera
     | ArcballCamera Float ( Float, Float, Float ) (Maybe Color) (Maybe (Float, Float, Float))
 
 type Shape
-    = Inked (List Color) Stencil -- Base constructor: apply colour to a Stencil
+    = Inked (List Color) Shape -- Base constructor: apply colour to a Stencil
     | ApTransform Transform Shape -- Apply a transform to an already defined shape
     | Group (List Shape)
+    | BaseStencil Stencil
+    | Smooth Float Shape
+    | Shininess Float Shape
 
 type Scene
     = Scene Camera Color (List Light) (List Shape)
@@ -91,22 +92,26 @@ viewWithTime c lights shapes = SceneWithTime defaultCamera c lights shapes
 viewWithTimeAndCamera : Camera -> Color -> (Float -> List Light) -> (Float -> List Shape) -> Scene
 viewWithTimeAndCamera camera c lights shapes = SceneWithTime camera c lights shapes
 
-smooth : Float -> Stencil -> Stencil
+smooth : Float -> Shape -> Shape
 smooth f s = Smooth f s
 
-shininess : Float -> Stencil -> Stencil
+shininess : Float -> Shape -> Shape
 shininess f s = Shininess f s
 
-color : Color -> Stencil -> Shape
+color : Color -> Shape -> Shape
 color c stencil =
     Inked [c] stencil
 
-colorModel : List Color -> Stencil -> Shape
-colorModel cs stencil =
+colors : List Color -> Shape -> Shape
+colors cs stencil =
     Inked cs stencil
 
-model : String -> Stencil
-model s = Model s
+model : String -> Shape
+model s = BaseStencil (Model s)
+
+-- group shapes
+group : List Shape -> Shape
+group shapes = Group shapes
 
 -- The `clamp` function is in the Elm Core library
 -- But it is here as we do not use the library yet

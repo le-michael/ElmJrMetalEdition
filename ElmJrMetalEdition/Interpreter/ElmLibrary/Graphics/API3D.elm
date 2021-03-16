@@ -23,24 +23,24 @@ import Base exposing (..)
 
 -}
 
-ngon : Int -> Stencil
+ngon : Int -> Shape
 ngon n =
-    Polygon n
+    BaseStencil (Polygon n)
 
-sphere : Stencil
-sphere = Sphere
+sphere : Shape
+sphere = BaseStencil Sphere
 
-cube : Stencil
-cube = Cube
+cube : Shape
+cube = BaseStencil Cube
 
-cone : Stencil
-cone = Cone
+cone : Shape
+cone = BaseStencil Cone
 
-cylinder : Stencil
-cylinder = Cylinder
+cylinder : Shape
+cylinder = BaseStencil Cylinder
 
-capsule : Stencil
-capsule = Capsule
+capsule : Shape
+capsule = BaseStencil Capsule
 
 move : ( Float, Float, Float ) -> Shape -> Shape
 move disp shape =
@@ -62,6 +62,3 @@ scale s shape =
 scaleAll : Float -> Shape -> Shape
 scaleAll s shape =
     scale (s, s, s) shape
-
-group : List Shape -> Shape
-group shapes = Group shapes
