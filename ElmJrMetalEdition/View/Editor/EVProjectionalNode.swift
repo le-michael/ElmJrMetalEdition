@@ -443,6 +443,18 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
             EVEditor.shared.closeNodeMenu()
         }
         
+        let scaleAllNode = compileNode(sourceCode: """
+            scaleAll 1.0
+        """)
+        
+        let scaleAllOption = EVNodeMenuOption(node: scaleAllNode as! EVProjectionalNode, description: "Scale shape evenly") {
+            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
+            self.function = scaleAllNode
+            button.rootView?.unhighlight()
+            EVEditor.shared.astToSourceCode()
+            EVEditor.shared.closeNodeMenu()
+        }
+        
         let rotateNode = compileNode(sourceCode: """
             rotate (0.0, 0.0, 0.0)
         """)
@@ -456,7 +468,7 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         
         EVEditor.shared.openNodeMenu(
             title: "Apply another function:",
-            options: [moveOption, scaleOption, rotateOption]
+            options: [moveOption, scaleOption, scaleAllOption, rotateOption]
         )
         button.rootView?.highlight()
     }
