@@ -295,8 +295,8 @@ class EIEvaluator {
                 let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
                 let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
                 
-                // check if anything could not be evaluated
-                if !condEvaluated || !branchEvaled { return (node, false) }
+                // check if condition could not be evaluated
+                if !condEvaluated { return (node, false) }
                 
                 // check if condition is non-bool
                 let conditionBool = condition as? EIAST.Boolean
@@ -305,12 +305,11 @@ class EIEvaluator {
                 }
                 // if it's true, result is ith branch
                 if conditionBool!.value {
-                    return (branch, true)
+                    return (branch, branchEvaled)
                 }
             }
             let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
-            if !elseBranchEvaled { return (node, false) }
-            return (elseBranch, true)
+            return (elseBranch, elseBranchEvaled)
         case _ as EIAST.NoValue:
             return (EIAST.NoValue(), false)
         default:
