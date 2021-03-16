@@ -21,7 +21,7 @@ class EVSectionHeaderView: UICollectionViewCell {
         label.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
         label.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = EVTheme.Colors.highlighted
+        label.textColor = EVTheme.Colors.ProjectionalEditor.action
         label.textAlignment = .center
     }
     

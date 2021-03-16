@@ -454,11 +454,13 @@ class EGDemoScenes {
         )
 
         let monkey = EGMonkey()
+        monkey.shininess = 32
         monkey.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         monkey.smoothIntensity = 0.5
         scene.add(monkey)
 
         let ring = EGRing()
+        ring.shininess = 32
         ring.transform.translate.set(x: 0, y: 1.25, z: 0)
         ring.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
@@ -467,11 +469,13 @@ class EGDemoScenes {
         scene.add(ring)
 
         let monkey2 = EGMonkey()
+        monkey2.shininess = 32
         monkey2.transform.translate.set(x: -3, y: 0, z: 0)
         monkey2.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(monkey2)
 
         let ring2 = EGRing()
+        ring.shininess = 32
         ring2.transform.translate.set(x: -3, y: 1.25, z: 0)
         ring2.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring2.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
@@ -479,12 +483,14 @@ class EGDemoScenes {
         scene.add(ring2)
 
         let monkey3 = EGMonkey()
+        monkey3.shininess = 32
         monkey3.transform.translate.set(x: 3, y: 0, z: 0)
         monkey3.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         monkey3.smoothIntensity = 1
         scene.add(monkey3)
 
         let ring3 = EGRing()
+        ring3.shininess = 32
         ring3.transform.translate.set(x: 3, y: 1.25, z: 0)
         ring3.transform.scale.set(x: 0.5, y: 0.25, z: 0.5)
         ring3.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
@@ -606,6 +612,11 @@ class EGDemoScenes {
         cliffBlock4.transform.translate.set(x: 0.5, y: 0, z: 0.5)
         scene.add(cliffBlock4)
 
+        let astronaut = EGModel(modelName: "astronautA.obj")
+        astronaut.transform.translate.set(x: 0.5, y: 1, z: 0.5)
+        astronaut.transform.scale.set(x: 0.5, y: 0.5, z: 0.5)
+        scene.add(astronaut)
+
         return scene
     }
 
@@ -718,6 +729,183 @@ class EGDemoScenes {
         rightArm.transform.rotate.set(x: 0, y: 0, z: Float(35).degreesToRadians)
         rightArm.submeshColorMap[0] = EGColorProperty(r: 150/255, g: 75/255, b: 0, a: 1)
         scene.add(rightArm)
+
+        return scene
+    }
+
+    static func spacebase() -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 15, target: [0, -1, 0])
+        camera.rotation = [Float(-35).degreesToRadians, 0, 0]
+        scene.camera = camera
+        scene.viewClearColor = MTLClearColorMake(255/255, 218/255, 199/255, 1.0)
+        scene.lights.append(
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0), EGConstant(1)),
+                intensity: EGConstant(0.5),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
+        )
+
+        scene.lights.append(
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(0), EGConstant(0.5), EGConstant(-1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
+        )
+
+        scene.lights.append(
+            EGDirectionaLight(
+                color: (EGConstant(0.3), EGConstant(0.3), EGConstant(0.3)),
+                position: (EGConstant(0), EGConstant(-0.5), EGConstant(-1)),
+                intensity: EGConstant(0.2),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
+        )
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(0.9), EGConstant(0.9), EGConstant(0.9)),
+                intensity: EGConstant(0.5)
+            )
+        )
+
+        for i in 0...12 {
+            for j in 0...12 {
+                let terrain = EGModel(modelName: "terrain.obj")
+                terrain.transform.translate.set(x: -6 + Float(i), y: 0, z: -6 + Float(j))
+                scene.add(terrain)
+            }
+        }
+
+        let ships = ["craft_speederA.obj", "craft_speederB.obj", "craft_speederC.obj", "craft_speederD.obj"]
+        for i in 0...3 {
+            for j in 0...14 {
+                let height = Float(3) + Float(i)
+                let delay = (2 * Float.pi)/15 * Float(j) + Float.pi/10 * Float(i)
+                let timeShift = EGBinaryOp(type: .add, leftChild: EGConstant(delay), rightChild: EGTime())
+                let ship = EGModel(modelName: ships[i])
+                let color = EGColorProperty()
+                color.set(
+                    r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: timeShift)),
+                    g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: timeShift)),
+                    b: EGConstant(1),
+                    a: EGConstant(1)
+                )
+
+                ship.transform.scale.set(x: 0.25, y: 0.25, z: 0.25)
+                ship.transform.translate.set(
+                    x: EGBinaryOp(type: .mul, leftChild: EGBinaryOp(type: .add, leftChild: EGConstant(4), rightChild: EGUnaryOp(type: .sin, child: EGTime())), rightChild: EGUnaryOp(type: .sin, child: timeShift)),
+                    y: EGConstant(height),
+                    z: EGBinaryOp(type: .mul, leftChild: EGBinaryOp(type: .add, leftChild: EGConstant(4), rightChild: EGUnaryOp(type: .sin, child: EGTime())), rightChild: EGUnaryOp(type: .cos, child: timeShift))
+                )
+                ship.transform.rotate.set(
+                    x: EGConstant(0),
+                    y: EGBinaryOp(type: .add, leftChild: EGConstant(Float(90).degreesToRadians), rightChild: timeShift),
+                    z: EGUnaryOp(type: .sin, child: EGUnaryOp(type: .neg, child: timeShift))
+                )
+
+                scene.add(ship)
+            }
+        }
+
+        let rock1 = EGModel(modelName: "rocks_smallA.obj")
+        rock1.transform.translate.set(x: -0.5, y: 0, z: 1)
+        scene.add(rock1)
+
+        let rock2 = EGModel(modelName: "rocks_smallB.obj")
+        rock2.transform.translate.set(x: 3, y: 0, z: 0.75)
+        scene.add(rock2)
+
+        let hanger1 = EGModel(modelName: "hangar_largeB.obj")
+        hanger1.transform.translate.set(x: -4, y: 0, z: -3)
+        hanger1.transform.scale.set(x: 0.5, y: 0.5, z: 0.5)
+        scene.add(hanger1)
+
+        let hanger2 = EGModel(modelName: "hangar_largeB.obj")
+        hanger2.transform.translate.set(x: -2.5, y: 0, z: -3)
+        hanger2.transform.scale.set(x: 0.5, y: 0.5, z: 0.5)
+        scene.add(hanger2)
+
+        let rocket = EGGroup()
+        rocket.transform.scale.set(x: 0.5, y: 0.5, z: 0.5)
+        rocket.transform.translate.set(x: 3, y: 0, z: -3)
+        scene.add(rocket)
+
+        let rocketBase = EGModel(modelName: "rocket_baseB.obj")
+        rocket.add(rocketBase)
+
+        let rocketFuel = EGModel(modelName: "rocket_fuelB.obj")
+        rocketFuel.transform.translate.set(x: 0, y: 1, z: 0)
+        rocket.add(rocketFuel)
+
+        let rocketSides = EGModel(modelName: "rocket_sidesA.obj")
+        rocketSides.transform.translate.set(x: 0, y: 2, z: 0)
+        rocket.add(rocketSides)
+
+        let rocketFins = EGModel(modelName: "rocket_finsB.obj")
+        rocketFins.transform.translate.set(x: 0, y: 3, z: 0)
+        rocket.add(rocketFins)
+
+        let rocketTop = EGModel(modelName: "rocket_topB.obj")
+        rocketTop.transform.translate.set(x: 0, y: 3.5, z: 0)
+        rocket.add(rocketTop)
+
+        // Create roads
+        for i in 0...8 {
+            let road = EGModel(modelName: "terrain_roadStraight.obj")
+            road.transform.rotate.set(x: 0, y: Float.pi/2, z: 0)
+            road.transform.translate.set(x: -4 + Float(i), y: 0.01, z: -1)
+            scene.add(road)
+        }
+
+        for i in 0...1 {
+            for j in 0...1 {
+                let satelite = EGModel(modelName: "satelliteDish_detailed.obj")
+                satelite.transform.translate.set(x: -4 + Float(j), y: 0, z: 1 + Float(i))
+                scene.add(satelite)
+            }
+        }
+
+        let crater1 = EGModel(modelName: "crater.obj")
+        crater1.transform.translate.set(x: -3.75, y: 0, z: 4)
+
+        scene.add(crater1)
+
+        let crater2 = EGModel(modelName: "craterLarge.obj")
+        crater2.transform.translate.set(x: 1.42, y: 0, z: 2.3)
+        scene.add(crater2)
+
+        let halfTime = EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(2))
+        let thirdTime = EGBinaryOp(type: .div, leftChild: EGTime(), rightChild: EGConstant(3))
+
+        let crystalColor = EGColorProperty()
+        crystalColor.set(
+            r: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .sin, child: halfTime)),
+            g: EGUnaryOp(type: .abs, child: EGUnaryOp(type: .cos, child: thirdTime)),
+            b: EGConstant(1),
+            a: EGConstant(1)
+        )
+
+        let crystal1 = EGModel(modelName: "rock_crystalsLargeA.obj")
+        crystal1.transform.translate.set(x: 0, y: 0, z: -3)
+        crystal1.transform.scale.set(x: 2, y: 2, z: 2)
+        crystal1.submeshColorMap[2] = crystalColor
+        scene.add(crystal1)
+
+        let crystal2 = EGModel(modelName: "rock_crystalsLargeB.obj")
+        crystal2.transform.translate.set(x: -1.4, y: 0, z: 3.21)
+        crystal2.transform.scale.set(x: 2, y: 2, z: 2)
+        crystal2.submeshColorMap[2] = crystalColor
+        scene.add(crystal2)
+
+        let crystal3 = EGModel(modelName: "rock_crystalsLargeB.obj")
+        crystal3.transform.translate.set(x: 3.4, y: 0, z: 3.75)
+        crystal3.transform.scale.set(x: 3, y: 3, z: 3)
+        crystal3.submeshColorMap[2] = crystalColor
+        scene.add(crystal3)
 
         return scene
     }

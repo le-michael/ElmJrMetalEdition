@@ -125,7 +125,7 @@ extension EVProjectMenuViewController: UICollectionViewDelegate {
         let  cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterButtonCell", for: indexPath) as! EVButtonCell
         if indexPath.section == 0 {
             cell.button.setTitle("+ Create new project", for: .normal)
-            cell.button.setTitleColor(EVTheme.Colors.secondaryHighlighted, for: .normal)
+            cell.button.setTitleColor(EVTheme.Colors.identifier, for: .normal)
             cell.callback = createNewProject
         }
 

@@ -15,13 +15,14 @@ class EGPrimitive3D: EGPrimitive {
     var submeshColorMap = [Int: EGColorProperty]()
 
     var smoothIntensity: Float = 0
+    var shininess: Float = 1
 
     init(mdlMeshFunction: @escaping (MTKMeshBufferAllocator) -> MDLMesh) {
         self.mdlMeshFunction = mdlMeshFunction
         super.init()
         surfaceType = Lit
-        fragmentUniforms.materialShine = 1
-        fragmentUniforms.materialSpecularColor = [0.6, 0.6, 0.6]
+        
+        fragmentUniforms.materialSpecularColor = [1, 1, 1]
     }
 
     override func createBuffers(device: MTLDevice) {
@@ -49,6 +50,8 @@ class EGPrimitive3D: EGPrimitive {
               let modelMesh = modelMesh else { return }
 
         updateUniforms(sceneProps)
+        fragmentUniforms.materialShine = shininess
+        
         commandEncoder.setRenderPipelineState(pipeline)
 
         commandEncoder.setFragmentBytes(
