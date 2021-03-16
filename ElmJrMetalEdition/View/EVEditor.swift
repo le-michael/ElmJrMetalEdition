@@ -69,7 +69,6 @@ class EVEditor {
     
     func setSourceCode(_ sourceCode: String) {
         project.sourceCode = sourceCode
-        sourceCodeToAst()
         delegates.forEach({ $0.didChangeSourceCode(sourceCode: sourceCode) })
     }
     

@@ -12,7 +12,7 @@ import API3D exposing (..)
 -- sphere (and all shapes) starts with a default
 myShapes : Float -> List Shape
 myShapes time =
-    [ sphere |> color (rgb 1 1 1) |> move (0, 2.25, 0) |> scaleAll 0.5 -- scale 0.5 (move (0, 2.25, 0) sphere)
+    [ sphere |> color (rgb 1.0 1 1) |> move (0, 2.25, 0) |> scaleAll 0.5 -- scale 0.5 (move (0, 2.25, 0) sphere)
     , sphere |> color (rgb 1 1 1) |> move (0, 1.25, 0) |> scaleAll 0.75
     , sphere |> color (rgb 1 1 1)
     -- eyeballs
