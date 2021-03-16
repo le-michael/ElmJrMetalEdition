@@ -223,6 +223,12 @@ class EGTranspiler {
                 }
                 print("Created Group")
                 return group
+            case "BaseStencil":
+               return  baseStencilHelper(node: inst)
+            case "Smooth":
+                break
+            case "Shininess":
+                break
             default:
                 break
             }
@@ -231,12 +237,51 @@ class EGTranspiler {
         }
         return EGGraphicsNode()
     }
-
-    func apTransformHelper(node: EINode) -> EGGraphicsNode {
+    
+    func baseStencilHelper(node: EINode) -> EGGraphicsNode {
         var shape = EGGraphicsNode()
+        let stencil = node as! EIAST.ConstructorInstance
+        for param in stencil.parameters {
+            switch param {
+            case let inst as EIAST.ConstructorInstance:
+                switch inst.constructorName {
+                case "Sphere":
+                    shape = EGSphere()
+                    print("Created Sphere")
+                case "Cube":
+                    shape = EGCube()
+                    print("Created Cube")
+                case "Polygon":
+                    print("Created Polygon")
+                    shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
+                case "Cone":
+                    shape = EGCone()
+                    print("Created Cone")
+                case "Cylinder":
+                    shape = EGCylinder()
+                    print("Created Cylinder")
+                case "Capsule":
+                    shape = EGCapsule()
+                    print("Created Capsule")
+                case "Model":
+                    let name = inst.parameters[0] as! EIAST.Str
+                    shape = EGModel(modelName: name.value)
+                    break
+                default:
+                    break
+                }
+            default:
+                break
+            }
+    }
+        return shape
+    }
+    
+    func apTransformHelper(node: EINode) -> EGGraphicsNode {
         var transform = [EGMathNode]()
         var transformType = String()
         let inst = node as! EIAST.ConstructorInstance
+        var shape = addShape(node: inst.parameters[1])
         for paramater in inst.parameters {
             let param = paramater as! EIAST.ConstructorInstance
             switch param.constructorName {
@@ -251,12 +296,6 @@ class EGTranspiler {
                 transform = unwrapTransform(transform: param)
             case "Rotate2D":
                 break
-            case "Inked":
-                shape = inkedHelper(node: param)
-            case "ApTransform":
-                shape = apTransformHelper(node: param)
-            case "Group":
-                shape = addShape(node: param)
             default:
                 break
             }
@@ -433,37 +472,7 @@ class EGTranspiler {
         for param in inked.parameters {
             switch param {
             case let inst as EIAST.ConstructorInstance:
-                switch inst.constructorName {
-                case "Sphere":
-                    shape = EGSphere()
-                    print("Created Sphere")
-                case "Cube":
-                    shape = EGCube()
-                    print("Created Cube")
-                case "Polygon":
-                    print("Created Polygon")
-                    shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
-                case "Cone":
-                    shape = EGCone()
-                    print("Created Cone")
-                case "Cylinder":
-                    shape = EGCylinder()
-                    print("Created Cylinder")
-                case "Capsule":
-                    shape = EGCapsule()
-                    print("Created Capsule")
-                case "Model":
-                    let name = inst.parameters[0].description
-                    shape = EGModel(modelName: name)
-                case "Smooth":
-                    shape = inkedHelper(node: inst.parameters[1])
-                    let shape = shape as! EGModel
-                    shape.smoothIntensity = unwrapFloat(wrappedFloat: inst.parameters[0])
-                case "Shininess":
-                    break
-                default:
-                    break
-                }
+                shape = addShape(node: inst)
             case let list as EIAST.List:
                 for item in list.items{
                     isColored = true
@@ -474,16 +483,18 @@ class EGTranspiler {
             }
         }
 
-        let model = shape as! EGModel
-        if isColored {
-            var index = 0
-            for colors in color {
-                model.submeshColorMap[index] = EGColorProperty()
-                model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
-                index+=1
+        if let model = shape as? EGModel{
+            if isColored {
+                var index = 0
+                for colors in color {
+                    model.submeshColorMap[index] = EGColorProperty()
+                    model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
+                    index+=1
+                }
+                print("coloured shape")
             }
-            print("coloured shape")
         }
+
         return shape
     }
     
