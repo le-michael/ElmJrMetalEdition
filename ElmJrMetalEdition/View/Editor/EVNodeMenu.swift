@@ -21,11 +21,15 @@ class EVNodeMenuOption {
     }
 }
 
-class EVNodeMenu: UIView {
+class EVNodeMenu: UIView, UITextFieldDelegate {
+    
+    var scrollView: UIScrollView!
     
     var stackView: UIStackView!
     
     var title: String = ""
+    
+    var searchBar: UITextField?
     
     var options: [EVNodeMenuOption] = []
 
@@ -34,7 +38,7 @@ class EVNodeMenu: UIView {
         self.title = title
         self.options = options
         super.init(frame: .zero)
-        
+                
         backgroundColor = .clear
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
@@ -45,28 +49,73 @@ class EVNodeMenu: UIView {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(blurEffectView)
         
+        
+        
         setupStackView()
     }
     
     func setupStackView() {
+        scrollView = UIScrollView()
+        addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        
         stackView = UIStackView()
-        addSubview(stackView)
+        scrollView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16).isActive = true
+        stackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1).isActive = true
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.distribution = .fill
         
         let titleView = UILabel()
         stackView.addArrangedSubview(titleView)
         titleView.text = self.title
-        titleView.font = UIFont.systemFont(ofSize: 20)
+        titleView.font = UIFont.systemFont(ofSize: 24)
         stackView.setCustomSpacing(20, after: titleView)
-
-        for option in self.options {
+        
+        if self.options.count > 10 {
+            setupSearchBar()
+        }
+        updateOptions()
+    }
+    
+    func updateOptions() {
+        
+        if stackView.arrangedSubviews.count > 2 {
+            for view in stackView.arrangedSubviews[2...] {
+                stackView.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
+        }
+        
+        var optionsToUse: [EVNodeMenuOption] = []
+        
+        if self.searchBar != nil && self.searchBar?.text != "" {
+            for option in self.options {
+                let optDesc = option.description.lowercased()
+                let search = (self.searchBar?.text ?? "").lowercased()
+                if (optDesc.contains(search)) {
+                    optionsToUse.append(option)
+                }
+            }
+        } else {
+            optionsToUse = self.options
+        }
+        let slicedOptionsToUse: ArraySlice<EVNodeMenuOption>
+        if optionsToUse.count > 20 {
+            slicedOptionsToUse = optionsToUse[...20]
+        } else {
+            slicedOptionsToUse = optionsToUse[...]
+        }
+        
+        for option in slicedOptionsToUse {
             
             let labelView = UILabel()
             labelView.text = option.description
@@ -76,14 +125,50 @@ class EVNodeMenu: UIView {
             nodeView.addTapCallback(callback: option.callback)
             stackView.addArrangedSubview(nodeView)
             
-            stackView.setCustomSpacing(20, after: nodeView)
+            
+            if option.description.contains(".obj") {
+                let previewButton = ButtonWithModelName()
+                previewButton.modelName = option.description
+                previewButton.layer.borderWidth = 2
+                previewButton.layer.borderColor = EVTheme.Colors.ProjectionalEditor.action?.cgColor
+                previewButton.setTitle("  Preview Model  ", for: .normal)
+                previewButton.setTitleColor(EVTheme.Colors.ProjectionalEditor.action, for: .normal)
+                previewButton.addTarget(self, action: #selector(handlePreviewButton), for: .touchUpInside)
+                stackView.addArrangedSubview(previewButton)
+                stackView.setCustomSpacing(20, after: previewButton)
+
+            } else {
+                stackView.setCustomSpacing(20, after: nodeView)
+            }
+            
+
 
         }
-        
         let cancelButton = UIButton()
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.addTarget(self, action: #selector(_handleCancel), for: .touchUpInside)
         stackView.addArrangedSubview(cancelButton)
+    }
+    
+    func setupSearchBar() {
+        searchBar = UITextField()
+        searchBar?.returnKeyType = .go
+        searchBar?.delegate = self
+        stackView.addArrangedSubview(searchBar!)
+        searchBar?.borderStyle = .line
+        searchBar?.translatesAutoresizingMaskIntoConstraints = false
+        searchBar?.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        searchBar?.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 1).isActive = true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        updateOptions()
+        return true
+    }
+    
+    @objc func handlePreviewButton(sender: UIButton) {
+        guard let button = sender as? ButtonWithModelName else { return }
+        EVEditor.shared.setModelPreview(fileName: button.modelName!)
     }
     
     @objc func _handleCancel() {
@@ -93,4 +178,8 @@ class EVNodeMenu: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+class ButtonWithModelName: UIButton {
+    var modelName: String?
 }

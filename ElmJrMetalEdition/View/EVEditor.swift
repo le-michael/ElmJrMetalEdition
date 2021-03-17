@@ -18,6 +18,7 @@ protocol EVEditorDelegate {
     func didToggleMode()
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption])
     func didCloseNodeMenu()
+    func didUpdateModelPreview(modelFileName: String)
 }
 
 class EVEditor {
@@ -137,6 +138,10 @@ class EVEditor {
     
     func closeNodeMenu() {
         delegates.forEach({ $0.didCloseNodeMenu() })
+    }
+    
+    func setModelPreview(fileName: String) {
+        delegates.forEach({ $0.didUpdateModelPreview(modelFileName: fileName )})
     }
     
 }

@@ -462,6 +462,7 @@
 		D9BDF53A25A10F24008E6D2C /* EVTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF53925A10F24008E6D2C /* EVTheme.swift */; };
 		D9BDF54825A2B856008E6D2C /* EVProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54725A2B856008E6D2C /* EVProject.swift */; };
 		D9BDF54C25A2BC14008E6D2C /* EVContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */; };
+		D9EF49992600541900BEE996 /* EVModelPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF49982600541900BEE996 /* EVModelPreview.swift */; };
 		DB397E6E25BBC29500DA92B9 /* bigtest1.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB397E6D25BBC29500DA92B9 /* bigtest1.elm */; };
 		DB7C530025AC04E900DC1903 /* EIAST.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C52FF25AC04E900DC1903 /* EIAST.swift */; };
 		DB93079E25C61913008F5E35 /* Builtin.elm in Resources */ = {isa = PBXBuildFile; fileRef = DB93079D25C61913008F5E35 /* Builtin.elm */; };
@@ -943,6 +944,7 @@
 		D9BDF53925A10F24008E6D2C /* EVTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVTheme.swift; sourceTree = "<group>"; };
 		D9BDF54725A2B856008E6D2C /* EVProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVProject.swift; sourceTree = "<group>"; };
 		D9BDF54B25A2BC14008E6D2C /* EVContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVContainerViewController.swift; sourceTree = "<group>"; };
+		D9EF49982600541900BEE996 /* EVModelPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVModelPreview.swift; sourceTree = "<group>"; };
 		DB397E6D25BBC29500DA92B9 /* bigtest1.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = bigtest1.elm; sourceTree = "<group>"; };
 		DB7C52FF25AC04E900DC1903 /* EIAST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EIAST.swift; sourceTree = "<group>"; };
 		DB93079D25C61913008F5E35 /* Builtin.elm */ = {isa = PBXFileReference; lastKnownFileType = text; path = Builtin.elm; sourceTree = "<group>"; };
@@ -1688,6 +1690,7 @@
 				D98A8C7A25A0379200FA3539 /* EVDraggableDividerView.swift */,
 				D98A8C7625A0375600FA3539 /* EVTextEditorView.swift */,
 				D9373E2D25F0294C0093D63F /* EVProjectionalEditorView.swift */,
+				D9EF49982600541900BEE996 /* EVModelPreview.swift */,
 				D98A8C7E25A037C700FA3539 /* EVMenuView.swift */,
 			);
 			path = Editor;
@@ -2262,6 +2265,7 @@
 				7C1856B725A142D900546CD3 /* List.swift in Sources */,
 				1072E3F22565979D00D390FE /* EGBufferDataBuilder.swift in Sources */,
 				D9373E2E25F0294C0093D63F /* EVProjectionalEditorView.swift in Sources */,
+				D9EF49992600541900BEE996 /* EVModelPreview.swift in Sources */,
 				105CCEFA257691CE006A6634 /* EGBezierMesh.swift in Sources */,
 				7C1856A7259E7D7300546CD3 /* Bitwise.swift in Sources */,
 				D98A8C7D25A037AD00FA3539 /* EVGraphicsView.swift in Sources */,
@@ -2502,7 +2506,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2525,7 +2529,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV6P8SW3SC;
+				DEVELOPMENT_TEAM = H5DZJH27JD;
 				INFOPLIST_FILE = ElmJrMetalEdition/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

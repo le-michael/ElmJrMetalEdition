@@ -331,7 +331,7 @@ class EIAST {
         }
         
         var description: String {
-            return "[\n\t\(items.map{"\($0)"}.joined(separator: ",\n\t"))\n]"
+            return "[\(items.map{"\($0)"}.joined(separator: ","))]"
         }
     }
 }

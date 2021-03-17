@@ -48,7 +48,6 @@ class EIEvaluator {
         try parser.appendText(text: text)
         while !parser.isDone() {
             let decl = try parser.parseDeclaration()
-            print("\(decl)")
             //typechecker.appendNode(parsed: [decl])
             //typechecker.inferNext()
             try evaluate(decl, globals)

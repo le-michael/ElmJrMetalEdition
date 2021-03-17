@@ -208,7 +208,6 @@ class EGTranspiler {
     }
  
     func addShape(node: EINode) -> EGGraphicsNode {
-        print("Dealing with shape: ", node)
         switch node {
         case let inst as EIAST.ConstructorInstance:
             switch inst.constructorName {
@@ -222,7 +221,6 @@ class EGTranspiler {
                 for shape in list.items {
                     group.add(addShape(node: shape))
                 }
-                print("Created Group")
                 return group
             case "BaseStencil":
                 return baseStencilHelper(node: inst)
@@ -320,7 +318,6 @@ class EGTranspiler {
         let x = constructTransform(node: tuple.v1)
         let y = constructTransform(node: tuple.v2)
         let z = constructTransform(node: tuple.v3!)
-        print("Passing back transform of ", tuple.v1, tuple.v2, tuple.v3!)
         return [x, y, z]
     }
  

@@ -1,25 +1,70 @@
 //
-//  EVGraphicsView.swift
+//  ModelPreview.swift
 //  ElmJrMetalEdition
 //
-//  Created by Thomas Armena on 2021-01-02.
+//  Created by Thomas Armena on 2021-03-15.
 //  Copyright © 2021 Thomas Armena. All rights reserved.
 //
 
 import MetalKit
 import UIKit
 
-class EVGraphicsView: UIView {
+class EVModelPreview: UIView {
     let mtkView = MTKView()
     var renderer: EGRenderer!
 
     var previousScale: CGFloat = 1
 
+    private func previewScene(modelName: String) -> EGScene {
+        let scene = EGScene()
+        let camera = EGArcballCamera(distance: 3, target: [0, -1, 0])
+        scene.camera = camera
+        scene.viewClearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        scene.lights.append(
+            EGDirectionaLight(
+                color: (EGConstant(0.6), EGConstant(0.6), EGConstant(0.6)),
+                position: (EGConstant(1), EGConstant(2), EGConstant(2)),
+                intensity: EGConstant(0),
+                specularColor: (EGConstant(0.1), EGConstant(0.1), EGConstant(0.1))
+            )
+        )
+        scene.lights.append(
+            EGAmbientLight(
+                color: (EGConstant(1), EGConstant(1), EGConstant(1)),
+                intensity: EGConstant(0.5)
+            )
+        )
+        
+        let model = EGModel(modelName: modelName)
+        model.transform.rotate.set(x: EGConstant(0), y: EGTime(), z: EGConstant(0))
+        scene.add(model)
+        
+        return scene
+    }
+    
+    func changePreviewModel(modelName:String) {
+        if modelName == "" {
+            self.isHidden = true
+            return
+        }
+        self.isHidden = false
+        previousScale = 1;
+        let scene = previewScene(modelName: modelName)
+        renderer.use(scene: scene)
+        guard let s = renderer.scene else { return }
+        s.setDrawableSize(size: mtkView.frame.size)
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         EVEditor.shared.subscribe(delegate: self)
-        backgroundColor = .black
+        self.isHidden = true
+        backgroundColor = .clear
+        layer.cornerRadius = 10
+        clipsToBounds = true
+
         addSubview(mtkView)
+        mtkView.backgroundColor = .clear
         mtkView.translatesAutoresizingMaskIntoConstraints = false
         mtkView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
         mtkView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
@@ -27,10 +72,10 @@ class EVGraphicsView: UIView {
         mtkView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
 
         mtkView.device = MTLCreateSystemDefaultDevice()
+        
 
         renderer = EGRenderer(view: mtkView)
-        renderer.use(scene: EVEditor.shared.scene)
-        
+        renderer.use(scene: previewScene(modelName: "alien.obj"))//"hangar_largeA.obj"))
         mtkView.delegate = renderer
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
@@ -69,27 +114,28 @@ class EVGraphicsView: UIView {
     }
 }
 
-extension EVGraphicsView: EVEditorDelegate {
-    func didUpdateModelPreview(modelFileName: String) {}
-    
-    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
-
-    func didCloseNodeMenu() {}
-    
+extension EVModelPreview: EVEditorDelegate {
     func didChangeTextEditorWidth(width: CGFloat) {}
-        
+    
     func didChangeSourceCode(sourceCode: String) {}
     
     func didOpenProjects() {}
     
     func didLoadProject(project: EVProject) {}
     
-    func didUpdateScene(scene: EGScene) {
-        renderer.use(scene: scene)
-        guard let scene = renderer.scene else { return }
-        scene.setDrawableSize(size: mtkView.frame.size)
-    }
+    func didUpdateScene(scene: EGScene) {}
     
     func didToggleMode() {}
+    
+    func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
+    
+    func didCloseNodeMenu() {
+        changePreviewModel(modelName: "")
+    }
+    
+    func didUpdateModelPreview(modelFileName: String) {
+        changePreviewModel(modelName: modelFileName)
+    }
+    
     
 }

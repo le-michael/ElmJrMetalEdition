@@ -91,6 +91,8 @@ class EVProjectionalNodeView: UIView {
 }
 
 extension EVProjectionalNodeView: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
+    
     func didChangeTextEditorWidth(width: CGFloat) {}
     
     func didChangeSourceCode(sourceCode: String) {}
@@ -145,6 +147,16 @@ extension EVProjectionalNodeView: UIDropInteractionDelegate {
 
 protocol EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView
+}
+
+extension EIAST.Str: EVProjectionalNode {
+    func getUIView(isStore: Bool) -> EVProjectionalNodeView {
+        let label = UILabel()
+        label.text = "\"\(value)\""
+        label.textColor = EVTheme.Colors.string
+        let cardView = EVProjectionalNodeView(node: self, view: label, padding: .zero, isStore: isStore)
+        return cardView
+    }
 }
 
 // MARK: - NoValue
@@ -331,8 +343,12 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.spacing = 10
-        let functionNode = function as! EVProjectionalNode
-        let argumentNode = argument as! EVProjectionalNode
+        guard let functionNode = function as? EVProjectionalNode else {
+            return errorCard()
+        }
+        guard let argumentNode = argument as? EVProjectionalNode else {
+            return errorCard()
+        }
         
         let leftBracket = UILabel()
         leftBracket.text = "("
@@ -378,14 +394,18 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         let argumentNode = argument as! EVProjectionalNode
         
         let argumentNodeView = argumentNode.getUIView(isStore: isStore)
-        argumentNodeView.addTapCallback {
-            shapeMenu(view: cardView) { shape in
-                self.argument = shape
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
+        if !isStore {
+            argumentNodeView.addTapCallback {
+                shapeMenu(view: cardView) { shape in
+                    self.argument = shape
+                    EVEditor.shared.astToSourceCode()
+                    EVEditor.shared.closeNodeMenu()
+                }
+                argumentNodeView.highlight()
+
             }
-            argumentNodeView.highlight()
         }
+
         stackView.addArrangedSubview(argumentNodeView)
         
         let functionStackView = UIStackView()
@@ -402,8 +422,8 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
         functionStackView.addArrangedSubview(functionNodeView)
         
         if !isStore {
-            let addButton = _getAddFunctionButton(rootView: cardView)
-            functionStackView.addArrangedSubview(addButton)
+            //let addButton = _getAddFunctionButton(rootView: cardView)
+            //functionStackView.addArrangedSubview(addButton)
         }
 
         stackView.addArrangedSubview(functionStackView)
@@ -422,54 +442,13 @@ extension EIAST.FunctionApplication: EVProjectionalNode {
     
     @objc func _handleAddFunctionPress(sender: UIButton) {
         guard let button = sender as? ButtonWithProjectionalViewArg else { return }
-        let moveNode = compileNode(sourceCode: """
-            move (0.0, 0.0, 0.0)
-        """)
-        let moveOption = EVNodeMenuOption(node: moveNode as! EVProjectionalNode, description: "Move the shape given x, y, z values") {
+        functionMenu() { function in
             self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
-            self.function = moveNode
+            self.function = function
             button.rootView?.unhighlight()
             EVEditor.shared.astToSourceCode()
             EVEditor.shared.closeNodeMenu()
         }
-        let scaleNode = compileNode(sourceCode: """
-            scale (1.0, 1.0, 1.0)
-        """)
-        let scaleOption = EVNodeMenuOption(node: scaleNode as! EVProjectionalNode, description: "Scale the shape given x, y, z values") {
-            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
-            self.function = scaleNode
-            button.rootView?.unhighlight()
-            EVEditor.shared.astToSourceCode()
-            EVEditor.shared.closeNodeMenu()
-        }
-        
-        let scaleAllNode = compileNode(sourceCode: """
-            scaleAll 1.0
-        """)
-        
-        let scaleAllOption = EVNodeMenuOption(node: scaleAllNode as! EVProjectionalNode, description: "Scale shape evenly") {
-            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
-            self.function = scaleAllNode
-            button.rootView?.unhighlight()
-            EVEditor.shared.astToSourceCode()
-            EVEditor.shared.closeNodeMenu()
-        }
-        
-        let rotateNode = compileNode(sourceCode: """
-            rotate (0.0, 0.0, 0.0)
-        """)
-        let rotateOption = EVNodeMenuOption(node: rotateNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
-            self.argument = EIAST.FunctionApplication(function: self.function, argument: self.argument, functionApplicationType: .RightArrow)
-            self.function = rotateNode
-            button.rootView?.unhighlight()
-            EVEditor.shared.astToSourceCode()
-            EVEditor.shared.closeNodeMenu()
-        }
-        
-        EVEditor.shared.openNodeMenu(
-            title: "Apply another function:",
-            options: [moveOption, scaleOption, scaleAllOption, rotateOption]
-        )
         button.rootView?.highlight()
     }
 }
@@ -502,6 +481,7 @@ extension EIAST.Declaration: EVProjectionalNode {
 extension EIAST.ConstructorInstance: EVProjectionalNode {
     func getUIView(isStore: Bool) -> EVProjectionalNodeView {
         let stackView = UIStackView()
+        let cardView = EVProjectionalNodeView(node: self, view: stackView, padding: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5), isStore: isStore)
         stackView.axis = .horizontal
         stackView.alignment = .leading
 
@@ -512,8 +492,7 @@ extension EIAST.ConstructorInstance: EVProjectionalNode {
             let parameterNode = parameter as! EVProjectionalNode
             stackView.addArrangedSubview(parameterNode.getUIView(isStore: isStore))
         }
-        
-        let cardView = EVProjectionalNodeView(node: self, view: stackView, padding: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5), isStore: isStore)
+    
         return cardView
     }
 }
@@ -629,7 +608,7 @@ extension EIAST.List: EVProjectionalNode {
     }
     
     func _getAddItemView() -> UIView {
-        let button = UIButton()
+        let button = ButtonWithProjectionalViewArg()
         button.setTitle(" + Add Item", for: .normal)
         button.setTitleColor(EVTheme.Colors.ProjectionalEditor.action, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -649,135 +628,32 @@ extension EIAST.List: EVProjectionalNode {
             EVEditor.shared.astToSourceCode()
             EVEditor.shared.closeNodeMenu()
         }
-        EVEditor.shared.openNodeMenu(title: "Edit list item", options: [deleteOption])
+        let applyFunction = compileNode(sourceCode: "\(self.items[sender.tag].description) |> (function argument)")
+        let applyFunctionOption = EVNodeMenuOption(
+            node: applyFunction as! EVProjectionalNode,
+            description: "Apply A Function"
+        ) {
+            functionMenu() {function in
+                let item = self.items[sender.tag]
+                self.items[sender.tag] = EIAST.FunctionApplication(function: function, argument: item, functionApplicationType: .RightArrow)
+                EVEditor.shared.astToSourceCode()
+                EVEditor.shared.closeNodeMenu()
+            }
+        }
+        
+        EVEditor.shared.openNodeMenu(title: "Edit list item", options: [deleteOption, applyFunctionOption])
         
         button.rootView?.highlight()
     }
     
     @objc func handleAddItemPress(sender: UIButton) {
-        let sphere = compileNode(sourceCode: """
-            sphere
-                |> color (rgb 1.0 1.0 1.0)
-        """)
-
-        let sphereOption = EVNodeMenuOption(
-            node: sphere as! EVProjectionalNode,
-            description: "A Sphere",
-            callback: {
-                self.items.append(sphere)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-        )
-        
-        let cylinder = compileNode(sourceCode: """
-            cylinder
-                |> color (rgb 1.0 1.0 1.0)
-        """)
-        
-        let cylinderOption = EVNodeMenuOption(
-            node: cylinder as! EVProjectionalNode,
-            description: "A Cylinder",
-            callback: {
-                self.items.append(cylinder)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-        )
-        
-        let cube = compileNode(sourceCode: """
-            cube
-                |> color (rgb 1.0 1.0 1.0)
-        """)
-        
-        let cubeOption = EVNodeMenuOption(
-            node: cube as! EVProjectionalNode,
-            description: "A Cube",
-            callback: {
-                self.items.append(cube)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-        )
-        
-        let cone = compileNode(sourceCode: """
-            cone
-                |> color (rgb 1.0 1.0 1.0)
-        """)
-        
-        let coneOption = EVNodeMenuOption(
-            node: cone as! EVProjectionalNode,
-            description: "A Cone",
-            callback: {
-                self.items.append(cone)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-        )
-        
-        let capsule = compileNode(sourceCode: """
-            capsule
-                |> color (rgb 1.0 1.0 1.0)
-        """)
-        
-        let capsuleOption = EVNodeMenuOption(
-            node: capsule as! EVProjectionalNode,
-            description: "A Capsule",
-            callback: {
-                self.items.append(capsule)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-        )
-        
-        let variable = compileNode(sourceCode: """
-            variable
-        """)
-        
-        let variableOption = EVNodeMenuOption(node: variable as! EVProjectionalNode, description: "Variable") {
-            let alert = UIAlertController(title: "Name of variable to use: ", message: "", preferredStyle: .alert)
-            alert.addTextField { textField in
-                textField.text = ""
-            }
-            alert.addAction(UIAlertAction(title: "Use variable", style: .default, handler: { [weak alert] _ in
-                guard let varName = alert?.textFields![0].text else { return }
-                let variable = EIAST.Variable(name: varName)
-                self.items.append(variable)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }))
-            sender.parentViewController?.present(alert, animated: true, completion: nil)
+        let button = sender as! ButtonWithProjectionalViewArg
+        shapeMenu(view: sender) {shape in
+            self.items.append(shape)
+            EVEditor.shared.astToSourceCode()
+            EVEditor.shared.closeNodeMenu()
         }
-        
-        var options = [
-            sphereOption,
-            cylinderOption,
-            cubeOption,
-            coneOption,
-            capsuleOption,
-            variableOption,
-        ]
-        
-        for functionName in EVEditor.shared.functionNames {
-            let function = compileNode(sourceCode: """
-                (\(functionName) 1.0)
-            """)
-            
-            let functionOption = EVNodeMenuOption(
-                node: function as! EVProjectionalNode,
-                description: "Shape Given Time Function"
-            ) {
-                self.items.append(function)
-                EVEditor.shared.astToSourceCode()
-                EVEditor.shared.closeNodeMenu()
-            }
-            options.append(functionOption)
-        }
-        
-        EVEditor.shared.openNodeMenu(
-            title: "Add item to list:",
-            options: options
-        )
+        button.rootView?.highlight()
     }
 }
 
@@ -1001,10 +877,153 @@ func shapeMenu(view: UIView, shapeHandler: @escaping (EINode) -> Void) {
         }
     )
     
-    EVEditor.shared.openNodeMenu(title: "Select a shape:", options: [
+    let variable = compileNode(sourceCode: """
+        variable
+    """)
+    
+    let variableOption = EVNodeMenuOption(node: variable as! EVProjectionalNode, description: "Variable") {
+        let alert = UIAlertController(title: "Name of variable to use: ", message: "", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.text = ""
+        }
+        alert.addAction(UIAlertAction(title: "Use variable", style: .default, handler: { [weak alert] _ in
+            guard let varName = alert?.textFields![0].text else { return }
+            let variable = EIAST.Variable(name: varName)
+            shapeHandler(variable)
+        }))
+        view.parentViewController?.present(alert, animated: true, completion: nil)
+    }
+    
+    var options = [
         sphereOption,
-        cubeOption,
         cylinderOption,
+        cubeOption,
         capsuleOption,
-    ])
+        variableOption,
+    ]
+    
+    for functionName in EVEditor.shared.functionNames {
+        let function = compileNode(sourceCode: """
+            (\(functionName) 1.0)
+        """)
+        
+        let functionOption = EVNodeMenuOption(
+            node: function as! EVProjectionalNode,
+            description: "Shape Given Time Function"
+        ) {
+            shapeHandler(function)
+        }
+        options.append(functionOption)
+    }
+    var modelFileNames: [String] = []
+    if let modelUrls = Bundle.main.urls(forResourcesWithExtension: ".obj", subdirectory: nil) {
+        for modelUrl in modelUrls {
+            print(modelUrl.absoluteString)
+            modelFileNames.append(modelUrl.relativePath)
+        }
+    }
+
+    for modelFileName in modelFileNames {
+        let sourceCode = "model \"\(modelFileName)\""
+        let model = compileNode(sourceCode: sourceCode)
+        print(model)
+        let modelOption = EVNodeMenuOption(node: model as! EVProjectionalNode,
+                                           description: "\(modelFileName)") {
+            shapeHandler(model)
+        }
+        options.append(modelOption)
+    }
+    
+    EVEditor.shared.openNodeMenu(
+        title: "Select a shape:",
+        options: options
+    )
+}
+
+// MARK: - functionMenu
+
+func functionMenu(functionHandler: @escaping (EINode) -> Void) {
+    let moveNode = compileNode(sourceCode: """
+        move (0.0, 0.0, 0.0)
+    """)
+    let moveOption = EVNodeMenuOption(node: moveNode as! EVProjectionalNode, description: "Move the shape given x, y, z values") {
+        functionHandler(moveNode)
+    }
+    let scaleNode = compileNode(sourceCode: """
+        scale (1.0, 1.0, 1.0)
+    """)
+    let scaleOption = EVNodeMenuOption(node: scaleNode as! EVProjectionalNode, description: "Scale the shape given x, y, z values") {
+        functionHandler(scaleNode)
+    }
+    
+    let rotateNode = compileNode(sourceCode: """
+        rotate (0.0, 0.0, 0.0)
+    """)
+    let rotateOption = EVNodeMenuOption(node: rotateNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
+        functionHandler(rotateNode)
+    }
+
+    let scaleAllNode = compileNode(sourceCode: """
+        scaleAll 1.0
+    """)
+    
+    let scaleAllOption = EVNodeMenuOption(node: scaleAllNode as! EVProjectionalNode, description: "Scale shape evenly") {
+        functionHandler(scaleAllNode)
+    }
+    
+    let colorNode = compileNode(sourceCode: """
+        color blue
+    """)
+    let colorOption = EVNodeMenuOption(node: colorNode as! EVProjectionalNode, description: "Color the shape") {
+        colorMenu() { color in
+            let colorNode = compileNode(sourceCode: """
+                color \(color.description)
+            """)
+            functionHandler(colorNode)
+        }
+    }
+    
+    EVEditor.shared.openNodeMenu(
+        title: "Apply another function:",
+        options: [moveOption, scaleOption, rotateOption, colorOption, scaleAllOption]
+    )
+}
+
+// MARK: - colorMenu
+
+func colorMenu(colorHandler: @escaping (EINode)->Void) {
+    var options: [EVNodeMenuOption] = []
+    let rgbColorNode = compileNode(sourceCode: """
+        RGB (1.0, 1.0, 1.0)
+    """)
+    let rgbColorOption = EVNodeMenuOption(node: rgbColorNode as! EVProjectionalNode, description: "Color by rgb") {
+        colorHandler(rgbColorNode)
+    }
+    options.append(rgbColorOption)
+    let colors = ["pink", "hotPink", "lightRed", "red", "darkRed", "lightOrange", "orange",
+        "darkOrange", "lightYellow", "yellow", "darkYellow", "lightGreen", "green", "darkGreen",
+        "darkBlue", "blue", "lightBlue", "purple", "lightPurple", "darkPurple", "brown", "lightBrown", "darkBrown",
+        "white", "black", "grey", "lightGrey", "darkGrey"]
+    for color in colors {
+        let colorNode = compileNode(sourceCode: """
+            \(color)
+        """)
+        let colorOption = EVNodeMenuOption(node: colorNode as! EVProjectionalNode, description: color) {
+            colorHandler(colorNode)
+        }
+        options.append(colorOption)
+    }
+    EVEditor.shared.openNodeMenu(
+        title: "Choose a color:",
+        options: options
+    )
+}
+
+// MARK: - errorCard
+
+func errorCard() -> EVProjectionalNodeView {
+    let errorLabel = UILabel()
+    errorLabel.text = "ERROR COMPILING"
+    let cardView = EVProjectionalNodeView(node: EIAST.NoValue(), view: errorLabel, padding: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5), isStore: false)
+    return cardView
 }

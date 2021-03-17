@@ -19,6 +19,7 @@ class EVEditorViewController: UIViewController {
     let codeEditorView = UIView()
     
     var nodeMenuView: EVNodeMenu?
+    var modelPreview: EVModelPreview?
 
     var textEditorWidthConstraint: NSLayoutConstraint?
         
@@ -47,6 +48,7 @@ class EVEditorViewController: UIViewController {
         setupCodeEditorViewLayout()
         setupLeftRightDividerLayout()
         setupGraphicsViewLayout()
+        setupModelPreview()
     }
     
     func setupToolBarLayout() {
@@ -98,6 +100,17 @@ class EVEditorViewController: UIViewController {
         projectionalEditorView.trailingAnchor.constraint(equalTo: codeEditorView.trailingAnchor).isActive = true
     }
     
+    func setupModelPreview() {
+        modelPreview = EVModelPreview()
+        view.addSubview(modelPreview!)
+        modelPreview?.translatesAutoresizingMaskIntoConstraints = false
+        modelPreview?.topAnchor.constraint(equalTo: toolBarView.bottomAnchor, constant: 16).isActive = true
+        modelPreview?.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        modelPreview?.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        modelPreview?.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        
+    }
+    
     func addDropShadow() {
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
@@ -107,6 +120,8 @@ class EVEditorViewController: UIViewController {
 }
 
 extension EVEditorViewController: EVEditorDelegate {
+    func didUpdateModelPreview(modelFileName: String) {}
+    
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {
         nodeMenuView?.removeFromSuperview()
         nodeMenuView = EVNodeMenu(title: title, options: options)
@@ -114,6 +129,9 @@ extension EVEditorViewController: EVEditorDelegate {
         nodeMenuView?.translatesAutoresizingMaskIntoConstraints = false
         nodeMenuView?.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         nodeMenuView?.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        nodeMenuView?.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.8).isActive = true
+        nodeMenuView?.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4).isActive = true
+
     }
     
     func didCloseNodeMenu() {

@@ -59,6 +59,8 @@ class EVProjectsMenuCell: UICollectionViewCell {
 
 extension EVProjectsMenuCell: EVEditorDelegate {
     
+    func didUpdateModelPreview(modelFileName: String) {}
+    
     func didOpenNodeMenu(title: String, options: [EVNodeMenuOption]) {}
 
     func didCloseNodeMenu() {}
