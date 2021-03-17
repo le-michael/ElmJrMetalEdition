@@ -7,6 +7,7 @@
 //
  
 import Foundation
+import MetalKit
 class EGTranspiler {
     func transpile(node: EINode) -> EGScene {
         var node = node
@@ -35,7 +36,9 @@ class EGTranspiler {
                     cameraTranspiler(scene: scene, node: camera)
                 }
                 else {
-                    print("Not sure what this RGB Parameter is for so this is a placeholder")
+                    let rgb = param as! EIAST.ConstructorInstance
+                    let colors = unwrapTuple(wrappedTuple: rgb.parameters[0])
+                    scene.viewClearColor = MTLClearColorMake(Double(colors.x), Double(colors.y), Double(colors.z), 1.0)
                 }
             case let list as EIAST.List:
                 lightingTranspiler(scene: scene, lightingList: list)
