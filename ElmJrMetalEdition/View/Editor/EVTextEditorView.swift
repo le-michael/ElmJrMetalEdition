@@ -25,6 +25,7 @@ class EVTextEditorView: UIView {
         textView.delegate = self
         textView.autocapitalizationType = .none
         textView.autocorrectionType = .no
+        textView.smartQuotesType = .no
         
         let padding: CGFloat = 16
         textView.translatesAutoresizingMaskIntoConstraints = false

@@ -681,7 +681,7 @@ class EGDemoScenes {
 
         let hat = EGGroup()
         hat.transform.translate.set(x: 0.2, y: 2.75, z: 0)
-        hat.transform.rotate.set(x: EGConstant(0), y: EGConstant(0), z: EGConstant(Float(-25).degreesToRadians))
+        hat.transform.rotate.set(x: EGConstant(0), y: EGConstant(0), z: EGTime())
         hat.transform.scale.set(x: 0.75, y: 0.75, z: 0.75)
         scene.add(hat)
 

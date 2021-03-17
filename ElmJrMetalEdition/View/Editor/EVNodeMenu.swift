@@ -49,6 +49,8 @@ class EVNodeMenu: UIView, UITextFieldDelegate {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(blurEffectView)
         
+        
+        
         setupStackView()
     }
     

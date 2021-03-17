@@ -22,22 +22,14 @@ import Base exposing (..)
 -}
 
 
-ngon : Int -> Stencil
+ngon : Int -> Shape
 ngon n =
-    Polygon n
+    BaseStencil (Polygon n)
 
 triangle = ngon 3
 
-circle : Stencil
-circle = Sphere
-
-
-filled : Color -> Stencil -> Shape
-filled color stencil =
-    Inked [color] stencil
-
-group : List Shape -> Shape
-group shapes = Group shapes
+circle : Shape
+circle = BaseStencil Sphere
 
 -- Pattern matching used with let statement here
 move : Float -> Float -> Shape -> Shape

@@ -24,7 +24,7 @@ class GraphicsTranspilerTests: XCTestCase {
         //let toLoad = ["Maybe","Builtin","Base","API3D"]
         let toLoad = ["Maybe","Builtin","Base","API3D",filename]
         let code = try toLoad.map{ try getElmFile($0) }.joined(separator: "\n")
-        let evaluator = EIEvaluator()
+        let evaluator = try EIEvaluator()
         try evaluator.compile(code)
         print("\(evaluator.globals["scene"]!)")
         print(" ")
