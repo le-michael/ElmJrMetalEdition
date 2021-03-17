@@ -352,6 +352,6 @@ darkCharcoal =
 
 
 {-| -}
-blank : Color
-blank =
-    RGB (0, 0, 0)
+defaultColor : Color
+defaultColor =
+    RGB (-1, -1, -1)
