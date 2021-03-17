@@ -16,8 +16,7 @@ protocol EVProjectManagerDelegate {
 let starterCode = """
 myShapes : Float -> List Shape
 myShapes time =
-    [ sphere
-        |> color (rgb 1.0 1.0 1.0)
+    [ cube
     ]
 
 lights =

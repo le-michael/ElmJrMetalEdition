@@ -972,9 +972,9 @@ func functionMenu(functionHandler: @escaping (EINode) -> Void) {
     }
     
     let colorNode = compileNode(sourceCode: """
-        color (rgb 1.0 1.0 1.0)
+        color blue
     """)
-    let colorOption = EVNodeMenuOption(node: colorNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
+    let colorOption = EVNodeMenuOption(node: colorNode as! EVProjectionalNode, description: "Color the shape") {
         colorMenu() { color in
             let colorNode = compileNode(sourceCode: """
                 color \(color.description)
@@ -994,7 +994,7 @@ func functionMenu(functionHandler: @escaping (EINode) -> Void) {
 func colorMenu(colorHandler: @escaping (EINode)->Void) {
     var options: [EVNodeMenuOption] = []
     let rgbColorNode = compileNode(sourceCode: """
-        (rgb 0.0 0.0 0.0)
+        RGB (1.0, 1.0, 1.0)
     """)
     let rgbColorOption = EVNodeMenuOption(node: rgbColorNode as! EVProjectionalNode, description: "Color by rgb") {
         colorHandler(rgbColorNode)
