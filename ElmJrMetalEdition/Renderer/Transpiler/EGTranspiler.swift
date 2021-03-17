@@ -126,8 +126,8 @@ class EGTranspiler {
         let position = tupleTransform(node: inst.parameters[2])
         let attenuation = tupleTransform(node: inst.parameters[3])
         scene.lights.append(
-            EGPointLight.init(color: color, position: position, attenuation: attenuation)
-      )
+            EGPointLight(color: color, position: position, attenuation: attenuation)
+        )
     }
    
     func spotlightTranspiler(scene: EGScene, node: EINode) {
@@ -153,7 +153,7 @@ class EGTranspiler {
    
     func directionalLightTranspiler(scene: EGScene, node: EINode) {
         let inst = node as! EIAST.ConstructorInstance
-        //use color helper for animations
+        // use color helper for animations
         var rgb = inst.parameters[1] as! EIAST.ConstructorInstance
         let color = tupleTransform(node: rgb.parameters[0])
         let position = tupleTransform(node: inst.parameters[2])
@@ -164,8 +164,9 @@ class EGTranspiler {
                 color: color,
                 position: position,
                 intensity: EGConstant(0),
-                specularColor: specularColor)
+                specularColor: specularColor
             )
+        )
         print("Set Directional Light with colour:", color, ", position:", position, "specularColor:", specularColor)
     }
  
@@ -224,7 +225,7 @@ class EGTranspiler {
                 print("Created Group")
                 return group
             case "BaseStencil":
-               return  baseStencilHelper(node: inst)
+                return baseStencilHelper(node: inst)
             case "Smooth":
                 break
             case "Shininess":
@@ -281,7 +282,7 @@ class EGTranspiler {
             default:
                 break
             }
-    }
+        }
         return shape
     }
    
@@ -305,7 +306,6 @@ class EGTranspiler {
             case "Rotate2D":
                 transformType = "Rotate2D"
                 transform = [EGConstant(0), EGConstant(0), constructTransform(node: param.parameters[0])]
-                break
             default:
                 break
             }
@@ -419,32 +419,30 @@ class EGTranspiler {
     }
  
     func applyTransform(shape: EGGraphicsNode, transform: [EGMathNode], transformType: String) -> EGGraphicsNode {
-       
-        //temporary logic until i can think of a more elegant solution
-        if let shape = shape as? EGModel{
-       
-        switch transformType {
-        case "Translate":
-            let equations = shape.transform.translate.equations
-            shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
-                                          y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
-                                          z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-            print("Applied Translate")
-        case "Scale":
-            let equations = shape.transform.scale.equations
-            shape.transform.scale.set(x: EGBinaryOp(type: .mul, leftChild: equations.x, rightChild: transform[0]),
-                                      y: EGBinaryOp(type: .mul, leftChild: equations.y, rightChild: transform[1]),
-                                      z: EGBinaryOp(type: .mul, leftChild: equations.z, rightChild: transform[2]))
-            print("Applied Scale")
-        case "Rotate3D":
-            let equations = shape.transform.rotate.equations
-            shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
-                                       y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
-                                       z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-            print("Applied Rotation")
-        default:
-            break
-        }
+        // temporary logic until i can think of a more elegant solution
+        if let shape = shape as? EGModel {
+            switch transformType {
+            case "Translate":
+                let equations = shape.transform.translate.equations
+                shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
+                                              y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
+                                              z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
+                print("Applied Translate")
+            case "Scale":
+                let equations = shape.transform.scale.equations
+                shape.transform.scale.set(x: EGBinaryOp(type: .mul, leftChild: equations.x, rightChild: transform[0]),
+                                          y: EGBinaryOp(type: .mul, leftChild: equations.y, rightChild: transform[1]),
+                                          z: EGBinaryOp(type: .mul, leftChild: equations.z, rightChild: transform[2]))
+                print("Applied Scale")
+            case "Rotate3D":
+                let equations = shape.transform.rotate.equations
+                shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
+                                           y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
+                                           z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
+                print("Applied Rotation")
+            default:
+                break
+            }
         }
         else {
             let shape = shape as! EGGroup
@@ -470,7 +468,7 @@ class EGTranspiler {
             default:
                 break
             }
-            }
+        }
         return shape
     }
  
@@ -484,7 +482,7 @@ class EGTranspiler {
             case let inst as EIAST.ConstructorInstance:
                 shape = addShape(node: inst)
             case let list as EIAST.List:
-                for item in list.items{
+                for item in list.items {
                     isColored = true
                     color.append(colorHelper(node: item))
                 }
@@ -493,13 +491,20 @@ class EGTranspiler {
             }
         }
  
-        if let model = shape as? EGModel{
+        if let model = shape as? EGModel {
             if isColored {
                 var index = 0
                 for colors in color {
+                    if colors[0] is EGConstant {
+                        let r = colors[0] as! EGConstant
+                        if r.value < 0 {
+                            continue
+                        }
+                    }
+                    
                     model.submeshColorMap[index] = EGColorProperty()
                     model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
-                    index+=1
+                    index += 1
                 }
                 print("coloured shape")
             }
