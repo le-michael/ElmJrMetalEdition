@@ -21,11 +21,6 @@ import Base exposing (..)
 
 -}
 
-
-ngon : Int -> Shape
-ngon n =
-    BaseStencil (Polygon n)
-
 triangle = ngon 3
 
 circle : Shape
@@ -38,11 +33,11 @@ move xt yt shape =
 
 -- Is the rotation in degrees or radians
 -- The original API does it in radians
-rotate : Float -> Shape -> Shape
+rotate2D : Float -> Shape -> Shape
 rotate theta shape =
     ApTransform (Rotate2D theta) shape
 
-scale : Float -> Shape -> Shape
+scale2D : Float -> Shape -> Shape
 scale s shape =
     ApTransform (Scale (s, s, 1)) shape
 
