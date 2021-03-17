@@ -79,13 +79,12 @@ class EIEvaluator {
             // TODO: In the future we should should should instead have a 'numeric' type
             var (left, isLeftEvaled) = try evaluate(binOp.leftOperand, scope)
             var (right, isRightEvaled) = try evaluate(binOp.rightOperand, scope)
-            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
             
             // support list push_left
             if binOp.type == .push_left {
                 if let rightList = right as? EIAST.List
                 {
-                    return (EIAST.List([left] + rightList.items), true)
+                    return (EIAST.List([left] + rightList.items), isLeftEvaled && isRightEvaled)
                 }
                 throw EvaluatorError.NotImplemented
             }
@@ -95,16 +94,18 @@ class EIEvaluator {
                 let result : EINode = EIAST.BinaryOp(left, right, binOp.type)
                 return (result, false)
             }
-            
+        
             // support list concatenation
             if binOp.type == .concatenate {
                 if let leftList = left as? EIAST.List,
                    let rightList = right as? EIAST.List
                 {
-                    return (EIAST.List(leftList.items + rightList.items), true)
+                    return (EIAST.List(leftList.items + rightList.items), isLeftEvaled && isRightEvaled)
                 }
                 throw EvaluatorError.NotImplemented
             }
+            
+            if !isLeftEvaled || !isRightEvaled { return (EIAST.BinaryOp(left, right, binOp.type), false) }
             
             // handle case where both operands are booleans
             if let leftBool = left as? EIAST.Boolean,
@@ -294,8 +295,8 @@ class EIEvaluator {
                 let (condition, condEvaluated) = try evaluate(ifElse.conditions[i], scope)
                 let (branch, branchEvaled) = try evaluate(ifElse.branches[i], scope)
                 
-                // check if anything could not be evaluated
-                if !condEvaluated || !branchEvaled { return (node, false) }
+                // check if condition could not be evaluated
+                if !condEvaluated { return (node, false) }
                 
                 // check if condition is non-bool
                 let conditionBool = condition as? EIAST.Boolean
@@ -304,12 +305,11 @@ class EIEvaluator {
                 }
                 // if it's true, result is ith branch
                 if conditionBool!.value {
-                    return (branch, true)
+                    return (branch, branchEvaled)
                 }
             }
             let (elseBranch, elseBranchEvaled) = try evaluate(ifElse.branches.last!, scope)
-            if !elseBranchEvaled { return (node, false) }
-            return (elseBranch, true)
+            return (elseBranch, elseBranchEvaled)
         case _ as EIAST.NoValue:
             return (EIAST.NoValue(), false)
         default:

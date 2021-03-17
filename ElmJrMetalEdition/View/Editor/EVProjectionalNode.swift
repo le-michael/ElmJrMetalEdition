@@ -962,9 +962,17 @@ func functionMenu(functionHandler: @escaping (EINode) -> Void) {
     let rotateOption = EVNodeMenuOption(node: rotateNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
         functionHandler(rotateNode)
     }
+
+    let scaleAllNode = compileNode(sourceCode: """
+        scaleAll 1.0
+    """)
+    
+    let scaleAllOption = EVNodeMenuOption(node: scaleAllNode as! EVProjectionalNode, description: "Scale shape evenly") {
+        functionHandler(scaleAllNode)
+    }
     
     let colorNode = compileNode(sourceCode: """
-        color (rgb 0.0 0.0 0.0)
+        color (rgb 1.0 1.0 1.0)
     """)
     let colorOption = EVNodeMenuOption(node: colorNode as! EVProjectionalNode, description: "Rotate the shape given x, y, z values") {
         colorMenu() { color in
@@ -977,7 +985,7 @@ func functionMenu(functionHandler: @escaping (EINode) -> Void) {
     
     EVEditor.shared.openNodeMenu(
         title: "Apply another function:",
-        options: [moveOption, scaleOption, rotateOption, colorOption]
+        options: [moveOption, scaleOption, rotateOption, colorOption, scaleAllOption]
     )
 }
 
