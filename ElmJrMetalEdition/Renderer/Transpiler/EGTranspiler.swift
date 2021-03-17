@@ -100,7 +100,7 @@ class EGTranspiler {
             arcballCamera.rotation = rotation
         }
         scene.camera = arcballCamera
-        print("Set Arcball Camera")
+        //print("Set Arcball Camera")
     }
  
     func lightingTranspiler(scene: EGScene, lightingList: EINode) {
@@ -170,7 +170,7 @@ class EGTranspiler {
                 specularColor: specularColor
             )
         )
-        print("Set Directional Light with colour:", color, ", position:", position, "specularColor:", specularColor)
+        //print("Set Directional Light with colour:", color, ", position:", position, "specularColor:", specularColor)
     }
  
     func ambientLightTranspiler(scene: EGScene, node: EINode) {
@@ -184,7 +184,7 @@ class EGTranspiler {
                 intensity: intensity
             )
         )
-        print("Set Ambient Light with color:", color, ", intensity:", intensity)
+        //print("Set Ambient Light with color:", color, ", intensity:", intensity)
     }
  
     func rgbHelper(node: EINode) -> simd_float3 {
@@ -249,34 +249,34 @@ class EGTranspiler {
                 switch inst.constructorName {
                 case "Sphere":
                     shape = EGSphere()
-                    print("Created Sphere")
+                    //print("Created Sphere")
                 case "Cube":
                     shape = EGCube()
-                    print("Created Cube")
+                    //print("Created Cube")
                 case "Polygon":
                     print("Created Polygon")
-                    shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
+                    //shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
                 case "Cone":
                     shape = EGCone()
-                    print("Created Cone")
+                    //print("Created Cone")
                 case "Cylinder":
                     shape = EGCylinder()
-                    print("Created Cylinder")
+                    //print("Created Cylinder")
                 case "Capsule":
                     shape = EGCapsule()
-                    print("Created Capsule")
+                    //print("Created Capsule")
                 case "Model":
                     let name = inst.parameters[0] as! EIAST.Str
                     shape = EGModel(modelName: name.value)
                 case "ngon":
-                    print("Created Polygon")
+                    //print("Created Polygon")
                     shape = EGRegularPolygon(Int(unwrapFloat(wrappedFloat: inst.parameters[0])))
                 case "triangle":
-                    print("Created Triangle")
+                    //print("Created Triangle")
                     shape = EGRegularPolygon(3)
                 case "Circle":
                     shape = EGSphere()
-                    print("Created Circle")
+                    //print("Created Circle")
                 default:
                     break
                 }
@@ -427,19 +427,19 @@ class EGTranspiler {
                 shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
                                               y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
                                               z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Translate")
+                //print("Applied Translate")
             case "Scale":
                 let equations = shape.transform.scale.equations
                 shape.transform.scale.set(x: EGBinaryOp(type: .mul, leftChild: equations.x, rightChild: transform[0]),
                                           y: EGBinaryOp(type: .mul, leftChild: equations.y, rightChild: transform[1]),
                                           z: EGBinaryOp(type: .mul, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Scale")
+                //print("Applied Scale")
             case "Rotate3D":
                 let equations = shape.transform.rotate.equations
                 shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
                                            y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
                                            z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Rotation")
+                //print("Applied Rotation")
             default:
                 break
             }
@@ -452,19 +452,19 @@ class EGTranspiler {
                 shape.transform.translate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
                                               y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
                                               z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Translate")
+                //print("Applied Translate")
             case "Scale":
                 let equations = shape.transform.scale.equations
                 shape.transform.scale.set(x: EGBinaryOp(type: .mul, leftChild: equations.x, rightChild: transform[0]),
                                           y: EGBinaryOp(type: .mul, leftChild: equations.y, rightChild: transform[1]),
                                           z: EGBinaryOp(type: .mul, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Scale")
+                //print("Applied Scale")
             case "Rotate3D":
                 let equations = shape.transform.rotate.equations
                 shape.transform.rotate.set(x: EGBinaryOp(type: .add, leftChild: equations.x, rightChild: transform[0]),
                                            y: EGBinaryOp(type: .add, leftChild: equations.y, rightChild: transform[1]),
                                            z: EGBinaryOp(type: .add, leftChild: equations.z, rightChild: transform[2]))
-                print("Applied Rotation")
+                //print("Applied Rotation")
             default:
                 break
             }
@@ -504,7 +504,7 @@ class EGTranspiler {
                     model.submeshColorMap[index] = EGColorProperty()
                     model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
                 }
-                print("coloured shape")
+                //print("coloured shape")
             }
         }
  
