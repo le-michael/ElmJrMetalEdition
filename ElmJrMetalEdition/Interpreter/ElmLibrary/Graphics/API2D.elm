@@ -22,9 +22,9 @@ import Base exposing (..)
 -}
 
 
-ngon : Int -> Shape
-ngon n =
-    BaseStencil (Polygon n)
+-- ngon2D : Int -> Shape
+-- ngon2D n =
+-- BaseStencil (Polygon n)
 
 triangle = ngon 3
 
@@ -32,18 +32,18 @@ circle : Shape
 circle = BaseStencil Sphere
 
 -- Pattern matching used with let statement here
-move : Float -> Float -> Shape -> Shape
-move xt yt shape =
+move2D : Float -> Float -> Shape -> Shape
+move2D xt yt shape =
     ApTransform (Translate (xt, yt, 1)) shape
 
 -- Is the rotation in degrees or radians
 -- The original API does it in radians
-rotate : Float -> Shape -> Shape
-rotate theta shape =
+rotate2D : Float -> Shape -> Shape
+rotate2D theta shape =
     ApTransform (Rotate2D theta) shape
 
-scale : Float -> Shape -> Shape
-scale s shape =
+scale2D : Float -> Shape -> Shape
+scale2D s shape =
     ApTransform (Scale (s, s, 1)) shape
 
 scaleX : Float -> Shape -> Shape
