@@ -493,8 +493,7 @@ class EGTranspiler {
  
         if let model = shape as? EGModel {
             if isColored {
-                var index = 0
-                for colors in color {
+                for (index, colors) in color.enumerated() {
                     if colors[0] is EGConstant {
                         let r = colors[0] as! EGConstant
                         if r.value < 0 {
@@ -504,7 +503,6 @@ class EGTranspiler {
                     
                     model.submeshColorMap[index] = EGColorProperty()
                     model.submeshColorMap[index]?.set(r: colors[0], g: colors[1], b: colors[2], a: EGConstant(1))
-                    index += 1
                 }
                 print("coloured shape")
             }
